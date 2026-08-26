@@ -4,7 +4,10 @@ IssueFlow 是一个面向前端学习的完整 Issue Tracker。它以 React + Ty
 
 ![IssueFlow — Move work forward](frontend/public/og.png)
 
-私有 GitHub 仓库：<https://github.com/yuweiyang9611/frontend-learning-project>
+GitHub 仓库：<https://github.com/yuweiyang9611/frontend-learning-project>
+
+想把成品作为教材逐步学习，请从 [IssueFlow 学习指导](LEARNING_GUIDE.md) 开始；完整的原始课程设计与知识说明见
+[frontend_learning_project_detailed.md](frontend_learning_project_detailed.md)。
 
 ## 已实现功能
 
@@ -85,6 +88,7 @@ OpenAPI 文档：<http://localhost:5170/openapi/v1.json>
 
 ```powershell
 cd frontend
+npx playwright install chromium
 npm run lint
 npm run typecheck
 npm test
@@ -101,19 +105,20 @@ GitHub Actions 会在 push 和 pull request 时执行前端 lint/typecheck/test/
 
 ## API 与安全决策
 
-- 所有写操作均要求已认证身份；Sites 使用平台提供的认证用户 Header，.NET 使用 HttpOnly Identity Cookie。
+- 两套真实 API 的写操作均要求已认证身份；Sites 使用平台提供的认证用户 Header，.NET 使用 HttpOnly Identity Cookie。显式 local 模式仅用于浏览器学习演示。
 - Sites 本地演示会话只允许 loopback 主机，并用 D1 中的 SHA-256 Token Hash 校验；跨源写请求会被拒绝。
 - .NET CORS 仅允许配置的前端源并携带凭据。
-- 上传同时校验大小、扩展名、MIME 和文件签名；对象使用不可预测 Key，下载强制 `nosniff`。
+- Sites 上传校验大小和 MIME；.NET 还会校验扩展名与文件签名。两者都使用不可预测对象 Key，下载强制 `nosniff`。
 - SQLite/D1 为常用状态、优先级、负责人、更新时间、评论和附件查询建立索引，并运行 `PRAGMA optimize`。
-- localStorage 只用于主题、密度和显式浏览器演示；默认产品数据保存在 D1/R2 或 .NET SQLite。
+- localStorage 用于主题、密度、非敏感 Session Profile 和显式浏览器演示；默认产品数据保存在 D1/R2 或 .NET SQLite。
 
 ## 学习路线对应
 
 1. React/TypeScript 组件、受控表单和 React Router URL 状态
 2. TanStack Query 缓存、乐观更新、分页与 Infinite Query
 3. 原生 DnD、响应式 UI、可访问 Modal 与键盘交互
-4. .NET Minimal API、EF Core、Identity、上传与 Problem Details
-5. D1/R2、SQL Migration、测试、CI 与发布
+4. D1/R2、SQL Migration、同源 API 与对象存储
+5. .NET Minimal API、EF Core、Identity、测试与 CI
 
-详细需求与设计依据见 [frontend_learning_project_detailed.md](frontend_learning_project_detailed.md)。
+建议先按 [IssueFlow 学习指导](LEARNING_GUIDE.md) 运行、追踪并修改当前实现；详细需求与设计依据见
+[frontend_learning_project_detailed.md](frontend_learning_project_detailed.md)。
