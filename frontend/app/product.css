@@ -1,0 +1,454 @@
+/* Issue detail */
+.detail-heading {
+  padding: 18px 0 24px;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 10px;
+  text-decoration: none;
+}
+.back-link:hover {
+  color: var(--accent);
+}
+.detail-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-top: 13px;
+}
+.issue-key {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+.detail-title-row h1 {
+  max-width: 900px;
+  margin: 5px 0 8px;
+  font:
+    700 clamp(28px, 3vw, 42px)/1.06 Georgia,
+    serif;
+  letter-spacing: -0.04em;
+}
+.detail-title-row p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  align-items: start;
+  gap: 15px;
+}
+.detail-main,
+.detail-sidebar {
+  display: grid;
+  gap: 15px;
+}
+.detail-card {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--paper);
+}
+.detail-card > header {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.detail-card > header h2,
+.properties-card h2 {
+  margin: 0;
+  font:
+    700 16px Georgia,
+    serif;
+}
+.detail-card > header span {
+  color: var(--muted);
+  font-size: 9px;
+}
+.description-card > p {
+  min-height: 120px;
+  margin: 0;
+  padding: 24px;
+  color: #46544c;
+  font-size: 12px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+[data-theme='dark'] .description-card > p {
+  color: #c0cbc3;
+}
+.tag-list {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+.tag-list span,
+.card-tags span {
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: var(--canvas);
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 650;
+}
+.comments-card > header > div span,
+.attachments-card > header > div span {
+  display: block;
+  margin-top: 3px;
+}
+.comment-form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 11px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.comment-form textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--canvas);
+  color: var(--ink);
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.comment-form footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.comment-form footer small {
+  color: var(--muted);
+  font-size: 8px;
+}
+.comment-form .primary-button {
+  min-height: 32px;
+}
+.comment-loading {
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
+.comment-list article {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 11px;
+  padding: 17px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.comment-list article:last-child {
+  border-bottom: 0;
+}
+.comment-list article header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.comment-list article header strong {
+  font-size: 10px;
+}
+.comment-list article time {
+  color: #8b968f;
+  font-size: 8px;
+}
+.comment-list article header button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #9da7a1;
+  cursor: pointer;
+}
+.comment-list article p {
+  margin: 7px 0 0;
+  color: #526159;
+  font-size: 11px;
+  line-height: 1.58;
+}
+[data-theme='dark'] .comment-list article p {
+  color: #b6c3ba;
+}
+.properties-card {
+  padding: 18px;
+}
+.properties-card h2 {
+  margin-bottom: 14px;
+}
+.property {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+}
+.property > span:first-child {
+  color: #8b968f;
+  font-size: 9px;
+}
+.inline-detail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+}
+.muted-value {
+  color: #8b968f;
+  font-size: 9px;
+}
+.attachments-card {
+  padding-bottom: 14px;
+}
+.upload-dropzone {
+  display: grid;
+  justify-items: center;
+  margin: 15px;
+  padding: 18px 10px;
+  border: 1px dashed #cbd3cc;
+  border-radius: 10px;
+  background: var(--canvas);
+  cursor: pointer;
+}
+.upload-dropzone input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.upload-dropzone > span {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--accent);
+}
+.upload-dropzone strong {
+  font-size: 10px;
+}
+.upload-dropzone small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 8px;
+}
+.attachment-list {
+  display: grid;
+  gap: 7px;
+  padding: 0 15px;
+}
+.attachment-list article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.attachment-list article > span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--canvas);
+  color: var(--muted);
+}
+.attachment-list strong {
+  display: block;
+  overflow: hidden;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.attachment-list small {
+  color: var(--muted);
+  font-size: 7px;
+}
+.attachment-list a {
+  color: var(--muted);
+}
+
+/* Kanban */
+.board-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 12px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+}
+.board-toolbar p {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  font-size: 9px;
+  font-weight: 650;
+}
+.board-toolbar > span {
+  color: var(--muted);
+  font-size: 8px;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #51a579;
+  box-shadow: 0 0 0 4px rgb(81 165 121 / 12%);
+}
+.kanban-board {
+  min-width: 980px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(235px, 1fr));
+  gap: 11px;
+}
+.kanban-column {
+  min-height: 540px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #edf0ea;
+  transition: 0.16s ease;
+}
+[data-theme='dark'] .kanban-column {
+  background: #141b17;
+}
+.kanban-column.drag-over {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 2px rgb(231 91 61 / 12%);
+}
+.kanban-column > header {
+  padding: 5px 5px 12px;
+}
+.kanban-column > header > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.kanban-column > header i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5482ad;
+}
+.kanban-column.in_progress > header i {
+  background: #d49434;
+}
+.kanban-column.resolved > header i {
+  background: #439268;
+}
+.kanban-column.closed > header i {
+  background: #89938d;
+}
+.kanban-column h2 {
+  margin: 0;
+  font-size: 11px;
+}
+.kanban-column header span {
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--muted);
+  font-size: 8px;
+}
+.kanban-column header p {
+  margin: 5px 0 0 15px;
+  color: var(--muted);
+  font-size: 8px;
+}
+.kanban-cards {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+.kanban-card {
+  position: relative;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 2px 5px rgb(23 33 27 / 5%);
+  cursor: grab;
+}
+.kanban-card:active {
+  cursor: grabbing;
+}
+.card-grip {
+  display: flex;
+  justify-content: space-between;
+  color: #8b968f;
+  font-size: 8px;
+}
+.kanban-card > a {
+  display: block;
+  margin: 8px 0 6px;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 680;
+  line-height: 1.4;
+  text-decoration: none;
+}
+.kanban-card > p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.kanban-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 13px;
+}
+.board-status-select {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  opacity: 0;
+}
+.board-status-select:focus {
+  width: calc(100% - 12px);
+  height: 30px;
+  opacity: 1;
+}
+.empty-column {
+  padding: 25px 10px;
+  border: 1px dashed #cbd3cc;
+  border-radius: 9px;
+  color: #8b968f;
+  font-size: 8px;
+  text-align: center;
+}

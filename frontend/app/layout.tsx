@@ -1,19 +1,24 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+import './product.css';
+import './responsive.css';
 
 export const metadata: Metadata = {
-  title: 'Untitled site',
+  title: 'IssueFlow — Move work forward',
+  description: 'A focused issue tracker for product teams that value clarity and momentum.',
+  metadataBase: new URL(process.env.SITE_URL ?? 'http://localhost:3000'),
+  openGraph: {
+    title: 'IssueFlow — Move work forward',
+    description: 'A focused issue tracker for product teams that value clarity and momentum.',
+    type: 'website',
+    images: [{ url: '/og.png', width: 1731, height: 909, alt: 'IssueFlow — Move work forward' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'IssueFlow — Move work forward',
+    description: 'A focused issue tracker for product teams that value clarity and momentum.',
+    images: ['/og.png'],
+  },
 };
 
 export default function RootLayout({
@@ -23,11 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

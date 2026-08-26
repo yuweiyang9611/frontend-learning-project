@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+**/TestResults/
+**/*.user
+**/*.suo
+IssueFlow.Api/issueflow.db
+IssueFlow.Api/issueflow.db-shm
+IssueFlow.Api/issueflow.db-wal
+IssueFlow.Api/uploads/

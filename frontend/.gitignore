@@ -28,6 +28,12 @@ yarn-error.log*
 
 # local environment
 .env*
+!.env.example
+
+# TypeScript and browser-test output
+*.tsbuildinfo
+/playwright-report/
+/test-results/
 
 # deployment and generated files
 .vercel

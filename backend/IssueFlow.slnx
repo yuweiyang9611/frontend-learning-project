@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="IssueFlow.Api.Tests/IssueFlow.Api.Tests.csproj" />
+  <Project Path="IssueFlow.Api/IssueFlow.Api.csproj" />
+</Solution>

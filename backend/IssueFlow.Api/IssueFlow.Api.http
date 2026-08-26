@@ -1,0 +1,24 @@
+@IssueFlow_Api_HostAddress = http://localhost:5170
+
+GET {{IssueFlow_Api_HostAddress}}/api/health
+Accept: application/json
+
+###
+
+POST {{IssueFlow_Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@issueflow.dev",
+  "password": "issueflow"
+}
+
+###
+
+GET {{IssueFlow_Api_HostAddress}}/api/issues?page=1&pageSize=20&status=open&sortBy=updatedAt&sortDirection=desc
+Accept: application/json
+
+###
+
+GET {{IssueFlow_Api_HostAddress}}/api/members
+Accept: application/json
