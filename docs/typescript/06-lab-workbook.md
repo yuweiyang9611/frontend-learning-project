@@ -202,15 +202,15 @@ assigneeId=2
 
 ### 编译期
 
-[compile-time-examples.ts](../../frontend/src/features/typescript-lab/compile-time-examples.ts) 用 `@ts-expect-error`。注释必须说明预期错误原因，避免把意外错误误认为成功。
+[compile-time-examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts) 用 `@ts-expect-error`。注释必须说明预期错误原因，避免把意外错误误认为成功。
 
 ### 运行时
 
-[examples.test.ts](../../frontend/src/features/typescript-lab/examples.test.ts) 测 guard、decoder、pipeline 和 catalog。
+[examples.test.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.test.ts) 测 guard、decoder、pipeline 和 catalog。
 
 ### 页面/E2E
 
-[TypeScriptLabPage.test.tsx](../../frontend/src/screens/TypeScriptLabPage.test.tsx) 测筛选、完成进度和可访问状态；[typescript-lab.spec.ts](../../frontend/e2e/typescript-lab.spec.ts) 测真实用户流程。
+[TypeScriptLabPage.test.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/TypeScriptLabPage.test.tsx) 测筛选、完成进度和可访问状态；[typescript-lab.spec.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/e2e/typescript-lab.spec.ts) 测真实用户流程。
 
 ## 16. 新增第 13 课
 
@@ -218,8 +218,8 @@ assigneeId=2
 
 修改顺序：
 
-1. 在 [examples.ts](../../frontend/src/features/typescript-lab/examples.ts) 写纯函数/guard；
-2. 在 [catalog.ts](../../frontend/src/features/typescript-lab/catalog.ts) 加唯一 ID 和连续 order；
+1. 在 [examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts) 写纯函数/guard；
+2. 在 [catalog.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/catalog.ts) 加唯一 ID 和连续 order；
 3. 在 compile-time 文件加正负例；
 4. 在 examples test 加运行时边界；
 5. 页面测试课程可检索、可运行、可完成；

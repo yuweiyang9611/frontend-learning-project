@@ -6,10 +6,10 @@
 
 核心文件：
 
-- [.NET IssueContracts.cs](../../backend/IssueFlow.Api/Features/Issues/IssueContracts.cs)
-- [.NET IssueMapping.cs](../../backend/IssueFlow.Api/Features/Issues/IssueMapping.cs)
-- [TypeScript types.ts](../../frontend/src/features/issues/types.ts)
-- [TypeScript wire examples](../../frontend/src/features/typescript-lab/examples.ts)
+- [.NET IssueContracts.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueContracts.cs)
+- [.NET IssueMapping.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueMapping.cs)
+- [TypeScript types.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.ts)
+- [TypeScript wire examples](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts)
 
 ## 1. 契约表
 

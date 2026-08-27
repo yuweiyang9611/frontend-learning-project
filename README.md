@@ -6,8 +6,11 @@ IssueFlow 是一个面向前端学习的完整 Issue Tracker。项目使用 Reac
 
 GitHub：<https://github.com/yuweiyang9611/frontend-learning-project>
 
+在线学习站：<https://yuweiyang9611.github.io/frontend-learning-project/>
+
 ## 从哪里开始
 
+- 在线阅读：[IssueFlow 学习站](https://yuweiyang9611.github.io/frontend-learning-project/)
 - 第一次运行：[00：开始之前](docs/learning/00-getting-started.md)
 - 完整课程：[学习文档总索引](docs/README.md)
 - 顺序主线：[00–12 学习路线](docs/learning/README.md)
@@ -89,3 +92,21 @@ dotnet format IssueFlow.slnx --verify-no-changes
 ```
 
 各测试层的职责与调试顺序见 [测试、调试、CI 与构建](docs/learning/11-testing-engineering-and-deployment.md)。
+
+## 本地预览学习站
+
+学习站使用仓库根目录的 VitePress 配置，课程原文仍保存在拆分后的
+`docs/learning`、`docs/typescript`、`docs/backend` 与 `docs/reference` 中：
+
+```powershell
+npm install
+npm run docs:dev
+```
+
+构建静态站点：
+
+```powershell
+npm run docs:build
+```
+
+发布规则和故障排查见 [GitHub Pages 发布说明](docs/maintainers/github-pages.md)。

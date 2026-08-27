@@ -14,9 +14,9 @@ function first<T>(items: readonly T[]): T | undefined {
 
 传入 Member[]，结果是 Member | undefined；传入 Issue[]，结果是 Issue | undefined。若改成 unknown[]，关系会丢失；若改成 any[]，检查会被关闭。
 
-## 2. PagedResult<T>
+## 2. `PagedResult<T>`
 
-[types.ts](../../frontend/src/features/issues/types.ts) 定义：
+[types.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.ts) 定义：
 
 ```ts
 interface PagedResult<T> {

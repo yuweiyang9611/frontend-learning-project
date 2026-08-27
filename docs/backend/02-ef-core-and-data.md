@@ -2,7 +2,7 @@
 
 ## 本章目标
 
-本章从 [AppDbContext.cs](../../backend/IssueFlow.Api/Data/AppDbContext.cs) 理解关系、约束、转换、Migration、Seed 和查询执行，并明确 SQLite 作为课程数据库的权衡。
+本章从 [AppDbContext.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Data/AppDbContext.cs) 理解关系、约束、转换、Migration、Seed 和查询执行，并明确 SQLite 作为课程数据库的权衡。
 
 ## 1. DbContext 的职责
 
@@ -73,7 +73,7 @@ SQLite 没有完整的 DateTimeOffset 类型。当前转换为 Unix 毫秒：
 
 ## 6. Migration
 
-Migration 位于 [Migrations](../../backend/IssueFlow.Api/Migrations)。它是 schema 版本历史，不应只修改 Model 后删除旧数据库绕过迁移。
+Migration 位于 [Migrations](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/backend/IssueFlow.Api/Migrations)。它是 schema 版本历史，不应只修改 Model 后删除旧数据库绕过迁移。
 
 课程流程：
 
@@ -89,7 +89,7 @@ Migration 位于 [Migrations](../../backend/IssueFlow.Api/Migrations)。它是 s
 
 ## 7. Seed
 
-[SeedData.cs](../../backend/IssueFlow.Api/Data/SeedData.cs) 提供固定成员、72 条 Issue、评论、附件元数据和 Identity 演示用户。
+[SeedData.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Data/SeedData.cs) 提供固定成员、72 条 Issue、评论、附件元数据和 Identity 演示用户。
 
 好的 Seed 应：
 
@@ -150,7 +150,7 @@ ORDER BY priority DESC, id DESC
 - 不复用开发数据库；
 - 禁止并行测试共享同一文件。
 
-[IssueFlowApiFactory.cs](../../backend/IssueFlow.Api.Tests/IssueFlowApiFactory.cs) 是参考。
+[IssueFlowApiFactory.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api.Tests/IssueFlowApiFactory.cs) 是参考。
 
 ## 本章验收
 

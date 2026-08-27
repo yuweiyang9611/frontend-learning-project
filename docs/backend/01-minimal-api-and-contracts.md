@@ -2,7 +2,7 @@
 
 ## 本章目标
 
-本章从 [Program.cs](../../backend/IssueFlow.Api/Program.cs) 启动过程追踪到 Issues Endpoint，理解服务注册、中间件、路由绑定、DTO、状态码和 PATCH 语义。
+本章从 [Program.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Program.cs) 启动过程追踪到 Issues Endpoint，理解服务注册、中间件、路由绑定、DTO、状态码和 PATCH 语义。
 
 ## 1. 启动过程
 
@@ -30,11 +30,11 @@ ASP.NET Core 应用分两阶段：
 
 领域路由分别位于：
 
-- [IssueEndpoints.cs](../../backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs)
-- [MemberEndpoints.cs](../../backend/IssueFlow.Api/Features/Members/MemberEndpoints.cs)
-- [CommentEndpoints.cs](../../backend/IssueFlow.Api/Features/Comments/CommentEndpoints.cs)
-- [AttachmentEndpoints.cs](../../backend/IssueFlow.Api/Features/Attachments/AttachmentEndpoints.cs)
-- [AuthEndpoints.cs](../../backend/IssueFlow.Api/Features/Authentication/AuthEndpoints.cs)
+- [IssueEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs)
+- [MemberEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Members/MemberEndpoints.cs)
+- [CommentEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Comments/CommentEndpoints.cs)
+- [AttachmentEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Attachments/AttachmentEndpoints.cs)
+- [AuthEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Authentication/AuthEndpoints.cs)
 
 Program 负责横切配置，Feature 文件负责资源行为。这样比把所有 Lambda 塞进 Program 更容易阅读和测试。
 

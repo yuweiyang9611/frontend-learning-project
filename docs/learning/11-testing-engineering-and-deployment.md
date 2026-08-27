@@ -51,15 +51,15 @@ dotnet test IssueFlow.slnx
 dotnet format IssueFlow.slnx --verify-no-changes
 ```
 
-[ApiContractTests.cs](../../backend/IssueFlow.Api.Tests/ApiContractTests.cs) 使用测试工厂、临时 SQLite 和隔离附件目录验证真实 HTTP 边界。
+[ApiContractTests.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api.Tests/ApiContractTests.cs) 使用测试工厂、临时 SQLite 和隔离附件目录验证真实 HTTP 边界。
 
 ## 4. 测试层级示例
 
 以“标题为空”为例：
 
-- 纯函数：[types.test.ts](../../frontend/src/features/issues/types.test.ts) 验证 `validateIssue`；
-- 组件：[IssueForm.test.tsx](../../frontend/src/features/issues/IssueForm.test.tsx) 验证错误显示与焦点；
-- API：[ApiContractTests.cs](../../backend/IssueFlow.Api.Tests/ApiContractTests.cs) 验证字段化 400；
+- 纯函数：[types.test.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.test.ts) 验证 `validateIssue`；
+- 组件：[IssueForm.test.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/IssueForm.test.tsx) 验证错误显示与焦点；
+- API：[ApiContractTests.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api.Tests/ApiContractTests.cs) 验证字段化 400；
 - E2E：只在它是关键流程且前几层不能覆盖集成风险时加入。
 
 同一规则在多层出现不是一定重复：每层证明不同边界。但不要在每层枚举相同几十个输入。
@@ -68,11 +68,11 @@ dotnet format IssueFlow.slnx --verify-no-changes
 
 ### 编译期
 
-[compile-time-examples.ts](../../frontend/src/features/typescript-lab/compile-time-examples.ts) 用 `@ts-expect-error` 证明某些代码必须被拒绝。若未来代码不再报错，TypeScript 会让测试文件失败。
+[compile-time-examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts) 用 `@ts-expect-error` 证明某些代码必须被拒绝。若未来代码不再报错，TypeScript 会让测试文件失败。
 
 ### 运行时
 
-[examples.test.ts](../../frontend/src/features/typescript-lab/examples.test.ts) 验证 guard、decoder、错误联合、日期和安全整数。TypeScript 不能替代这些测试，因为输入在运行时才出现。
+[examples.test.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.test.ts) 验证 guard、decoder、错误联合、日期和安全整数。TypeScript 不能替代这些测试，因为输入在运行时才出现。
 
 ## 6. Testing Library 原则
 
@@ -89,7 +89,7 @@ dotnet format IssueFlow.slnx --verify-no-changes
 
 ## 7. Playwright 与失败证据
 
-现有 [issue-lifecycle.spec.ts](../../frontend/e2e/issue-lifecycle.spec.ts) 和 [typescript-lab.spec.ts](../../frontend/e2e/typescript-lab.spec.ts) 覆盖关键用户流程。配置会为失败保留 screenshot/trace。
+现有 [issue-lifecycle.spec.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/e2e/issue-lifecycle.spec.ts) 和 [typescript-lab.spec.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/e2e/typescript-lab.spec.ts) 覆盖关键用户流程。配置会为失败保留 screenshot/trace。
 
 失败时：
 
@@ -116,7 +116,7 @@ dotnet format IssueFlow.slnx --verify-no-changes
 
 ## 9. CI
 
-[ci.yml](../../.github/workflows/ci.yml) 在 push 和 pull request 上执行前端、后端与 E2E 质量门。CI 的价值是：
+[ci.yml](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/.github/workflows/ci.yml) 在 push 和 pull request 上执行前端、后端与 E2E 质量门。CI 的价值是：
 
 - 在干净环境复现；
 - 防止本机未跟踪依赖或环境掩盖问题；

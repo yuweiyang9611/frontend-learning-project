@@ -6,7 +6,7 @@
 
 ## 1. 从运行时常量派生 union
 
-[types.ts](../../frontend/src/features/issues/types.ts) 使用：
+[types.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.ts) 使用：
 
 ```ts
 export const ISSUE_STATUSES = [
@@ -201,7 +201,7 @@ DOM value 仍可被脚本或未来选项改变。更安全的是调用 `isIssueS
 
 ### B. API Failure
 
-阅读 [examples.ts](../../frontend/src/features/typescript-lab/examples.ts) 的 `ApiFailure`，给 429 增加明确分支和 retryAfter，更新穷尽 switch 与测试。
+阅读 [examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts) 的 `ApiFailure`，给 429 增加明确分支和 retryAfter，更新穷尽 switch 与测试。
 
 ### C. DOM Guard
 

@@ -17,7 +17,7 @@ React UI
            └─ .NET 10 Minimal API → EF Core / SQLite / 文件系统
 ```
 
-选择逻辑位于 [issueflowApi.ts](../../frontend/src/api/issueflowApi.ts)，环境变量示例位于 [frontend/.env.example](../../frontend/.env.example)。
+选择逻辑位于 [issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts)，环境变量示例位于 [frontend/.env.example](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/.env.example)。
 
 ## 2. Shape Contract 与 Behavioral Contract
 
@@ -43,12 +43,12 @@ React UI
 
 ## 3. D1 与 R2 路径
 
-同源 Route Handlers 位于 [frontend/app/api](../../frontend/app/api)，数据库逻辑位于 [issueflow-db.ts](../../frontend/src/server/issueflow-db.ts)。
+同源 Route Handlers 位于 [frontend/app/api](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/frontend/app/api)，数据库逻辑位于 [issueflow-db.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/server/issueflow-db.ts)。
 
 - D1 保存结构化 Issue、成员、评论和附件元数据；
 - R2 保存附件字节；
-- [frontend/db](../../frontend/db) 定义 Drizzle schema；
-- [frontend/drizzle](../../frontend/drizzle) 保存可审查 SQL migration；
+- [frontend/db](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/frontend/db) 定义 Drizzle schema；
+- [frontend/drizzle](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/frontend/drizzle) 保存可审查 SQL migration；
 - 同源请求避免开发时跨域配置；
 - 写操作依赖平台身份或受限的本地演示会话。
 
@@ -56,7 +56,7 @@ React UI
 
 ## 4. .NET 与 SQLite 路径
 
-[Program.cs](../../backend/IssueFlow.Api/Program.cs) 注册 EF Core、Identity、Problem Details、CORS 和 Endpoint 模块。领域 Endpoint 位于 [Features](../../backend/IssueFlow.Api/Features)。
+[Program.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Program.cs) 注册 EF Core、Identity、Problem Details、CORS 和 Endpoint 模块。领域 Endpoint 位于 [Features](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/backend/IssueFlow.Api/Features)。
 
 - SQLite 适合单机课程和集成测试；
 - EF Core Migration 保存 schema 演进；

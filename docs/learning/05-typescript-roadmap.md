@@ -41,19 +41,19 @@ const issue = (await response.json()) as Issue;
 
 ## 3. 当前源码地图
 
-| 文件                                                                                            | 学习价值                                       |
-| ----------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| [types.ts](../../frontend/src/features/issues/types.ts)                                         | 常量派生 union、领域接口、泛型、Partial、guard |
-| [examples.ts](../../frontend/src/features/typescript-lab/examples.ts)                           | 可执行的运行时示例                             |
-| [compile-time-examples.ts](../../frontend/src/features/typescript-lab/compile-time-examples.ts) | 编译成功与 `@ts-expect-error` 负例             |
-| [catalog.ts](../../frontend/src/features/typescript-lab/catalog.ts)                             | 类型化课程目录与 runner 连接                   |
-| [TypeScriptLabPage.tsx](../../frontend/src/screens/TypeScriptLabPage.tsx)                       | 泛型、DOM 事件、URL 与进度状态的 UI 组合       |
-| [examples.test.ts](../../frontend/src/features/typescript-lab/examples.test.ts)                 | 运行时边界测试                                 |
-| [typescript-lab.spec.ts](../../frontend/e2e/typescript-lab.spec.ts)                             | 用户视角的课程流程                             |
+| 文件                                                                                                                                                           | 学习价值                                       |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| [types.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.ts)                                         | 常量派生 union、领域接口、泛型、Partial、guard |
+| [examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts)                           | 可执行的运行时示例                             |
+| [compile-time-examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts) | 编译成功与 `@ts-expect-error` 负例             |
+| [catalog.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/catalog.ts)                             | 类型化课程目录与 runner 连接                   |
+| [TypeScriptLabPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/TypeScriptLabPage.tsx)                       | 泛型、DOM 事件、URL 与进度状态的 UI 组合       |
+| [examples.test.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.test.ts)                 | 运行时边界测试                                 |
+| [typescript-lab.spec.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/e2e/typescript-lab.spec.ts)                             | 用户视角的课程流程                             |
 
 ## 4. 12 课建议节奏
 
-现有 Lab 的课程目录由 [catalog.ts](../../frontend/src/features/typescript-lab/catalog.ts) 定义。学习时每课执行四步：
+现有 Lab 的课程目录由 [catalog.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/catalog.ts) 定义。学习时每课执行四步：
 
 1. 先不运行，预测 Output；
 2. 打开 Implementation，逐个标注输入类型和输出类型；

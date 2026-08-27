@@ -21,7 +21,7 @@
 
 ## 2. 当前生产 client 的教学张力
 
-[issueflowApi.ts](../../frontend/src/api/issueflowApi.ts) 当前写法：
+[issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts) 当前写法：
 
 ```ts
 async function request<T>(...): Promise<T> {
@@ -32,7 +32,7 @@ async function request<T>(...): Promise<T> {
 
 泛型让调用方获得良好类型，但运行时完全信任响应。它适合展示“类型化 client”与“已验证数据”不是同义词。
 
-Lab 的 [decodeIssuePreview](../../frontend/src/features/typescript-lab/examples.ts) 则把 JSON 作为 unknown，逐字段证明后返回。改进生产边界时，应让 `request` 接受 decoder，或在每个 endpoint 响应后调用 schema/decoder。
+Lab 的 [decodeIssuePreview](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts) 则把 JSON 作为 unknown，逐字段证明后返回。改进生产边界时，应让 `request` 接受 decoder，或在每个 endpoint 响应后调用 schema/decoder。
 
 ## 3. Decoder 的基本形状
 
@@ -108,7 +108,7 @@ unknown
 
 ## 7. Unknown key 策略
 
-[decodeIssueInputPatch](../../frontend/src/features/typescript-lab/examples.ts) 拒绝未知字段。API 演进时有三种策略：
+[decodeIssueInputPatch](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts) 拒绝未知字段。API 演进时有三种策略：
 
 - strict：未知字段失败，适合写入和安全敏感输入；
 - strip：忽略未知字段，适合某些向前兼容读取；

@@ -16,11 +16,11 @@ UI = render(props, state, context)
 
 项目按职责拆分：
 
-- [screens](../../frontend/src/screens)：与路由对应，组合查询和业务动作；
-- [features/issues](../../frontend/src/features/issues)：Issue 领域类型、表单和列表组件；
-- [components/ui.tsx](../../frontend/src/components/ui.tsx)：跨页面的 UI 原语；
-- [layouts/AppLayout.tsx](../../frontend/src/layouts/AppLayout.tsx)：长期存在的应用外壳；
-- [app/AppProviders.tsx](../../frontend/src/app/AppProviders.tsx)：跨树共享的基础能力。
+- [screens](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/frontend/src/screens)：与路由对应，组合查询和业务动作；
+- [features/issues](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/frontend/src/features/issues)：Issue 领域类型、表单和列表组件；
+- [components/ui.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/components/ui.tsx)：跨页面的 UI 原语；
+- [layouts/AppLayout.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/layouts/AppLayout.tsx)：长期存在的应用外壳；
+- [app/AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)：跨树共享的基础能力。
 
 ## 2. Props、State 与 Context
 
@@ -58,7 +58,7 @@ Context 不是所有状态的默认容器。频繁变化的大列表放进单一
 
 ## 4. 派生状态
 
-[DashboardPage.tsx](../../frontend/src/screens/DashboardPage.tsx) 从 Issue 列表计算指标、焦点 Issue 和相关成员。这些值不需要自己的 `useState`，因为源数据变化时可以重新计算。
+[DashboardPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/DashboardPage.tsx) 从 Issue 列表计算指标、焦点 Issue 和相关成员。这些值不需要自己的 `useState`，因为源数据变化时可以重新计算。
 
 只有当计算昂贵且输入稳定时才考虑 `useMemo`。`useMemo` 是性能提示，不是语义保证，也不用于修复副作用。
 
@@ -82,7 +82,7 @@ Effect 的典型用途：
 - 订阅键盘或媒体查询事件；
 - 在打开/关闭交互后管理焦点。
 
-阅读 [AppProviders.tsx](../../frontend/src/app/AppProviders.tsx) 的主题 Effect：
+阅读 [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx) 的主题 Effect：
 
 1. 创建 `matchMedia` 对象；
 2. 注册 change 监听器；
@@ -101,7 +101,7 @@ Effect 的典型用途：
 
 ## 6. Provider 组合与初始化
 
-[AppProviders.tsx](../../frontend/src/app/AppProviders.tsx) 的层次是：
+[AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx) 的层次是：
 
 ```text
 QueryClientProvider
@@ -122,7 +122,7 @@ QueryClientProvider
 - 定时器或递增 ID；
 - 跨渲染但不用于 UI 的可变数据。
 
-[ui.tsx](../../frontend/src/components/ui.tsx) 的 Modal 保存之前焦点、打开后聚焦首个元素、拦截 Tab 循环并在关闭后归还焦点。这是“DOM 外部系统”与 React 状态协作的典型案例。
+[ui.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/components/ui.tsx) 的 Modal 保存之前焦点、打开后聚焦首个元素、拦截 Tab 循环并在关闭后归还焦点。这是“DOM 外部系统”与 React 状态协作的典型案例。
 
 ## 8. Strict Mode 思维
 

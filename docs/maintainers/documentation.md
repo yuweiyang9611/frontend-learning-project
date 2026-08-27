@@ -56,7 +56,9 @@
 
 ## 5. 链接
 
-- 同仓库文件使用相对链接；
+- `docs` 内课程页面使用相对链接；
+- 指向 `docs` 之外源码的链接使用 GitHub `blob/main` 完整地址；
+- 指向源码目录的链接使用 GitHub `tree/main` 完整地址；
 - 目录名含特殊字符时 URL encode；
 - 外部资料优先官方；
 - 移动文档时保留旧入口兼容页；
@@ -97,6 +99,9 @@ npx prettier --check "../README.md" "../LEARNING_GUIDE.md" "../frontend_learning
 再运行仓库的链接/路径检查（若已加入脚本）和：
 
 ```powershell
+npm ci
+npm run docs:build
+
 git diff --check
 rg -n "11 lessons|完全等价|纯 Vite SPA|Tailwind" README.md docs frontend/src/features/typescript-lab/README.md
 ```
@@ -128,5 +133,6 @@ rg -n "11 lessons|完全等价|纯 Vite SPA|Tailwind" README.md docs frontend/sr
 - [ ] 没有个人信息或 Secret。
 - [ ] archive 未被当成当前 truth。
 - [ ] Markdown 格式和链接检查通过。
+- [ ] `npm run docs:build` 无死链或 Markdown 编译错误。
 
 [返回维护者索引](../README.md)

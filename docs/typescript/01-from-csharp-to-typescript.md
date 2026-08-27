@@ -207,9 +207,9 @@ show(value);
 
 ## 实验
 
-1. 在 [compile-time-examples.ts](../../frontend/src/features/typescript-lab/compile-time-examples.ts) 增加一个结构兼容成功例。
+1. 在 [compile-time-examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts) 增加一个结构兼容成功例。
 2. 再增加一个 `@ts-expect-error`，证明错误字段类型被拒绝。
-3. 在 [examples.test.ts](../../frontend/src/features/typescript-lab/examples.test.ts) 给同样输入写运行时检查。
+3. 在 [examples.test.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.test.ts) 给同样输入写运行时检查。
 4. 解释为什么前两个测试不能替代第三个。
 
 ## 本章验收

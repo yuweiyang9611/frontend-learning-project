@@ -25,7 +25,7 @@ return { ...issue, status: "resolved" };
 
 ### 练习
 
-阅读 [BoardPage.tsx](../../frontend/src/screens/BoardPage.tsx) 的乐观更新，标出：
+阅读 [BoardPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/BoardPage.tsx) 的乐观更新，标出：
 
 - 哪些数组是新数组；
 - 哪些 Issue 是新对象；
@@ -80,7 +80,7 @@ setCount(count + 1);
 setCount((current) => current + 1);
 ```
 
-阅读 [AppProviders.tsx](../../frontend/src/app/AppProviders.tsx) 中 Toast 的 `dismiss` 与 `toast`，观察 `useCallback`、函数式更新和定时器如何协作。
+阅读 [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx) 中 Toast 的 `dismiss` 与 `toast`，观察 `useCallback`、函数式更新和定时器如何协作。
 
 ## 5. Event Loop、Promise 与 async/await
 
@@ -116,7 +116,7 @@ setCount((current) => current + 1);
 
 ## 7. Fetch 与序列化
 
-[issueflowApi.ts](../../frontend/src/api/issueflowApi.ts) 统一处理：
+[issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts) 统一处理：
 
 - API Base URL；
 - `credentials: 'include'`；
@@ -143,7 +143,7 @@ setCount((current) => current + 1);
 
 本地模式通过 localStorage 保存模拟数据库。存储只接受字符串，所以会经历 stringify/parse。它没有事务、授权、跨用户隔离或服务端可信性。
 
-阅读 [issueflowApi.ts](../../frontend/src/api/issueflowApi.ts) 的 `readDatabase`：
+阅读 [issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts) 的 `readDatabase`：
 
 - 第一次如何 seed；
 - JSON 损坏时如何恢复；

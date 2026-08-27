@@ -27,7 +27,7 @@ http://localhost:3000/issues?status=open&page=2#results
 - `status=open&page=2` 是可以复制、收藏、前进后退的筛选状态；
 - `#results` 只在浏览器端定位，不会作为 HTTP 请求路径发送给服务器。
 
-IssueFlow 在 [IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx) 中通过 React Router 读取和更新查询参数。把筛选条件放在 URL，而不是只放在组件状态中，意味着刷新后条件仍在，也可以把同一个视图发给别人。
+IssueFlow 在 [IssuesPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssuesPage.tsx) 中通过 React Router 读取和更新查询参数。把筛选条件放在 URL，而不是只放在组件状态中，意味着刷新后条件仍在，也可以把同一个视图发给别人。
 
 ### 实验：观察 URL 状态
 
@@ -44,11 +44,11 @@ IssueFlow 在 [IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx) 中通
 首次输入 URL 时，简化链路如下：
 
 1. 浏览器向应用服务器请求页面。
-2. Vinext/Next 入口从 [app/layout.tsx](../../frontend/app/layout.tsx)、[app/page.tsx](../../frontend/app/page.tsx) 或 catch-all 页面建立外壳。
+2. Vinext/Next 入口从 [app/layout.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/layout.tsx)、[app/page.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/page.tsx) 或 catch-all 页面建立外壳。
 3. 浏览器下载 JavaScript 和 CSS。
-4. [IssueFlowApp.tsx](../../frontend/src/app/IssueFlowApp.tsx) 挂载 React Router。
+4. [IssueFlowApp.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/IssueFlowApp.tsx) 挂载 React Router。
 5. Router 根据路径选择 Screen。
-6. Screen 通过 TanStack Query 调用 [issueflowApi.ts](../../frontend/src/api/issueflowApi.ts)。
+6. Screen 通过 TanStack Query 调用 [issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts)。
 7. API 返回 JSON，Query 更新缓存，React 重新计算 UI 并提交 DOM 变化。
 
 这里有两个容易混淆的“路由”：
@@ -80,7 +80,7 @@ IssueFlow 在 [IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx) 中通
 - 415：上传媒体类型不受支持；
 - 500：服务端出现未处理故障。
 
-Fetch 有一个重要特性：收到 400 或 500 时，Promise 通常仍会 fulfilled。客户端必须检查 `response.ok`。项目的 [request 函数](../../frontend/src/api/issueflowApi.ts) 会把失败响应转换为 `ApiError`。
+Fetch 有一个重要特性：收到 400 或 500 时，Promise 通常仍会 fulfilled。客户端必须检查 `response.ok`。项目的 [request 函数](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts) 会把失败响应转换为 `ApiError`。
 
 ## 4. JSON 只是文本，类型不会随请求传输
 

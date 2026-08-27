@@ -7,7 +7,7 @@
 1. HTML 是否准确表达内容与交互语义；
 2. CSS 是否用可维护的规则完成布局、主题和响应式变化。
 
-真实入口是 [globals.css](../../frontend/app/globals.css)、[product.css](../../frontend/app/product.css)、[responsive.css](../../frontend/app/responsive.css) 和 [learning.css](../../frontend/app/learning.css)。
+真实入口是 [globals.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/globals.css)、[product.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/product.css)、[responsive.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/responsive.css) 和 [learning.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/learning.css)。
 
 ## 1. HTML 是文档与交互 Contract
 
@@ -28,7 +28,7 @@
 
 ## 2. 表单：名字、状态与错误
 
-阅读 [IssueForm.tsx](../../frontend/src/features/issues/IssueForm.tsx)，逐个找出：
+阅读 [IssueForm.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/IssueForm.tsx)，逐个找出：
 
 - label 怎样与 input/textarea/select 关联；
 - 必填、无效和描述文本怎样关联；
@@ -113,7 +113,7 @@
 
 ## 7. 响应式不是把桌面缩小
 
-当前 [responsive.css](../../frontend/app/responsive.css) 主要使用 `max-width` 断点，因此是从完整桌面布局向较窄视口逐步适配，并不是严格的 mobile-first 实现。文档必须描述真实代码。
+当前 [responsive.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/responsive.css) 主要使用 `max-width` 断点，因此是从完整桌面布局向较窄视口逐步适配，并不是严格的 mobile-first 实现。文档必须描述真实代码。
 
 项目主要断点为 1180、940、760、520px。观察每个断点时回答：
 

@@ -6,7 +6,7 @@
 
 ## 1. 受控表单
 
-[IssueForm.tsx](../../frontend/src/features/issues/IssueForm.tsx) 让 React State 成为字段值来源。输入事件更新 State，value 再回到控件。
+[IssueForm.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/IssueForm.tsx) 让 React State 成为字段值来源。输入事件更新 State，value 再回到控件。
 
 优点：
 
@@ -40,7 +40,7 @@
 
 ## 4. 错误后的焦点
 
-提交失败时，[IssueForm.tsx](../../frontend/src/features/issues/IssueForm.tsx) 找到第一个错误字段并聚焦。这样键盘和屏幕阅读器用户能直接开始修复。
+提交失败时，[IssueForm.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/IssueForm.tsx) 找到第一个错误字段并聚焦。这样键盘和屏幕阅读器用户能直接开始修复。
 
 验收顺序：
 
@@ -53,7 +53,7 @@
 
 ## 5. Modal 的完整行为
 
-[ui.tsx](../../frontend/src/components/ui.tsx) 的 Modal 不只是一块遮罩。一个合格对话框至少需要：
+[ui.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/components/ui.tsx) 的 Modal 不只是一块遮罩。一个合格对话框至少需要：
 
 - `role="dialog"` 和 `aria-modal="true"`；
 - 可访问标题与可选描述；
@@ -74,7 +74,7 @@ Toast 适合短暂、非阻塞反馈；字段校验不能只放 Toast，因为�
 
 ## 7. 拖放必须有键盘替代
 
-[BoardPage.tsx](../../frontend/src/screens/BoardPage.tsx) 支持拖动卡片，也提供 status select 作为键盘替代。拖放不是唯一操作路径，因为：
+[BoardPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/BoardPage.tsx) 支持拖动卡片，也提供 status select 作为键盘替代。拖放不是唯一操作路径，因为：
 
 - 键盘用户无法使用指针拖动；
 - 触控和精细动作可能困难；
@@ -93,7 +93,7 @@ Toast 适合短暂、非阻塞反馈；字段校验不能只放 Toast，因为�
 
 ## 8. 移动抽屉
 
-[AppLayout.tsx](../../frontend/src/layouts/AppLayout.tsx) 管理菜单按钮、抽屉关闭和焦点归还。审计时检查：
+[AppLayout.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/layouts/AppLayout.tsx) 管理菜单按钮、抽屉关闭和焦点归还。审计时检查：
 
 - 按钮有 `aria-expanded` 和 `aria-controls`；
 - 打开后焦点位置合理；

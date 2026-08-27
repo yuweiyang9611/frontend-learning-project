@@ -33,12 +33,12 @@ npm run dev
 
 ## 核心源码
 
-- [领域类型](../../frontend/src/features/issues/types.ts)
-- [Lab 运行时示例](../../frontend/src/features/typescript-lab/examples.ts)
-- [Lab 编译期负例](../../frontend/src/features/typescript-lab/compile-time-examples.ts)
-- [课程目录](../../frontend/src/features/typescript-lab/catalog.ts)
-- [Lab 页面](../../frontend/src/screens/TypeScriptLabPage.tsx)
-- [运行时测试](../../frontend/src/features/typescript-lab/examples.test.ts)
+- [领域类型](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.ts)
+- [Lab 运行时示例](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts)
+- [Lab 编译期负例](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts)
+- [课程目录](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/catalog.ts)
+- [Lab 页面](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/TypeScriptLabPage.tsx)
+- [运行时测试](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.test.ts)
 
 ## 完成标准
 

@@ -17,12 +17,12 @@
 
 源码：
 
-1. [app/layout.tsx](../../frontend/app/layout.tsx)
-2. [app/page.tsx](../../frontend/app/page.tsx)
-3. [app/[...path]/page.tsx](../../frontend/app/%5B...path%5D/page.tsx)
-4. [IssueFlowApp.tsx](../../frontend/src/app/IssueFlowApp.tsx)
-5. [AppProviders.tsx](../../frontend/src/app/AppProviders.tsx)
-6. [AppLayout.tsx](../../frontend/src/layouts/AppLayout.tsx)
+1. [app/layout.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/layout.tsx)
+2. [app/page.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/page.tsx)
+3. [app/[...path]/page.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/%5B...path%5D/page.tsx)
+4. [IssueFlowApp.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/IssueFlowApp.tsx)
+5. [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)
+6. [AppLayout.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/layouts/AppLayout.tsx)
 
 观察点：
 
@@ -46,19 +46,19 @@ LoginPage form
 
 前端：
 
-- [LoginPage.tsx](../../frontend/src/screens/LoginPage.tsx)
-- [AppProviders.tsx](../../frontend/src/app/AppProviders.tsx)
-- [issueflowApi.ts](../../frontend/src/api/issueflowApi.ts)
+- [LoginPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/LoginPage.tsx)
+- [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)
+- [issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts)
 
 同源：
 
-- [login route](../../frontend/app/api/auth/login/route.ts)
-- [server auth](../../frontend/src/server/auth.ts)
+- [login route](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/api/auth/login/route.ts)
+- [server auth](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/server/auth.ts)
 
 .NET：
 
-- [AuthEndpoints.cs](../../backend/IssueFlow.Api/Features/Authentication/AuthEndpoints.cs)
-- [ApplicationUser.cs](../../backend/IssueFlow.Api/Models/ApplicationUser.cs)
+- [AuthEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Authentication/AuthEndpoints.cs)
+- [ApplicationUser.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Models/ApplicationUser.cs)
 
 检查：错误 status、Set-Cookie、credentials include、localStorage profile、返回目标。
 
@@ -79,21 +79,21 @@ IssuesPage
 
 前端：
 
-- [IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx)
-- [types.ts](../../frontend/src/features/issues/types.ts)
-- [components.tsx](../../frontend/src/features/issues/components.tsx)
-- [issueflowApi.ts](../../frontend/src/api/issueflowApi.ts)
+- [IssuesPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssuesPage.tsx)
+- [types.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.ts)
+- [components.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/components.tsx)
+- [issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts)
 
 同源：
 
-- [issues route](../../frontend/app/api/issues/route.ts)
-- [issueflow-db.ts](../../frontend/src/server/issueflow-db.ts)
+- [issues route](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/api/issues/route.ts)
+- [issueflow-db.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/server/issueflow-db.ts)
 
 .NET：
 
-- [IssueEndpoints.cs](../../backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs)
-- [IssueContracts.cs](../../backend/IssueFlow.Api/Features/Issues/IssueContracts.cs)
-- [IssueMapping.cs](../../backend/IssueFlow.Api/Features/Issues/IssueMapping.cs)
+- [IssueEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs)
+- [IssueContracts.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueContracts.cs)
+- [IssueMapping.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueMapping.cs)
 
 检查：URL 默认值、debounce、query key、page vs infinite shape、稳定排序、搜索范围差异。
 
@@ -114,14 +114,14 @@ IssueFormPage
 
 前端：
 
-- [IssueFormPage.tsx](../../frontend/src/screens/IssueFormPage.tsx)
-- [IssueForm.tsx](../../frontend/src/features/issues/IssueForm.tsx)
-- [types.ts](../../frontend/src/features/issues/types.ts)
+- [IssueFormPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssueFormPage.tsx)
+- [IssueForm.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/IssueForm.tsx)
+- [types.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/types.ts)
 
 .NET：
 
-- [IssueValidation.cs](../../backend/IssueFlow.Api/Features/Issues/IssueValidation.cs)
-- [IssueEndpoints.cs](../../backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs)
+- [IssueValidation.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueValidation.cs)
+- [IssueEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs)
 
 检查：
 
@@ -148,9 +148,9 @@ status select
 
 源码：
 
-- [IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx)
-- [BoardPage.tsx](../../frontend/src/screens/BoardPage.tsx)
-- [IssueDetailPage.tsx](../../frontend/src/screens/IssueDetailPage.tsx)
+- [IssuesPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssuesPage.tsx)
+- [BoardPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/BoardPage.tsx)
+- [IssueDetailPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssueDetailPage.tsx)
 
 检查：普通/Infinite/Board/Detail 各缓存是否一致；并发 mutation 是否会被旧快照覆盖。
 
@@ -170,8 +170,8 @@ dragStart(issue)
 
 源码：
 
-- [BoardPage.tsx](../../frontend/src/screens/BoardPage.tsx)
-- [components.tsx](../../frontend/src/features/issues/components.tsx)
+- [BoardPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/BoardPage.tsx)
+- [components.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/components.tsx)
 
 ## 7. Issue 详情、评论和附件
 
@@ -186,15 +186,15 @@ dragStart(issue)
 
 前端：
 
-- [IssueDetailPage.tsx](../../frontend/src/screens/IssueDetailPage.tsx)
-- [issueflowApi.ts](../../frontend/src/api/issueflowApi.ts)
+- [IssueDetailPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssueDetailPage.tsx)
+- [issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts)
 
 .NET：
 
-- [CommentEndpoints.cs](../../backend/IssueFlow.Api/Features/Comments/CommentEndpoints.cs)
-- [AttachmentEndpoints.cs](../../backend/IssueFlow.Api/Features/Attachments/AttachmentEndpoints.cs)
-- [AttachmentFilePolicy.cs](../../backend/IssueFlow.Api/Features/Attachments/AttachmentFilePolicy.cs)
-- [AttachmentStorage.cs](../../backend/IssueFlow.Api/Infrastructure/AttachmentStorage.cs)
+- [CommentEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Comments/CommentEndpoints.cs)
+- [AttachmentEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Attachments/AttachmentEndpoints.cs)
+- [AttachmentFilePolicy.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Attachments/AttachmentFilePolicy.cs)
+- [AttachmentStorage.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Infrastructure/AttachmentStorage.cs)
 
 检查：enabled guard、独立错误状态、FormData、5 MB、伪造文件、下载 URL、删除清理。
 
@@ -213,8 +213,8 @@ delete trigger
 
 源码：
 
-- [ui.tsx](../../frontend/src/components/ui.tsx)
-- [AppProviders.tsx](../../frontend/src/app/AppProviders.tsx)
+- [ui.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/components/ui.tsx)
+- [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)
 
 检查：dialog naming、焦点循环、关闭方式、pending、防背景误操作、toast 文本。
 
@@ -231,9 +231,9 @@ stored theme/system
 
 源码：
 
-- [AppProviders.tsx](../../frontend/src/app/AppProviders.tsx)
-- [globals.css](../../frontend/app/globals.css)
-- [product.css](../../frontend/app/product.css)
+- [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)
+- [globals.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/globals.css)
+- [product.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/product.css)
 
 检查：初始闪烁、系统变化监听 cleanup、三种选项、两个主题对比度。
 
@@ -251,10 +251,10 @@ URL lesson id
 
 源码：
 
-- [catalog.ts](../../frontend/src/features/typescript-lab/catalog.ts)
-- [examples.ts](../../frontend/src/features/typescript-lab/examples.ts)
-- [compile-time-examples.ts](../../frontend/src/features/typescript-lab/compile-time-examples.ts)
-- [TypeScriptLabPage.tsx](../../frontend/src/screens/TypeScriptLabPage.tsx)
+- [catalog.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/catalog.ts)
+- [examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts)
+- [compile-time-examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts)
+- [TypeScriptLabPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/TypeScriptLabPage.tsx)
 
 检查：输入从 string/JSON 到 unknown、decoder、Runner 无副作用、URL/进度分离。
 

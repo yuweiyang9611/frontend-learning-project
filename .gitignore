@@ -6,6 +6,9 @@ Thumbs.db
 .idea/
 
 # JavaScript build, cache, and test output
+node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
 frontend/node_modules/
 frontend/.next/
 frontend/.vinext/

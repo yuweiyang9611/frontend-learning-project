@@ -46,7 +46,7 @@ useQuery({
 | 评论       | `['comments', id]`    |
 | 附件       | `['attachments', id]` |
 
-[AppProviders.tsx](../../frontend/src/app/AppProviders.tsx) 还保留一个 `useIssueQueryKey`，当前页面没有统一使用它，key 分散在各 Screen 中。这是适合学习的重构点：建立 query-key factory，并用测试证明失效范围不变。
+[AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx) 还保留一个 `useIssueQueryKey`，当前页面没有统一使用它，key 分散在各 Screen 中。这是适合学习的重构点：建立 query-key factory，并用测试证明失效范围不变。
 
 ## 4. Fresh、Stale 与重新获取
 
@@ -72,7 +72,7 @@ useQuery({
 
 ## 5. 分页与 Infinite Query
 
-[IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx) 同时支持普通分页和 stream 模式：
+[IssuesPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssuesPage.tsx) 同时支持普通分页和 stream 模式：
 
 - `useQuery`：每个 page 是一份完整响应；
 - `useInfiniteQuery`：缓存多个 page，并计算下一页参数。
@@ -91,7 +91,7 @@ useQuery({
 
 ## 7. 乐观更新不是“先改 UI”这么简单
 
-[IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx) 的状态更新要考虑：
+[IssuesPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssuesPage.tsx) 的状态更新要考虑：
 
 - 多个 Issues 列表 key；
 - Infinite Query 的所有页；
@@ -126,7 +126,7 @@ cancel → snapshot → optimistic write → request
 
 ## 9. Error Contract
 
-[issueflowApi.ts](../../frontend/src/api/issueflowApi.ts) 将失败响应归一为 `ApiError`：
+[issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts) 将失败响应归一为 `ApiError`：
 
 - `message` 给页面或 Toast；
 - `status` 允许区分 401/404/409；

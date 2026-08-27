@@ -8,12 +8,12 @@
 
 当前应用不是单纯的 Vite SPA：
 
-| 层                 | 入口                                                        | 职责                                     |
-| ------------------ | ----------------------------------------------------------- | ---------------------------------------- |
-| Vinext/Next App 层 | [frontend/app](../../frontend/app)                          | 框架页面入口、Metadata、API Routes、部署 |
-| React Router 层    | [IssueFlowApp.tsx](../../frontend/src/app/IssueFlowApp.tsx) | 浏览器内业务导航、嵌套布局、URL 参数     |
+| 层                 | 入口                                                                                                                       | 职责                                     |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Vinext/Next App 层 | [frontend/app](https://github.com/yuweiyang9611/frontend-learning-project/tree/main/frontend/app)                          | 框架页面入口、Metadata、API Routes、部署 |
+| React Router 层    | [IssueFlowApp.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/IssueFlowApp.tsx) | 浏览器内业务导航、嵌套布局、URL 参数     |
 
-[app/page.tsx](../../frontend/app/page.tsx)、[app/[...path]/page.tsx](../../frontend/app/%5B...path%5D/page.tsx) 等入口最终承载同一个客户端应用。用户点击 Router Link 时通常不会重新下载整页；直接刷新深链接则先经过框架入口。
+[app/page.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/page.tsx)、[app/[...path]/page.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/%5B...path%5D/page.tsx) 等入口最终承载同一个客户端应用。用户点击 Router Link 时通常不会重新下载整页；直接刷新深链接则先经过框架入口。
 
 ### 实验：深链接
 
@@ -25,7 +25,7 @@
 
 ## 2. 路由表是产品信息架构
 
-[IssueFlowApp.tsx](../../frontend/src/app/IssueFlowApp.tsx) 明确声明：
+[IssueFlowApp.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/IssueFlowApp.tsx) 明确声明：
 
 - `/login` 是公开页面；
 - `/dashboard`、`/issues`、`/board` 等位于受保护 Layout 下；
@@ -59,7 +59,7 @@ fetchIssue(id);
 
 ## 4. URL 是筛选状态的单一来源
 
-[IssuesPage.tsx](../../frontend/src/screens/IssuesPage.tsx) 用 `useSearchParams` 管理搜索、筛选、排序、分页和视图。
+[IssuesPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssuesPage.tsx) 用 `useSearchParams` 管理搜索、筛选、排序、分页和视图。
 
 更新规则应考虑：
 
@@ -96,7 +96,7 @@ Screen 使用 `lazy` 加载，`Suspense` 提供页面 chunk 尚未准备好时�
 
 ## 7. 受保护路由的真实边界
 
-`ProtectedRoute` 等待 Auth Provider 恢复 Session；没有 Session 时导航到登录页，并把原路径放入 location state。登录成功后 [LoginPage.tsx](../../frontend/src/screens/LoginPage.tsx) 可返回原目标。
+`ProtectedRoute` 等待 Auth Provider 恢复 Session；没有 Session 时导航到登录页，并把原路径放入 location state。登录成功后 [LoginPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/LoginPage.tsx) 可返回原目标。
 
 这只是前端体验层：
 

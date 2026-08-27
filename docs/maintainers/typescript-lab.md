@@ -15,16 +15,16 @@
 
 ## 2. 文件职责
 
-| 文件                                                                                            | 职责                                   |
-| ----------------------------------------------------------------------------------------------- | -------------------------------------- |
-| [examples.ts](../../frontend/src/features/typescript-lab/examples.ts)                           | 教学类型、纯函数、decoder、Runner 依赖 |
-| [compile-time-examples.ts](../../frontend/src/features/typescript-lab/compile-time-examples.ts) | 必须编译失败的负例                     |
-| [catalog.ts](../../frontend/src/features/typescript-lab/catalog.ts)                             | 课程文案、顺序、输入和 run 连接        |
-| [examples.test.ts](../../frontend/src/features/typescript-lab/examples.test.ts)                 | 运行时与 type-level 断言               |
-| [TypeScriptLabPage.tsx](../../frontend/src/screens/TypeScriptLabPage.tsx)                       | 可访问交互 UI                          |
-| [TypeScriptLabPage.test.tsx](../../frontend/src/screens/TypeScriptLabPage.test.tsx)             | URL、筛选、runner、进度                |
-| [typescript-lab.spec.ts](../../frontend/e2e/typescript-lab.spec.ts)                             | 真实浏览器主流程                       |
-| [learning.css](../../frontend/app/learning.css)                                                 | Lab 视觉与响应式                       |
+| 文件                                                                                                                                                           | 职责                                   |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| [examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts)                           | 教学类型、纯函数、decoder、Runner 依赖 |
+| [compile-time-examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts) | 必须编译失败的负例                     |
+| [catalog.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/catalog.ts)                             | 课程文案、顺序、输入和 run 连接        |
+| [examples.test.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.test.ts)                 | 运行时与 type-level 断言               |
+| [TypeScriptLabPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/TypeScriptLabPage.tsx)                       | 可访问交互 UI                          |
+| [TypeScriptLabPage.test.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/TypeScriptLabPage.test.tsx)             | URL、筛选、runner、进度                |
+| [typescript-lab.spec.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/e2e/typescript-lab.spec.ts)                             | 真实浏览器主流程                       |
+| [learning.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/learning.css)                                                 | Lab 视觉与响应式                       |
 
 ## 3. Lesson Contract
 

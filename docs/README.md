@@ -2,6 +2,8 @@
 
 这里是 IssueFlow 的教材入口。文档按“先理解浏览器，再理解类型与 React，最后连接数据层和工程质量”的依赖顺序组织，不需要一次读完整个仓库。
 
+在线版本：<https://yuweiyang9611.github.io/frontend-learning-project/>
+
 如果你是第一次学习，请从 [00：开始之前](learning/00-getting-started.md) 顺序阅读。每章都包含：
 
 - 本章目标与前置知识；
@@ -60,6 +62,10 @@ TypeScript 内容单独拆成一组可反复查阅的专题：
 
 - [扩展 TypeScript Lab](maintainers/typescript-lab.md)
 - [维护文档结构](maintainers/documentation.md)
+- [发布 GitHub Pages](maintainers/github-pages.md)
 
-旧入口 [LEARNING_GUIDE.md](../LEARNING_GUIDE.md) 和
-[frontend_learning_project_detailed.md](../frontend_learning_project_detailed.md) 会保留为兼容导航页，新内容以本目录为准。
+旧入口
+[LEARNING_GUIDE.md](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/LEARNING_GUIDE.md)
+和
+[frontend_learning_project_detailed.md](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend_learning_project_detailed.md)
+会保留为兼容导航页，新内容以本目录为准。

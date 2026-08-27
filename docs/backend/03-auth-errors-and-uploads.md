@@ -6,7 +6,7 @@
 
 ## 1. Identity 与领域 Member
 
-[ApplicationUser.cs](../../backend/IssueFlow.Api/Models/ApplicationUser.cs) 是 Identity 用户；[Member.cs](../../backend/IssueFlow.Api/Models/Member.cs) 是 IssueFlow 领域成员。二者通过 MemberId 连接，但不是同一概念。
+[ApplicationUser.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Models/ApplicationUser.cs) 是 Identity 用户；[Member.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Models/Member.cs) 是 IssueFlow 领域成员。二者通过 MemberId 连接，但不是同一概念。
 
 - Identity 管理登录标识、密码 hash、锁定和角色；
 - Member 管理显示名、头像、团队角色和 Issue 关系。
@@ -54,7 +54,7 @@ CORS 不等于 CSRF。生产部署仍需根据 SameSite、Origin/Referer、token
 
 ## 5. Problem Details
 
-[Program.cs](../../backend/IssueFlow.Api/Program.cs) 统一增加 instance 和 traceId；[Contracts.cs](../../backend/IssueFlow.Api/Features/Common/Contracts.cs) 构造领域错误。
+[Program.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Program.cs) 统一增加 instance 和 traceId；[Contracts.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Common/Contracts.cs) 构造领域错误。
 
 错误层次：
 
@@ -67,7 +67,7 @@ CORS 不等于 CSRF。生产部署仍需根据 SameSite、Origin/Referer、token
 | 媒体类型       | 415 Problem                 |
 | 未处理异常     | 500 Problem，不泄露内部细节 |
 
-前端 [ApiError](../../frontend/src/api/issueflowApi.ts) 保留 message/status/errors。
+前端 [ApiError](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts) 保留 message/status/errors。
 
 ## 6. 触发错误实验
 
@@ -84,7 +84,7 @@ CORS 不等于 CSRF。生产部署仍需根据 SameSite、Origin/Referer、token
 
 ## 7. 文件上传的信任边界
 
-[AttachmentFilePolicy.cs](../../backend/IssueFlow.Api/Features/Attachments/AttachmentFilePolicy.cs) 与 [AttachmentStorage.cs](../../backend/IssueFlow.Api/Infrastructure/AttachmentStorage.cs) 共同处理：
+[AttachmentFilePolicy.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Attachments/AttachmentFilePolicy.cs) 与 [AttachmentStorage.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Infrastructure/AttachmentStorage.cs) 共同处理：
 
 - 5 MB 大小；
 - 允许 MIME；
