@@ -1,10 +1,14 @@
 # IssueFlow 学习文档
 
-这里是 IssueFlow 的教材入口。文档按“先理解浏览器，再理解类型与 React，最后连接数据层和工程质量”的依赖顺序组织，不需要一次读完整个仓库。
+这里是 IssueFlow 的教材入口。主课程按“先理解浏览器，再理解类型与 React，最后连接数据层和工程质量”的依赖顺序组织，不需要一次读完整个仓库。
 
 在线版本：<https://yuweiyang9611.github.io/frontend-learning-project/>
 
-如果你是第一次学习，请从 [00：开始之前](learning/00-getting-started.md) 顺序阅读。每章都包含：
+如果你是第一次学习前端，请直接使用 [91 天前端学习计划](90-days/)：它把
+**13 周、91 天、每天 120 分钟、至少 182 小时**拆成可执行任务，并配有
+[进度日志](90-days/progress-and-journal.md)与[分阶段考核](90-days/assessments.md)。
+
+`learning/00–12` 是配合日课使用的知识专题，不再代表完整的三个月课表。每个专题都包含：
 
 - 本章目标与前置知识；
 - 为什么项目采用当前设计；
@@ -13,7 +17,7 @@
 - 常见误区与验收问题；
 - 上一章和下一章导航。
 
-## 顺序学习路线
+## 知识专题索引
 
 | 顺序 | 章节                                                                         | 你会解决的问题                                       |
 | ---- | ---------------------------------------------------------------------------- | ---------------------------------------------------- |
@@ -41,6 +45,9 @@ TypeScript 内容单独拆成一组可反复查阅的专题：
 4. [unknown、Decoder 与运行时边界](typescript/04-runtime-boundaries.md)
 5. [.NET 与 TypeScript Wire Contract](typescript/05-dotnet-wire-contracts.md)
 6. [TypeScript Lab 实验手册](typescript/06-lab-workbook.md)
+7. [类型模式 Cookbook](typescript/07-pattern-cookbook.md)
+8. [分级练习库](typescript/08-exercise-bank.md)
+9. [类型错误排查手册](typescript/09-type-error-debugging.md)
 
 ## 后端对照专题
 

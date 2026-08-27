@@ -4,7 +4,8 @@
 
 文档按职责拆分：
 
-- `docs/learning`：00–12 顺序主线；
+- `docs/90-days`：13 周、91 天的执行主线、进度与考核；
+- `docs/learning`：00–12 知识专题，供日课引用和复习；
 - `docs/typescript`：可反复查阅的 TypeScript 专题；
 - `docs/backend`：.NET 与双后端专题；
 - `docs/reference`：需求、源码路线、术语、资料和模板；
@@ -26,7 +27,16 @@
 
 ## 3. 章节模板
 
-顺序章节至少包含：
+91 天课程的每周文件必须恰好包含 7 个连续 Day。每个 Day 至少包含：
+
+1. 明确的 120 分钟任务分配；
+2. 需要理解的问题或概念；
+3. 源码追踪或可运行实验；
+4. 关闭步骤说明后的独立变体；
+5. 可以留存的测试、diff 或观察证据；
+6. 验收问题与未通过时的补救动作。
+
+知识专题至少包含：
 
 1. 本章目标；
 2. 前置知识；
@@ -83,7 +93,7 @@ Windows 路径大小写不敏感，但 CI/部署环境可能敏感，链接大�
 
 - 不在 archive 中悄悄修正当前事实；
 - 需要勘误时在存档索引写注释；
-- 新课程内容进入 learning/typescript/backend；
+- 新日课进入 `90-days`，深入讲义进入 `learning/typescript/backend`；
 - 根兼容页保留；
 - 若再次拆分，验证拼接后内容逐字一致。
 
@@ -93,13 +103,14 @@ Windows 路径大小写不敏感，但 CI/部署环境可能敏感，链接大�
 
 ```powershell
 cd frontend
-npx prettier --check "../README.md" "../LEARNING_GUIDE.md" "../frontend_learning_project_detailed.md" "../docs/README.md" "../docs/learning/**/*.md" "../docs/typescript/**/*.md" "../docs/backend/**/*.md" "../docs/reference/**/*.md" "../docs/maintainers/**/*.md" "../docs/archive/original-curriculum/README.md" "src/features/typescript-lab/README.md"
+npx prettier --check "../README.md" "../LEARNING_GUIDE.md" "../frontend_learning_project_detailed.md" "../docs/README.md" "../docs/90-days/**/*.md" "../docs/learning/**/*.md" "../docs/typescript/**/*.md" "../docs/backend/**/*.md" "../docs/reference/**/*.md" "../docs/maintainers/**/*.md" "../docs/archive/original-curriculum/README.md" "src/features/typescript-lab/README.md"
 ```
 
 再运行仓库的链接/路径检查（若已加入脚本）和：
 
 ```powershell
 npm ci
+npm run docs:check-curriculum
 npm run docs:build
 
 git diff --check
@@ -125,6 +136,7 @@ rg -n "11 lessons|完全等价|纯 Vite SPA|Tailwind" README.md docs frontend/sr
 ## 10. Review 清单
 
 - [ ] 章节职责单一，未重新形成巨型文档。
+- [ ] 91 天课程仍为 13 周、91 个连续 Day、每天明确 120 分钟。
 - [ ] 从 `docs/README.md` 可找到。
 - [ ] 上下章导航正确。
 - [ ] 源码链接存在且大小写一致。

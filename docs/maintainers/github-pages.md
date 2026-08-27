@@ -9,7 +9,8 @@ GitHub Pages 只发布静态学习文档，不运行 IssueFlow 产品本身，�
 
 | 内容               | 位置                                               | 是否发布到 Pages           |
 | ------------------ | -------------------------------------------------- | -------------------------- |
-| 现行课程           | `docs/learning`、`docs/typescript`、`docs/backend` | 是                         |
+| 91 天执行课程      | `docs/90-days`                                     | 是                         |
+| 知识专题           | `docs/learning`、`docs/typescript`、`docs/backend` | 是                         |
 | 参考资料           | `docs/reference`                                   | 是                         |
 | 维护说明           | `docs/maintainers`                                 | 是，但不放在主导航         |
 | 原始设计索引       | `docs/archive/original-curriculum/README.md`       | 是                         |
@@ -43,7 +44,7 @@ npm run docs:preview
 ## 3. 信息架构
 
 - `docs/index.md` 是在线首页；
-- `learning/README.md`、`typescript/README.md` 与 `backend/README.md`
+- `90-days/README.md`、`learning/README.md`、`typescript/README.md` 与 `backend/README.md`
   通过 VitePress rewrite 映射为各目录首页；
 - `docs/.vitepress/config.mts` 维护顶部导航、分区侧栏、中文搜索和上一页/下一页；
 - `docs/.vitepress/theme/custom.css` 只调整品牌变量、排版、表格和移动端体验；
@@ -62,8 +63,9 @@ VitePress 的内容根是 `docs`。因此：
 - 不用 `ignoreDeadLinks: true` 掩盖错误；
 - 改名或移动章节后，要同时检查正文导航、侧边栏与索引页。
 
-生产构建会先使用 VitePress 验证 Markdown 目标，再扫描生成后的所有 HTML
-`href`/`src`，确认目标文件真实存在。这一步能发现 `README.md` rewrite
+生产构建会先验证 13 周、91 天、每日 120 分钟与配套资料是否齐全，再使用 VitePress
+验证 Markdown 目标，最后扫描生成后的所有 HTML `href`/`src`，确认目标文件真实存在。
+最后一步能发现 `README.md` rewrite
 后仍指向 `README.html` 一类只在发布产物中出现的问题。源码链接由 GitHub 打开，
 使仓库 Markdown 阅读和 Pages 在线阅读得到一致结果。
 
@@ -98,7 +100,7 @@ base: "/frontend-learning-project/";
 
 - [ ] `npm ci` 使用已提交的 `package-lock.json`。
 - [ ] `npm run docs:build` 成功。
-- [ ] 首页、学习路线、TypeScript、后端和参考侧边栏均可打开。
+- [ ] 首页、91 天课程、知识专题、TypeScript、后端和参考侧边栏均可打开。
 - [ ] 搜索“数据模式”“Problem Details”“TypeScript Lab”能找到预期章节。
 - [ ] 源码链接打开 GitHub 中的真实文件。
 - [ ] 浅色、深色和窄屏布局可读。

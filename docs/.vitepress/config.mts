@@ -9,7 +9,7 @@ export default defineConfig({
   lang: 'zh-CN',
   title: 'IssueFlow 学习站',
   titleTemplate: ':title · IssueFlow 学习站',
-  description: '通过真实 Issue Tracker 学习现代前端、TypeScript、React、API 与测试。',
+  description: '91 天、182 小时，通过真实 Issue Tracker 学习前端、TypeScript、React、API 与测试。',
   base,
   cleanUrls: false,
   appearance: true,
@@ -20,6 +20,7 @@ export default defineConfig({
   },
   srcExclude: ['archive/original-curriculum/0*.md'],
   rewrites: {
+    '90-days/README.md': '90-days/index.md',
     'learning/README.md': 'learning/index.md',
     'typescript/README.md': 'typescript/index.md',
     'backend/README.md': 'backend/index.md',
@@ -37,7 +38,7 @@ export default defineConfig({
       'meta',
       {
         property: 'og:description',
-        content: '从浏览器基础到 TypeScript、React、双后端与测试的源码驱动课程。',
+        content: '91 天、182 小时，从浏览器基础到 TypeScript、React、双后端与测试的源码驱动课程。',
       },
     ],
     ['meta', { property: 'og:url', content: siteUrl }],
@@ -47,7 +48,8 @@ export default defineConfig({
     siteTitle: 'IssueFlow 学习站',
     logo: '/favicon.svg',
     nav: [
-      { text: '学习路线', link: '/learning/' },
+      { text: '91 天课程', link: '/90-days/' },
+      { text: '知识专题', link: '/learning/' },
       { text: 'TypeScript', link: '/typescript/' },
       { text: '后端对照', link: '/backend/' },
       {
@@ -62,9 +64,84 @@ export default defineConfig({
       },
     ],
     sidebar: {
+      '/90-days/': [
+        {
+          text: '开始与学习记录',
+          items: [
+            { text: '课程总览', link: '/90-days/' },
+            { text: '怎样学习每天 2 小时', link: '/90-days/how-to-study' },
+            { text: '91 天进度与日志', link: '/90-days/progress-and-journal' },
+            { text: '考核、检查点与毕业标准', link: '/90-days/assessments' },
+          ],
+        },
+        {
+          text: '第 1–4 周 · Web 基础',
+          items: [
+            {
+              text: '第 1 周 · 环境与 Web 地图',
+              link: '/90-days/week-01-foundations',
+            },
+            {
+              text: '第 2 周 · HTML 与无障碍',
+              link: '/90-days/week-02-html-accessibility',
+            },
+            {
+              text: '第 3 周 · CSS 与响应式',
+              link: '/90-days/week-03-css-responsive',
+            },
+            {
+              text: '第 4 周 · JavaScript、DOM 与异步',
+              link: '/90-days/week-04-javascript-dom-async',
+            },
+          ],
+        },
+        {
+          text: '第 5–8 周 · TypeScript 与 React',
+          items: [
+            {
+              text: '第 5 周 · TypeScript 基础',
+              link: '/90-days/week-05-typescript-foundations',
+            },
+            {
+              text: '第 6 周 · 建模与泛型',
+              link: '/90-days/week-06-typescript-modeling-generics',
+            },
+            {
+              text: '第 7 周 · 运行时与 Contract',
+              link: '/90-days/week-07-typescript-runtime-contracts',
+            },
+            {
+              text: '第 8 周 · React 与 TypeScript',
+              link: '/90-days/week-08-react-typescript',
+            },
+          ],
+        },
+        {
+          text: '第 9–13 周 · 工程与毕业项目',
+          items: [
+            {
+              text: '第 9 周 · 路由、表单与无障碍',
+              link: '/90-days/week-09-routing-forms-a11y',
+            },
+            {
+              text: '第 10 周 · Query 与服务端状态',
+              link: '/90-days/week-10-query-server-state',
+            },
+            {
+              text: '第 11 周 · 双后端与安全',
+              link: '/90-days/week-11-backends-security',
+            },
+            {
+              text: '第 12 周 · 测试、调试与 CI',
+              link: '/90-days/week-12-testing-debugging-ci',
+            },
+            { text: '第 13 周 · 毕业项目', link: '/90-days/week-13-capstone' },
+          ],
+        },
+      ],
       '/learning/': [
         {
-          text: '开始学习',
+          text: '专题入口',
           items: [
             { text: '路线总览', link: '/learning/' },
             { text: '00 · 开始之前', link: '/learning/00-getting-started' },
@@ -88,12 +165,18 @@ export default defineConfig({
         {
           text: '前端应用',
           items: [
-            { text: '05 · TypeScript 路线', link: '/learning/05-typescript-roadmap' },
+            {
+              text: '05 · TypeScript 路线',
+              link: '/learning/05-typescript-roadmap',
+            },
             {
               text: '06 · React 组件与状态',
               link: '/learning/06-react-components-and-state',
             },
-            { text: '07 · 路由、URL 与认证', link: '/learning/07-routing-url-and-auth' },
+            {
+              text: '07 · 路由、URL 与认证',
+              link: '/learning/07-routing-url-and-auth',
+            },
             {
               text: '08 · 服务端状态与 API',
               link: '/learning/08-server-state-and-api',
@@ -127,7 +210,10 @@ export default defineConfig({
           text: 'TypeScript 专题',
           items: [
             { text: '专题索引', link: '/typescript/' },
-            { text: '01 · 从 C# 到 TypeScript', link: '/typescript/01-from-csharp-to-typescript' },
+            {
+              text: '01 · 从 C# 到 TypeScript',
+              link: '/typescript/01-from-csharp-to-typescript',
+            },
             {
               text: '02 · 领域建模与收窄',
               link: '/typescript/02-domain-modeling-and-narrowing',
@@ -145,6 +231,15 @@ export default defineConfig({
               link: '/typescript/05-dotnet-wire-contracts',
             },
             { text: '06 · Lab 实验手册', link: '/typescript/06-lab-workbook' },
+            {
+              text: '07 · 类型模式 Cookbook',
+              link: '/typescript/07-pattern-cookbook',
+            },
+            { text: '08 · 24+ 题练习库', link: '/typescript/08-exercise-bank' },
+            {
+              text: '09 · 类型错误排查',
+              link: '/typescript/09-type-error-debugging',
+            },
           ],
         },
       ],
@@ -157,12 +252,18 @@ export default defineConfig({
               text: '01 · Minimal API 与 Contract',
               link: '/backend/01-minimal-api-and-contracts',
             },
-            { text: '02 · EF Core 与数据', link: '/backend/02-ef-core-and-data' },
+            {
+              text: '02 · EF Core 与数据',
+              link: '/backend/02-ef-core-and-data',
+            },
             {
               text: '03 · 认证、错误与上传',
               link: '/backend/03-auth-errors-and-uploads',
             },
-            { text: '04 · 双后端对照实验', link: '/backend/04-compare-two-backends' },
+            {
+              text: '04 · 双后端对照实验',
+              link: '/backend/04-compare-two-backends',
+            },
           ],
         },
       ],
@@ -183,7 +284,10 @@ export default defineConfig({
           text: '维护者',
           items: [
             { text: '维护学习文档', link: '/maintainers/documentation' },
-            { text: '维护 TypeScript Lab', link: '/maintainers/typescript-lab' },
+            {
+              text: '维护 TypeScript Lab',
+              link: '/maintainers/typescript-lab',
+            },
             { text: 'GitHub Pages 发布', link: '/maintainers/github-pages' },
           ],
         },
@@ -192,7 +296,10 @@ export default defineConfig({
         {
           text: '历史存档',
           items: [
-            { text: '原始课程设计', link: '/archive/original-curriculum/README' },
+            {
+              text: '原始课程设计',
+              link: '/archive/original-curriculum/README',
+            },
           ],
         },
       ],

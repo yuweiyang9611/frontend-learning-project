@@ -10,10 +10,11 @@ GitHub：<https://github.com/yuweiyang9611/frontend-learning-project>
 
 ## 从哪里开始
 
+- 零基础完整课程：[91 天、182 小时学习计划](https://yuweiyang9611.github.io/frontend-learning-project/90-days/)
 - 在线阅读：[IssueFlow 学习站](https://yuweiyang9611.github.io/frontend-learning-project/)
 - 第一次运行：[00：开始之前](docs/learning/00-getting-started.md)
 - 完整课程：[学习文档总索引](docs/README.md)
-- 顺序主线：[00–12 学习路线](docs/learning/README.md)
+- 知识专题：[00–12 专题索引](docs/learning/README.md)
 - TypeScript 重点：[TypeScript 专题](docs/typescript/README.md)
 - .NET/D1 对照：[后端专题](docs/backend/README.md)
 - 按功能找代码：[源码追踪路线](docs/reference/source-traces.md)
@@ -23,11 +24,12 @@ GitHub：<https://github.com/yuweiyang9611/frontend-learning-project>
 
 ## 已实现
 
+- 13 周、91 天、每天 120 分钟的零基础课程、进度日志、阶段考核与毕业量表；
 - 登录、Dashboard、Issue CRUD、详情、评论、附件、Users、Settings；
 - 搜索、筛选、稳定排序、分页与 Infinite Query；
 - Kanban 拖放、键盘状态选择、乐观更新与失败回滚；
 - Dark/System/Light 主题、响应式导航、Modal、Toast、Skeleton；
-- TypeScript Lab：12 个真实 Contract 示例及编译期/运行时测试；
+- TypeScript 强化：4 周日课、9 篇专题、12 个真实 Lab、24+ 道分级练习与排错手册；
 - D1/R2、Drizzle migration、同源 Route Handlers；
 - .NET 10 Minimal API、EF Core SQLite、Identity Cookie、OpenAPI、Problem Details；
 - Vitest、Testing Library、Playwright、.NET 集成测试和 GitHub Actions。
@@ -95,8 +97,8 @@ dotnet format IssueFlow.slnx --verify-no-changes
 
 ## 本地预览学习站
 
-学习站使用仓库根目录的 VitePress 配置，课程原文仍保存在拆分后的
-`docs/learning`、`docs/typescript`、`docs/backend` 与 `docs/reference` 中：
+学习站使用仓库根目录的 VitePress 配置。91 天日课在 `docs/90-days`，深入专题则
+分别保存在 `docs/learning`、`docs/typescript`、`docs/backend` 与 `docs/reference`：
 
 ```powershell
 npm install

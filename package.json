@@ -8,7 +8,8 @@
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs && node scripts/check-doc-site-links.mjs",
+    "docs:build": "node scripts/check-curriculum.mjs && vitepress build docs && node scripts/check-doc-site-links.mjs",
+    "docs:check-curriculum": "node scripts/check-curriculum.mjs",
     "docs:check-links": "node scripts/check-doc-site-links.mjs",
     "docs:preview": "vitepress preview docs"
   },

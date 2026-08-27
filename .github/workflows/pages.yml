@@ -9,6 +9,8 @@ on:
       - frontend/public/og.png
       - package.json
       - package-lock.json
+      - scripts/check-curriculum.mjs
+      - scripts/check-doc-site-links.mjs
       - .github/workflows/pages.yml
   workflow_dispatch:
 

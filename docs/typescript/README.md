@@ -1,6 +1,8 @@
 # TypeScript 专题索引
 
-这组文档把 TypeScript 当成 IssueFlow 的建模与边界工具，而不是孤立的语法清单。建议先完成 [主线第 05 章](../learning/05-typescript-roadmap.md)，再按以下顺序学习：
+这组文档把 TypeScript 当成 IssueFlow 的建模与边界工具，而不是孤立的语法清单。
+零基础学习者应先完成 91 天课程的[第 5 周](../90-days/week-05-typescript-foundations.md)，
+再连续完成第 6–8 周；已有 C# 经验的学习者可额外使用第一篇做语言对照。
 
 1. [从 C# 到 TypeScript](01-from-csharp-to-typescript.md)
 2. [领域建模、联合类型与收窄](02-domain-modeling-and-narrowing.md)
@@ -8,6 +10,13 @@
 4. [unknown、Decoder 与运行时边界](04-runtime-boundaries.md)
 5. [.NET 与 TypeScript Wire Contract](05-dotnet-wire-contracts.md)
 6. [TypeScript Lab 实验手册](06-lab-workbook.md)
+7. [类型模式 Cookbook](07-pattern-cookbook.md)
+8. [24+ 题分级练习库](08-exercise-bank.md)
+9. [类型错误排查手册](09-type-error-debugging.md)
+
+第 5–8 周合计至少 56 小时，其中包括 TypeScript 语言基础、领域建模、运行时边界、
+React 类型与跨语言 Wire Contract。专题文档适合深入和复习，不能替代日课中的预测、
+实验、独立变体和测试证据。
 
 ## 学习方法
 
