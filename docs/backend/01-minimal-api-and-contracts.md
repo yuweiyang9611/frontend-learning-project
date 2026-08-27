@@ -146,4 +146,4 @@ Entity 可能包含 NormalizedTitle、TagsJson 和导航属性，这些不应泄
 - 空 PATCH 为什么是业务规则而非仅类型问题？
 - CancellationToken 应向哪些数据库/IO 调用传播？
 
-[后端索引](README.md) · [下一章：EF Core、SQLite 与数据建模](02-ef-core-and-data.md)
+[后端索引](./) · [下一章：EF Core、SQLite 与数据建模](02-ef-core-and-data.md)

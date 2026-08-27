@@ -1,6 +1,6 @@
 # 00：开始之前
 
-[学习路线索引](README.md) · 下一章：[项目地图与数据模式](01-project-map-and-data-modes.md)
+[学习路线索引](./) · 下一章：[项目地图与数据模式](01-project-map-and-data-modes.md)
 
 ## 本章目标
 

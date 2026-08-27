@@ -62,8 +62,10 @@ VitePress 的内容根是 `docs`。因此：
 - 不用 `ignoreDeadLinks: true` 掩盖错误；
 - 改名或移动章节后，要同时检查正文导航、侧边栏与索引页。
 
-生产构建会验证站内链接。源码链接由 GitHub 打开，使仓库 Markdown 阅读和 Pages
-在线阅读得到一致结果。
+生产构建会先使用 VitePress 验证 Markdown 目标，再扫描生成后的所有 HTML
+`href`/`src`，确认目标文件真实存在。这一步能发现 `README.md` rewrite
+后仍指向 `README.html` 一类只在发布产物中出现的问题。源码链接由 GitHub 打开，
+使仓库 Markdown 阅读和 Pages 在线阅读得到一致结果。
 
 ## 5. 自动发布
 

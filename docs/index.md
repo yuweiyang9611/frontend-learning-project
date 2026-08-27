@@ -60,9 +60,9 @@ features:
 
 ## 选择你的入口
 
-- **第一次学习：**[00–12 顺序学习路线](learning/README.md)
-- **重点补类型系统：**[TypeScript 专题索引](typescript/README.md)
-- **理解 API 与持久化：**[后端对照专题](backend/README.md)
+- **第一次学习：**[00–12 顺序学习路线](learning/)
+- **重点补类型系统：**[TypeScript 专题索引](typescript/)
+- **理解 API 与持久化：**[后端对照专题](backend/)
 - **按功能阅读源码：**[源码追踪路线](reference/source-traces.md)
 - **查看完整功能边界：**[产品需求](reference/product-requirements.md)
 

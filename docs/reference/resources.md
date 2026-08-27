@@ -39,7 +39,7 @@
 - [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
 - [TypeScript for OOP/C# programmers](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-oop.html)
 
-学习顺序应与 [TypeScript 专题](../typescript/README.md) 配合，尤其要同时做运行时 Decoder。
+学习顺序应与 [TypeScript 专题](../typescript/) 配合，尤其要同时做运行时 Decoder。
 
 ## React、Router 与 Query
 

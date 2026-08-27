@@ -220,4 +220,4 @@ show(value);
 - [ ] 能说明为何外部输入从 unknown 开始。
 - [ ] 能列出 C# long、DateOnly 和 DateTimeOffset 的前端风险。
 
-[上一页：TypeScript 索引](README.md) · [下一章：领域建模、联合类型与收窄](02-domain-modeling-and-narrowing.md)
+[上一页：TypeScript 索引](./) · [下一章：领域建模、联合类型与收窄](02-domain-modeling-and-narrowing.md)

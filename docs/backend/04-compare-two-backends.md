@@ -177,4 +177,4 @@ UI 只依赖稳定的 `issueflowApi` 和领域 Contract。
 - [ ] 能设计可复用的黑盒 suite。
 - [ ] 能让前端不出现后端类型分支。
 
-[上一章：认证、Problem Details 与上传安全](03-auth-errors-and-uploads.md) · [返回后端索引](README.md)
+[上一章：认证、Problem Details 与上传安全](03-auth-errors-and-uploads.md) · [返回后端索引](./)

@@ -238,4 +238,4 @@ assigneeId=2
 - [ ] 完成一个类型驱动变更实验。
 - [ ] 新增第 13 课并通过页面与类型检查。
 
-[上一章：.NET 与 TypeScript Wire Contract](05-dotnet-wire-contracts.md) · [返回 TypeScript 索引](README.md)
+[上一章：.NET 与 TypeScript Wire Contract](05-dotnet-wire-contracts.md) · [返回 TypeScript 索引](./)

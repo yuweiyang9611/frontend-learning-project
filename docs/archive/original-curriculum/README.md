@@ -32,9 +32,9 @@ outline: false
 ## 使用建议
 
 - 查设计动机：先看存档，再回当前源码验证；
-- 顺序学习：使用 [00–12 主线](../../learning/README.md)；
-- TypeScript：使用 [专题与 Lab 手册](../../typescript/README.md)；
-- .NET：使用 [后端对照专题](../../backend/README.md)；
+- 顺序学习：使用 [00–12 主线](../../learning/)；
+- TypeScript：使用 [专题与 Lab 手册](../../typescript/)；
+- .NET：使用 [后端对照专题](../../backend/)；
 - 功能事实：使用 [当前产品需求](../../reference/product-requirements.md)。
 
 根目录的 `frontend_learning_project_detailed.md` 保留为兼容导航，不再复制全部正文，避免维护两份 6000 行内容。

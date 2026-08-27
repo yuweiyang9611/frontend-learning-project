@@ -192,7 +192,7 @@ export default defineConfig({
         {
           text: '历史存档',
           items: [
-            { text: '原始课程设计', link: '/archive/original-curriculum/' },
+            { text: '原始课程设计', link: '/archive/original-curriculum/README' },
           ],
         },
       ],

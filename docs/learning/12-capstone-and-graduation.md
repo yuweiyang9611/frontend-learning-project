@@ -215,4 +215,4 @@
 - [ ] 能说明一个双后端差异。
 - [ ] 能按量表自评并写出下一步学习计划。
 
-[上一章：测试、调试、CI 与构建](11-testing-engineering-and-deployment.md) · [返回学习路线](README.md)
+[上一章：测试、调试、CI 与构建](11-testing-engineering-and-deployment.md) · [返回学习路线](./)

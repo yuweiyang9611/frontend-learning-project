@@ -65,7 +65,7 @@ React UI
 - Development 暴露 OpenAPI；
 - 自动 Seed 提供可重复练习数据。
 
-深入学习见 [后端专题索引](../backend/README.md)。
+深入学习见 [后端专题索引](../backend/)。
 
 ## 5. 认证与授权
 
