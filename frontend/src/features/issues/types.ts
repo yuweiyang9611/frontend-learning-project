@@ -1,10 +1,12 @@
 export const ISSUE_STATUSES = ['open', 'in_progress', 'resolved', 'closed'] as const;
 export const ISSUE_PRIORITIES = ['low', 'medium', 'high', 'critical'] as const;
+export const ISSUE_SORTS = ['createdAt', 'updatedAt', 'title', 'priority', 'status'] as const;
+export const SORT_DIRECTIONS = ['asc', 'desc'] as const;
 
 export type IssueStatus = (typeof ISSUE_STATUSES)[number];
 export type IssuePriority = (typeof ISSUE_PRIORITIES)[number];
-export type SortDirection = 'asc' | 'desc';
-export type IssueSort = 'createdAt' | 'updatedAt' | 'title' | 'priority' | 'status';
+export type SortDirection = (typeof SORT_DIRECTIONS)[number];
+export type IssueSort = (typeof ISSUE_SORTS)[number];
 
 export interface Member {
   id: number;
@@ -93,19 +95,30 @@ export interface Session {
   role: 'Admin' | 'Member';
 }
 
-export const statusLabels: Record<IssueStatus, string> = {
+export const statusLabels = {
   open: 'Open',
   in_progress: 'In progress',
   resolved: 'Resolved',
   closed: 'Closed',
-};
+} as const satisfies Record<IssueStatus, string>;
 
-export const priorityLabels: Record<IssuePriority, string> = {
+export const priorityLabels = {
   low: 'Low',
   medium: 'Medium',
   high: 'High',
   critical: 'Critical',
-};
+} as const satisfies Record<IssuePriority, string>;
+
+function isOneOf<const Values extends readonly string[]>(values: Values, value: unknown): value is Values[number] {
+  return typeof value === 'string' && (values as readonly string[]).includes(value);
+}
+
+export const isIssueStatus = (value: unknown): value is IssueStatus => isOneOf(ISSUE_STATUSES, value);
+export const isIssuePriority = (value: unknown): value is IssuePriority => isOneOf(ISSUE_PRIORITIES, value);
+export const isIssueSort = (value: unknown): value is IssueSort => isOneOf(ISSUE_SORTS, value);
+export const isSortDirection = (value: unknown): value is SortDirection => isOneOf(SORT_DIRECTIONS, value);
+export const isPositiveIntegerId = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
 
 export function validateIssue(input: IssueInput): FieldErrors {
   const errors: FieldErrors = {};

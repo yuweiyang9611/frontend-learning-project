@@ -13,6 +13,7 @@ const IssueDetailPage = lazy(() => import('@/src/screens/IssueDetailPage'));
 const IssueFormPage = lazy(() => import('@/src/screens/IssueFormPage'));
 const BoardPage = lazy(() => import('@/src/screens/BoardPage'));
 const UsersPage = lazy(() => import('@/src/screens/UsersPage'));
+const TypeScriptLabPage = lazy(() => import('@/src/screens/TypeScriptLabPage'));
 const SettingsLayout = lazy(() => import('@/src/screens/settings/SettingsLayout'));
 const ProfileSettingsPage = lazy(() => import('@/src/screens/settings/ProfileSettingsPage'));
 const AccountSettingsPage = lazy(() => import('@/src/screens/settings/AccountSettingsPage'));
@@ -47,6 +48,7 @@ function AppRoutes() {
           <Route path="/issues/:id/edit" element={<IssueFormPage />} />
           <Route path="/board" element={<BoardPage />} />
           <Route path="/users" element={<UsersPage />} />
+          <Route path="/labs/typescript" element={<TypeScriptLabPage />} />
           <Route path="/settings" element={<SettingsLayout />}>
             <Route index element={<Navigate to="profile" replace />} />
             <Route path="profile" element={<ProfileSettingsPage />} />

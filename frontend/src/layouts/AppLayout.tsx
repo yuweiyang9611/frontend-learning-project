@@ -2,6 +2,7 @@
 
 import {
   Bell,
+  Braces,
   ChevronDown,
   CircleDot,
   Columns3,
@@ -25,6 +26,8 @@ const navigation = [
   { to: '/users', label: 'Team', icon: Users },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
+
+const learningNavigation = [{ to: '/labs/typescript', label: 'TypeScript Lab', icon: Braces }];
 
 function Brand() {
   return (
@@ -53,6 +56,18 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       <nav className="primary-nav" aria-label="Primary navigation">
         <p>Workspace</p>
         {navigation.map(({ to, label, icon: Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            onClick={onNavigate}
+            className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+          >
+            <Icon size={18} strokeWidth={1.9} />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+        <p className="learning-nav-label">Learning</p>
+        {learningNavigation.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}

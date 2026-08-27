@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { buildIssueQuery, validateIssue, type IssueInput } from './types';
+import {
+  buildIssueQuery,
+  isIssuePriority,
+  isIssueSort,
+  isIssueStatus,
+  isPositiveIntegerId,
+  isSortDirection,
+  validateIssue,
+  type IssueInput,
+} from './types';
 
 const validIssue: IssueInput = {
   title: 'Improve keyboard navigation',
@@ -45,5 +54,28 @@ describe('buildIssueQuery', () => {
     expect(buildIssueQuery({ page: 3, pageSize: 10, sortBy: 'title', sortDirection: 'asc' })).toBe(
       '?page=3&pageSize=10&sortBy=title&sortDirection=asc',
     );
+  });
+});
+
+describe('runtime type guards', () => {
+  it('accepts values from the source tuples', () => {
+    expect(isIssueStatus('in_progress')).toBe(true);
+    expect(isIssuePriority('critical')).toBe(true);
+    expect(isIssueSort('updatedAt')).toBe(true);
+    expect(isSortDirection('asc')).toBe(true);
+  });
+
+  it('rejects invalid external values instead of trusting a type assertion', () => {
+    expect(isIssueStatus('in-progress')).toBe(false);
+    expect(isIssuePriority(3)).toBe(false);
+    expect(isIssueSort('assignee')).toBe(false);
+    expect(isSortDirection('sideways')).toBe(false);
+  });
+
+  it('accepts only positive IDs that JavaScript can represent exactly', () => {
+    expect(isPositiveIntegerId(248)).toBe(true);
+    expect(isPositiveIntegerId(0)).toBe(false);
+    expect(isPositiveIntegerId(1.5)).toBe(false);
+    expect(isPositiveIntegerId(Number.MAX_SAFE_INTEGER + 1)).toBe(false);
   });
 });

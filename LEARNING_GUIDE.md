@@ -155,10 +155,14 @@ screen/component
 
 阅读顺序：
 
-1. `frontend/src/features/issues/types.ts`
-2. `frontend/src/data/seed.ts`
-3. `frontend/src/features/issues/types.test.ts`
-4. `frontend/src/api/issueflowApi.ts` 中的列表过滤和排序逻辑
+1. 在应用中打开 `/labs/typescript`，依次运行 12 个预编译课程
+2. `frontend/src/features/typescript-lab/README.md`
+3. `frontend/src/features/typescript-lab/examples.ts`
+4. `frontend/src/features/typescript-lab/compile-time-examples.ts`
+5. `frontend/src/features/issues/types.ts`
+6. `frontend/src/data/seed.ts`
+7. `frontend/src/features/issues/types.test.ts`
+8. `frontend/src/api/issueflowApi.ts` 中的列表过滤和排序逻辑
 
 重点理解：
 
@@ -166,14 +170,20 @@ screen/component
 - `IssueInput`、`IssueUpdate`、`Issue` 为什么不是同一个类型。
 - `buildIssueQuery` 为什么是纯函数，纯函数为什么更容易测试。
 - `unknown`、类型收窄和泛型在 API 边界上的价值。
+- 为什么 .NET `long` 只有在安全整数范围内才能直接映射为 JavaScript `number`。
+- 为什么 `DateOnly` 日历日期不能和 `DateTimeOffset` 时间点使用同一套解析语义。
+- `@ts-expect-error` 如何让“这段代码必须编译失败”也成为可执行验收。
+- 为什么 TypeScript Lab 不提供 `eval` 式任意代码执行器，而是让示例参与项目的严格编译和测试。
 
 练习：
 
 - 比较客户端、D1 和 .NET 当前的 Tags 规则并记录差异；完成阶段 9 后再选择统一限制，同时修改三层 Contract 与测试，不要只改客户端。
 - 新增一个纯函数，判断 Issue 是否在七天内到期。
 - 故意把状态写成 `in-progress`，观察 TypeScript 在哪里阻止错误。
+- 在 TypeScript Lab 中完成一个 Challenge：先写失败测试，再把 Runner 和课程目录一起扩展。
 
-验收：`npm run typecheck` 和 `npm test` 通过，并能解释“编译期类型安全不等于运行时输入可信”。
+验收：`npm run typecheck` 和 `npm test` 通过；能解释“编译期类型安全不等于运行时输入可信”，并能指出
+`unknown → type guard → narrowed value` 的完整边界。
 
 ### 阶段 2：React 组件、状态与表单
 

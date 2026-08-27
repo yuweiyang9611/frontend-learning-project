@@ -8,13 +8,16 @@ import { issueflowApi } from '@/src/api/issueflowApi';
 import { useToast } from '@/src/app/AppProviders';
 import { ConfirmDialog, EmptyState, ErrorState, PageHeader, Spinner, TableSkeleton } from '@/src/components/ui';
 import { IssueCards, IssueFilters, IssueTable, Pagination } from '@/src/features/issues/components';
-import type {
-  Issue,
-  IssuePriority,
-  IssueQuery,
-  IssueSort,
-  IssueStatus,
-  SortDirection,
+import {
+  isIssuePriority,
+  isIssueSort,
+  isIssueStatus,
+  isPositiveIntegerId,
+  isSortDirection,
+  type Issue,
+  type IssueQuery,
+  type IssueSort,
+  type IssueStatus,
 } from '@/src/features/issues/types';
 
 type CacheSnapshot = [QueryKey, unknown][];
@@ -50,11 +53,16 @@ export default function IssuesPage() {
 
   const page = Math.max(1, Number(params.get('page')) || 1);
   const pageSize = 10;
-  const status = (params.get('status') ?? '') as IssueStatus | '';
-  const priority = (params.get('priority') ?? '') as IssuePriority | '';
-  const assigneeId = params.get('assigneeId') ? Number(params.get('assigneeId')) : undefined;
-  const sortBy = (params.get('sortBy') ?? 'updatedAt') as IssueSort;
-  const sortDirection = (params.get('sortDirection') ?? 'desc') as SortDirection;
+  const rawStatus = params.get('status');
+  const rawPriority = params.get('priority');
+  const rawAssigneeId = Number(params.get('assigneeId'));
+  const rawSort = params.get('sortBy');
+  const rawDirection = params.get('sortDirection');
+  const status = isIssueStatus(rawStatus) ? rawStatus : '';
+  const priority = isIssuePriority(rawPriority) ? rawPriority : '';
+  const assigneeId = isPositiveIntegerId(rawAssigneeId) ? rawAssigneeId : undefined;
+  const sortBy = isIssueSort(rawSort) ? rawSort : 'updatedAt';
+  const sortDirection = isSortDirection(rawDirection) ? rawDirection : 'desc';
   const view = params.get('view') === 'stream' ? 'stream' : 'page';
 
   useEffect(() => {

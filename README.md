@@ -12,6 +12,7 @@ GitHub 仓库：<https://github.com/yuweiyang9611/frontend-learning-project>
 ## 已实现功能
 
 - 登录、仪表盘、Issue 列表/新建/详情/编辑、Kanban、团队与设置完整路由
+- TypeScript Lab：12 个使用真实 IssueFlow Contract 的可运行示例、编译期错误检查与本地学习进度
 - Issue CRUD、300 ms 搜索防抖、过滤、稳定排序、分页与 Infinite Scroll
 - 桌面表格和移动卡片、原生拖放、乐观更新与失败回滚
 - 评论、附件上传/下载、5 MB 与文件类型限制
@@ -30,6 +31,7 @@ GitHub 仓库：<https://github.com/yuweiyang9611/frontend-learning-project>
 │  ├─ db/                        Drizzle D1 schema
 │  ├─ drizzle/                   已检查的 SQL migration
 │  ├─ src/                       组件、界面、查询、状态与数据契约
+│  │  └─ features/typescript-lab/ TypeScript 示例、课程目录、类型测试与说明
 │  └─ e2e/                       Playwright 生命周期测试
 ├─ backend/
 │  ├─ IssueFlow.Api/             .NET 10 Minimal API
@@ -58,6 +60,11 @@ npm run dev
 
 - Email：`demo@issueflow.dev`
 - Password：`issueflow`
+
+登录后打开 <http://localhost:3000/labs/typescript> 可进入 TypeScript Lab。课程覆盖结构类型、字面量联合、
+`as const`、`satisfies`、泛型、Utility Types、`keyof`、运行时类型守卫、判别联合、`never`、类型化错误，
+以及 .NET `long` / `DateOnly` / `DateTimeOffset` 的 JSON 边界。所有 Runner 都会参与编译和测试，且同步
+执行、不会发起网络请求或写入产品数据；页面明确把短代码标为概念节选，也不使用 `eval`。
 
 D1 表会在第一次 API 请求时安全初始化，正式 SQL migration 保存在 `frontend/drizzle/`。R2 绑定名为 `UPLOADS`，D1 绑定名为 `DB`。
 
@@ -114,7 +121,7 @@ GitHub Actions 会在 push 和 pull request 时执行前端 lint/typecheck/test/
 
 ## 学习路线对应
 
-1. React/TypeScript 组件、受控表单和 React Router URL 状态
+1. TypeScript Lab、领域 Contract、运行时边界、React 组件与受控表单
 2. TanStack Query 缓存、乐观更新、分页与 Infinite Query
 3. 原生 DnD、响应式 UI、可访问 Modal 与键盘交互
 4. D1/R2、SQL Migration、同源 API 与对象存储

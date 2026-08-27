@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './product.css';
 import './responsive.css';
+import './learning.css';
 
 export const metadata: Metadata = {
   title: 'IssueFlow — Move work forward',

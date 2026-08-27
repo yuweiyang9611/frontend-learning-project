@@ -3,6 +3,11 @@ import { seedAttachments, seedComments, seedIssues, seedMembers } from '@/src/da
 import {
   ISSUE_PRIORITIES,
   ISSUE_STATUSES,
+  isIssuePriority,
+  isIssueSort,
+  isIssueStatus,
+  isPositiveIntegerId,
+  isSortDirection,
   validateIssue,
   type Attachment,
   type Comment,
@@ -16,7 +21,6 @@ import {
   type IssueUpdate,
   type Member,
   type PagedResult,
-  type SortDirection,
 } from '@/src/features/issues/types';
 
 type RuntimeEnv = { DB: D1Database; UPLOADS?: R2Bucket };
@@ -617,15 +621,15 @@ export function parseIssueQuery(searchParams: URLSearchParams): IssueQuery {
   const rawPriority = searchParams.get('priority') ?? '';
   const rawSort = searchParams.get('sortBy') ?? 'updatedAt';
   const rawDirection = searchParams.get('sortDirection') ?? 'desc';
-  const allowedSorts: IssueSort[] = ['createdAt', 'updatedAt', 'title', 'priority', 'status'];
+  const rawAssigneeId = Number(searchParams.get('assigneeId'));
   return {
     page: Math.max(1, Number(searchParams.get('page')) || 1),
     pageSize: Math.min(100, Math.max(1, Number(searchParams.get('pageSize')) || 20)),
     search: searchParams.get('search')?.slice(0, 200) ?? '',
-    status: ISSUE_STATUSES.includes(rawStatus as IssueStatus) ? (rawStatus as IssueStatus) : '',
-    priority: ISSUE_PRIORITIES.includes(rawPriority as IssuePriority) ? (rawPriority as IssuePriority) : '',
-    assigneeId: Number(searchParams.get('assigneeId')) || undefined,
-    sortBy: allowedSorts.includes(rawSort as IssueSort) ? (rawSort as IssueSort) : 'updatedAt',
-    sortDirection: (rawDirection === 'asc' ? 'asc' : 'desc') as SortDirection,
+    status: isIssueStatus(rawStatus) ? rawStatus : '',
+    priority: isIssuePriority(rawPriority) ? rawPriority : '',
+    assigneeId: isPositiveIntegerId(rawAssigneeId) ? rawAssigneeId : undefined,
+    sortBy: isIssueSort(rawSort) ? rawSort : 'updatedAt',
+    sortDirection: isSortDirection(rawDirection) ? rawDirection : 'desc',
   };
 }
