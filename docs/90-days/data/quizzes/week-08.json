@@ -1,0 +1,48 @@
+{
+  "week": 8,
+  "title": "React 组件、状态与可测试交互",
+  "reviewPrompt": "为一个状态编辑器画出 Props、local state、DOM parser、异步状态和可见测试，解释为什么本周暂不需要全局 Context 或乐观缓存。",
+  "rubric": [
+    "Props 只包含真实依赖",
+    "派生值不重复存入 state",
+    "Effect 只同步外部系统并有 cleanup"
+  ],
+  "questions": [
+    {
+      "id": "w08-q01",
+      "prompt": "组件只显示 key、title、status 时，Props 最合适是什么？",
+      "choices": [
+        "完整 Issue 实体",
+        "只包含三个字段的最小 shape",
+        "Record<string, any>"
+      ],
+      "correctIndex": 1,
+      "explanation": "最小 Props Contract 降低耦合并提高可测试性。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-50"
+    },
+    {
+      "id": "w08-q02",
+      "prompt": "哪项通常不应放进 useEffect？",
+      "choices": [
+        "注册并清理浏览器事件监听器",
+        "根据已有 state 计算可见总数",
+        "同步 matchMedia"
+      ],
+      "correctIndex": 1,
+      "explanation": "可直接计算的派生值应在渲染中计算，不需要 Effect 和第二份 state。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-54"
+    },
+    {
+      "id": "w08-q03",
+      "prompt": "DOM select 的 value 进入 IssueStatus 前需要什么？",
+      "choices": [
+        "直接 as IssueStatus",
+        "运行时 guard/parser",
+        "把领域类型改成 string"
+      ],
+      "correctIndex": 1,
+      "explanation": "DOM 值始终是运行时 string，必须证明它属于领域 union。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-52"
+    }
+  ]
+}

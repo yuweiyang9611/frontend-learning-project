@@ -14,6 +14,9 @@ hero:
       text: 第 1 天
       link: /90-days/week-01-foundations
     - theme: alt
+      text: 复习中心
+      link: /90-days/review-center
+    - theme: alt
       text: 查看 GitHub
       link: https://github.com/yuweiyang9611/frontend-learning-project
 
@@ -32,7 +35,7 @@ features:
     details: 比较 D1/R2 与 .NET/SQLite 的 Shape、Error 和 Behavioral Contract。
   - icon: "✓"
     title: 实验与验收
-    details: 用预测、故障注入、测试和复盘完成学习闭环，而不是只读概念。
+    details: 用每日目标检查、13 次闭卷周测、错题重练、间隔复习和口试完成反馈闭环。
   - icon: "CI"
     title: 工程质量
     details: 覆盖可访问性、响应式、Vitest、Playwright、.NET 集成测试与 CI。
@@ -42,7 +45,7 @@ features:
 
 1. 打开 [91 天课程总览](90-days/)，准备学习日志并完成基线检查。
 2. 每天按 120 分钟结构完成概念、源码、实验、独立任务与验收。
-3. 每 7 天提交一个可运行作品，每个检查点未通过先按补救路线重做。
+3. 每 7 天提交一个可运行作品，完成闭卷周测与口试；错题进入[间隔复习中心](90-days/review-center.md)。
 4. 第 13 周完成跨前端、双后端与测试的毕业功能切片。
 
 > 每次只学一章：运行 → 观察 → 追踪 → 修改 → 测试 → 复盘。
@@ -63,6 +66,7 @@ features:
 
 - **第一次学习：**[91 天、182 小时完整课程](90-days/)
 - **按主题复习：**[00–12 知识专题](learning/)
+- **订正与间隔复习：**[错题与复习中心](90-days/review-center.md)
 - **重点补类型系统：**[TypeScript 专题索引](typescript/)
 - **理解 API 与持久化：**[后端对照专题](backend/)
 - **按功能阅读源码：**[源码追踪路线](reference/source-traces.md)

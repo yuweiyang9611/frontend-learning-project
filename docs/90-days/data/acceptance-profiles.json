@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "defaults": {
+    "dotnetRequiredFromDay": 71,
+    "evidenceNote": {
+      "pathTemplate": "learning-evidence/day-{dayPadded}/artifact.md",
+      "minimumCharactersPerSection": 30,
+      "learnerSections": ["当日产物", "边界实验", "机器验证", "解释与风险"]
+    },
+    "manualSource": {
+      "procedureHeadings": [
+        "独立任务",
+        "闭卷独立任务",
+        "运行实验与独立任务",
+        "独立变体",
+        "周交付物",
+        "周测",
+        "项目要求",
+        "可运行交付物",
+        "必须包含",
+        "实验"
+      ],
+      "expectedHeadings": [
+        "严格通过标准",
+        "当日验收",
+        "验收问题",
+        "验收证据",
+        "周交付证据",
+        "当日证据",
+        "通过标准",
+        "过关标准"
+      ]
+    }
+  },
+  "profiles": {
+    "foundation-record": {
+      "description": "环境与工具日：检查分阶段前置环境，并要求提交当天实验记录。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "root",
+          "script": "learn:check",
+          "targetTemplate": "scripts/check-prerequisites.mjs",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "web-workspace": {
+      "description": "HTML、CSS 与 JavaScript 日：检查可写 learner workspace，并要求提交当天实验记录。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "root",
+          "script": "learn:test:web",
+          "targetTemplate": "learning-work/day-{checkpointPadded}",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "typescript-workbench": {
+      "description": "TypeScript 日：只验证 manifest 指定的 workbench 题号，并要求提交当天实验记录。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "exercise:test",
+          "argsTemplate": ["{exerciseId}"],
+          "targetTemplate": "frontend/exercises/typescript/workbench.ts#{exerciseId}",
+          "expectedExit": 0
+        }
+      ],
+      "requiresExerciseId": true
+    },
+    "react-foundations": {
+      "description": "React 基础日：只运行当天的 React workbench 测试，并要求提交当天实验记录。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "exercise:react",
+          "argsTemplate": ["{day}"],
+          "targetTemplate": "frontend/exercises/react-foundations/workbench.tsx#day-{dayPadded}",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "frontend-day-test": {
+      "description": "业务前端日：只运行学习者当天新增的行为测试文件，并要求提交当天实验记录。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "test",
+          "argsTemplate": ["src/learning/day-{dayPadded}.acceptance.test.tsx"],
+          "targetTemplate": "frontend/src/learning/day-{dayPadded}.acceptance.test.tsx",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "backend-day-test": {
+      "description": "后端与安全边界日：运行当天前端契约测试，检查当天 xUnit 文件，并只筛选该日后端测试。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "test",
+          "argsTemplate": [
+            "contract-tests/learning/day-{dayPadded}.acceptance.test.ts"
+          ],
+          "targetTemplate": "frontend/contract-tests/learning/day-{dayPadded}.acceptance.test.ts",
+          "expectedExit": 0
+        },
+        {
+          "idTemplate": "D{dayPadded}-A2",
+          "kind": "learner-file",
+          "targetTemplate": "backend/IssueFlow.Api.Tests/Learning/Day{dayPadded}AcceptanceTests.cs",
+          "minimumCharacters": 160,
+          "requiredTextTemplate": ["Day{dayPadded}Acceptance", "[Fact]"],
+          "expectedExit": 0
+        },
+        {
+          "idTemplate": "D{dayPadded}-A3",
+          "kind": "dotnet-test",
+          "project": "root",
+          "solution": "IssueFlow.slnx",
+          "argsTemplate": [
+            "--filter",
+            "FullyQualifiedName~Day{dayPadded}Acceptance"
+          ],
+          "targetTemplate": "backend/IssueFlow.Api.Tests/Learning/Day{dayPadded}AcceptanceTests.cs",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "dual-contract": {
+      "description": "双后端交付日：运行统一 HTTP parity harness，并要求提交当天差异与清理记录。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "test:contract:dual",
+          "targetTemplate": "contracts/issueflow/v1/http-cases.json",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "playwright-day": {
+      "description": "浏览器旅程日：只运行学习者当天新增的 Chromium E2E 文件。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "test:e2e",
+          "argsTemplate": [
+            "e2e/learning/day-{dayPadded}.acceptance.spec.ts",
+            "--project=chromium"
+          ],
+          "targetTemplate": "frontend/e2e/learning/day-{dayPadded}.acceptance.spec.ts",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "ci-workflow": {
+      "description": "CI 日：检查当天最小权限 workflow，并运行本地前置 typecheck。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "learner-file",
+          "targetTemplate": ".github/workflows/day-{dayPadded}-learning-ci.yml",
+          "minimumCharacters": 240,
+          "requiredTextTemplate": [
+            "permissions:",
+            "contents: read",
+            "npm ci",
+            "typecheck",
+            "test",
+            "build"
+          ],
+          "expectedExit": 0
+        },
+        {
+          "idTemplate": "D{dayPadded}-A2",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "typecheck",
+          "targetTemplate": "frontend/tsconfig.json",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "quality-gate": {
+      "description": "质量闸门日：运行当天回归测试并检查可复现的质量结论。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "test",
+          "argsTemplate": ["src/learning/day-{dayPadded}.acceptance.test.tsx"],
+          "targetTemplate": "frontend/src/learning/day-{dayPadded}.acceptance.test.tsx",
+          "expectedExit": 0
+        },
+        {
+          "idTemplate": "D{dayPadded}-A2",
+          "kind": "learner-file",
+          "targetTemplate": "learning-evidence/day-{dayPadded}/quality-gate.md",
+          "minimumCharacters": 240,
+          "requiredTextTemplate": ["复现", "期望", "实际", "回归测试"],
+          "expectedExit": 0
+        }
+      ]
+    },
+    "capstone-plan": {
+      "description": "毕业项目规划日：检查冻结范围、验收标准和非目标的项目章程。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "learner-file",
+          "targetTemplate": "learning-evidence/day-{dayPadded}/project-charter.md",
+          "minimumCharacters": 300,
+          "requiredTextTemplate": ["问题", "范围", "验收", "非目标"],
+          "expectedExit": 0
+        }
+      ]
+    },
+    "capstone-e2e": {
+      "description": "毕业项目质量日：运行当天纵向 E2E、类型检查和构建。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "test:e2e",
+          "argsTemplate": [
+            "e2e/learning/day-{dayPadded}.acceptance.spec.ts",
+            "--project=chromium"
+          ],
+          "targetTemplate": "frontend/e2e/learning/day-{dayPadded}.acceptance.spec.ts",
+          "expectedExit": 0
+        },
+        {
+          "idTemplate": "D{dayPadded}-A2",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "typecheck",
+          "targetTemplate": "frontend/tsconfig.json",
+          "expectedExit": 0
+        },
+        {
+          "idTemplate": "D{dayPadded}-A3",
+          "kind": "npm-script",
+          "project": "frontend",
+          "script": "build",
+          "targetTemplate": "frontend/src",
+          "expectedExit": 0
+        }
+      ]
+    },
+    "capstone-evidence": {
+      "description": "毕业评审日：检查可定位的演示、测试、限制与下一步证据索引。",
+      "automaticChecks": [
+        {
+          "idTemplate": "D{dayPadded}-A1",
+          "kind": "learner-file",
+          "targetTemplate": "learning-evidence/day-{dayPadded}/evidence-index.md",
+          "minimumCharacters": 300,
+          "requiredTextTemplate": ["演示", "提交", "测试", "限制", "下一步"],
+          "expectedExit": 0
+        }
+      ]
+    }
+  }
+}

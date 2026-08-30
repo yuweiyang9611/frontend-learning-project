@@ -375,6 +375,12 @@ semantic token，不在每个组件重复写 dark selector。
 - 亮暗主题关键文本和焦点清晰；
 - 能在 DevTools 中证明最终尺寸和颜色来自哪里。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="3" />
+</ClientOnly>
+
 [上一周：语义 HTML 与可访问性](week-02-html-accessibility.md) ·
 [下一周：JavaScript、DOM 与异步](week-04-javascript-dom-async.md) ·
 [返回课程总览](./)

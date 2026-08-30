@@ -648,7 +648,7 @@ input:focus-visible {
 }
 .status.closed {
   background: #eff1ee;
-  color: #69756e;
+  color: #626e67;
 }
 .status.closed i {
   background: #89938d;

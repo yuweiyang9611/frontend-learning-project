@@ -9,7 +9,7 @@
 - 知道需要哪些运行环境；
 - 能启动默认前端与同源 API；
 - 能使用演示账号完成一次 Issue 生命周期；
-- 能运行格式、Lint、类型检查、单元测试、构建、E2E 和 .NET 测试；
+- 能运行前端格式、Lint、类型检查、单元测试、构建和 E2E，并知道 .NET 门禁从 Day 71 开始；
 - 会为每个练习创建小分支和小提交。
 
 ## 为什么先建立基线
@@ -22,7 +22,7 @@
 
 - Node.js 22.13 或更高版本；
 - npm 11 或更高版本；
-- .NET SDK 10；
+- .NET SDK 10（Day 01–70 可暂未安装，进入 Day 71 前必须补齐）；
 - Chrome 或 Edge；
 - Git。
 
@@ -31,17 +31,24 @@
 ```powershell
 node --version
 npm --version
-dotnet --version
 git --version
+npm run learn:check -- --day 01
+
+# Day 01–70 可选；未安装时 learn:check 显示 WARN，不会阻断前端课程
+dotnet --version
 ```
 
-如果版本不满足要求，先升级环境，不要通过删除 lockfile 或随意降级依赖绕过问题。
+Node、npm 或 Git 不满足要求时先修复环境，不要通过删除 lockfile 或随意降级依赖绕过问题。
+.NET SDK 10 在前 70 天只显示提醒；最迟在 Day 71 开始前运行
+`npm run learn:check -- --day 71`，此时缺失或版本不符会成为硬失败。
 
 ### 第一次安装与 PATH 恢复
 
 1. Windows 使用 Node.js、Git 和 .NET 官方安装器；macOS 可使用官方安装器或同一个可信包管理器。
+   零基础学习者可以先装 Node.js 与 Git，把 .NET SDK 安排在第 10 周结束前。
 2. 安装时保留“加入 PATH”选项，结束后关闭全部终端再重新打开。
-3. 在仓库根目录运行 `npm run learn:check`。脚本只诊断版本，不会修改或自动安装系统软件。
+3. 在仓库根目录运行 `npm run learn:check -- --day 01`。脚本只诊断版本，不会修改或自动安装系统软件；
+   此时 .NET 缺失只会显示 `WARN`。
 4. 如果显示 “not found”，先用 `where.exe node`（Windows）或 `command -v node`（macOS/Linux）
    确认路径；不要复制别人的绝对用户目录。
 5. 克隆仓库后先运行根目录 `npm ci`，再运行 `npm --prefix frontend ci`。lockfile 安装失败时
@@ -124,6 +131,9 @@ dotnet build IssueFlow.slnx
 dotnet test IssueFlow.slnx
 dotnet format IssueFlow.slnx --verify-no-changes
 ```
+
+前三条后端命令从 Day 71 起才是必做门禁。前 70 天若尚未安装 .NET，不要把 `WARN` 当成
+前端实验失败；记录安装计划并继续当天的 HTML、CSS、JavaScript、TypeScript 或 React 任务。
 
 这些命令的职责不同：
 

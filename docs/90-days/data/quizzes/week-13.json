@@ -1,0 +1,44 @@
+{
+  "week": 13,
+  "title": "毕业项目与可信交付",
+  "reviewPrompt": "在五分钟内证明一个纵向功能的用户价值、TypeScript Contract、失败恢复、无障碍、测试、安全和已知限制。",
+  "rubric": [
+    "从用户问题和非目标开始",
+    "同一规则至少有三层可定位证据",
+    "主动披露未验证模式与剩余风险"
+  ],
+  "questions": [
+    {
+      "id": "w13-q01",
+      "prompt": "毕业项目最先冻结什么？",
+      "choices": ["技术栈清单", "用户问题、Must/非目标和验收证据", "页面数量"],
+      "correctIndex": 1,
+      "explanation": "范围必须围绕可验证的问题闭环，而不是堆功能。",
+      "remediation": "/90-days/week-13-capstone.html#day-85"
+    },
+    {
+      "id": "w13-q02",
+      "prompt": "声明三种数据模式完全等价前需要什么？",
+      "choices": [
+        "类型检查通过",
+        "每种模式的真实验证矩阵和差异处理",
+        "同一个 README"
+      ],
+      "correctIndex": 1,
+      "explanation": "相同 TypeScript shape 不能替代各实现的运行证据。",
+      "remediation": "/90-days/week-13-capstone.html#day-87"
+    },
+    {
+      "id": "w13-q03",
+      "prompt": "可信毕业演示为什么必须包含失败或限制？",
+      "choices": [
+        "为了延长视频",
+        "证明恢复路径真实存在且没有隐藏风险",
+        "成功路径不重要"
+      ],
+      "correctIndex": 1,
+      "explanation": "只展示理想路径无法证明系统在真实边界下可恢复。",
+      "remediation": "/90-days/week-13-capstone.html#day-91"
+    }
+  ]
+}

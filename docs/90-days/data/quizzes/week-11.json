@@ -1,0 +1,48 @@
+{
+  "week": 11,
+  "title": "双后端、持久化与安全边界",
+  "reviewPrompt": "用同一请求比较 Next/D1 与 .NET/SQLite 的 shape、error、behavior，并说明身份、上传和清理的信任边界。",
+  "rubric": [
+    "区分三类 Contract",
+    "使用真实 HTTP 而非按后端名跳过",
+    "上传同时验证内容、大小、存储名和失败清理"
+  ],
+  "questions": [
+    {
+      "id": "w11-q01",
+      "prompt": "两后端字段相同就能证明行为等价吗？",
+      "choices": [
+        "能",
+        "不能，还要比较默认值、排序、错误和副作用",
+        "只要状态码相同就能"
+      ],
+      "correctIndex": 1,
+      "explanation": "Shape Contract 只是兼容性的一层，Error 和 Behavioral Contract 也需要证据。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77"
+    },
+    {
+      "id": "w11-q02",
+      "prompt": "安全上传验证为什么不能只看扩展名？",
+      "choices": [
+        "扩展名可伪造，还需大小、内容和存储策略",
+        "扩展名总是可信",
+        "数据库会自动检查文件"
+      ],
+      "correctIndex": 0,
+      "explanation": "客户端名称和 Content-Type 都是不可信输入，需多层验证及隔离存储。",
+      "remediation": "/90-days/week-11-backends-security.html#day-76"
+    },
+    {
+      "id": "w11-q03",
+      "prompt": "浏览器 localStorage 中的用户字段能作为服务端授权依据吗？",
+      "choices": [
+        "能，只要 JSON 格式正确",
+        "不能，授权必须由服务端可信身份与策略决定",
+        "能，只要使用 TypeScript"
+      ],
+      "correctIndex": 1,
+      "explanation": "客户端存储可被用户修改，不是可信授权边界。",
+      "remediation": "/90-days/week-11-backends-security.html#day-74"
+    }
+  ]
+}

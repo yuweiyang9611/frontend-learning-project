@@ -338,6 +338,12 @@ placeholder 为什么不能承担 label 的长期职责。
 - 能解释客户端校验为什么不能替代服务端；
 - 未通过时重做 Day 10、11、12 的独立任务。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="2" />
+</ClientOnly>
+
 [上一周：环境与 Web 地图](week-01-foundations.md) ·
 [下一周：CSS 与响应式](week-03-css-responsive.md) ·
 [返回课程总览](./)

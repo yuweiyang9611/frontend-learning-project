@@ -411,6 +411,12 @@ async function request<T>(
 
 未过关时，先缩小到一个简单 DTO，不要通过恢复泛型断言绕开问题。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="7" />
+</ClientOnly>
+
 [上一周：领域建模与泛型](week-06-typescript-modeling-generics.md) ·
 [下一周：React 与 TypeScript](week-08-react-typescript.md) ·
 [返回课程总览](./)

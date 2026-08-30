@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "incremental": false,
+    "isolatedModules": false,
+    "noEmit": true,
+    "plugins": [],
+    "types": ["node"]
+  },
+  "include": ["exercises/typescript/**/*.ts"],
+  "exclude": ["node_modules"]
+}

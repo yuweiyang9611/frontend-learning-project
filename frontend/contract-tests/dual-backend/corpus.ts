@@ -21,11 +21,21 @@ export interface ContractCase {
   auth: boolean;
   request: ContractRequest;
   expect: ContractExpectation;
+  cleanup?: {
+    method: 'DELETE';
+    path: string;
+    expect: { status: number };
+  };
 }
 
 export interface ContractCorpus {
   schemaVersion: number;
-  login: { path: string; body: { email: string; password: string } };
+  login: {
+    path: string;
+    body: { email: string; password: string };
+    expect: { status: number };
+  };
+  logout: { method: 'POST'; path: string; expect: { status: number } };
   cases: ContractCase[];
 }
 

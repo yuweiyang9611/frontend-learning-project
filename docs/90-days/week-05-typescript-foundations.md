@@ -351,6 +351,12 @@ function updateStatus(
 - 不用 any、双重断言或 JSON 深复制；
 - 能口头解释断言、guard、decoder 的证据强度。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="5" />
+</ClientOnly>
+
 [上一周：JavaScript、DOM 与异步](week-04-javascript-dom-async.md) ·
 [下一周：TypeScript 建模与泛型](week-06-typescript-modeling-generics.md) ·
 [返回课程总览](./)

@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -39,7 +38,9 @@ public sealed class SharedContractCorpusTests(IssueFlowApiFactory factory)
                     login.GetProperty("path").GetString()!,
                     login.GetProperty("body").GetRawText());
                 using var loginResponse = await client.SendAsync(loginRequest);
-                Assert.Equal(HttpStatusCode.OK, loginResponse.StatusCode);
+                Assert.Equal(
+                    login.GetProperty("expect").GetProperty("status").GetInt32(),
+                    (int)loginResponse.StatusCode);
             }
 
             var requestDefinition = sourceCase.GetProperty("request");
@@ -85,6 +86,32 @@ public sealed class SharedContractCorpusTests(IssueFlowApiFactory factory)
                         $"{id} response is missing {requiredPath.GetString()}.");
                 }
             }
+
+            if (sourceCase.TryGetProperty("cleanup", out var cleanup))
+            {
+                var cleanupPath = cleanup.GetProperty("path").GetString()!
+                    .Replace(
+                        "{{response.id}}",
+                        responseJson.RootElement.GetProperty("id").GetRawText(),
+                        StringComparison.Ordinal);
+                using var cleanupRequest = new HttpRequestMessage(
+                    new HttpMethod(cleanup.GetProperty("method").GetString()!),
+                    cleanupPath);
+                using var cleanupResponse = await client.SendAsync(cleanupRequest);
+                Assert.Equal(
+                    cleanup.GetProperty("expect").GetProperty("status").GetInt32(),
+                    (int)cleanupResponse.StatusCode);
+                Assert.Empty(await cleanupResponse.Content.ReadAsByteArrayAsync());
+            }
+
+            var logout = root.GetProperty("logout");
+            using var logoutRequest = new HttpRequestMessage(
+                new HttpMethod(logout.GetProperty("method").GetString()!),
+                logout.GetProperty("path").GetString()!);
+            using var logoutResponse = await client.SendAsync(logoutRequest);
+            Assert.Equal(
+                logout.GetProperty("expect").GetProperty("status").GetInt32(),
+                (int)logoutResponse.StatusCode);
         }
 
         Assert.Equal(

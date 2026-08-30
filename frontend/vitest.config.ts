@@ -8,15 +8,11 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
-    include: ['src/**/*.test.{ts,tsx}', 'exercises/**/*.test.ts', 'contract-tests/**/*.test.ts'],
+    include: ['src/**/*.test.{ts,tsx}', 'exercises/**/*.test.{ts,tsx}', 'contract-tests/**/*.test.{ts,mjs}'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary', 'html', 'lcov'],
-      include: [
-        'src/**/*.{ts,tsx}',
-        'exercises/typescript/contracts.ts',
-        'exercises/typescript/reference.ts',
-      ],
+      include: ['src/**/*.{ts,tsx}', 'exercises/typescript/contracts.ts', 'exercises/typescript/reference.ts'],
       exclude: [
         'src/data/**',
         'src/app/**',

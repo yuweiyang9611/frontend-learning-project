@@ -3,6 +3,12 @@
 前两周已经能建立领域类型并保护运行时边界。本周把这些能力放进 React：Props 是组件
 Contract，State 表达交互记忆，事件仍来自浏览器边界，Effect 只负责与外部系统同步。
 
+::: info 本周的学习坡度
+Day 50–56 只完成“组件 → 本地状态 → DOM 边界 → 异步四态 → Effect → 普通异步保存”
+这条链路。Context/reducer 只做识别，不作为本周必交；TanStack Query cache、乐观更新和
+rollback 明确留到第 10 周。每天先在隔离 workbench 过关，再阅读 IssueFlow 真实源码。
+:::
+
 ## 本周成果
 
 - 为组件 Props、children、callback 和 DOM event 写准确类型；
@@ -23,6 +29,8 @@ Contract，State 表达交互记忆，事件仍来自浏览器边界，Effect �
 ### 今日目标
 
 把组件视为有输入 Contract 的函数，只要求真正需要的字段。
+
+当天工作区：`npm run exercise:react -- 50`。初始失败是课程支架，不要修改测试绕过。
 
 ### 完整 120 分钟
 
@@ -84,6 +92,8 @@ function IssueHeading({ key, title, status }: IssueHeadingProps) {
 
 避免错误的初始值推断和重复状态，能说明每份 state 为什么存在于当前组件。
 
+当天工作区：`npm run exercise:react -- 51`。
+
 ### 完整 120 分钟
 
 | 时间    | 活动                                              | 产物          |
@@ -128,6 +138,8 @@ setTooNarrow(seedIssues[0]);
 ### 今日目标
 
 正确标注 form/input/select 事件，并把 DOM string 经过 parser/guard 后才写入领域 state。
+
+当天工作区：`npm run exercise:react -- 52`。
 
 ### 完整 120 分钟
 
@@ -185,49 +197,54 @@ state；guard 版本必须保持原状态或显示明确错误。
 
 ---
 
-## Day 53：异步 UI、错误状态与 Context Contract {#day-53}
+## Day 53：异步 UI、组件组合与状态提升 {#day-53}
 
 ### 今日目标
 
-使用判别联合表达异步界面，并理解 Context 应共享能力而非收纳所有状态。
+使用判别联合表达异步界面；通过组件组合和状态提升共享最小能力，不急于引入全局 Context。
+
+当天工作区：`npm run exercise:react -- 53`。
 
 ### 完整 120 分钟
 
 | 时间    | 活动                                            | 产物           |
 | ------- | ----------------------------------------------- | -------------- |
-| 0–15    | 写出 loading/error/data booleans 的非法组合     | 状态反例       |
-| 15–35   | 复习 RemoteData，学习 Context value 与 Provider | 状态树         |
-| 35–65   | 阅读 AppProviders 的 Auth/Theme/Toast           | Context 职责表 |
-| 65–85   | 为四种 RemoteData 渲染测试                      | 组件测试       |
-| 85–110  | 独立设计 IssueEditorState 与 reducer            | 类型和转换函数 |
-| 110–120 | 判断哪些状态不应放 Context                      | 复盘记录       |
+| 0–15    | 写出 loading/error/data booleans 的非法组合       | 状态反例       |
+| 15–35   | 复习 RemoteData，学习组合与状态提升               | 状态树         |
+| 35–60   | 阅读一个页面的 loading/empty/error/success 分支    | 可见状态表     |
+| 60–85   | 为四种 RemoteData 渲染和 retry 写行为测试          | 组件测试       |
+| 85–110  | 独立拆分 RemoteIssuesPanel 并提升唯一共享 state    | 组件与数据流图 |
+| 110–120 | 判断 Props、children 或 Context 的最小选择          | 复盘记录       |
 
 ### 示例与负例
 
 ```ts
-type IssueEditorState =
-  | { state: "editing"; value: IssueInput }
-  | { state: "submitting"; value: IssueInput }
-  | { state: "saved"; issue: Issue }
-  | { state: "failed"; value: IssueInput; message: string };
+type RemoteIssues =
+  | { state: "loading" }
+  | { state: "empty" }
+  | { state: "success"; issues: readonly IssuePreview[] }
+  | { state: "error"; message: string; retry: () => void };
 
-// @ts-expect-error saved 状态必须携带服务器返回的 issue
-const badState: IssueEditorState = { state: "saved" };
+// @ts-expect-error success 状态必须携带已验证的 issues
+const badState: RemoteIssues = { state: "success" };
 ```
 
 运行实验应验证 loading 显示、失败消息、成功内容和重试按钮，而不是断言某个 state variable 的值。
 
 ### 独立任务
 
-设计 reducer action：edit-field、submit、resolve、reject、reset。使用 `assertNever` 检查遗漏。
-说明何时继续使用多个简单 useState 会比 reducer 更清楚。
+把四态渲染拆成纯显示组件，由父组件持有 state。失败分支必须通过 callback 重试，子组件
+不能自行复制请求状态。写出“何时 Props/children 已足够，何时才值得 Context”的判断。
 
 ### 验收证据
 
 - [ ] UI 状态不存在互相矛盾组合。
-- [ ] reducer 的 state/action 都有穷尽检查。
-- [ ] Context value 不包含高频变化的 Issue 列表。
+- [ ] switch 分支有穷尽检查。
+- [ ] 共享状态只有一个所有者，没有父子两份副本。
 - [ ] 测试从用户可见结果验证每个异步状态。
+
+Context 和 reducer 会在学习者已经能维护局部数据流后再作为选型题出现，本周不要求为了
+“使用高级 Hook”把简单状态改写成 reducer。
 
 ---
 
@@ -236,6 +253,8 @@ const badState: IssueEditorState = { state: "saved" };
 ### 今日目标
 
 只在需要同步浏览器或外部系统时使用 Effect，并保证 setup/cleanup 对称。
+
+当天工作区：`npm run exercise:react -- 54`。
 
 ### 完整 120 分钟
 
@@ -288,60 +307,61 @@ inputRef.current.focus();
 
 ---
 
-## Day 55：Typed API 状态、Mutation 与失败恢复 {#day-55}
+## Day 55：Typed 异步保存、Pending 与失败恢复 {#day-55}
 
 ### 今日目标
 
-在组件层保持 API 数据、mutation 参数、乐观快照和错误类型一致，为第 10 周缓存深入学习打基础。
+先完成普通异步保存的 pending、success、error 与 retry，再为第 10 周 cache/乐观更新打基础。
+
+当天工作区：`npm run exercise:react -- 55`。
 
 ### 完整 120 分钟
 
 | 时间    | 活动                                           | 产物         |
 | ------- | ---------------------------------------------- | ------------ |
-| 0–15    | 画 Board 状态更新的成功/失败时间线             | mutation 图  |
-| 15–35   | 学习 query data、variables、context 的类型角色 | 三者对照     |
-| 35–65   | 阅读 BoardPage 和 IssueDetailPage 的 mutation  | 缓存触点表   |
-| 65–90   | 模拟 500，观察 optimistic update 与 rollback   | 可见行为记录 |
-| 90–110  | 独立为 rollback context 写明确类型和测试       | 类型与测试   |
-| 110–120 | 记录静态 cache 类型不能证明 response 的原因    | 复盘段落     |
+| 0–15    | 画点击保存到成功/失败的时间线                   | 状态图       |
+| 15–35   | 为 save callback、参数和错误结果写类型          | 函数 Contract |
+| 35–60   | 阅读一个普通异步提交与 ApiError 显示路径        | 调用链       |
+| 60–85   | 测试 pending 禁用、成功确认和失败恢复           | 可见行为记录 |
+| 85–110  | 独立实现 SaveStatusButton，不进行乐观写入       | 组件与测试   |
+| 110–120 | 解释为什么本周先等待服务器确认                  | 复盘段落     |
 
 ### 类型化快照
 
 ```ts
-type MoveIssueVariables = {
-  issue: Issue;
-  status: IssueStatus;
-};
+type SaveStatus = (next: IssueStatus) => Promise<void>;
 
-type MoveIssueContext = {
-  previous: PagedResult<Issue> | undefined;
-};
+type SaveState =
+  | { state: "idle" }
+  | { state: "saving" }
+  | { state: "saved" }
+  | { state: "error"; message: string };
 ```
 
 ### 编译期负例与运行实验
 
 ```ts
-// @ts-expect-error status 必须来自 IssueStatus
-const variables: MoveIssueVariables = {
-  issue: seedIssues[0],
-  status: "blocked",
-};
+declare const saveStatus: SaveStatus;
+
+// @ts-expect-error blocked 不是 IssueStatus
+saveStatus("blocked");
 ```
 
-500 实验必须看到：卡片先进入新列、失败后回旧列、错误 Toast 出现、相关 query 被失效。
-不要用固定 sleep，等待可见状态或请求 Promise。
+失败实验必须看到：按钮从 pending 恢复可用、受控错误出现、原状态保持不变、可以再次提交。
+不要用固定 sleep，等待可见状态或请求 Promise。本日不要求 cache snapshot、optimistic write
+或 rollback；这些在 Day 68–69 用完整 Query 心智模型学习。
 
 ### 独立任务
 
-为详情页状态更新写一份失败测试，并列出需要同步的 list、board、detail cache。暂时不实现复杂
-并发策略，但说明两个 mutation 交错时旧快照可能覆盖新成功值。
+为普通保存按钮写成功和失败测试。失败后再次点击并成功，证明组件不是进入永久 disabled。
+最后列出如果未来加入乐观更新，还必须解决的 cache identity、rollback 和并发问题。
 
 ### 验收证据
 
-- [ ] mutation variables 和 context 没有隐式 any。
-- [ ] 500 测试包含 optimistic、rollback、toast、invalidate。
+- [ ] save 参数、返回 Promise 和错误状态没有隐式 any。
+- [ ] 500 测试包含 pending、恢复可用、错误与重试成功。
 - [ ] 错误显示来自 ApiError/ContractError 的受控信息。
-- [ ] 能说明缓存泛型与网络 decoder 是两层保护。
+- [ ] 能说明为什么乐观缓存需要额外快照和并发设计。
 
 ---
 
@@ -350,6 +370,8 @@ const variables: MoveIssueVariables = {
 ### 今日目标
 
 独立交付一个小型 React 功能，从领域类型、边界解析到可访问交互和失败测试全部闭环。
+
+当天工作区：`npm run exercise:react -- 56`。
 
 ### 完整 120 分钟
 
@@ -364,16 +386,19 @@ const variables: MoveIssueVariables = {
 
 ### 周交付物
 
-推荐切片：“在 Issue 详情中安全修改状态”。必须包含：
+推荐切片：“使用注入的 async save callback 安全修改状态”。本周先在隔离 workbench 完成，
+不直接改 Query cache。必须包含：
 
 1. 最小 Props Contract；
 2. DOM string 经 `isIssueStatus` 后进入 mutation；
 3. pending 状态禁用重复提交；
 4. success 显示确认；
-5. 500 时 rollback 并显示错误；
+5. 500 时保持原值、恢复可用并显示错误；
 6. forged `blocked` 不触发请求；
 7. 键盘可操作且 label/accessible name 明确；
 8. 至少一个编译期负例、一个 parser unit test、三个组件行为测试。
+
+第 10 周再把同一组件接入 TanStack Query，并增加 optimistic、snapshot、rollback 和并发证据。
 
 也可以选择评论新增或负责人选择，但不得同时扩大到多个页面。
 
@@ -388,6 +413,12 @@ const variables: MoveIssueVariables = {
 - [ ] `npm run typecheck`、相关 Vitest 和目标 E2E 通过。
 
 未过关时先缩小组件职责，不要通过把 Props/State 改成 object、string 或 any 消除诊断。
+
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="8" />
+</ClientOnly>
 
 [上一周：运行时边界与 Wire Contract](week-07-typescript-runtime-contracts.md) ·
 [下一周：Router、认证与可访问表单](week-09-routing-forms-a11y.md) ·

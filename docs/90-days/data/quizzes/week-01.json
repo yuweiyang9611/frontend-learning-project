@@ -1,0 +1,48 @@
+{
+  "week": 1,
+  "title": "浏览器、HTTP、Git 与项目地图",
+  "reviewPrompt": "从一次登录按钮点击开始，闭卷讲清浏览器、React、API、存储和响应如何串起来，并指出你会在哪三处收集证据。",
+  "rubric": [
+    "包含 URL、HTTP method/status 与 Network 证据",
+    "区分 local、同源 API 和 .NET 数据模式",
+    "说明一次最小 Git diff 如何隔离实验"
+  ],
+  "questions": [
+    {
+      "id": "w01-q01",
+      "prompt": "页面显示了数据，最先用什么证据确认数据来自哪种模式？",
+      "choices": [
+        "看页面配色",
+        "检查环境配置与 Network 请求",
+        "假定来自数据库"
+      ],
+      "correctIndex": 1,
+      "explanation": "可见结果不能证明数据来源；环境配置、请求 URL 和响应才是可复查证据。",
+      "remediation": "/90-days/week-01-foundations.html#day-04"
+    },
+    {
+      "id": "w01-q02",
+      "prompt": "Fetch 收到 HTTP 500 时通常会怎样？",
+      "choices": [
+        "Promise 必然 rejected",
+        "Promise fulfilled，但 response.ok 为 false",
+        "浏览器自动重试"
+      ],
+      "correctIndex": 1,
+      "explanation": "Fetch 主要在网络失败时 reject；HTTP 错误仍需检查 status/ok。",
+      "remediation": "/90-days/week-01-foundations.html#day-05"
+    },
+    {
+      "id": "w01-q03",
+      "prompt": "学习实验最合适的提交是什么？",
+      "choices": [
+        "包含多个无关重构的大提交",
+        "能说明一个假设和一个结果的小提交",
+        "只保存最终截图而不保留 diff"
+      ],
+      "correctIndex": 1,
+      "explanation": "小而聚焦的 diff 才能把行为变化与原因对应起来。",
+      "remediation": "/90-days/week-01-foundations.html#day-06"
+    }
+  ]
+}

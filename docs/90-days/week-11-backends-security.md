@@ -414,54 +414,68 @@ file input
 ### 120 分钟任务
 
 - **0–15：**闭卷画出 React 到两种真实后端及各自存储的拓扑。
-- **15–45：**运行课程提供的可切换 Base URL/Adapter 黑盒 suite，确认两个隔离 fixture 正常。
-- **45–65：**独立实现或修复 4 个指定 case；其余 14 个作为可运行 oracle，不要求从零重写。
-- **65–90：**归类结果，复现至少五项已知差异并写产品决定。
-- **90–108：**运行后端、前端相关测试与质量门，确认隔离数据已清理。
-- **108–120：**完成对照报告、自评和进入测试工程周的风险清单。
+- **15–35：**阅读共享 JSON corpus，逐项预测当前 18 个 case 的请求与结果。
+- **35–65：**运行统一 HTTP harness，依次验证 Next 同源 API 与 .NET/SQLite。
+- **65–85：**阅读标准化 JSON 报告，区分“符合预期”和“两后端 parity”。
+- **85–105：**分别运行 Playwright 与 xUnit 快速消费者，确认它们仍读取同一 corpus。
+- **105–120：**记录覆盖边界、差异与进入测试工程周的风险清单。
 
 ### 独立任务
 
-关闭后端专题文档，只保留共享 suite。从两个干净、隔离的 fixture 启动 .NET 与同源
-实现，独立实现或修复 4 个 case，并运行登录、列表、创建、PATCH 三态、删除、错误和上传
-全部 18 个核心 case。遇到差异时先用
-原始 request/response 归类，再定位源码；不得通过在测试中判断后端名称来跳过失败。结束后
-证明数据库记录、Cookie 日志和临时附件均已按隔离策略处理。
+关闭后端专题文档，只保留共享 corpus。先逐项写下预测，再运行：
+
+```bash
+cd frontend
+npm run test:contract:corpus
+npm run test:contract:consumers
+npm run test:contract:dual
+```
+
+`test:contract:dual` 会构建应用，在 loopback 依次启动 Next 同源预览与使用临时 SQLite/
+附件目录的 .NET API；同一个 HTTP runner 对两边发送相同请求。默认拒绝向非 loopback URL
+执行写入 case。W03 的创建资源和登录 session 都有显式清理，测试结果写入
+`frontend/test-results/contracts/http-parity.json`。
+
+遇到失败时先用报告中的 status、media type、JSON kind、required paths 与 cleanup 结果定位，
+再回到原始 request/response 和源码。不得按后端名称跳过 case，也不得只比较“两个结果是否
+相同”：两边以相同方式返回错误仍然不符合产品 Contract。
 
 ### 可运行交付物
 
-同一组课程支架用例必须能针对 .NET/SQLite 与同源 D1/R2 执行。允许 Adapter 处理 Base URL、
-登录和 fixture reset，但业务断言不能复制成两套互不相关的测试。Day 71–76 已逐步启用
-这些 case；Day 77 负责运行全部 18 项并独立扩展 4 项：
+真实 corpus 位于 `contracts/issueflow/v1/http-cases.json`，固定为以下 18 项。HTTP harness、
+Playwright 和 xUnit 都消费这个文件；环境 Adapter 只处理 Base URL、Cookie 与清理，业务预期
+只有一份。
 
 #### 读取 6 项
 
-1. 默认列表与分页 envelope；
-2. page/pageSize 边界；
-3. search 标题、描述和 key；
-4. status/priority/assignee 筛选；
-5. sort direction 与稳定 tie-break；
-6. 已知/未知 ID 及子资源读取。
+1. **R01：**健康检查返回 JSON；
+2. **R02：**默认列表返回分页 envelope；
+3. **R03：**成员列表返回数组；
+4. **R04：**未知 Issue 返回 Problem Details；
+5. **R05：**非法 page/pageSize/status 返回字段化 400；
+6. **R06：**已知 Issue 保持共享 wire shape。
 
 #### 写入 6 项
 
-1. 匿名写入；
-2. 合法 create、201 与 Location；
-3. 空/过长/重复 title；
-4. PATCH omitted/null/value 与空 PATCH；
-5. comment 空 body 与合法 comment；
-6. delete 204 及删除后读取。
+1. **W01：**匿名创建返回结构化 401；
+2. **W02：**演示账号可以登录；
+3. **W03：**合法 Issue 返回 201 和共享字段，随后声明式删除；
+4. **W04：**空标题返回字段错误；
+5. **W05：**未知枚举返回 400；
+6. **W06：**不存在的 DateOnly 日期返回 400。
 
-#### Wire、安全与上传 6 项
+#### 请求边界与错误 6 项
 
-1. camelCase 与 string enum；
-2. safe integer ID；
-3. DateOnly 与带 offset instant；
-4. Problem Details/FieldErrors；
-5. 204 empty body；
-6. 合法、过大、伪造上传及失败清理。
+1. **S01：**畸形 JSON 返回 400 而不是 500；
+2. **S02：**`null` body 返回 400；
+3. **S03：**数组 body 返回 400；
+4. **S04：**标量 body 返回 400；
+5. **S05：**更新未知 Issue 返回 404；
+6. **S06：**空评论返回 400。
 
-如果某实现暂时不支持同样 fixture，测试应明确标记能力和原因，不能悄悄跳过或改成永远通过。
+这 18 项没有覆盖 search 全矩阵、筛选/排序、PATCH omitted/null/value、重复或过长标题、
+成功评论、完整 delete lifecycle、上传内容验证与跨存储失败清理。它们仍属于 Day 71–76
+的定向测试和后续扩展，不能写进“18 项已自动验证”的结论。
 
 ### 差异报告
 
@@ -480,8 +494,10 @@ file input
 - Regression tests:
 ```
 
-至少复现并处理文档列出的五项：非法 query、search 范围、空 PATCH、非 nullable null、tags
-规范化；上传验证差异作为第六项加分但不能被隐藏。
+标准报告先检查每个后端是否满足共享预期，再比较两份归一化观察结果。若 parity mismatch 为
+零，只能说明这 18 个观察点一致，不能推出所有行为完全等价。Day 74 的 search 范围、空
+PATCH、非 nullable null、tags 规范化与上传差异应继续放在定向差异报告，不能伪装成 corpus
+已经覆盖。
 
 ### 周交付证据
 
@@ -490,24 +506,31 @@ file input
 - schema/关系图与 SQL 稳定分页记录；
 - Cookie/CORS/Problem Details 矩阵；
 - 上传威胁模型与清理测试；
-- 18 项 suite 的两后端结果；
+- 18 项 suite 的两后端标准化结果、corpus SHA-256 与 parity 结果；
 - 差异报告、产品决定、测试输出和隔离数据清理记录。
 
 ### 严格通过标准
 
 - 能通过 Network、进程和存储同时证明当前后端；
-- Suite 真正复用业务用例，只把环境差异放进 Adapter；
-- 至少 18 项核心 case 有可检查结果，不以手工“看起来正常”代替；
+- HTTP harness 对两个 loopback 后端复用同一 corpus 和断言，只把启动、Base URL 与存储放进 Adapter；
+- 两个后端各有 18 项可检查结果，所有 case 符合预期且 parity 无未解释 mismatch；
+- 能准确说出当前 18 项未覆盖的行为，不把局部 parity 宣称为完整等价；
 - 所有差异均分类并有产品决定，不声称两后端完全等价；
 - 前端 Screen 不出现按后端名称分支或解析专属错误字符串；
-- 未认证写入为结构化 401，PATCH 三态和 204 空 body 有测试；
-- 上传测试同时检查 HTTP、数据库记录和物理/对象存储结果；
-- 所有破坏实验使用隔离 fixture，结束后无残留测试数据与文件；
+- 未认证写入为结构化 401，W03 创建资源与 session cleanup 通过；
+- PATCH 三态、完整 delete lifecycle 与上传仍由 Day 71–76 的定向测试提供证据；
+- .NET 使用临时存储；同源写入使用唯一数据并执行声明式清理；
 - `dotnet test IssueFlow.slnx`、相关前端测试、typecheck 与 lint 通过；
 - 任一安全、隔离或 Contract 项失败，都不能进入第 12 周。
 
 最后完成 [W11 阶段检查点](assessments.md#w11-检查点能否跨越前后端契约与安全边界)
 和 [预约系统迁移题](transfer-tasks.md#w11预约系统-contract)，证明结论不是对 IssueFlow 用例的记忆。
+
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="11" />
+</ClientOnly>
 
 [上一周：Query 与服务端状态](week-10-query-server-state.md) ·
 [下一周：测试、调试、CI 与部署](week-12-testing-debugging-ci.md) ·

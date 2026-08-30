@@ -1,0 +1,48 @@
+{
+  "week": 3,
+  "title": "CSS、布局与响应式",
+  "reviewPrompt": "面对一个窄屏溢出问题，说明你如何从盒模型、容器、Grid/Flex 最小尺寸和断点逐步定位，而不是先加随机 media query。",
+  "rubric": [
+    "先用 DevTools 找到首个溢出元素",
+    "区分内容驱动布局与固定像素",
+    "同时检查键盘焦点和缩放"
+  ],
+  "questions": [
+    {
+      "id": "w03-q01",
+      "prompt": "Grid 子项把容器撑宽时常见的最小修复是什么？",
+      "choices": [
+        "给所有元素 overflow:hidden",
+        "检查 min-width:0 或 minmax(0,1fr)",
+        "把页面缩放到 80%"
+      ],
+      "correctIndex": 1,
+      "explanation": "Grid/Flex 子项默认最小内容尺寸可能阻止收缩，应先修正布局约束。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-18"
+    },
+    {
+      "id": "w03-q02",
+      "prompt": "响应式断点应主要根据什么决定？",
+      "choices": [
+        "某款手机名称",
+        "内容何时失去可读性或可操作性",
+        "框架默认值且不能调整"
+      ],
+      "correctIndex": 1,
+      "explanation": "断点服务于内容和交互，不应绑定具体设备型号。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-19"
+    },
+    {
+      "id": "w03-q03",
+      "prompt": "为什么不能移除 focus outline 而不提供替代？",
+      "choices": [
+        "会让 CSS 文件变大",
+        "键盘用户失去当前位置反馈",
+        "鼠标点击会失效"
+      ],
+      "correctIndex": 1,
+      "explanation": "可见焦点是键盘导航的核心状态信号。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-20"
+    }
+  ]
+}

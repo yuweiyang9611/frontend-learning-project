@@ -38,11 +38,12 @@
 在仓库根目录执行：
 
 ```powershell
-node --version
-npm --version
-dotnet --version
+npm run learn:check -- --day 01
 git status --short
 ```
+
+此时 Node、npm 和 Git 是硬门槛；.NET SDK 10 缺失只显示 `WARN`。若已安装可以额外记录
+`dotnet --version`，若未安装则写下第 10 周结束前的安装日期，不要让后端工具阻断第一周。
 
 进入前端目录后执行：
 
@@ -62,7 +63,7 @@ npm run dev
 
 ### 当日证据
 
-- Node、npm、.NET 和 Git 版本；
+- Node、npm 和 Git 版本；若已有 .NET 则记录版本，否则保留 `WARN` 与 Day 71 前安装计划；
 - 正确启动命令及工作目录；
 - 登录后经过的三个页面；
 - 错误目录实验的原始错误和你的解释。
@@ -346,6 +347,12 @@ localStorage key，解释“刷新”“重启服务器”“清浏览器存储�
 - 请求链路图没有把前端 Route Guard 当成后端授权；
 - 故障记录包含证据，而不是“重启后好了”；
 - 未通过时，先重复 Day 03、04 或 06 的独立变体，再进入第 2 周。
+
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="1" />
+</ClientOnly>
 
 [下一周：语义 HTML 与可访问性](week-02-html-accessibility.md) ·
 [返回 91 天课程总览](./)

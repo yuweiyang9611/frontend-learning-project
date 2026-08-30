@@ -1,0 +1,48 @@
+{
+  "week": 4,
+  "title": "JavaScript、DOM 与异步",
+  "reviewPrompt": "解释一次搜索输入如何经过事件、状态、异步请求和 DOM 更新；再说明旧请求晚到时可能出现什么竞态。",
+  "rubric": [
+    "区分同步调用栈、microtask 和浏览器事件",
+    "说明事件委托或监听器清理",
+    "给出 AbortSignal 或请求身份等竞态控制"
+  ],
+  "questions": [
+    {
+      "id": "w04-q01",
+      "prompt": "Promise.then 回调通常在何时执行？",
+      "choices": [
+        "当前同步调用栈之前",
+        "当前同步调用栈清空后的 microtask 阶段",
+        "只能在下一次页面刷新"
+      ],
+      "correctIndex": 1,
+      "explanation": "Promise reaction 进入 microtask queue，在当前同步任务结束后运行。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-25"
+    },
+    {
+      "id": "w04-q02",
+      "prompt": "事件委托依赖什么？",
+      "choices": [
+        "事件冒泡和对目标的可靠判断",
+        "每个子元素都注册相同监听器",
+        "全局变量保存最后一次点击"
+      ],
+      "correctIndex": 0,
+      "explanation": "监听父级并通过 target/closest 判断来源，可以处理动态子项。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-24"
+    },
+    {
+      "id": "w04-q03",
+      "prompt": "较旧搜索请求最后返回，最安全的基本策略是什么？",
+      "choices": [
+        "永远采用最后到达的响应",
+        "取消旧请求或验证请求身份后再更新",
+        "增加固定 sleep"
+      ],
+      "correctIndex": 1,
+      "explanation": "到达顺序不等于意图顺序，需要取消或身份校验。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-27"
+    }
+  ]
+}

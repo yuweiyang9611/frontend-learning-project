@@ -9,7 +9,7 @@
   "scripts": {
     "docs:dev": "vitepress dev docs --host 127.0.0.1",
     "docs:build": "npm run docs:check-curriculum && npm run docs:check-policy && vitepress build docs && node scripts/check-doc-site-links.mjs",
-    "docs:check-curriculum": "node scripts/check-curriculum.mjs && node scripts/check-assessment-order.mjs && node scripts/check-daily-acceptance.mjs && node scripts/check-ts-exercises.mjs && node scripts/check-contract-corpus.mjs",
+    "docs:check-curriculum": "node scripts/check-curriculum.mjs && node scripts/check-assessment-order.mjs && node scripts/check-daily-acceptance.mjs && node scripts/check-ts-exercises.mjs && node scripts/check-contract-corpus.mjs && node scripts/check-review-bank.mjs",
     "docs:check-links": "node scripts/check-doc-site-links.mjs",
     "docs:check-policy": "node scripts/check-doc-search-boundaries.mjs && node scripts/check-doc-assets.mjs",
     "docs:preview": "vitepress preview docs --host 127.0.0.1",

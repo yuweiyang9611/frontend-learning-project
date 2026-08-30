@@ -3,32 +3,15 @@
     "day": 36,
     "source": "week-06-typescript-modeling-generics.md#day-36",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "typescript.modeling"
-    ],
+    "requiresConcepts": ["typescript.modeling"],
     "starter": "frontend/exercises/typescript",
-    "checks": [
-      {
-        "id": "D36-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "exercise:verify",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "typescript-workbench",
+    "exerciseId": "B08",
     "evidence": [
       {
         "id": "D36-E1",
         "pathTemplate": "learning-evidence/day-36/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D36-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -36,32 +19,15 @@
     "day": 37,
     "source": "week-06-typescript-modeling-generics.md#day-37",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "typescript.modeling"
-    ],
+    "requiresConcepts": ["typescript.modeling"],
     "starter": "frontend/exercises/typescript",
-    "checks": [
-      {
-        "id": "D37-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "exercise:verify",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "typescript-workbench",
+    "exerciseId": "B09",
     "evidence": [
       {
         "id": "D37-E1",
         "pathTemplate": "learning-evidence/day-37/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D37-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -69,32 +35,15 @@
     "day": 38,
     "source": "week-06-typescript-modeling-generics.md#day-38",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "typescript.modeling"
-    ],
+    "requiresConcepts": ["typescript.modeling"],
     "starter": "frontend/exercises/typescript",
-    "checks": [
-      {
-        "id": "D38-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "exercise:verify",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "typescript-workbench",
+    "exerciseId": "A01",
     "evidence": [
       {
         "id": "D38-E1",
         "pathTemplate": "learning-evidence/day-38/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D38-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -102,32 +51,15 @@
     "day": 39,
     "source": "week-06-typescript-modeling-generics.md#day-39",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "typescript.modeling"
-    ],
+    "requiresConcepts": ["typescript.modeling"],
     "starter": "frontend/exercises/typescript",
-    "checks": [
-      {
-        "id": "D39-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "exercise:verify",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "typescript-workbench",
+    "exerciseId": "A02",
     "evidence": [
       {
         "id": "D39-E1",
         "pathTemplate": "learning-evidence/day-39/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D39-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -135,32 +67,15 @@
     "day": 40,
     "source": "week-06-typescript-modeling-generics.md#day-40",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "typescript.modeling"
-    ],
+    "requiresConcepts": ["typescript.modeling"],
     "starter": "frontend/exercises/typescript",
-    "checks": [
-      {
-        "id": "D40-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "exercise:verify",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "typescript-workbench",
+    "exerciseId": "A03",
     "evidence": [
       {
         "id": "D40-E1",
         "pathTemplate": "learning-evidence/day-40/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D40-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -168,32 +83,15 @@
     "day": 41,
     "source": "week-06-typescript-modeling-generics.md#day-41",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "typescript.modeling"
-    ],
+    "requiresConcepts": ["typescript.modeling"],
     "starter": "frontend/exercises/typescript",
-    "checks": [
-      {
-        "id": "D41-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "exercise:verify",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "typescript-workbench",
+    "exerciseId": "A04",
     "evidence": [
       {
         "id": "D41-E1",
         "pathTemplate": "learning-evidence/day-41/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D41-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -201,16 +99,17 @@
     "day": 42,
     "source": "week-06-typescript-modeling-generics.md#day-42",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "typescript.modeling"
-    ],
+    "requiresConcepts": ["typescript.modeling"],
     "starter": "frontend/exercises/typescript",
-    "checks": [
+    "acceptanceProfile": "typescript-workbench",
+    "exerciseId": "A05",
+    "additionalChecks": [
       {
-        "id": "D42-A1",
+        "id": "D42-A2",
         "kind": "npm-script",
         "project": "frontend",
-        "script": "exercise:verify",
+        "script": "typecheck",
+        "target": "frontend/tsconfig.json",
         "expectedExit": 0
       }
     ],
@@ -218,15 +117,7 @@
       {
         "id": "D42-E1",
         "pathTemplate": "learning-evidence/day-42/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D42-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   }

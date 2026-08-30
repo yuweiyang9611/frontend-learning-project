@@ -298,6 +298,12 @@ Fetch 只在网络层失败时 reject；HTTP 404/500 仍需要检查 `response.o
 - 网络失败可重试且不丢当前筛选；
 - 能指出进入 TypeScript 后最希望编译器阻止的三类错误。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="4" />
+</ClientOnly>
+
 [上一周：CSS 与响应式](week-03-css-responsive.md) ·
 [下一周：TypeScript 基础](week-05-typescript-foundations.md) ·
 [返回课程总览](./)
