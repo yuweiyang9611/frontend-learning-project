@@ -412,6 +412,12 @@ const labels: Record<IssueStatus, string> = {
 
 未过关时，优先重做 Day 38～41；不要通过放宽为 string、object 或 any 继续下一周。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="6" />
+</ClientOnly>
+
 [上一周：TypeScript 基础](week-05-typescript-foundations.md) ·
 [下一周：运行时边界与 Wire Contract](week-07-typescript-runtime-contracts.md) ·
 [返回课程总览](./)

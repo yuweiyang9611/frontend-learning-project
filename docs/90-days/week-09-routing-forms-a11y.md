@@ -432,6 +432,12 @@ URL、焦点和可见状态。中途失败时先写出假设和证据，再回�
 - 相关测试、`npm run typecheck`、`npm run lint` 通过；
 - 任一关键项失败，都不能进入第 10 周，应回到对应日课修复并重测。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="9" />
+</ClientOnly>
+
 [上一周：React 组件、状态与 Effect](week-08-react-typescript.md) ·
 [下一周：Query 与服务端状态](week-10-query-server-state.md) ·
 [返回课程总览](./)

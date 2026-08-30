@@ -1,0 +1,48 @@
+{
+  "week": 10,
+  "title": "TanStack Query、缓存与乐观更新",
+  "reviewPrompt": "画出一次状态 mutation 的 query key、cancel、snapshot、optimistic update、rollback、invalidate 时间线，并指出并发风险。",
+  "rubric": [
+    "query key 包含所有影响结果的输入",
+    "失败恢复使用精确快照",
+    "说明较晚失败覆盖较新成功的风险"
+  ],
+  "questions": [
+    {
+      "id": "w10-q01",
+      "prompt": "查询结果依赖 status 和 page 时，query key 应怎样设计？",
+      "choices": [
+        "只写 issues",
+        "包含 status、page 等全部结果输入",
+        "每次使用随机数"
+      ],
+      "correctIndex": 1,
+      "explanation": "缓存身份必须包含所有会改变响应的稳定输入。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-65"
+    },
+    {
+      "id": "w10-q02",
+      "prompt": "乐观更新前为什么先 cancel 相关 query？",
+      "choices": [
+        "减少 TypeScript 类型数量",
+        "避免进行中的响应覆盖乐观状态",
+        "阻止用户点击"
+      ],
+      "correctIndex": 1,
+      "explanation": "旧请求可能在乐观写入后返回并覆盖缓存。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-69"
+    },
+    {
+      "id": "w10-q03",
+      "prompt": "mutation 失败时最可靠的恢复依据是什么？",
+      "choices": [
+        "重新猜测旧值",
+        "onMutate 保存的精确缓存快照",
+        "刷新整个浏览器"
+      ],
+      "correctIndex": 1,
+      "explanation": "typed snapshot 让 rollback 恢复到此次 mutation 前的已知状态。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-69"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "week": 6,
+  "title": "联合类型、泛型与领域建模",
+  "reviewPrompt": "为 Issue 状态更新设计一个最小泛型或判别联合，并证明一个合法调用和两个非法调用为什么被拒绝。",
+  "rubric": [
+    "保留 key 与 value 的相关性",
+    "使用稳定 discriminant 和穷尽检查",
+    "说明类型工具不能替代运行时验证"
+  ],
+  "questions": [
+    {
+      "id": "w06-q01",
+      "prompt": "类型安全字段更新器的 value 应写成什么？",
+      "choices": ["unknown", "T[keyof T]", "T[K]，其中 K extends keyof T"],
+      "correctIndex": 2,
+      "explanation": "T[K] 保留具体 key 与对应 value 类型的关系。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-39"
+    },
+    {
+      "id": "w06-q02",
+      "prompt": "判别联合的 exhaustiveness 通常怎样检查？",
+      "choices": [
+        "default 返回空字符串",
+        "在遗漏分支把值交给 never/assertNever",
+        "把 discriminant 改成 string"
+      ],
+      "correctIndex": 1,
+      "explanation": "never 能让新增成员在未处理时产生编译错误。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-38"
+    },
+    {
+      "id": "w06-q03",
+      "prompt": "`Partial<IssueInput>` 对 PATCH 有什么盲点？",
+      "choices": [
+        "禁止所有字段",
+        "仍允许空对象，且未表达至少一个字段",
+        "自动验证 JSON"
+      ],
+      "correctIndex": 1,
+      "explanation": "Partial 只改变可选性；至少一项和运行时规则需要额外建模。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-41"
+    }
+  ]
+}

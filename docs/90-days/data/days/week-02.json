@@ -3,32 +3,14 @@
     "day": 8,
     "source": "week-02-html-accessibility.md#day-08",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "html.semantic"
-    ],
+    "requiresConcepts": ["html.semantic"],
     "starter": "labs/web-foundations/snapshots/day-08",
-    "checks": [
-      {
-        "id": "D08-A1",
-        "kind": "npm-script",
-        "project": "root",
-        "script": "learn:test:web",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "web-workspace",
     "evidence": [
       {
         "id": "D08-E1",
         "pathTemplate": "learning-evidence/day-08/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D08-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -36,32 +18,14 @@
     "day": 9,
     "source": "week-02-html-accessibility.md#day-09",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "html.semantic"
-    ],
+    "requiresConcepts": ["html.semantic"],
     "starter": "labs/web-foundations/snapshots/day-08",
-    "checks": [
-      {
-        "id": "D09-A1",
-        "kind": "npm-script",
-        "project": "root",
-        "script": "learn:test:web",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "web-workspace",
     "evidence": [
       {
         "id": "D09-E1",
         "pathTemplate": "learning-evidence/day-09/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D09-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -69,32 +33,14 @@
     "day": 10,
     "source": "week-02-html-accessibility.md#day-10",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "html.semantic"
-    ],
+    "requiresConcepts": ["html.semantic"],
     "starter": "labs/web-foundations/snapshots/day-08",
-    "checks": [
-      {
-        "id": "D10-A1",
-        "kind": "npm-script",
-        "project": "root",
-        "script": "learn:test:web",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "web-workspace",
     "evidence": [
       {
         "id": "D10-E1",
         "pathTemplate": "learning-evidence/day-10/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D10-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -102,32 +48,14 @@
     "day": 11,
     "source": "week-02-html-accessibility.md#day-11",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "html.semantic"
-    ],
+    "requiresConcepts": ["html.semantic"],
     "starter": "labs/web-foundations/snapshots/day-08",
-    "checks": [
-      {
-        "id": "D11-A1",
-        "kind": "npm-script",
-        "project": "root",
-        "script": "learn:test:web",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "web-workspace",
     "evidence": [
       {
         "id": "D11-E1",
         "pathTemplate": "learning-evidence/day-11/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D11-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -135,32 +63,14 @@
     "day": 12,
     "source": "week-02-html-accessibility.md#day-12",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "html.semantic"
-    ],
+    "requiresConcepts": ["html.semantic"],
     "starter": "labs/web-foundations/snapshots/day-08",
-    "checks": [
-      {
-        "id": "D12-A1",
-        "kind": "npm-script",
-        "project": "root",
-        "script": "learn:test:web",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "web-workspace",
     "evidence": [
       {
         "id": "D12-E1",
         "pathTemplate": "learning-evidence/day-12/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D12-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -168,32 +78,14 @@
     "day": 13,
     "source": "week-02-html-accessibility.md#day-13",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "html.semantic"
-    ],
+    "requiresConcepts": ["html.semantic"],
     "starter": "labs/web-foundations/snapshots/day-08",
-    "checks": [
-      {
-        "id": "D13-A1",
-        "kind": "npm-script",
-        "project": "root",
-        "script": "learn:test:web",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "web-workspace",
     "evidence": [
       {
         "id": "D13-E1",
         "pathTemplate": "learning-evidence/day-13/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D13-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -201,32 +93,14 @@
     "day": 14,
     "source": "week-02-html-accessibility.md#day-14",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "html.semantic"
-    ],
+    "requiresConcepts": ["html.semantic"],
     "starter": "labs/web-foundations/snapshots/day-08",
-    "checks": [
-      {
-        "id": "D14-A1",
-        "kind": "npm-script",
-        "project": "root",
-        "script": "learn:test:web",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "web-workspace",
     "evidence": [
       {
         "id": "D14-E1",
         "pathTemplate": "learning-evidence/day-14/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D14-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   }

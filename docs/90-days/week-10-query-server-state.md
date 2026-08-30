@@ -441,6 +441,12 @@ key、缓存写入、失效和回滚路径。
 完成质量命令后，使用 [W10 阶段检查点](assessments.md#w10-检查点能否管理服务端状态与并发恢复)
 和 [阅读清单迁移题](transfer-tasks.md#w10阅读清单-query) 验证你能否离开 IssueFlow 复现同样能力。
 
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="10" />
+</ClientOnly>
+
 [上一周：Router、表单与无障碍](week-09-routing-forms-a11y.md) ·
 [下一周：双后端与安全边界](week-11-backends-security.md) ·
 [返回课程总览](./)

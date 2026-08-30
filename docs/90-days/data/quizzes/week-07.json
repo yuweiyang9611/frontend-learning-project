@@ -1,0 +1,44 @@
+{
+  "week": 7,
+  "title": "运行时边界与 Wire Contract",
+  "reviewPrompt": "拿一个 HTTP 响应，从 unknown 开始说明 decode、domain validation、错误路径和 UI 分类的边界。",
+  "rubric": [
+    "先验证 shape 再构造领域值",
+    "区分 omitted、null、undefined",
+    "错误包含可定位路径且不泄露内部信息"
+  ],
+  "questions": [
+    {
+      "id": "w07-q01",
+      "prompt": "为什么 `request<Issue>()` 不能证明响应真是 Issue？",
+      "choices": [
+        "泛型在运行时不会自动验证 JSON",
+        "浏览器不支持 TypeScript",
+        "HTTP 只能返回字符串"
+      ],
+      "correctIndex": 0,
+      "explanation": "泛型是调用者声明，编译后被擦除，外部数据仍需 decoder。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-44"
+    },
+    {
+      "id": "w07-q02",
+      "prompt": "DateOnly 最安全的基本策略是什么？",
+      "choices": [
+        "直接转成本地 Date 再格式化",
+        "验证 YYYY-MM-DD 及真实日历有效性，保持日历日语义",
+        "假定服务器永远正确"
+      ],
+      "correctIndex": 1,
+      "explanation": "日历日不等同于时间点，自动时区转换会改变日期。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-46"
+    },
+    {
+      "id": "w07-q03",
+      "prompt": "数组 decoder 遇到第 2 项错误时，最有用的报告是什么？",
+      "choices": ["invalid", "$[1].status 等索引化路径", "静默过滤错误项"],
+      "correctIndex": 1,
+      "explanation": "路径化错误能定位 wire contract 的第一处具体差异。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-48"
+    }
+  ]
+}

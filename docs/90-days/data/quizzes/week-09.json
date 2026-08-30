@@ -1,0 +1,40 @@
+{
+  "week": 9,
+  "title": "Router、URL、表单与无障碍",
+  "reviewPrompt": "设计一个可分享的 Issues 筛选 URL，并说明刷新、前进后退、非法 query、表单错误和焦点恢复如何验证。",
+  "rubric": [
+    "URL 是可分享状态的单一来源",
+    "非法值有明确规范化策略",
+    "提交错误后焦点和错误关联可感知"
+  ],
+  "questions": [
+    {
+      "id": "w09-q01",
+      "prompt": "搜索和筛选需要可分享、可前进后退时，主要状态应放在哪里？",
+      "choices": ["仅组件 local state", "URL query", "模块级变量"],
+      "correctIndex": 1,
+      "explanation": "URL 能表达导航历史、刷新恢复和可分享状态。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-59"
+    },
+    {
+      "id": "w09-q02",
+      "prompt": "受保护页面收到未认证状态时应避免什么？",
+      "choices": [
+        "保留目标路径用于登录后返回",
+        "出现受保护内容闪烁后再跳转",
+        "显示明确加载状态"
+      ],
+      "correctIndex": 1,
+      "explanation": "在身份未知时渲染受保护内容会造成错误泄露和视觉闪烁。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-61"
+    },
+    {
+      "id": "w09-q03",
+      "prompt": "Modal 关闭后焦点通常应去哪里？",
+      "choices": ["document.body", "触发打开 Modal 的控件", "浏览器地址栏"],
+      "correctIndex": 1,
+      "explanation": "恢复到触发控件能维持键盘用户的任务上下文。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63"
+    }
+  ]
+}

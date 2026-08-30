@@ -25,6 +25,25 @@
 
 建议使用正计时器，而不是从 120 分钟倒计时。开始主动任务时启动，进入纯等待时暂停。等待期间若转去阅读日志、完善契约表或写复盘，可以重新开始计时，并在日记中记录做了什么。
 
+### “每天 2 小时”与墙钟时间
+
+课程承诺的是每天 **120 分钟主动学习**，不是所有 Day 都能在 120 分钟墙钟内完成。首次安装、
+Playwright 浏览器下载、双后端启动、CI 排队和完整构建可能额外占用 20–60 分钟。课程清单会把
+这些重日标为 `setupBufferMinutes`，这部分不计入主动学习，但必须提前安排。
+
+如果当天只有严格的两小时墙钟，使用以下停点：
+
+| 重日 | 两小时墙钟内必须完成 | 可顺延但不能伪装完成 |
+| ---- | -------------------- | -------------------- |
+| Day 01 | Node/npm/Git、仓库和第一个静态实验 | .NET SDK 可到 Day 71 前补齐 |
+| Day 77 | 两后端各跑现有 18-case corpus、定位第一处 mismatch | Playwright/xUnit 消费者与完整差异报告 |
+| Day 80 | 安装后跑一条 Chromium 关键旅程 | Firefox/WebKit 扩展矩阵 |
+| Day 83 | 本地按 CI 顺序找到第一处失败 | 远端 runner 排队与 artifact 下载 |
+| Day 90 | 目标 typecheck、单测和一条关键 E2E | 全量矩阵与视频整理 |
+
+到达停点时记录“部分完成”和下一步，不勾选 Day。可以在下一学习块继续累计主动分钟；不要把
+安装等待算作学习，也不要为了守住日历数字删掉测试层。
+
 ### 推荐的零基础节奏
 
 每一天即使时间表略有不同，也可以用以下节奏理解：
@@ -61,6 +80,34 @@
 
 - 机器证据：测试输出、类型检查、HTTP 响应、截图或 trace；
 - 解释证据：3–5 句说明数据如何流动、为什么这样实现、还剩什么风险。
+
+Day 01–70 在仓库根运行 `npm run learn:day -- NN`。验收器不会再用一条全量测试冒充每天都
+完成：它会按 manifest 选择当天的 learner workspace、TypeScript/React workbench 或行为测试，
+并从当天日课直接读取“独立任务”和“通过标准”。第一次运行会创建
+`learning-evidence/day-NN/artifact.md` 并故意保持红灯；填写“当日产物、边界实验、机器验证、
+解释与风险”四节后再运行，模板中的 `TODO` 或空泛短句不能通过结构检查。
+
+Day 57–70 的测试文件固定为
+`frontend/src/learning/day-NN.acceptance.test.tsx`。这不是仓库预先给好的绿色测试：当天必须
+自己创建它，用用户可见行为或数据边界证明日课要求。验收报告仍把人工项标为
+`pendingReview`，只有对照日课标准完成复核后才能勾选当天。
+
+后续日课也使用可预测的当日产物：
+
+- Day 71–76 与 82：分别创建
+  `frontend/contract-tests/learning/day-NN.acceptance.test.ts` 和
+  `backend/IssueFlow.Api.Tests/Learning/DayNNAcceptanceTests.cs`；xUnit 类或方法名包含
+  `DayNNAcceptance`，runner 只筛选当天测试；
+- Day 77：运行统一的 `test:contract:dual` HTTP parity harness；
+- Day 78、79、81、86–89：继续使用
+  `frontend/src/learning/day-NN.acceptance.test.tsx`；
+- Day 80 与 90：创建 `frontend/e2e/learning/day-NN.acceptance.spec.ts`；
+- Day 83：创建 `.github/workflows/day-83-learning-ci.yml`，明确只读权限与本地等价命令；
+- Day 84、85、91：分别交付 `quality-gate.md`、`project-charter.md`、
+  `evidence-index.md`，具体路径由首次 runner 的失败信息给出。
+
+这些文件不是为了重复产品测试，而是保存当天闭卷迁移题的最小红灯到绿灯证据。若目标文件
+不存在、仍含 `TODO`、测试没有运行或日课人工标准尚未复核，当天都不能写成通过。
 
 ## 启动项目前先做什么
 

@@ -1,4 +1,10 @@
-import { EXERCISE_IDS, type ExerciseId, type ExerciseSolution } from './contracts';
+import {
+  EXERCISE_IDS,
+  type ExerciseSolutions,
+  type LabLessonId,
+  type PagedResult,
+  type PreviewDecodeResult,
+} from './contracts';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -25,18 +31,51 @@ function isCalendarDate(value: unknown) {
   return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
 }
 
-function decodePreview(
-  value: unknown,
-): { ok: true; value: { id: unknown; title: string; status: (typeof statuses)[number] } } | { ok: false; path: string } {
+function decodePreview(value: unknown): PreviewDecodeResult {
   const item = record(value);
   if (!item) return { ok: false, path: '$' };
-  if (!Number.isSafeInteger(item.id) || Number(item.id) <= 0) return { ok: false, path: '$.id' };
+  if (typeof item.id !== 'number' || !Number.isSafeInteger(item.id) || item.id <= 0) {
+    return { ok: false, path: '$.id' };
+  }
   if (typeof item.title !== 'string') return { ok: false, path: '$.title' };
   if (!isStatus(item.status)) return { ok: false, path: '$.status' };
   return { ok: true, value: { id: item.id, title: item.title, status: item.status } };
 }
 
-export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
+function mapPage<T, U>(input: PagedResult<T> & { readonly map: (value: T) => U }): PagedResult<U>;
+function mapPage(
+  input:
+    | (PagedResult<string> & { readonly operation: 'length' })
+    | (PagedResult<{ readonly title: string }> & { readonly operation: 'title' }),
+): PagedResult<number> | PagedResult<string>;
+function mapPage(
+  input: PagedResult<unknown> & {
+    readonly map?: (value: never) => unknown;
+    readonly operation?: 'length' | 'title';
+  },
+): PagedResult<unknown> {
+  const items = input.items.map((item) => {
+    if (input.map) return input.map(item as never);
+    if (input.operation === 'length') return typeof item === 'string' ? item.length : 0;
+    const candidate = record(item);
+    return candidate?.title;
+  });
+  return { items, page: input.page, pageSize: input.pageSize, total: input.total };
+}
+
+function groupIds<K extends PropertyKey, T extends Record<K, PropertyKey> & { readonly id: PropertyKey }>(input: {
+  readonly items: readonly T[];
+  readonly key: K;
+}): Record<string, Array<T['id']>> {
+  const grouped: Record<string, Array<T['id']>> = {};
+  for (const item of input.items) {
+    const group = String(item[input.key]);
+    (grouped[group] ??= []).push(item.id as T['id']);
+  }
+  return grouped;
+}
+
+export const referenceSolutions: ExerciseSolutions = {
   B01: (input) => {
     const item = record(input);
     if (!item) return 'unknown';
@@ -55,7 +94,12 @@ export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
     return 'value:' + String(item.value);
   },
   B04: (input) => {
-    const labels: Record<string, string> = { open: 'Open', in_progress: 'In progress', resolved: 'Resolved', closed: 'Closed' };
+    const labels: Record<string, string> = {
+      open: 'Open',
+      in_progress: 'In progress',
+      resolved: 'Resolved',
+      closed: 'Closed',
+    };
     return typeof input === 'string' && labels[input] ? labels[input] : 'Invalid';
   },
   B05: (input) => {
@@ -65,16 +109,11 @@ export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
       resolved: 'Ready to verify',
       closed: 'Completed work',
     };
-    return typeof input === 'string' ? labels[input] ?? 'Unknown' : 'Unknown';
+    return typeof input === 'string' ? (labels[input] ?? 'Unknown') : 'Unknown';
   },
   B06: isStatus,
   B07: (input) => {
-    const value = record(input);
-    const items = Array.isArray(value?.items) ? value.items : [];
-    return items.map((candidate) => {
-      const item = record(candidate);
-      return item && item.id === value?.id ? { ...item, status: value?.status } : candidate;
-    });
+    return input.items.map((item) => (item.id === input.id ? { ...item, status: input.status } : item));
   },
   B08: (input) => {
     const item = record(input);
@@ -91,69 +130,37 @@ export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
     return 'Invalid state';
   },
   A01: (input) => {
-    const value = record(input) ?? {};
-    const items = Array.isArray(value.items) ? value.items : [];
-    const page = Number.isSafeInteger(value.page) && Number(value.page) > 0 ? Number(value.page) : 1;
-    const pageSize = Number.isSafeInteger(value.pageSize) && Number(value.pageSize) > 0 ? Number(value.pageSize) : 20;
+    const page = Number.isSafeInteger(input.page) && input.page > 0 ? input.page : 1;
+    const pageSize = Number.isSafeInteger(input.pageSize) && input.pageSize > 0 ? input.pageSize : 20;
     const start = (page - 1) * pageSize;
-    return { items: items.slice(start, start + pageSize), page, pageSize, total: items.length };
+    return {
+      items: input.items.slice(start, start + pageSize),
+      page,
+      pageSize,
+      total: input.items.length,
+    };
   },
-  A02: (input) => {
-    const value = record(input) ?? {};
-    const items = Array.isArray(value.items) ? value.items : [];
-    const operation = value.operation;
-    const mapped = items.map((item) => {
-      if (operation === 'length') return typeof item === 'string' ? item.length : 0;
-      const candidate = record(item);
-      return candidate?.title;
-    });
-    return { items: mapped, page: value.page, pageSize: value.pageSize, total: value.total };
-  },
+  A02: mapPage,
   A03: (input) => {
-    const value = record(input) ?? {};
-    const items = Array.isArray(value.items) ? value.items : [];
-    const key = typeof value.key === 'string' ? value.key : '';
-    return items.flatMap((item) => {
-      const candidate = record(item);
-      const index = candidate?.[key];
-      return candidate && (typeof index === 'string' || typeof index === 'number') ? [[index, candidate]] : [];
-    });
+    return input.items.map((item) => [item[input.key], item] as const);
   },
-  A04: (input) => {
-    const value = record(input) ?? {};
-    const items = Array.isArray(value.items) ? value.items : [];
-    const key = typeof value.key === 'string' ? value.key : '';
-    const grouped: Record<string, unknown[]> = {};
-    for (const item of items) {
-      const candidate = record(item);
-      if (!candidate) continue;
-      const group = String(candidate[key]);
-      (grouped[group] ??= []).push(candidate.id);
-    }
-    return grouped;
-  },
+  A04: groupIds,
   A05: (input) => {
-    const value = record(input) ?? {};
-    const object = record(value.object) ?? {};
-    return typeof value.key === 'string' ? { ...object, [value.key]: value.value } : object;
+    return { ...input.object, [input.key]: input.value };
   },
   A06: (input) => {
-    const value = record(input) ?? {};
-    if (typeof value.id === 'number' && typeof value.title === 'string' && isStatus(value.status)) {
-      return { id: value.id, title: value.title, status: value.status };
+    if ('id' in input) {
+      return { id: input.id, title: input.title, status: input.status };
     }
-    return Object.fromEntries(
-      Object.entries(value).filter(([, messages]) => Array.isArray(messages) && messages.every((item) => typeof item === 'string')),
-    );
+    return input;
   },
   A07: (input) => {
-    const value = record(input);
-    return Boolean(value && Object.keys(value).length > 0);
+    return Object.keys(input).length > 0;
   },
   A08: decodePreview,
   A09: (input) => {
     if (!Array.isArray(input)) return { ok: false, paths: ['$'] };
-    const values: unknown[] = [];
+    const values: Array<Extract<PreviewDecodeResult, { ok: true }>['value']> = [];
     const paths: string[] = [];
     input.forEach((item, index) => {
       const result = decodePreview(item);
@@ -166,13 +173,13 @@ export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
     const value = record(input);
     return Boolean(
       value &&
-        Array.isArray(value.items) &&
-        Number.isSafeInteger(value.page) &&
-        Number(value.page) > 0 &&
-        Number.isSafeInteger(value.pageSize) &&
-        Number(value.pageSize) > 0 &&
-        Number.isSafeInteger(value.total) &&
-        Number(value.total) >= value.items.length,
+      Array.isArray(value.items) &&
+      Number.isSafeInteger(value.page) &&
+      Number(value.page) > 0 &&
+      Number.isSafeInteger(value.pageSize) &&
+      Number(value.pageSize) > 0 &&
+      Number.isSafeInteger(value.total) &&
+      Number(value.total) >= value.items.length,
     );
   },
   C02: (input) => ({
@@ -190,9 +197,13 @@ export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
     return query ? '?' + query : '';
   },
   C04: (input) => {
-    const allowed = new Set(['literal-unions', 'runtime-decoder', 'wire-scalars']);
+    const allowed = new Set<LabLessonId>(['literal-unions', 'runtime-decoder', 'wire-scalars']);
     return Array.isArray(input)
-      ? [...new Set(input.filter((item): item is string => typeof item === 'string' && allowed.has(item)))]
+      ? [
+          ...new Set(
+            input.filter((item): item is LabLessonId => typeof item === 'string' && allowed.has(item as LabLessonId)),
+          ),
+        ]
       : [];
   },
   C05: (input) => {
@@ -200,7 +211,11 @@ export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
     if (value?.kind === 'id') return Number.isSafeInteger(value.value) && Number(value.value) > 0;
     if (value?.kind === 'date') return isCalendarDate(value.value);
     if (value?.kind === 'instant') {
-      return typeof value.value === 'string' && /(?:Z|[+-]\d{2}:\d{2})$/i.test(value.value) && Number.isFinite(Date.parse(value.value));
+      return (
+        typeof value.value === 'string' &&
+        /(?:Z|[+-]\d{2}:\d{2})$/i.test(value.value) &&
+        Number.isFinite(Date.parse(value.value))
+      );
     }
     return false;
   },
@@ -213,21 +228,16 @@ export const referenceSolutions: Record<ExerciseId, ExerciseSolution> = {
     return 'unknown';
   },
   C07: (input) => {
-    const value = record(input) ?? {};
-    const status = Number(value.status);
-    if (status === 204) return { kind: 'no-content' };
-    if (status >= 200 && status < 300) return { kind: 'json', value: value.body };
-    return { kind: 'problem', status };
+    if (input.status === 204) return { kind: 'no-content' };
+    if (input.status >= 200 && input.status < 300) {
+      return { kind: 'json', value: input.body };
+    }
+    return { kind: 'problem', status: input.status };
   },
   C08: (input) => (isStatus(input) ? input : null),
   C09: (input) => {
-    const value = record(input) ?? {};
-    const items = Array.isArray(value.items) ? value.items : [];
-    if (value.failed) return items.map((item) => ({ ...(record(item) ?? {}) }));
-    return items.map((item) => {
-      const candidate = record(item);
-      return candidate?.id === value.id ? { ...candidate, status: value.next } : candidate;
-    });
+    if (input.failed) return input.items.map((item) => ({ ...item }));
+    return input.items.map((item) => (item.id === input.id ? { ...item, status: input.next } : item));
   },
 };
 

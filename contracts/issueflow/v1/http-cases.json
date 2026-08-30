@@ -5,7 +5,13 @@
     "body": {
       "email": "demo@issueflow.dev",
       "password": "issueflow"
-    }
+    },
+    "expect": { "status": 200 }
+  },
+  "logout": {
+    "method": "POST",
+    "path": "/api/auth/logout",
+    "expect": { "status": 204 }
   },
   "cases": [
     {
@@ -13,42 +19,77 @@
       "title": "健康检查返回 JSON",
       "auth": false,
       "request": { "method": "GET", "path": "/api/health" },
-      "expect": { "status": 200, "contentType": "application/json", "requiredJsonPaths": ["status"] }
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["status"]
+      }
     },
     {
       "id": "R02",
       "title": "默认列表返回分页 envelope",
       "auth": false,
       "request": { "method": "GET", "path": "/api/issues?page=1&pageSize=5" },
-      "expect": { "status": 200, "contentType": "application/json", "requiredJsonPaths": ["items", "page", "pageSize", "total"] }
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["items", "page", "pageSize", "total"]
+      }
     },
     {
       "id": "R03",
       "title": "成员列表返回数组",
       "auth": false,
       "request": { "method": "GET", "path": "/api/members" },
-      "expect": { "status": 200, "contentType": "application/json", "jsonKind": "array" }
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "jsonKind": "array"
+      }
     },
     {
       "id": "R04",
       "title": "未知 Issue 返回 Problem Details",
       "auth": false,
       "request": { "method": "GET", "path": "/api/issues/999999" },
-      "expect": { "status": 404, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "expect": {
+        "status": 404,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "R05",
       "title": "非法查询返回 400",
       "auth": false,
-      "request": { "method": "GET", "path": "/api/issues?page=0&pageSize=101&status=waiting" },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status", "errors"] }
+      "request": {
+        "method": "GET",
+        "path": "/api/issues?page=0&pageSize=101&status=waiting"
+      },
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status", "errors"]
+      }
     },
     {
       "id": "R06",
       "title": "已知 Issue 保持共享 wire shape",
       "auth": false,
       "request": { "method": "GET", "path": "/api/issues/248" },
-      "expect": { "status": 200, "contentType": "application/json", "requiredJsonPaths": ["id", "key", "title", "status", "priority", "reporter", "tags"] }
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "requiredJsonPaths": [
+          "id",
+          "key",
+          "title",
+          "status",
+          "priority",
+          "reporter",
+          "tags"
+        ]
+      }
     },
     {
       "id": "W01",
@@ -57,16 +98,36 @@
       "request": {
         "method": "POST",
         "path": "/api/issues",
-        "body": { "title": "{{uniqueTitle}}", "description": "", "status": "open", "priority": "high", "assigneeId": null, "tags": [], "dueDate": null }
+        "body": {
+          "title": "{{uniqueTitle}}",
+          "description": "",
+          "status": "open",
+          "priority": "high",
+          "assigneeId": null,
+          "tags": [],
+          "dueDate": null
+        }
       },
-      "expect": { "status": 401, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "expect": {
+        "status": 401,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "W02",
       "title": "演示账号可以登录",
       "auth": false,
-      "request": { "method": "POST", "path": "/api/auth/login", "body": { "email": "demo@issueflow.dev", "password": "issueflow" } },
-      "expect": { "status": 200, "contentType": "application/json", "requiredJsonPaths": ["email", "displayName", "role"] }
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "email": "demo@issueflow.dev", "password": "issueflow" }
+      },
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["email", "displayName", "role"]
+      }
     },
     {
       "id": "W03",
@@ -75,9 +136,26 @@
       "request": {
         "method": "POST",
         "path": "/api/issues",
-        "body": { "title": "{{uniqueTitle}}", "description": "Shared contract corpus", "status": "open", "priority": "high", "assigneeId": 2, "tags": ["contract"], "dueDate": null }
+        "body": {
+          "title": "{{uniqueTitle}}",
+          "description": "Shared contract corpus",
+          "status": "open",
+          "priority": "high",
+          "assigneeId": 2,
+          "tags": ["contract"],
+          "dueDate": null
+        }
       },
-      "expect": { "status": 201, "contentType": "application/json", "requiredJsonPaths": ["id", "key", "title", "status", "reporter"] }
+      "expect": {
+        "status": 201,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["id", "key", "title", "status", "reporter"]
+      },
+      "cleanup": {
+        "method": "DELETE",
+        "path": "/api/issues/{{response.id}}",
+        "expect": { "status": 204 }
+      }
     },
     {
       "id": "W04",
@@ -86,9 +164,21 @@
       "request": {
         "method": "POST",
         "path": "/api/issues",
-        "body": { "title": " ", "description": "", "status": "open", "priority": "high", "assigneeId": null, "tags": [], "dueDate": null }
+        "body": {
+          "title": " ",
+          "description": "",
+          "status": "open",
+          "priority": "high",
+          "assigneeId": null,
+          "tags": [],
+          "dueDate": null
+        }
       },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status", "errors"] }
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status", "errors"]
+      }
     },
     {
       "id": "W05",
@@ -97,9 +187,21 @@
       "request": {
         "method": "POST",
         "path": "/api/issues",
-        "body": { "title": "Invalid status", "description": "", "status": "waiting", "priority": "high", "assigneeId": null, "tags": [], "dueDate": null }
+        "body": {
+          "title": "Invalid status",
+          "description": "",
+          "status": "waiting",
+          "priority": "high",
+          "assigneeId": null,
+          "tags": [],
+          "dueDate": null
+        }
       },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "W06",
@@ -108,51 +210,103 @@
       "request": {
         "method": "POST",
         "path": "/api/issues",
-        "body": { "title": "Impossible date", "description": "", "status": "open", "priority": "high", "assigneeId": null, "tags": [], "dueDate": "2099-02-30" }
+        "body": {
+          "title": "Impossible date",
+          "description": "",
+          "status": "open",
+          "priority": "high",
+          "assigneeId": null,
+          "tags": [],
+          "dueDate": "2099-02-30"
+        }
       },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "S01",
       "title": "畸形 JSON 返回 400 而不是 500",
       "auth": true,
-      "request": { "method": "POST", "path": "/api/issues", "rawBody": "{\"title\":" },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "request": {
+        "method": "POST",
+        "path": "/api/issues",
+        "rawBody": "{\"title\":"
+      },
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "S02",
       "title": "null body 返回 400 而不是 500",
       "auth": true,
       "request": { "method": "POST", "path": "/api/issues", "rawBody": "null" },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "S03",
       "title": "数组 body 返回 400 而不是 500",
       "auth": true,
       "request": { "method": "POST", "path": "/api/issues", "rawBody": "[]" },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "S04",
       "title": "标量 body 返回 400 而不是 500",
       "auth": true,
-      "request": { "method": "POST", "path": "/api/issues", "rawBody": "\"issue\"" },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "request": {
+        "method": "POST",
+        "path": "/api/issues",
+        "rawBody": "\"issue\""
+      },
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "S05",
       "title": "更新未知 Issue 返回 404",
       "auth": true,
-      "request": { "method": "PATCH", "path": "/api/issues/999999", "body": { "status": "resolved" } },
-      "expect": { "status": 404, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "request": {
+        "method": "PATCH",
+        "path": "/api/issues/999999",
+        "body": { "status": "resolved" }
+      },
+      "expect": {
+        "status": 404,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     },
     {
       "id": "S06",
       "title": "空评论返回 400",
       "auth": true,
-      "request": { "method": "POST", "path": "/api/issues/248/comments", "body": { "body": "" } },
-      "expect": { "status": 400, "contentType": "application/problem+json", "requiredJsonPaths": ["title", "status"] }
+      "request": {
+        "method": "POST",
+        "path": "/api/issues/248/comments",
+        "body": { "body": "" }
+      },
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": ["title", "status"]
+      }
     }
   ]
 }

@@ -86,6 +86,7 @@ export default defineConfig({
     logo: '/favicon.svg',
     nav: [
       { text: '91 天课程', link: '/90-days/' },
+      { text: '复习中心', link: '/90-days/review-center' },
       { text: '知识专题', link: '/learning/' },
       { text: 'TypeScript', link: '/typescript/' },
       { text: '后端对照', link: '/backend/' },
@@ -108,6 +109,7 @@ export default defineConfig({
             { text: '课程总览', link: '/90-days/' },
             { text: '怎样学习每天 2 小时', link: '/90-days/how-to-study' },
             { text: '91 天进度与日志', link: '/90-days/progress-and-journal' },
+            { text: '错题与间隔复习', link: '/90-days/review-center' },
             { text: '考核、检查点与毕业标准', link: '/90-days/assessments' },
             { text: '陌生领域迁移任务', link: '/90-days/transfer-tasks' },
           ],

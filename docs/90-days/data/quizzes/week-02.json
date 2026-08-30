@@ -1,0 +1,48 @@
+{
+  "week": 2,
+  "title": "语义 HTML、表单与无障碍",
+  "reviewPrompt": "审查一个 Issue 表单：指出 heading、landmark、label、错误关联和键盘顺序，并说明自动扫描不能证明什么。",
+  "rubric": [
+    "使用原生语义而不是 div 模拟控件",
+    "说明 label、错误文本与输入的关联",
+    "包含键盘和读屏的人工行为证据"
+  ],
+  "questions": [
+    {
+      "id": "w02-q01",
+      "prompt": "可点击操作最优先选择什么元素？",
+      "choices": [
+        "带 onClick 的 div",
+        "button 或具有真实目的地的 a",
+        "任意带 tabindex 的 span"
+      ],
+      "correctIndex": 1,
+      "explanation": "原生交互元素自带键盘、角色和状态语义。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-09"
+    },
+    {
+      "id": "w02-q02",
+      "prompt": "表单错误怎样让读屏用户定位到输入？",
+      "choices": [
+        "只把边框变红",
+        "使用可访问名称并用 aria-describedby/aria-errormessage 关联错误",
+        "把错误写进 placeholder"
+      ],
+      "correctIndex": 1,
+      "explanation": "颜色和 placeholder 都不能替代稳定的标签与错误关联。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-12"
+    },
+    {
+      "id": "w02-q03",
+      "prompt": "Axe 没有报告问题能证明什么？",
+      "choices": [
+        "页面完全无障碍",
+        "自动规则未发现其能识别的违规，仍需键盘与状态测试",
+        "所有读屏器行为都正确"
+      ],
+      "correctIndex": 1,
+      "explanation": "自动扫描覆盖有限，焦点顺序、状态播报和任务可完成性仍需行为验证。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14"
+    }
+  ]
+}

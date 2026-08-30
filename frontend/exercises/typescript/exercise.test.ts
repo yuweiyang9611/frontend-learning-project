@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EXERCISE_IDS, exerciseContracts, type ExerciseId } from './contracts';
+import { EXERCISE_IDS, exerciseContracts, runExercise, type ExerciseId } from './contracts';
 import { referenceSolutions } from './reference';
 import { workbenchSolutions } from './workbench';
 
@@ -16,7 +16,7 @@ for (const id of selected) {
   describe(id + ' contract', () => {
     for (const contract of exerciseContracts[id]) {
       it(contract.name, () => {
-        expect(solutions[id](structuredClone(contract.input))).toEqual(contract.expected);
+        expect(runExercise(solutions, id, structuredClone(contract.input))).toEqual(contract.expected);
       });
     }
   });

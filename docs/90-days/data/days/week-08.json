@@ -3,32 +3,14 @@
     "day": 50,
     "source": "week-08-react-typescript.md#day-50",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "react.state"
-    ],
+    "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D50-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "react-foundations",
     "evidence": [
       {
         "id": "D50-E1",
         "pathTemplate": "learning-evidence/day-50/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D50-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -36,32 +18,14 @@
     "day": 51,
     "source": "week-08-react-typescript.md#day-51",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "react.state"
-    ],
+    "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D51-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "react-foundations",
     "evidence": [
       {
         "id": "D51-E1",
         "pathTemplate": "learning-evidence/day-51/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D51-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -69,32 +33,14 @@
     "day": 52,
     "source": "week-08-react-typescript.md#day-52",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "react.state"
-    ],
+    "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D52-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "react-foundations",
     "evidence": [
       {
         "id": "D52-E1",
         "pathTemplate": "learning-evidence/day-52/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D52-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -102,32 +48,14 @@
     "day": 53,
     "source": "week-08-react-typescript.md#day-53",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "react.state"
-    ],
+    "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D53-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "react-foundations",
     "evidence": [
       {
         "id": "D53-E1",
         "pathTemplate": "learning-evidence/day-53/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D53-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -135,32 +63,14 @@
     "day": 54,
     "source": "week-08-react-typescript.md#day-54",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "react.state"
-    ],
+    "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D54-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "react-foundations",
     "evidence": [
       {
         "id": "D54-E1",
         "pathTemplate": "learning-evidence/day-54/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D54-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -168,32 +78,14 @@
     "day": 55,
     "source": "week-08-react-typescript.md#day-55",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "react.state"
-    ],
+    "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D55-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "react-foundations",
     "evidence": [
       {
         "id": "D55-E1",
         "pathTemplate": "learning-evidence/day-55/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D55-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -201,16 +93,16 @@
     "day": 56,
     "source": "week-08-react-typescript.md#day-56",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "react.state"
-    ],
+    "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
-    "checks": [
+    "acceptanceProfile": "react-foundations",
+    "additionalChecks": [
       {
-        "id": "D56-A1",
+        "id": "D56-A2",
         "kind": "npm-script",
         "project": "frontend",
-        "script": "test",
+        "script": "typecheck",
+        "target": "frontend/tsconfig.json",
         "expectedExit": 0
       }
     ],
@@ -218,15 +110,7 @@
       {
         "id": "D56-E1",
         "pathTemplate": "learning-evidence/day-56/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D56-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   }

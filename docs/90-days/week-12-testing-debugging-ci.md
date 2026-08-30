@@ -324,3 +324,9 @@
 - CI/流程审查没有给普通 PR 不必要的写入、部署或 secret 权限。
 - 前端类型检查、目标单测、后端目标测试和关键 E2E 均有可定位证据。
 - 任一项未达标时，不以总时长抵消；按 `assessments.md` 的 W12 补救路线完成后再进入毕业项目。
+
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="12" />
+</ClientOnly>

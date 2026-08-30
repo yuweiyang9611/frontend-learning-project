@@ -3,39 +3,14 @@
     "day": 85,
     "source": "week-13-capstone.md#day-85",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "capstone.delivery"
-    ],
+    "requiresConcepts": ["capstone.delivery"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D85-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
-      {
-        "id": "D85-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "capstone-plan",
     "evidence": [
       {
         "id": "D85-E1",
         "pathTemplate": "learning-evidence/day-85/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D85-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -43,23 +18,16 @@
     "day": 86,
     "source": "week-13-capstone.md#day-86",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "capstone.delivery"
-    ],
+    "requiresConcepts": ["capstone.delivery"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D86-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
+    "acceptanceProfile": "frontend-day-test",
+    "additionalChecks": [
       {
         "id": "D86-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "typecheck",
+        "target": "frontend/tsconfig.json",
         "expectedExit": 0
       }
     ],
@@ -67,15 +35,7 @@
       {
         "id": "D86-E1",
         "pathTemplate": "learning-evidence/day-86/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D86-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -83,39 +43,14 @@
     "day": 87,
     "source": "week-13-capstone.md#day-87",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "capstone.delivery"
-    ],
+    "requiresConcepts": ["capstone.delivery"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D87-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
-      {
-        "id": "D87-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "frontend-day-test",
     "evidence": [
       {
         "id": "D87-E1",
         "pathTemplate": "learning-evidence/day-87/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D87-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -123,39 +58,14 @@
     "day": 88,
     "source": "week-13-capstone.md#day-88",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "capstone.delivery"
-    ],
+    "requiresConcepts": ["capstone.delivery"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D88-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
-      {
-        "id": "D88-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "frontend-day-test",
     "evidence": [
       {
         "id": "D88-E1",
         "pathTemplate": "learning-evidence/day-88/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D88-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -163,39 +73,14 @@
     "day": 89,
     "source": "week-13-capstone.md#day-89",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "capstone.delivery"
-    ],
+    "requiresConcepts": ["capstone.delivery"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D89-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
-      {
-        "id": "D89-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "frontend-day-test",
     "evidence": [
       {
         "id": "D89-E1",
         "pathTemplate": "learning-evidence/day-89/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D89-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -203,79 +88,31 @@
     "day": 90,
     "source": "week-13-capstone.md#day-90",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "capstone.delivery"
-    ],
+    "requiresConcepts": ["capstone.delivery"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D90-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
-      {
-        "id": "D90-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "capstone-e2e",
     "evidence": [
       {
         "id": "D90-E1",
         "pathTemplate": "learning-evidence/day-90/report.json",
-        "schema": "learning-evidence-v1"
+        "schema": "learning-evidence-v2"
       }
     ],
-    "manual": [
-      {
-        "id": "D90-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
-      }
-    ]
+    "setupBufferMinutes": 45,
+    "wallClockStop": "构建或 E2E 尚未完成时，保存首个失败和已通过门禁；下次只从未完成门禁继续。"
   },
   {
     "day": 91,
     "source": "week-13-capstone.md#day-91",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "capstone.delivery"
-    ],
+    "requiresConcepts": ["capstone.delivery"],
     "starter": "frontend/src",
-    "checks": [
-      {
-        "id": "D91-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
-      {
-        "id": "D91-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "capstone-evidence",
     "evidence": [
       {
         "id": "D91-E1",
         "pathTemplate": "learning-evidence/day-91/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D91-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   }

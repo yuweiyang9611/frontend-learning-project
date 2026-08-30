@@ -1,0 +1,44 @@
+{
+  "week": 12,
+  "title": "测试、调试、CI 与性能",
+  "reviewPrompt": "面对一个仅在 CI 失败的 E2E，按证据顺序说明如何定位，并选择单元、契约、E2E 和性能测试各自保护什么。",
+  "rubric": [
+    "先保留首个失败、trace 和环境差异",
+    "按风险选择最小测试层",
+    "不以重跑掩盖不稳定根因"
+  ],
+  "questions": [
+    {
+      "id": "w12-q01",
+      "prompt": "最适合证明用户跨页面关键旅程的是哪层？",
+      "choices": ["纯函数单元测试", "少量稳定 E2E", "TypeScript 注释"],
+      "correctIndex": 1,
+      "explanation": "E2E 保护真实集成旅程，但数量应少且聚焦高价值路径。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-80"
+    },
+    {
+      "id": "w12-q02",
+      "prompt": "CI 中偶发失败最不合适的处理是什么？",
+      "choices": [
+        "保留 trace 并寻找竞态",
+        "无条件增加固定 sleep",
+        "使用可观察状态等待"
+      ],
+      "correctIndex": 1,
+      "explanation": "固定等待既慢又不能保证时序，只会隐藏竞态。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-83"
+    },
+    {
+      "id": "w12-q03",
+      "prompt": "Lighthouse 单次本地结果应怎样使用？",
+      "choices": [
+        "直接视为绝对真值",
+        "结合干净环境、重复测量和具体 trace 诊断",
+        "只看总分不看指标"
+      ],
+      "correctIndex": 1,
+      "explanation": "性能测量受机器和注入影响，应使用稳定环境及 LCP/TBT/CLS 等具体证据。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-82"
+    }
+  ]
+}

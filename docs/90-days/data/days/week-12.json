@@ -3,39 +3,14 @@
     "day": 78,
     "source": "week-12-testing-debugging-ci.md#day-78",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "testing.core"
-    ],
+    "requiresConcepts": ["testing.core"],
     "starter": "frontend/e2e",
-    "checks": [
-      {
-        "id": "D78-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test:coverage",
-        "expectedExit": 0
-      },
-      {
-        "id": "D78-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "frontend-day-test",
     "evidence": [
       {
         "id": "D78-E1",
         "pathTemplate": "learning-evidence/day-78/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D78-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -43,23 +18,16 @@
     "day": 79,
     "source": "week-12-testing-debugging-ci.md#day-79",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "testing.core"
-    ],
+    "requiresConcepts": ["testing.core"],
     "starter": "frontend/e2e",
-    "checks": [
-      {
-        "id": "D79-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
+    "acceptanceProfile": "frontend-day-test",
+    "additionalChecks": [
       {
         "id": "D79-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "typecheck",
+        "target": "frontend/tsconfig.json",
         "expectedExit": 0
       }
     ],
@@ -67,15 +35,7 @@
       {
         "id": "D79-E1",
         "pathTemplate": "learning-evidence/day-79/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D79-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -83,79 +43,31 @@
     "day": 80,
     "source": "week-12-testing-debugging-ci.md#day-80",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "testing.core"
-    ],
+    "requiresConcepts": ["testing.core"],
     "starter": "frontend/e2e",
-    "checks": [
-      {
-        "id": "D80-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test:e2e",
-        "expectedExit": 0
-      },
-      {
-        "id": "D80-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "playwright-day",
     "evidence": [
       {
         "id": "D80-E1",
         "pathTemplate": "learning-evidence/day-80/report.json",
-        "schema": "learning-evidence-v1"
+        "schema": "learning-evidence-v2"
       }
     ],
-    "manual": [
-      {
-        "id": "D80-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
-      }
-    ]
+    "setupBufferMinutes": 45,
+    "wallClockStop": "Playwright 浏览器尚未安装或首条浏览器流程未跑通时，保存安装状态与 trace；下次先完成单一浏览器流程。"
   },
   {
     "day": 81,
     "source": "week-12-testing-debugging-ci.md#day-81",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "testing.core"
-    ],
+    "requiresConcepts": ["testing.core"],
     "starter": "frontend/e2e",
-    "checks": [
-      {
-        "id": "D81-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test",
-        "expectedExit": 0
-      },
-      {
-        "id": "D81-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "frontend-day-test",
     "evidence": [
       {
         "id": "D81-E1",
         "pathTemplate": "learning-evidence/day-81/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D81-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -163,39 +75,14 @@
     "day": 82,
     "source": "week-12-testing-debugging-ci.md#day-82",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "testing.core"
-    ],
+    "requiresConcepts": ["testing.core"],
     "starter": "frontend/e2e",
-    "checks": [
-      {
-        "id": "D82-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "test:contract:dual",
-        "expectedExit": 0
-      },
-      {
-        "id": "D82-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "backend-day-test",
     "evidence": [
       {
         "id": "D82-E1",
         "pathTemplate": "learning-evidence/day-82/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D82-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   },
@@ -203,63 +90,41 @@
     "day": 83,
     "source": "week-12-testing-debugging-ci.md#day-83",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "testing.ci"
-    ],
+    "requiresConcepts": ["testing.ci"],
     "starter": "frontend/e2e",
-    "checks": [
-      {
-        "id": "D83-A1",
-        "kind": "npm-script",
-        "project": "frontend",
-        "script": "typecheck",
-        "expectedExit": 0
-      },
-      {
-        "id": "D83-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
-        "expectedExit": 0
-      }
-    ],
+    "acceptanceProfile": "ci-workflow",
     "evidence": [
       {
         "id": "D83-E1",
         "pathTemplate": "learning-evidence/day-83/report.json",
-        "schema": "learning-evidence-v1"
+        "schema": "learning-evidence-v2"
       }
     ],
-    "manual": [
-      {
-        "id": "D83-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
-      }
-    ]
+    "setupBufferMinutes": 30,
+    "wallClockStop": "CI 尚在排队或运行时，保存 run 链接与本地等价命令结果；下次从首个失败 job 继续。"
   },
   {
     "day": 84,
     "source": "week-12-testing-debugging-ci.md#day-84",
     "durationMinutes": 120,
-    "requiresConcepts": [
-      "testing.ci"
-    ],
+    "requiresConcepts": ["testing.ci"],
     "starter": "frontend/e2e",
-    "checks": [
+    "acceptanceProfile": "quality-gate",
+    "additionalChecks": [
       {
-        "id": "D84-A1",
+        "id": "D84-A3",
         "kind": "npm-script",
         "project": "frontend",
-        "script": "build",
+        "script": "typecheck",
+        "target": "frontend/tsconfig.json",
         "expectedExit": 0
       },
       {
-        "id": "D84-A2",
-        "kind": "dotnet-test",
-        "project": "root",
-        "solution": "IssueFlow.slnx",
+        "id": "D84-A4",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "build",
+        "target": "frontend/src",
         "expectedExit": 0
       }
     ],
@@ -267,15 +132,7 @@
       {
         "id": "D84-E1",
         "pathTemplate": "learning-evidence/day-84/report.json",
-        "schema": "learning-evidence-v1"
-      }
-    ],
-    "manual": [
-      {
-        "id": "D84-M1",
-        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
-        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
-        "requiresReview": true
+        "schema": "learning-evidence-v2"
       }
     ]
   }

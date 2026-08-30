@@ -1,0 +1,44 @@
+{
+  "week": 5,
+  "title": "TypeScript 基础与类型推断",
+  "reviewPrompt": "选一个 Issue 字段，说明何时依赖推断、何时显式标注、何时需要运行时检查，并给出一个错误断言反例。",
+  "rubric": [
+    "区分编译期类型与运行时值",
+    "解释 literal widening 与 as const",
+    "不使用 any 或双重断言绕过边界"
+  ],
+  "questions": [
+    {
+      "id": "w05-q01",
+      "prompt": "`as const` 的主要作用是什么？",
+      "choices": [
+        "执行深度运行时冻结",
+        "保留更窄的字面量并产生 readonly 推断",
+        "把任何值转换成合法类型"
+      ],
+      "correctIndex": 1,
+      "explanation": "它影响 TypeScript 推断，不等同于 Object.freeze。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-31"
+    },
+    {
+      "id": "w05-q02",
+      "prompt": "从 JSON.parse 得到的数据最诚实的起点是什么？",
+      "choices": ["unknown", "完整领域类型断言", "any"],
+      "correctIndex": 0,
+      "explanation": "外部数据尚未被证明，应从 unknown 经过运行时检查。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-34"
+    },
+    {
+      "id": "w05-q03",
+      "prompt": "readonly 参数最直接表达什么？",
+      "choices": [
+        "函数承诺不通过该引用修改输入",
+        "对象已经深冻结",
+        "运行时会自动复制对象"
+      ],
+      "correctIndex": 0,
+      "explanation": "readonly 是静态约束，默认既不深层也不执行复制。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35"
+    }
+  ]
+}

@@ -285,3 +285,9 @@
 - 安全审查覆盖身份/权限决策、输入校验、错误信息和证据脱敏。
 - 100 分毕业量表达到通过线，且 TypeScript、Contract、安全任一项为 0 时直接不通过。
 - 所有等待时间已从 120 分钟主动学习统计中排除。
+
+## 本周闭卷测验与口试
+
+<ClientOnly>
+  <WeeklyKnowledgeCheck :week="13" />
+</ClientOnly>
