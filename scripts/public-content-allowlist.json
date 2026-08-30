@@ -10,7 +10,9 @@
     "iris@issueflow.dev",
     "leo@issueflow.dev",
     "ada@example.com",
-    "alice@example.com"
+    "alice@example.com",
+    "noreply@github.com",
+    "support@github.com"
   ],
   "commitEmailSuffixes": ["@users.noreply.github.com"]
 }
