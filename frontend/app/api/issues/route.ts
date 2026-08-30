@@ -1,4 +1,4 @@
-import type { IssueInput } from '@/src/features/issues/types';
+import { decodeIssueCreate } from '@/src/features/issues/runtime-contracts';
 import { requireMutationAccess } from '@/src/server/auth';
 import {
   duplicateTitle,
@@ -10,6 +10,7 @@ import {
   validateServerIssue,
 } from '@/src/server/issueflow-db';
 import { asErrorResponse, problem } from '@/src/server/problem';
+import { readJsonBody } from '@/src/server/request-contract';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,13 +28,9 @@ export async function POST(request: Request) {
   try {
     const actor = await requireMutationAccess(request);
     if (actor instanceof Response) return actor;
-    let body: Partial<IssueInput>;
-    try {
-      body = (await request.json()) as Partial<IssueInput>;
-    } catch {
-      return problem(400, 'Invalid request', 'Send a JSON issue payload.');
-    }
-    const input = normalizeIssueInput(body);
+    const body = await readJsonBody(request, decodeIssueCreate);
+    if (!body.ok) return body.response;
+    const input = normalizeIssueInput(body.value);
     const errors = validateServerIssue(input);
     if (Object.keys(errors).length)
       return problem(400, 'Validation failed', 'Please correct the highlighted fields.', errors);

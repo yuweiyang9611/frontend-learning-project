@@ -1,9 +1,22 @@
-import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vitepress';
 
 const base = '/frontend-learning-project/';
 const repository = 'https://github.com/yuweiyang9611/frontend-learning-project';
 const siteUrl = 'https://yuweiyang9611.github.io/frontend-learning-project/';
+
+function canonicalUrl(relativePath: string): string {
+  const markdownPath = relativePath.replace(/\.md$/, '');
+
+  if (markdownPath === 'index') {
+    return siteUrl;
+  }
+
+  if (markdownPath.endsWith('/index')) {
+    return new URL(`${markdownPath.slice(0, -'/index'.length)}/`, siteUrl).href;
+  }
+
+  return new URL(`${markdownPath}.html`, siteUrl).href;
+}
 
 export default defineConfig({
   lang: 'zh-CN',
@@ -28,12 +41,37 @@ export default defineConfig({
   markdown: {
     lineNumbers: true,
   },
+  transformPageData(pageData) {
+    if (pageData.isNotFound) {
+      return;
+    }
+
+    const canonical = canonicalUrl(pageData.relativePath);
+    const socialTitle =
+      pageData.relativePath === 'index.md'
+        ? 'IssueFlow 学习站'
+        : `${pageData.title} · IssueFlow 学习站`;
+    const existingHead = Array.isArray(pageData.frontmatter.head)
+      ? pageData.frontmatter.head
+      : [];
+
+    return {
+      frontmatter: {
+        ...pageData.frontmatter,
+        head: [
+          ...existingHead,
+          ['link', { rel: 'canonical', href: canonical }],
+          ['meta', { property: 'og:url', content: canonical }],
+          ['meta', { property: 'og:title', content: socialTitle }],
+        ],
+      },
+    };
+  },
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
     ['meta', { name: 'theme-color', content: '#6558e8' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
-    ['meta', { property: 'og:title', content: 'IssueFlow 学习站' }],
     [
       'meta',
       {
@@ -41,7 +79,6 @@ export default defineConfig({
         content: '91 天、182 小时，从浏览器基础到 TypeScript、React、双后端与测试的源码驱动课程。',
       },
     ],
-    ['meta', { property: 'og:url', content: siteUrl }],
     ['meta', { property: 'og:image', content: `${siteUrl}og.png` }],
   ],
   themeConfig: {
@@ -72,6 +109,7 @@ export default defineConfig({
             { text: '怎样学习每天 2 小时', link: '/90-days/how-to-study' },
             { text: '91 天进度与日志', link: '/90-days/progress-and-journal' },
             { text: '考核、检查点与毕业标准', link: '/90-days/assessments' },
+            { text: '陌生领域迁移任务', link: '/90-days/transfer-tasks' },
           ],
         },
         {
@@ -363,8 +401,5 @@ export default defineConfig({
       message: '以真实 IssueFlow 源码为教材，边运行、边观察、边验证。',
       copyright: 'IssueFlow Learning Project',
     },
-  },
-  vite: {
-    publicDir: fileURLToPath(new URL('../../frontend/public', import.meta.url)),
   },
 });

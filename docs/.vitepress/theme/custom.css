@@ -172,3 +172,209 @@ html {
     animation-iteration-count: 1 !important;
   }
 }
+
+.learning-progress {
+  margin: 2rem 0;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--vp-c-bg-soft) 88%, var(--vp-c-brand-soft));
+}
+
+.learning-progress__header,
+.learning-progress__actions,
+.learning-progress__import,
+.learning-progress summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.learning-progress__header h2 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.learning-progress__header p {
+  margin: .4rem 0 0;
+}
+
+.learning-progress__eyebrow {
+  color: var(--vp-c-brand-1);
+  font-size: .78rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.learning-progress__score {
+  min-width: 8rem;
+  text-align: right;
+}
+
+.learning-progress__score strong,
+.learning-progress__score span {
+  display: block;
+}
+
+.learning-progress progress {
+  width: 100%;
+  height: .8rem;
+  margin: 1rem 0;
+  accent-color: var(--vp-c-brand-1);
+}
+
+.learning-progress__actions {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.learning-progress button,
+.learning-progress select,
+.learning-progress input,
+.learning-progress textarea {
+  font: inherit;
+}
+
+.learning-progress button,
+.learning-progress__file {
+  min-height: 2.5rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: .45rem .75rem;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  cursor: pointer;
+}
+
+.learning-progress button:hover,
+.learning-progress__file:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.learning-progress button.danger {
+  color: var(--vp-c-danger-1);
+}
+
+.learning-progress__file input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+
+.learning-progress__actions > label:not(.learning-progress__file) {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .85rem;
+}
+
+.learning-progress__actions select {
+  min-height: 2.5rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+}
+
+.learning-progress__import {
+  margin-top: 1rem;
+  border-left: 4px solid var(--vp-c-tip-1);
+  border-radius: 8px;
+  padding: .75rem 1rem;
+  background: var(--vp-c-tip-soft);
+}
+
+.learning-progress__status {
+  min-height: 1.5rem;
+  margin: .75rem 0;
+  color: var(--vp-c-text-2);
+}
+
+.learning-progress__weeks {
+  display: grid;
+  gap: .65rem;
+}
+
+.learning-progress details {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+}
+
+.learning-progress summary {
+  padding: .75rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.learning-progress__days {
+  display: grid;
+  gap: .75rem;
+  padding: 0 .75rem .75rem;
+}
+
+.learning-progress__day {
+  display: grid;
+  grid-template-columns: minmax(7rem, .65fr) minmax(8rem, .7fr) minmax(14rem, 1.5fr);
+  gap: .75rem;
+  align-items: start;
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: .75rem;
+}
+
+.learning-progress__day label {
+  display: grid;
+  gap: .3rem;
+  color: var(--vp-c-text-2);
+  font-size: .78rem;
+}
+
+.learning-progress__day label:last-child {
+  grid-column: 1 / -1;
+}
+
+.learning-progress__check {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  color: var(--vp-c-text-1) !important;
+  font-size: 1rem !important;
+}
+
+.learning-progress__day input:not([type="checkbox"]),
+.learning-progress__day textarea {
+  width: 100%;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 7px;
+  padding: .5rem .6rem;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+}
+
+.learning-progress__privacy {
+  margin: 1rem 0 0;
+  color: var(--vp-c-text-2);
+  font-size: .8rem;
+}
+
+@media (max-width: 720px) {
+  .learning-progress__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .learning-progress__score {
+    text-align: left;
+  }
+
+  .learning-progress__day {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-progress__day label:last-child {
+    grid-column: auto;
+  }
+}

@@ -32,3 +32,8 @@ frontend/.env*
 **/*.db-shm
 **/*.db-wal
 backend/IssueFlow.Api/uploads/
+learning-work/*
+!learning-work/README.md
+learning-evidence/*
+!learning-evidence/README.md
+frontend/.lighthouse/

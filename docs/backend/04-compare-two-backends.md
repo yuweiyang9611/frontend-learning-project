@@ -67,6 +67,22 @@ Shape 一样不代表 behavior 一样；页面能渲染也不代表错误 Contra
 
 ## 4. 黑盒测试表
 
+仓库已经提供可执行的 18 项共享 scaffold：
+
+- 语言中立用例：`contracts/issueflow/v1/http-cases.json`；
+- 同源 D1 adapter：`frontend/e2e/api-contract.spec.ts`；
+- .NET adapter：`backend/IssueFlow.Api.Tests/SharedContractCorpusTests.cs`。
+
+在仓库根目录先安装 Playwright Chromium，然后运行两端：
+
+```powershell
+npx --prefix frontend playwright install chromium
+npm --prefix frontend run test:contract:dual
+```
+
+命令先让 Playwright 启动本地同源服务并执行 R01–S06，再由
+`WebApplicationFactory` 使用临时 SQLite 执行同一份 JSON。它不会请求部署站点，不会写共享 D1/R2，也不会输出 Cookie。学习者在 Day 77 只需独立实现或修复其中 4 项。
+
 对两个 Base URL 运行相同请求：
 
 ### 读取

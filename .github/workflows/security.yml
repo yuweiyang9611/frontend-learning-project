@@ -1,0 +1,76 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  privacy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: npm run privacy:check
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: npm run security:audit:root
+      - run: npm run security:audit:frontend
+      - name: Fail on high or critical NuGet advisories
+        run: dotnet restore IssueFlow.slnx -p:NuGetAudit=true -p:NuGetAuditMode=all -warnaserror:NU1903,NU1904
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4
+
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Scan Git history for secrets
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  security-gate:
+    if: always()
+    runs-on: ubuntu-latest
+    needs: [privacy, dependency-audit, dependency-review, gitleaks]
+    steps:
+      - name: Require every applicable security check
+        env:
+          PRIVACY_RESULT: ${{ needs.privacy.result }}
+          AUDIT_RESULT: ${{ needs.dependency-audit.result }}
+          REVIEW_RESULT: ${{ needs.dependency-review.result }}
+          GITLEAKS_RESULT: ${{ needs.gitleaks.result }}
+        run: |
+          test "$PRIVACY_RESULT" = "success"
+          test "$AUDIT_RESULT" = "success"
+          test "$GITLEAKS_RESULT" = "success"
+          test "$REVIEW_RESULT" = "success" || test "$REVIEW_RESULT" = "skipped"

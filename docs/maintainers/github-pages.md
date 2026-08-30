@@ -1,3 +1,7 @@
+---
+search: false
+---
+
 # GitHub Pages 发布与维护
 
 本页说明 IssueFlow 学习站怎样从拆分后的 Markdown 构建并发布。它属于维护者文档，不是前端主线课程。
@@ -48,7 +52,7 @@ npm run docs:preview
   通过 VitePress rewrite 映射为各目录首页；
 - `docs/.vitepress/config.mts` 维护顶部导航、分区侧栏、中文搜索和上一页/下一页；
 - `docs/.vitepress/theme/custom.css` 只调整品牌变量、排版、表格和移动端体验；
-- `frontend/public/favicon.svg` 与 `frontend/public/og.png` 被复用为站点品牌资源。
+- `docs/public/favicon.svg` 与 `docs/public/og.png` 是学习站独立的品牌资源；前端产品资源不再作为文档站的构建输入。
 
 不要再创建一个巨型 Markdown 入口。新增知识应放入职责明确的章节，并从最近的专题索引和侧边栏各链接一次。
 
@@ -63,7 +67,7 @@ VitePress 的内容根是 `docs`。因此：
 - 不用 `ignoreDeadLinks: true` 掩盖错误；
 - 改名或移动章节后，要同时检查正文导航、侧边栏与索引页。
 
-生产构建会先验证 13 周、91 天、每日 120 分钟与配套资料是否齐全，再使用 VitePress
+生产构建会先验证 13 周、91 天、每日 120 分钟、搜索边界与品牌资源，再使用 VitePress
 验证 Markdown 目标，最后扫描生成后的所有 HTML `href`/`src`，确认目标文件真实存在。
 最后一步能发现 `README.md` rewrite
 后仍指向 `README.html` 一类只在发布产物中出现的问题。源码链接由 GitHub 打开，

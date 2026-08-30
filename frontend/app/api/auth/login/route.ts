@@ -12,14 +12,19 @@ export async function POST(request: Request) {
   if (!isLocalRequest(request))
     return problem(401, 'Platform sign-in required', 'Open IssueFlow through its private Sites URL to sign in.');
 
-  let payload: { email?: unknown; password?: unknown };
+  let payload: unknown;
   try {
-    payload = (await request.json()) as typeof payload;
+    payload = await request.json();
   } catch {
     return problem(400, 'Invalid request', 'Send an email and password as JSON.');
   }
-  const email = typeof payload.email === 'string' ? payload.email.trim().toLowerCase() : '';
-  const password = typeof payload.password === 'string' ? payload.password : '';
+  if (typeof payload !== 'object' || payload === null || Array.isArray(payload)) {
+    return problem(400, 'Invalid request', 'The sign-in payload must be a JSON object.');
+  }
+  const emailValue = Reflect.get(payload, 'email');
+  const passwordValue = Reflect.get(payload, 'password');
+  const email = typeof emailValue === 'string' ? emailValue.trim().toLowerCase() : '';
+  const password = typeof passwordValue === 'string' ? passwordValue : '';
   if (email !== 'demo@issueflow.dev' || password !== 'issueflow') {
     return problem(401, 'Invalid credentials', 'Use the demo credentials shown on the sign-in page.');
   }

@@ -1,7 +1,32 @@
 # 08：TypeScript 练习题库
 
 本题库用于 91 天路线第 5～8 周，也可单独训练。共 27 题，分为基础、应用和进阶三级。
-题目不给整套可复制答案；提示只指出下一步思路。完成一道题必须同时留下编译期和运行时证据。
+题目正文不直接展示整套答案；仓库现在提供独立 workbench、每题至少 3 个运行时 Contract、
+编译期负例、四级提示和单独的 reference。先完成再查看参考实现，完成一道题必须同时留下
+编译期和运行时证据。
+
+## 可运行工作台
+
+进入 `frontend` 后：
+
+```powershell
+npm run exercise:test -- B01
+npm run exercise:verify
+```
+
+第一次运行 B01 应当红灯，因为 [workbench.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/exercises/typescript/workbench.ts)
+仍是 TODO。只替换当前题函数，再运行同一命令。题目、关注点和四级提示位于
+[manifest.json](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/exercises/typescript/manifest.json)，
+确定性输入位于 [contracts.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/exercises/typescript/contracts.ts)。
+通过后才对照 [reference.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/exercises/typescript/reference.ts)，
+然后关闭参考实现，用一个变化后的输入再做一次。
+
+四级提示含义：
+
+1. 诊断问题，不指出位置；
+2. 指向类型关系或符号；
+3. 给伪代码和一个输入；
+4. 给最小补丁思路；使用后必须完成一个无提示迁移输入。
 
 ## 使用规则
 

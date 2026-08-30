@@ -20,7 +20,7 @@
 
 ---
 
-## Day 36：判别联合——让非法状态难以表达
+## Day 36：判别联合——让非法状态难以表达 {#day-36}
 
 ### 今日目标
 
@@ -81,7 +81,7 @@ const impossible: RemoteData<Issue[]> = {
 
 ---
 
-## Day 37：穷尽检查、never 与类型驱动变更
+## Day 37：穷尽检查、never 与类型驱动变更 {#day-37}
 
 ### 今日目标
 
@@ -150,7 +150,7 @@ const demoLabels: Record<DemoStatus, string> = statusLabels;
 
 ---
 
-## Day 38：泛型——保留输入与输出的关系
+## Day 38：泛型——保留输入与输出的关系 {#day-38}
 
 ### 今日目标
 
@@ -207,7 +207,7 @@ Lab 依次输入 `2,4`、`1,1`、`0,5`、`abc,2`。说明为什么数字类型�
 
 ---
 
-## Day 39：泛型约束、最小能力与 Map
+## Day 39：泛型约束、最小能力与 Map {#day-39}
 
 ### 今日目标
 
@@ -261,7 +261,7 @@ function groupBy<T, K extends PropertyKey>(
 
 ---
 
-## Day 40：keyof 与 indexed access——绑定字段和值
+## Day 40：keyof 与 indexed access——绑定字段和值 {#day-40}
 
 ### 今日目标
 
@@ -315,7 +315,7 @@ Lab 输入 `title=New title`、`description=A=B is preserved`、`priority=critic
 
 ---
 
-## Day 41：Utility Types、映射类型与类型设计边界
+## Day 41：Utility Types、映射类型与类型设计边界 {#day-41}
 
 ### 今日目标
 
@@ -370,7 +370,7 @@ const labels: Record<IssueStatus, string> = {
 
 ---
 
-## Day 42：周项目——Issue 投影与状态工具箱
+## Day 42：周项目——Issue 投影与状态工具箱 {#day-42}
 
 ### 今日目标
 

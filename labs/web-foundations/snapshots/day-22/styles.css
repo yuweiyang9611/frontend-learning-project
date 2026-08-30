@@ -1,0 +1,4 @@
+body { max-width: 48rem; margin: 0 auto; padding: 2rem 1rem; font: 1rem/1.6 system-ui, sans-serif; }
+select { min-height: 2.75rem; font: inherit; }
+li { margin-block: .5rem; padding: .75rem; border: 1px solid #8c85bd; border-radius: .6rem; }
+:focus-visible { outline: .2rem solid #6558e8; outline-offset: .2rem; }

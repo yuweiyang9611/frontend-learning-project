@@ -5,7 +5,7 @@ import { useState, type FormEvent } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ApiError } from '@/src/api/issueflowApi';
 import { useAuth } from '@/src/app/AppProviders';
-import { PageLoading, Spinner } from '@/src/components/ui';
+import { Spinner } from '@/src/components/ui';
 
 export default function LoginPage() {
   const { session, ready, login } = useAuth();
@@ -17,8 +17,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  if (!ready) return <PageLoading />;
-  if (session) return <Navigate to="/dashboard" replace />;
+  if (ready && session) return <Navigate to="/dashboard" replace />;
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -88,7 +87,7 @@ export default function LoginPage() {
         <p className="login-footnote">IssueFlow learning project · React + TypeScript</p>
       </section>
       <section className="login-form-wrap">
-        <form className="login-form" onSubmit={submit}>
+        <form className="login-form" onSubmit={submit} aria-busy={!ready || pending}>
           <div className="login-form-icon">
             <Layers3 size={22} />
           </div>
@@ -138,7 +137,7 @@ export default function LoginPage() {
               </button>
             </div>
           </div>
-          <button className="primary-button login-submit" type="submit" disabled={pending}>
+          <button className="primary-button login-submit" type="submit" disabled={!ready || pending}>
             {pending ? (
               <Spinner label="Signing in" />
             ) : (

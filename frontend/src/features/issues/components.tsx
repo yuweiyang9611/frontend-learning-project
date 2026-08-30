@@ -6,6 +6,9 @@ import { MemberAvatar, PriorityMark, StatusBadge, formatRelative } from '@/src/c
 import {
   ISSUE_PRIORITIES,
   ISSUE_STATUSES,
+  isIssuePriority,
+  isIssueStatus,
+  isPositiveIntegerId,
   priorityLabels,
   statusLabels,
   type Issue,
@@ -59,7 +62,13 @@ export function IssueFilters({
       <label className="select-control">
         <Filter size={15} />
         <span className="sr-only">Filter by status</span>
-        <select value={status} onChange={(event) => onStatus(event.target.value as IssueStatus | '')}>
+        <select
+          value={status}
+          onChange={(event) => {
+            const next = event.currentTarget.value;
+            if (next === '' || isIssueStatus(next)) onStatus(next);
+          }}
+        >
           <option value="">All status</option>
           {ISSUE_STATUSES.map((value) => (
             <option key={value} value={value}>
@@ -71,7 +80,13 @@ export function IssueFilters({
       </label>
       <label className="select-control">
         <span className="sr-only">Filter by priority</span>
-        <select value={priority} onChange={(event) => onPriority(event.target.value as IssuePriority | '')}>
+        <select
+          value={priority}
+          onChange={(event) => {
+            const next = event.currentTarget.value;
+            if (next === '' || isIssuePriority(next)) onPriority(next);
+          }}
+        >
           <option value="">All priority</option>
           {ISSUE_PRIORITIES.map((value) => (
             <option key={value} value={value}>
@@ -85,7 +100,12 @@ export function IssueFilters({
         <span className="sr-only">Filter by assignee</span>
         <select
           value={assigneeId ?? ''}
-          onChange={(event) => onAssignee(event.target.value ? Number(event.target.value) : undefined)}
+          onChange={(event) => {
+            const raw = event.currentTarget.value;
+            const next = Number(raw);
+            if (!raw) onAssignee(undefined);
+            else if (isPositiveIntegerId(next)) onAssignee(next);
+          }}
         >
           <option value="">All assignees</option>
           {members.map((member) => (
@@ -199,7 +219,10 @@ export function IssueTable({
                   <StatusBadge status={issue.status} />
                   <select
                     value={issue.status}
-                    onChange={(event) => onStatus(issue, event.target.value as IssueStatus)}
+                    onChange={(event) => {
+                      const next = event.currentTarget.value;
+                      if (isIssueStatus(next)) onStatus(issue, next);
+                    }}
                     disabled={pendingId === issue.id}
                   >
                     {ISSUE_STATUSES.map((value) => (
@@ -295,7 +318,10 @@ export function IssueCards({
               <select
                 aria-label={`Change status for ${issue.key}`}
                 value={issue.status}
-                onChange={(event) => onStatus(issue, event.target.value as IssueStatus)}
+                onChange={(event) => {
+                  const next = event.currentTarget.value;
+                  if (isIssueStatus(next)) onStatus(issue, next);
+                }}
               >
                 {ISSUE_STATUSES.map((value) => (
                   <option value={value} key={value}>

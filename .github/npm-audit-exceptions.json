@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "exceptions": [
+    {
+      "ecosystem": "npm",
+      "workspace": "/",
+      "package": "vite",
+      "advisoryId": "GHSA-fx2h-pf6j-xcff",
+      "npmSource": 1123525,
+      "severity": "high",
+      "affectedRange": "<=6.4.2",
+      "observedVersion": "5.4.21",
+      "dependencyPath": "vitepress@1.6.4 > vite@5.4.21",
+      "fixAvailableAtReview": false,
+      "createdAt": "2026-08-30T00:00:00+09:00",
+      "expiresAt": "2026-09-13T23:59:59+09:00",
+      "owner": "repository-maintainer",
+      "reason": "VitePress 1.6.4 only supports Vite 5 and npm currently offers no compatible fixed release; GitHub Pages publishes static build output only.",
+      "compensatingControls": [
+        "docs:dev and docs:preview bind to 127.0.0.1",
+        "documentation development servers must not be exposed through a LAN or public tunnel",
+        "CI and GitHub Pages publish static build output only"
+      ],
+      "remediation": "Upgrade as soon as VitePress supports an unaffected Vite release, then remove this exception.",
+      "advisoryUrl": "https://github.com/advisories/GHSA-fx2h-pf6j-xcff"
+    }
+  ]
+}

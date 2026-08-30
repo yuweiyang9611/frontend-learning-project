@@ -15,7 +15,10 @@
 
 ---
 
-## Day 15：Cascade、Specificity 与继承
+## Day 15：Cascade、Specificity 与继承 {#day-15}
+
+开始前在仓库根运行 `npm run learn:create -- --day 15`。该快照保留第 2 周语义基线，让你只观察
+Cascade、响应式和焦点；目标目录已存在时脚本会拒绝覆盖。
 
 ### 120 分钟任务
 
@@ -62,7 +65,7 @@ button {
 
 ---
 
-## Day 16：Box Model、尺寸单位与 Overflow
+## Day 16：Box Model、尺寸单位与 Overflow {#day-16}
 
 ### 120 分钟任务
 
@@ -108,7 +111,7 @@ button {
 
 ---
 
-## Day 17：Flexbox 的一维布局
+## Day 17：Flexbox 的一维布局 {#day-17}
 
 ### 120 分钟任务
 
@@ -156,7 +159,7 @@ button {
 
 ---
 
-## Day 18：Grid 的二维布局
+## Day 18：Grid 的二维布局 {#day-18}
 
 ### 120 分钟任务
 
@@ -198,7 +201,7 @@ button {
 
 ---
 
-## Day 19：响应式、Container 与内容断点
+## Day 19：响应式、Container 与内容断点 {#day-19}
 
 ### 120 分钟任务
 
@@ -289,7 +292,7 @@ Logical properties 用内容方向表达布局，例如 `margin-inline`、`paddi
 
 ---
 
-## Day 20：设计变量、主题与组件状态
+## Day 20：设计变量、主题与组件状态 {#day-20}
 
 ### 120 分钟任务
 
@@ -334,7 +337,7 @@ semantic token，不在每个组件重复写 dark selector。
 
 ---
 
-## Day 21：响应式页面交付与周测
+## Day 21：响应式页面交付与周测 {#day-21}
 
 ### 120 分钟任务
 

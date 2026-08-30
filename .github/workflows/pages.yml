@@ -5,12 +5,9 @@ on:
     branches: [main]
     paths:
       - docs/**
-      - frontend/public/favicon.svg
-      - frontend/public/og.png
       - package.json
       - package-lock.json
-      - scripts/check-curriculum.mjs
-      - scripts/check-doc-site-links.mjs
+      - scripts/**
       - .github/workflows/pages.yml
   workflow_dispatch:
 
@@ -40,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build learning site
-        run: npm run docs:build
+        run: npm run docs:verify
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:

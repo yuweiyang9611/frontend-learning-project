@@ -1,5 +1,6 @@
 ---
 layout: home
+titleTemplate: false
 
 hero:
   name: "IssueFlow 学习站"

@@ -24,7 +24,7 @@ TanStack Query 当成会自动保持一切一致的黑盒。
 
 ---
 
-## Day 64：区分 UI State、URL State 与 Server State
+## Day 64：区分 UI State、URL State 与 Server State {#day-64}
 
 ### 120 分钟任务
 
@@ -91,7 +91,7 @@ URL query
 
 ---
 
-## Day 65：设计稳定 Query Key 与条件查询
+## Day 65：设计稳定 Query Key 与条件查询 {#day-65}
 
 ### 120 分钟任务
 
@@ -159,7 +159,7 @@ const issueKeys = {
 
 ---
 
-## Day 66：观察 Fresh、Stale、Fetching 与缓存回收
+## Day 66：观察 Fresh、Stale、Fetching 与缓存回收 {#day-66}
 
 ### 120 分钟任务
 
@@ -213,7 +213,7 @@ refetch，应保留内容并显示非阻塞刷新提示；失败后保留或替�
 
 ---
 
-## Day 67：隔离分页与 Infinite Query 的数据形状
+## Day 67：隔离分页与 Infinite Query 的数据形状 {#day-67}
 
 ### 120 分钟任务
 
@@ -271,7 +271,7 @@ stream：initialPageParam → pages[] → getNextPageParam → flattened items
 
 ---
 
-## Day 68：完成 Mutation、失效与结构化错误闭环
+## Day 68：完成 Mutation、失效与结构化错误闭环 {#day-68}
 
 ### 120 分钟任务
 
@@ -327,7 +327,7 @@ submit
 
 ---
 
-## Day 69：实现跨视图乐观更新、失败回滚与并发实验
+## Day 69：实现跨视图乐观更新、失败回滚与并发实验 {#day-69}
 
 ### 120 分钟任务
 
@@ -384,7 +384,7 @@ mutation token/version、只在仍匹配预测值时回滚，或失败后立即�
 
 ---
 
-## Day 70：交付统一 Query Key Factory 与服务端状态闭环
+## Day 70：交付统一 Query Key Factory 与服务端状态闭环 {#day-70}
 
 ### 120 分钟任务
 
@@ -437,6 +437,9 @@ key、缓存写入、失效和回滚路径。
 - 至少一个乱序并发用例有自动化测试和明确策略；
 - 测试不使用固定 sleep，相关测试、`npm run typecheck`、`npm run lint` 通过；
 - 任一一致性或回滚项失败，都不能进入第 11 周。
+
+完成质量命令后，使用 [W10 阶段检查点](assessments.md#w10-检查点能否管理服务端状态与并发恢复)
+和 [阅读清单迁移题](transfer-tasks.md#w10阅读清单-query) 验证你能否离开 IssueFlow 复现同样能力。
 
 [上一周：Router、表单与无障碍](week-09-routing-forms-a11y.md) ·
 [下一周：双后端与安全边界](week-11-backends-security.md) ·

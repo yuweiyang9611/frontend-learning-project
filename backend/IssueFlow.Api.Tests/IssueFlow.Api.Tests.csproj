@@ -23,4 +23,10 @@
     <ProjectReference Include="..\IssueFlow.Api\IssueFlow.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\contracts\issueflow\v1\http-cases.json"
+          Link="ContractCases\http-cases.json"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

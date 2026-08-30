@@ -18,7 +18,7 @@ Contract，State 表达交互记忆，事件仍来自浏览器边界，Effect �
 
 ---
 
-## Day 50：TSX、组件 Props 与最小依赖
+## Day 50：TSX、组件 Props 与最小依赖 {#day-50}
 
 ### 今日目标
 
@@ -78,7 +78,7 @@ function IssueHeading({ key, title, status }: IssueHeadingProps) {
 
 ---
 
-## Day 51：State 推断、状态所有权与派生值
+## Day 51：State 推断、状态所有权与派生值 {#day-51}
 
 ### 今日目标
 
@@ -123,7 +123,7 @@ setTooNarrow(seedIssues[0]);
 
 ---
 
-## Day 52：DOM 事件、受控表单与安全 select
+## Day 52：DOM 事件、受控表单与安全 select {#day-52}
 
 ### 今日目标
 
@@ -185,7 +185,7 @@ state；guard 版本必须保持原状态或显示明确错误。
 
 ---
 
-## Day 53：异步 UI、错误状态与 Context Contract
+## Day 53：异步 UI、错误状态与 Context Contract {#day-53}
 
 ### 今日目标
 
@@ -231,7 +231,7 @@ const badState: IssueEditorState = { state: "saved" };
 
 ---
 
-## Day 54：Effect、Ref、cleanup 与外部系统
+## Day 54：Effect、Ref、cleanup 与外部系统 {#day-54}
 
 ### 今日目标
 
@@ -288,7 +288,7 @@ inputRef.current.focus();
 
 ---
 
-## Day 55：Typed API 状态、Mutation 与失败恢复
+## Day 55：Typed API 状态、Mutation 与失败恢复 {#day-55}
 
 ### 今日目标
 
@@ -345,7 +345,7 @@ const variables: MoveIssueVariables = {
 
 ---
 
-## Day 56：周项目——可测试的 Issue 功能切片
+## Day 56：周项目——可测试的 Issue 功能切片 {#day-56}
 
 ### 今日目标
 

@@ -7,6 +7,10 @@ import { Spinner } from '@/src/components/ui';
 import {
   ISSUE_PRIORITIES,
   ISSUE_STATUSES,
+  isCalendarDate,
+  isIssuePriority,
+  isIssueStatus,
+  isPositiveIntegerId,
   priorityLabels,
   statusLabels,
   validateIssue,
@@ -157,7 +161,10 @@ export default function IssueForm({
               <select
                 id="status"
                 value={value.status}
-                onChange={(event) => change('status', event.target.value as IssueInput['status'])}
+                onChange={(event) => {
+                  const next = event.currentTarget.value;
+                  if (isIssueStatus(next)) change('status', next);
+                }}
               >
                 {ISSUE_STATUSES.map((status) => (
                   <option key={status} value={status}>
@@ -174,7 +181,10 @@ export default function IssueForm({
               <select
                 id="priority"
                 value={value.priority}
-                onChange={(event) => change('priority', event.target.value as IssueInput['priority'])}
+                onChange={(event) => {
+                  const next = event.currentTarget.value;
+                  if (isIssuePriority(next)) change('priority', next);
+                }}
               >
                 {ISSUE_PRIORITIES.map((priority) => (
                   <option key={priority} value={priority}>
@@ -203,7 +213,12 @@ export default function IssueForm({
               <select
                 id="assignee"
                 value={value.assigneeId ?? ''}
-                onChange={(event) => change('assigneeId', event.target.value ? Number(event.target.value) : null)}
+                onChange={(event) => {
+                  const raw = event.currentTarget.value;
+                  const next = Number(raw);
+                  if (!raw) change('assigneeId', null);
+                  else if (isPositiveIntegerId(next)) change('assigneeId', next);
+                }}
               >
                 <option value="">Unassigned</option>
                 {members.map((member) => (
@@ -226,7 +241,10 @@ export default function IssueForm({
                 value={value.dueDate ?? ''}
                 aria-invalid={Boolean(errors.dueDate)}
                 aria-describedby={errors.dueDate ? 'dueDate-error' : undefined}
-                onChange={(event) => change('dueDate', event.target.value || null)}
+                onChange={(event) => {
+                  const next = event.currentTarget.value;
+                  if (!next || isCalendarDate(next)) change('dueDate', next || null);
+                }}
               />
             </div>
             {errors.dueDate && (

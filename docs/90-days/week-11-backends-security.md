@@ -26,7 +26,7 @@
 
 ---
 
-## Day 71：证明三种数据路径并定义 Contract 层次
+## Day 71：证明三种数据路径并定义 Contract 层次 {#day-71}
 
 ### 120 分钟任务
 
@@ -83,7 +83,7 @@
 
 ---
 
-## Day 72：从 Program 读懂 Minimal API 与 HTTP Contract
+## Day 72：从 Program 读懂 Minimal API 与 HTTP Contract {#day-72}
 
 ### 120 分钟任务
 
@@ -151,7 +151,7 @@ service registration
 
 ---
 
-## Day 73：用 SQL 与 EF Core 理解关系、Migration 和稳定分页
+## Day 73：用 SQL 与 EF Core 理解关系、Migration 和稳定分页 {#day-73}
 
 ### 120 分钟任务
 
@@ -214,7 +214,7 @@ service registration
 
 ---
 
-## Day 74：从同源 Route Handler 追到 D1 与 R2
+## Day 74：从同源 Route Handler 追到 D1 与 R2 {#day-74}
 
 ### 120 分钟任务
 
@@ -283,7 +283,7 @@ IssuesPage
 
 ---
 
-## Day 75：验证 Cookie、授权、CORS、CSRF 与 Problem Details
+## Day 75：验证 Cookie、授权、CORS、CSRF 与 Problem Details {#day-75}
 
 ### 120 分钟任务
 
@@ -344,7 +344,7 @@ IssuesPage
 
 ---
 
-## Day 76：把文件上传当作不可信输入与跨存储事务
+## Day 76：把文件上传当作不可信输入与跨存储事务 {#day-76}
 
 ### 120 分钟任务
 
@@ -409,27 +409,30 @@ file input
 
 ---
 
-## Day 77：交付双后端黑盒 Contract Suite 与差异报告
+## Day 77：交付双后端黑盒 Contract Suite 与差异报告 {#day-77}
 
 ### 120 分钟任务
 
 - **0–15：**闭卷画出 React 到两种真实后端及各自存储的拓扑。
-- **15–65：**完成可切换 Base URL/Adapter 的黑盒 suite，并运行核心用例。
+- **15–45：**运行课程提供的可切换 Base URL/Adapter 黑盒 suite，确认两个隔离 fixture 正常。
+- **45–65：**独立实现或修复 4 个指定 case；其余 14 个作为可运行 oracle，不要求从零重写。
 - **65–90：**归类结果，复现至少五项已知差异并写产品决定。
 - **90–108：**运行后端、前端相关测试与质量门，确认隔离数据已清理。
 - **108–120：**完成对照报告、自评和进入测试工程周的风险清单。
 
 ### 独立任务
 
-关闭后端专题文档，只保留自己的 suite。从两个干净、隔离的 fixture 启动 .NET 与同源
-实现，独立完成登录、列表、创建、PATCH 三态、删除、错误和上传核心流程。遇到差异时先用
+关闭后端专题文档，只保留共享 suite。从两个干净、隔离的 fixture 启动 .NET 与同源
+实现，独立实现或修复 4 个 case，并运行登录、列表、创建、PATCH 三态、删除、错误和上传
+全部 18 个核心 case。遇到差异时先用
 原始 request/response 归类，再定位源码；不得通过在测试中判断后端名称来跳过失败。结束后
 证明数据库记录、Cookie 日志和临时附件均已按隔离策略处理。
 
 ### 可运行交付物
 
-同一组用例必须能针对 .NET/SQLite 与同源 D1/R2 执行。允许 Adapter 处理 Base URL、登录和
-fixture reset，但业务断言不能复制成两套互不相关的测试。至少包含 18 个 case：
+同一组课程支架用例必须能针对 .NET/SQLite 与同源 D1/R2 执行。允许 Adapter 处理 Base URL、
+登录和 fixture reset，但业务断言不能复制成两套互不相关的测试。Day 71–76 已逐步启用
+这些 case；Day 77 负责运行全部 18 项并独立扩展 4 项：
 
 #### 读取 6 项
 
@@ -502,6 +505,9 @@ fixture reset，但业务断言不能复制成两套互不相关的测试。至�
 - 所有破坏实验使用隔离 fixture，结束后无残留测试数据与文件；
 - `dotnet test IssueFlow.slnx`、相关前端测试、typecheck 与 lint 通过；
 - 任一安全、隔离或 Contract 项失败，都不能进入第 12 周。
+
+最后完成 [W11 阶段检查点](assessments.md#w11-检查点能否跨越前后端契约与安全边界)
+和 [预约系统迁移题](transfer-tasks.md#w11预约系统-contract)，证明结论不是对 IssueFlow 用例的记忆。
 
 [上一周：Query 与服务端状态](week-10-query-server-state.md) ·
 [下一周：测试、调试、CI 与部署](week-12-testing-debugging-ci.md) ·

@@ -11,7 +11,7 @@
   text-decoration: none;
 }
 .back-link:hover {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .detail-title-row {
   display: flex;
@@ -21,7 +21,7 @@
   margin-top: 13px;
 }
 .issue-key {
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 10px;
   font-weight: 750;
   letter-spacing: 0.08em;
@@ -165,7 +165,7 @@
   font-size: 10px;
 }
 .comment-list article time {
-  color: #8b968f;
+  color: var(--muted);
   font-size: 8px;
 }
 .comment-list article header button {
@@ -199,7 +199,7 @@
   border-top: 1px solid var(--line);
 }
 .property > span:first-child {
-  color: #8b968f;
+  color: var(--muted);
   font-size: 9px;
 }
 .inline-detail {
@@ -209,7 +209,7 @@
   font-size: 9px;
 }
 .muted-value {
-  color: #8b968f;
+  color: var(--muted);
   font-size: 9px;
 }
 .attachments-card {
@@ -238,7 +238,7 @@
   margin-bottom: 8px;
   border-radius: 10px;
   background: var(--paper);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .upload-dropzone strong {
   font-size: 10px;
@@ -398,7 +398,7 @@
 .card-grip {
   display: flex;
   justify-content: space-between;
-  color: #8b968f;
+  color: var(--muted);
   font-size: 8px;
 }
 .kanban-card > a {
@@ -448,7 +448,7 @@
   padding: 25px 10px;
   border: 1px dashed #cbd3cc;
   border-radius: 9px;
-  color: #8b968f;
+  color: var(--muted);
   font-size: 8px;
   text-align: center;
 }

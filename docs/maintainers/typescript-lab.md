@@ -1,3 +1,7 @@
+---
+search: false
+---
+
 # 维护 TypeScript Lab
 
 ## 1. 设计原则

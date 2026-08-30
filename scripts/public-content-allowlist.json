@@ -1,0 +1,16 @@
+{
+  "emails": [
+    "demo@issueflow.dev",
+    "jordan@issueflow.dev",
+    "maya@issueflow.dev",
+    "theo@issueflow.dev",
+    "nora@issueflow.dev",
+    "alex@issueflow.dev",
+    "sam@issueflow.dev",
+    "iris@issueflow.dev",
+    "leo@issueflow.dev",
+    "ada@example.com",
+    "alice@example.com"
+  ],
+  "commitEmailSuffixes": ["@users.noreply.github.com"]
+}

@@ -1,0 +1,233 @@
+[
+  {
+    "day": 57,
+    "source": "week-09-routing-forms-a11y.md#day-57",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "forms.a11y"
+    ],
+    "starter": "frontend/src",
+    "checks": [
+      {
+        "id": "D57-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D57-E1",
+        "pathTemplate": "learning-evidence/day-57/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D57-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 58,
+    "source": "week-09-routing-forms-a11y.md#day-58",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "forms.a11y"
+    ],
+    "starter": "frontend/src",
+    "checks": [
+      {
+        "id": "D58-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D58-E1",
+        "pathTemplate": "learning-evidence/day-58/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D58-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 59,
+    "source": "week-09-routing-forms-a11y.md#day-59",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "forms.a11y"
+    ],
+    "starter": "frontend/src",
+    "checks": [
+      {
+        "id": "D59-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D59-E1",
+        "pathTemplate": "learning-evidence/day-59/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D59-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 60,
+    "source": "week-09-routing-forms-a11y.md#day-60",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "forms.a11y"
+    ],
+    "starter": "frontend/src",
+    "checks": [
+      {
+        "id": "D60-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D60-E1",
+        "pathTemplate": "learning-evidence/day-60/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D60-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 61,
+    "source": "week-09-routing-forms-a11y.md#day-61",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "forms.a11y"
+    ],
+    "starter": "frontend/src",
+    "checks": [
+      {
+        "id": "D61-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D61-E1",
+        "pathTemplate": "learning-evidence/day-61/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D61-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 62,
+    "source": "week-09-routing-forms-a11y.md#day-62",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "forms.a11y"
+    ],
+    "starter": "frontend/src",
+    "checks": [
+      {
+        "id": "D62-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D62-E1",
+        "pathTemplate": "learning-evidence/day-62/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D62-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 63,
+    "source": "week-09-routing-forms-a11y.md#day-63",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "forms.a11y"
+    ],
+    "starter": "frontend/src",
+    "checks": [
+      {
+        "id": "D63-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D63-E1",
+        "pathTemplate": "learning-evidence/day-63/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D63-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Day 15 · 响应式报名表</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="intro">
+        <p class="eyebrow">Web Foundations · Day 15</p>
+        <h1>让报名流程在 320px 仍然可用</h1>
+        <p>调整 token、布局和焦点状态；不要用缩小文字掩盖溢出。</p>
+      </section>
+      <form class="card">
+        <label for="name">姓名</label>
+        <input id="name" name="name" required />
+        <label for="session">场次</label>
+        <select id="session" name="session">
+          <option>上午场</option>
+          <option>晚间场</option>
+        </select>
+        <button type="submit">提交报名</button>
+      </form>
+    </main>
+  </body>
+</html>

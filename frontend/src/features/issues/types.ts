@@ -120,6 +120,13 @@ export const isSortDirection = (value: unknown): value is SortDirection => isOne
 export const isPositiveIntegerId = (value: unknown): value is number =>
   typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
 
+export function isCalendarDate(value: unknown): value is string {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+}
+
 export function validateIssue(input: IssueInput): FieldErrors {
   const errors: FieldErrors = {};
   const title = input.title.trim();
@@ -127,9 +134,17 @@ export function validateIssue(input: IssueInput): FieldErrors {
   else if (title.length > 100) errors.title = ['Title must be 100 characters or fewer.'];
   if (input.description.length > 5000) errors.description = ['Description must be 5,000 characters or fewer.'];
   if (input.dueDate) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (new Date(`${input.dueDate}T00:00:00`) < today) errors.dueDate = ['Due date cannot be in the past.'];
+    if (!isCalendarDate(input.dueDate)) {
+      errors.dueDate = ['Due date must be a real calendar date in YYYY-MM-DD format.'];
+    } else {
+      const today = new Date();
+      const localToday = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, '0'),
+        String(today.getDate()).padStart(2, '0'),
+      ].join('-');
+      if (input.dueDate < localToday) errors.dueDate = ['Due date cannot be in the past.'];
+    }
   }
   return errors;
 }

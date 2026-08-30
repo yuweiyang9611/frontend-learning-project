@@ -37,6 +37,28 @@ git --version
 
 如果版本不满足要求，先升级环境，不要通过删除 lockfile 或随意降级依赖绕过问题。
 
+### 第一次安装与 PATH 恢复
+
+1. Windows 使用 Node.js、Git 和 .NET 官方安装器；macOS 可使用官方安装器或同一个可信包管理器。
+2. 安装时保留“加入 PATH”选项，结束后关闭全部终端再重新打开。
+3. 在仓库根目录运行 `npm run learn:check`。脚本只诊断版本，不会修改或自动安装系统软件。
+4. 如果显示 “not found”，先用 `where.exe node`（Windows）或 `command -v node`（macOS/Linux）
+   确认路径；不要复制别人的绝对用户目录。
+5. 克隆仓库后先运行根目录 `npm ci`，再运行 `npm --prefix frontend ci`。lockfile 安装失败时
+   保存完整错误，先检查 Node 版本、代理和当前目录，不要删除 lockfile。
+
+推荐使用 VS Code 或其他能显示 TypeScript 诊断、集成终端和 Git diff 的编辑器。第一次启动前，
+确认终端当前目录以 `frontend-learning-project` 结尾，并运行：
+
+```powershell
+npm run learn:check
+npm run learn:create -- --day 08
+npm run learn:start
+```
+
+浏览器打开终端打印的 `127.0.0.1` 地址。支架只绑定本机，不要把开发服务器暴露到局域网、
+公网隧道或共享机器。工作区已存在时创建器会拒绝覆盖；先保存或重命名旧目录再继续。
+
 ## 启动默认模式
 
 ```powershell

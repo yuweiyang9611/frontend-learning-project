@@ -19,7 +19,13 @@ import {
   formatBytes,
   formatRelative,
 } from '@/src/components/ui';
-import { ISSUE_STATUSES, statusLabels, type Comment, type IssueStatus } from '@/src/features/issues/types';
+import {
+  ISSUE_STATUSES,
+  isIssueStatus,
+  statusLabels,
+  type Comment,
+  type IssueStatus,
+} from '@/src/features/issues/types';
 
 export default function IssueDetailPage() {
   const id = Number(useParams().id);
@@ -236,7 +242,10 @@ export default function IssueDetailPage() {
                 <StatusBadge status={issue.status} />
                 <select
                   value={issue.status}
-                  onChange={(event) => statusMutation.mutate(event.target.value as IssueStatus)}
+                  onChange={(event) => {
+                    const next = event.currentTarget.value;
+                    if (isIssueStatus(next)) statusMutation.mutate(next);
+                  }}
                   disabled={statusMutation.isPending}
                 >
                   {ISSUE_STATUSES.map((status) => (

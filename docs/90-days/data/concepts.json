@@ -1,0 +1,19 @@
+{
+  "web.environment": { "introducedDay": 1 },
+  "html.semantic": { "introducedDay": 8 },
+  "css.responsive": { "introducedDay": 15 },
+  "javascript.dom": { "introducedDay": 22 },
+  "typescript.core": { "introducedDay": 29 },
+  "typescript.modeling": { "introducedDay": 36 },
+  "typescript.runtime": { "introducedDay": 43 },
+  "react.state": { "introducedDay": 50 },
+  "forms.a11y": { "introducedDay": 57 },
+  "query.core": { "introducedDay": 64 },
+  "query.mutation": { "introducedDay": 68 },
+  "query.rollback": { "introducedDay": 69 },
+  "backend.dual": { "introducedDay": 71 },
+  "security.boundary": { "introducedDay": 75 },
+  "testing.core": { "introducedDay": 78 },
+  "testing.ci": { "introducedDay": 83 },
+  "capstone.delivery": { "introducedDay": 85 }
+}

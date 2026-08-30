@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Day 22 · JavaScript 数据流</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./src/main.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Issue 观察器</h1>
+      <label for="status">状态</label>
+      <select id="status">
+        <option value="">全部</option>
+        <option value="open">Open</option>
+        <option value="in_progress">In progress</option>
+        <option value="resolved">Resolved</option>
+      </select>
+      <p id="status-message" role="status">准备加载。</p>
+      <ul id="issue-list"></ul>
+    </main>
+  </body>
+</html>

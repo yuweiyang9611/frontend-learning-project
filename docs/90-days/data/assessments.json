@@ -1,0 +1,7 @@
+[
+  { "id": "W4", "afterDay": 28, "requiresConcepts": ["html.semantic", "css.responsive", "javascript.dom"], "transferTaskId": "w04-event-registration" },
+  { "id": "W7", "afterDay": 49, "requiresConcepts": ["typescript.core", "typescript.modeling", "typescript.runtime"], "transferTaskId": "w07-inventory-batch" },
+  { "id": "W10", "afterDay": 70, "requiresConcepts": ["query.rollback"], "transferTaskId": "w10-reading-list" },
+  { "id": "W11", "afterDay": 77, "requiresConcepts": ["backend.dual", "security.boundary"], "transferTaskId": "w11-appointment-contract" },
+  { "id": "W12", "afterDay": 84, "requiresConcepts": ["testing.ci"], "transferTaskId": "w12-unseen-regression" }
+]

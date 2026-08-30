@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Day 08 · 活动报名</title>
+  </head>
+  <body>
+    <a href="#registration">跳到报名表</a>
+    <main>
+      <header>
+        <p>Web Foundations · Day 08</p>
+        <h1>无障碍活动报名</h1>
+        <p>先预测键盘和读屏器如何理解表单，再完成 TODO。</p>
+      </header>
+      <form id="registration">
+        <fieldset>
+          <legend>报名信息</legend>
+          <p>
+            <label for="name">姓名</label>
+            <input id="name" name="name" autocomplete="name" required />
+          </p>
+          <p>
+            <label for="email">邮箱</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </p>
+          <!-- TODO: 添加有共同 legend 的场次 radio，不要使用可点击 div。 -->
+        </fieldset>
+        <button type="submit">提交报名</button>
+      </form>
+    </main>
+  </body>
+</html>

@@ -9,22 +9,32 @@ import {
   type IssueInput,
   type IssueQuery,
   type IssueUpdate,
-  type Member,
   type PagedResult,
   type Session,
 } from '@/src/features/issues/types';
+import {
+  ContractDecodeError,
+  decodeAttachment,
+  decodeAttachments,
+  decodeComment,
+  decodeComments,
+  decodeIssue,
+  decodeLocalDatabase,
+  decodeMembers,
+  decodePagedIssues,
+  decodeProblemDetails,
+  decodeSession,
+  unwrapDecoded,
+  type Decoder,
+  type LocalDatabaseContract,
+} from '@/src/features/issues/runtime-contracts';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, '') ?? '';
 const USE_HTTP_API = process.env.NEXT_PUBLIC_DEMO_MODE !== 'local';
 const DB_KEY = 'issueflow-demo-db-v3';
 const SESSION_KEY = 'issueflow-session';
 
-interface LocalDatabase {
-  issues: Issue[];
-  members: Member[];
-  comments: Comment[];
-  attachments: Attachment[];
-}
+type LocalDatabase = LocalDatabaseContract;
 
 export class ApiError extends Error {
   constructor(
@@ -37,7 +47,7 @@ export class ApiError extends Error {
   }
 }
 
-const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
+const clone = <T>(value: T): T => structuredClone(value);
 const pause = (ms = 220) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
 function freshDatabase(): LocalDatabase {
@@ -52,7 +62,10 @@ function readDatabase(): LocalDatabase {
     return database;
   }
   try {
-    return JSON.parse(stored) as LocalDatabase;
+    const parsed: unknown = JSON.parse(stored);
+    const decoded = decodeLocalDatabase(parsed);
+    if (decoded.ok) return decoded.value;
+    throw new ContractDecodeError('Stored demo data does not match the current contract.', decoded.errors);
   } catch {
     const database = freshDatabase();
     localStorage.setItem(DB_KEY, JSON.stringify(database));
@@ -64,27 +77,55 @@ function writeDatabase(database: LocalDatabase) {
   localStorage.setItem(DB_KEY, JSON.stringify(database));
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function fetchResponse(path: string, init?: RequestInit): Promise<Response> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...init,
     credentials: 'include',
     headers: init?.body instanceof FormData ? init.headers : { 'Content-Type': 'application/json', ...init?.headers },
   });
   if (!response.ok) {
-    let problem: { title?: string; detail?: string; errors?: FieldErrors } = {};
+    let problem: ReturnType<typeof decodeProblemDetails> = { ok: true, value: {} };
     try {
-      problem = (await response.json()) as typeof problem;
+      const body: unknown = await response.json();
+      problem = decodeProblemDetails(body);
     } catch {
       /* non-JSON failure */
     }
+    const value = problem.ok ? problem.value : {};
     throw new ApiError(
-      problem.detail ?? problem.title ?? `Request failed with status ${response.status}.`,
+      value.detail ?? value.title ?? `Request failed with status ${response.status}.`,
       response.status,
-      problem.errors ?? {},
+      value.errors ?? {},
     );
   }
-  if (response.status === 204) return undefined as T;
-  return response.json() as Promise<T>;
+  return response;
+}
+
+async function requestJson<T>(path: string, decoder: Decoder<T>, init?: RequestInit): Promise<T> {
+  const response = await fetchResponse(path, init);
+  if (response.status === 204) {
+    throw new ContractDecodeError('The server returned 204 for an endpoint that requires JSON.', {
+      response: ['Expected a JSON response body.'],
+    });
+  }
+  let body: unknown;
+  try {
+    body = await response.json();
+  } catch {
+    throw new ContractDecodeError('The server returned invalid JSON.', {
+      response: ['Expected valid JSON.'],
+    });
+  }
+  return unwrapDecoded(decoder(body), 'The server response');
+}
+
+async function requestNoContent(path: string, init?: RequestInit): Promise<void> {
+  const response = await fetchResponse(path, init);
+  if (response.status !== 204) {
+    throw new ContractDecodeError('The server returned a body for a no-content operation.', {
+      response: ['Expected HTTP 204 No Content.'],
+    });
+  }
 }
 
 const priorityRank = { low: 0, medium: 1, high: 2, critical: 3 } as const;
@@ -252,44 +293,47 @@ async function mockUpload(issueId: number, file: File): Promise<Attachment> {
 
 export const issueflowApi = {
   listIssues: (query: IssueQuery) =>
-    USE_HTTP_API ? request<PagedResult<Issue>>(`/api/issues${buildIssueQuery(query)}`) : mockList(query),
-  getIssue: (id: number) => (USE_HTTP_API ? request<Issue>(`/api/issues/${id}`) : mockGetIssue(id)),
+    USE_HTTP_API ? requestJson(`/api/issues${buildIssueQuery(query)}`, decodePagedIssues) : mockList(query),
+  getIssue: (id: number) => (USE_HTTP_API ? requestJson(`/api/issues/${id}`, decodeIssue) : mockGetIssue(id)),
   createIssue: (input: IssueInput) =>
     USE_HTTP_API
-      ? request<Issue>('/api/issues', { method: 'POST', body: JSON.stringify(input) })
+      ? requestJson('/api/issues', decodeIssue, { method: 'POST', body: JSON.stringify(input) })
       : mockCreateIssue(input),
   updateIssue: (id: number, update: IssueUpdate) =>
     USE_HTTP_API
-      ? request<Issue>(`/api/issues/${id}`, { method: 'PATCH', body: JSON.stringify(update) })
+      ? requestJson(`/api/issues/${id}`, decodeIssue, { method: 'PATCH', body: JSON.stringify(update) })
       : mockUpdateIssue(id, update),
   deleteIssue: (id: number) =>
-    USE_HTTP_API ? request<void>(`/api/issues/${id}`, { method: 'DELETE' }) : mockDeleteIssue(id),
+    USE_HTTP_API ? requestNoContent(`/api/issues/${id}`, { method: 'DELETE' }) : mockDeleteIssue(id),
   getMembers: async () =>
-    USE_HTTP_API ? request<Member[]>('/api/members') : (await pause(120), clone(readDatabase().members)),
+    USE_HTTP_API ? requestJson('/api/members', decodeMembers) : (await pause(120), clone(readDatabase().members)),
   getComments: (issueId: number) =>
-    USE_HTTP_API ? request<Comment[]>(`/api/issues/${issueId}/comments`) : mockComments(issueId),
+    USE_HTTP_API ? requestJson(`/api/issues/${issueId}/comments`, decodeComments) : mockComments(issueId),
   addComment: (issueId: number, body: string) =>
     USE_HTTP_API
-      ? request<Comment>(`/api/issues/${issueId}/comments`, { method: 'POST', body: JSON.stringify({ body }) })
+      ? requestJson(`/api/issues/${issueId}/comments`, decodeComment, {
+          method: 'POST',
+          body: JSON.stringify({ body }),
+        })
       : mockAddComment(issueId, body),
   deleteComment: (issueId: number, commentId: number) =>
     USE_HTTP_API
-      ? request<void>(`/api/issues/${issueId}/comments/${commentId}`, { method: 'DELETE' })
+      ? requestNoContent(`/api/issues/${issueId}/comments/${commentId}`, { method: 'DELETE' })
       : mockDeleteComment(issueId, commentId),
   getAttachments: async (issueId: number) =>
     USE_HTTP_API
-      ? request<Attachment[]>(`/api/issues/${issueId}/attachments`)
+      ? requestJson(`/api/issues/${issueId}/attachments`, decodeAttachments)
       : (await pause(120), clone(readDatabase().attachments.filter((item) => item.issueId === issueId))),
   uploadAttachment: async (issueId: number, file: File) => {
     if (!USE_HTTP_API) return mockUpload(issueId, file);
     const body = new FormData();
     body.append('file', file);
-    return request<Attachment>(`/api/issues/${issueId}/attachments`, { method: 'POST', body });
+    return requestJson(`/api/issues/${issueId}/attachments`, decodeAttachment, { method: 'POST', body });
   },
   login: async (email: string, password: string): Promise<Session> => {
     let session: Session;
     if (USE_HTTP_API) {
-      session = await request<Session>('/api/auth/login', {
+      session = await requestJson('/api/auth/login', decodeSession, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       });
@@ -312,13 +356,26 @@ export const issueflowApi = {
     return session;
   },
   logout: async () => {
-    if (USE_HTTP_API) await request<void>('/api/auth/logout', { method: 'POST' });
+    if (USE_HTTP_API) await requestNoContent('/api/auth/logout', { method: 'POST' });
     localStorage.removeItem(SESSION_KEY);
   },
   restoreSession: async (): Promise<Session | null> => {
     if (!USE_HTTP_API) return issueflowApi.getStoredSession();
     try {
-      const session = await request<Session>('/api/auth/session');
+      const response = await fetchResponse('/api/auth/session');
+      if (response.status === 204) {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+      let body: unknown;
+      try {
+        body = await response.json();
+      } catch {
+        throw new ContractDecodeError('The session endpoint returned invalid JSON.', {
+          response: ['Expected a session object or HTTP 204 No Content.'],
+        });
+      }
+      const session = unwrapDecoded(decodeSession(body), 'The session response');
       localStorage.setItem(SESSION_KEY, JSON.stringify(session));
       return session;
     } catch (error) {
@@ -330,9 +387,12 @@ export const issueflowApi = {
     }
   },
   getStoredSession: (): Session | null => {
-    const value = localStorage.getItem(SESSION_KEY);
     try {
-      return value ? (JSON.parse(value) as Session) : null;
+      const value = localStorage.getItem(SESSION_KEY);
+      if (!value) return null;
+      const parsed: unknown = JSON.parse(value);
+      const decoded = decodeSession(parsed);
+      return decoded.ok ? decoded.value : null;
     } catch {
       return null;
     }

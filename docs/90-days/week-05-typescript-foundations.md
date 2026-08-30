@@ -17,7 +17,7 @@
 
 ---
 
-## Day 29：编译器、类型擦除与第一条诊断
+## Day 29：编译器、类型擦除与第一条诊断 {#day-29}
 
 ### 120 分钟任务
 
@@ -91,7 +91,7 @@ const decoded = decodeIssue(JSON.parse(source));
 
 ---
 
-## Day 30：对象、函数、数组与结构类型
+## Day 30：对象、函数、数组与结构类型 {#day-30}
 
 ### 120 分钟任务
 
@@ -144,7 +144,7 @@ function findIssueByKey(
 
 ---
 
-## Day 31：Optional、Undefined、Null 与 PATCH 三态
+## Day 31：Optional、Undefined、Null 与 PATCH 三态 {#day-31}
 
 ### 120 分钟任务
 
@@ -188,7 +188,7 @@ function toAssigneePatch(intent: AssigneeIntent): IssueUpdate {
 
 ---
 
-## Day 32：Literal Union、as const 与 satisfies
+## Day 32：Literal Union、as const 与 satisfies {#day-32}
 
 ### 120 分钟任务
 
@@ -234,7 +234,7 @@ const statusLabels = {
 
 ---
 
-## Day 33：any、unknown 与 Honest Guard
+## Day 33：any、unknown 与 Honest Guard {#day-33}
 
 ### 120 分钟任务
 
@@ -276,7 +276,7 @@ predicate 的返回类型是程序员对编译器的承诺。编译器不会证�
 
 ---
 
-## Day 34：Readonly、不可变更新与浅约束
+## Day 34：Readonly、不可变更新与浅约束 {#day-34}
 
 ### 120 分钟任务
 
@@ -321,7 +321,7 @@ function updateStatus(
 
 ---
 
-## Day 35：TypeScript 基础周项目
+## Day 35：TypeScript 基础周项目 {#day-35}
 
 ### 120 分钟任务
 

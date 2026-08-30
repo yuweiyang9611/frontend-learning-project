@@ -1,0 +1,233 @@
+[
+  {
+    "day": 22,
+    "source": "week-04-javascript-dom-async.md#day-22",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "javascript.dom"
+    ],
+    "starter": "labs/web-foundations/snapshots/day-22",
+    "checks": [
+      {
+        "id": "D22-A1",
+        "kind": "npm-script",
+        "project": "root",
+        "script": "learn:test:web",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D22-E1",
+        "pathTemplate": "learning-evidence/day-22/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D22-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 23,
+    "source": "week-04-javascript-dom-async.md#day-23",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "javascript.dom"
+    ],
+    "starter": "labs/web-foundations/snapshots/day-22",
+    "checks": [
+      {
+        "id": "D23-A1",
+        "kind": "npm-script",
+        "project": "root",
+        "script": "learn:test:web",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D23-E1",
+        "pathTemplate": "learning-evidence/day-23/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D23-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 24,
+    "source": "week-04-javascript-dom-async.md#day-24",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "javascript.dom"
+    ],
+    "starter": "labs/web-foundations/snapshots/day-22",
+    "checks": [
+      {
+        "id": "D24-A1",
+        "kind": "npm-script",
+        "project": "root",
+        "script": "learn:test:web",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D24-E1",
+        "pathTemplate": "learning-evidence/day-24/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D24-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 25,
+    "source": "week-04-javascript-dom-async.md#day-25",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "javascript.dom"
+    ],
+    "starter": "labs/web-foundations/snapshots/day-22",
+    "checks": [
+      {
+        "id": "D25-A1",
+        "kind": "npm-script",
+        "project": "root",
+        "script": "learn:test:web",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D25-E1",
+        "pathTemplate": "learning-evidence/day-25/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D25-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 26,
+    "source": "week-04-javascript-dom-async.md#day-26",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "javascript.dom"
+    ],
+    "starter": "labs/web-foundations/snapshots/day-22",
+    "checks": [
+      {
+        "id": "D26-A1",
+        "kind": "npm-script",
+        "project": "root",
+        "script": "learn:test:web",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D26-E1",
+        "pathTemplate": "learning-evidence/day-26/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D26-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 27,
+    "source": "week-04-javascript-dom-async.md#day-27",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "javascript.dom"
+    ],
+    "starter": "labs/web-foundations/snapshots/day-22",
+    "checks": [
+      {
+        "id": "D27-A1",
+        "kind": "npm-script",
+        "project": "root",
+        "script": "learn:test:web",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D27-E1",
+        "pathTemplate": "learning-evidence/day-27/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D27-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 28,
+    "source": "week-04-javascript-dom-async.md#day-28",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "javascript.dom"
+    ],
+    "starter": "labs/web-foundations/snapshots/day-22",
+    "checks": [
+      {
+        "id": "D28-A1",
+        "kind": "npm-script",
+        "project": "root",
+        "script": "learn:test:web",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D28-E1",
+        "pathTemplate": "learning-evidence/day-28/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D28-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  }
+]

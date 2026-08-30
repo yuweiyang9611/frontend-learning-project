@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildIssueQuery,
   isIssuePriority,
+  isCalendarDate,
   isIssueSort,
   isIssueStatus,
   isPositiveIntegerId,
@@ -33,6 +34,13 @@ describe('issue validation', () => {
 
   it('rejects a due date in the past', () => {
     expect(validateIssue({ ...validIssue, dueDate: '2000-01-01' }).dueDate).toBeDefined();
+  });
+
+  it('rejects a normalized-but-impossible JavaScript date', () => {
+    expect(isCalendarDate('2026-02-30')).toBe(false);
+    expect(validateIssue({ ...validIssue, dueDate: '2026-02-30' }).dueDate).toContain(
+      'Due date must be a real calendar date in YYYY-MM-DD format.',
+    );
   });
 });
 

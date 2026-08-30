@@ -1,0 +1,52 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 5
+    groups:
+      vitepress-toolchain:
+        patterns: ["vitepress", "vite"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: npm
+    directory: "/frontend"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    open-pull-requests-limit: 8
+    groups:
+      react-runtime:
+        patterns: ["react", "react-dom", "react-server-dom-webpack", "@types/react", "@types/react-dom"]
+        update-types: ["minor", "patch"]
+      vinext-platform:
+        patterns: ["vinext", "vite", "@vitejs/*", "@cloudflare/*", "wrangler"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: nuget
+    directories:
+      - "/backend/IssueFlow.Api"
+      - "/backend/IssueFlow.Api.Tests"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo
+    groups:
+      issueflow-backend:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Tokyo

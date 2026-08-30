@@ -6,7 +6,8 @@
   --canvas: #f3f5f0;
   --paper: #fff;
   --line: #e1e5df;
-  --accent: #e75b3d;
+  --accent: #b64028;
+  --accent-text: #b64028;
   --green: #287957;
   --sidebar: #18231d;
 }
@@ -152,7 +153,7 @@ input:focus-visible {
 }
 .primary-nav > p {
   margin: 0 0 8px 11px;
-  color: #708278;
+  color: #81958a;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.11em;
@@ -269,7 +270,7 @@ input:focus-visible {
   border: 1px solid var(--line);
   border-radius: 9px;
   background: #f8f9f6;
-  color: #7d8981;
+  color: var(--muted);
 }
 .global-search input {
   width: 100%;
@@ -323,7 +324,7 @@ input:focus-visible {
   font-size: 11px;
 }
 .profile-button small {
-  color: #7a877f;
+  color: var(--muted);
   font-size: 9px;
 }
 .avatar {
@@ -351,12 +352,12 @@ input:focus-visible {
   padding: 26px 34px 48px;
 }
 .breadcrumb {
-  color: #8b968f;
+  color: var(--muted);
   font-size: 11px;
 }
 .breadcrumb b {
   margin: 0 8px;
-  color: #b7beb9;
+  color: var(--muted);
   font-weight: 400;
 }
 .page-heading {
@@ -368,7 +369,7 @@ input:focus-visible {
 }
 .eyebrow {
   margin: 0 0 5px;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 10px;
   font-weight: 750;
   letter-spacing: 0.1em;
@@ -392,17 +393,17 @@ input:focus-visible {
   align-items: center;
   gap: 8px;
   padding: 0 16px;
-  border: 1px solid #ca452b;
+  border: 1px solid #8f301f;
   border-radius: 9px;
   background: var(--accent);
-  box-shadow: 0 3px 9px rgb(201 68 42 / 18%);
+  box-shadow: 0 3px 9px rgb(143 48 31 / 18%);
   color: white;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
 }
 .primary-button:hover {
-  background: #ca452b;
+  background: #8f301f;
   transform: translateY(-1px);
 }
 
@@ -682,7 +683,7 @@ input:focus-visible {
   gap: 8px;
 }
 .issue-table time {
-  color: #8b968f;
+  color: var(--muted);
   font-size: 10px;
 }
 .issues-panel footer {
@@ -692,7 +693,7 @@ input:focus-visible {
   justify-content: space-between;
   padding: 0 18px;
   border-top: 1px solid var(--line);
-  color: #8b968f;
+  color: var(--muted);
   font-size: 10px;
 }
 .issues-panel footer div {
@@ -810,6 +811,7 @@ input:focus-visible {
   --paper: #18201b;
   --line: #2b362e;
   --green: #72c79e;
+  --accent-text: #ff9b85;
   --sidebar: #0d120f;
 }
 [data-theme='dark'] body,
@@ -918,7 +920,7 @@ button:disabled {
   text-decoration: none;
 }
 .breadcrumb a:hover {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .spinner {
   display: inline-flex;
@@ -954,7 +956,7 @@ button:disabled {
 }
 .sidebar-version {
   margin: 8px 11px 0;
-  color: #65766c;
+  color: #81958a;
   font-size: 9px;
 }
 .topbar-left {
@@ -997,7 +999,7 @@ button:disabled {
   font-size: 11px;
 }
 .profile-menu small {
-  color: #7a877f;
+  color: var(--muted);
   font-size: 9px;
 }
 .profile-menu > div {
@@ -1420,7 +1422,7 @@ button:disabled {
 }
 .login-footnote {
   margin: 0;
-  color: #718279;
+  color: #81958a;
   font-size: 9px;
 }
 .login-form-wrap {
@@ -1440,7 +1442,7 @@ button:disabled {
   margin-bottom: 25px;
   border-radius: 13px;
   background: #f2e6e2;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .login-form h2 {
   margin: 0;
@@ -1461,7 +1463,7 @@ button:disabled {
 .label-row button {
   border: 0;
   background: transparent;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 10px;
   cursor: pointer;
 }
@@ -1473,7 +1475,7 @@ button:disabled {
   padding: 0 11px;
   border: 1px solid var(--line);
   border-radius: 9px;
-  color: #8b968f;
+  color: var(--muted);
 }
 .password-field:focus-within {
   border-color: var(--accent);
@@ -1531,7 +1533,7 @@ button:disabled {
   font-weight: 680;
 }
 .field label b {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .field > input,
 .field > textarea,
@@ -1563,7 +1565,7 @@ button:disabled {
 }
 .field > small,
 .label-row small {
-  color: #8b968f;
+  color: var(--muted);
   font-size: 9px;
 }
 .label-row {
@@ -1655,7 +1657,7 @@ button:disabled {
   place-items: center;
   border-radius: 8px;
   background: #f3e7e3;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 9px;
   font-weight: 800;
 }
@@ -1762,7 +1764,7 @@ button:disabled {
 }
 .metric-icon.coral {
   background: #f7e6e2;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .metric-icon.amber {
   background: #faefd9;
@@ -1795,7 +1797,7 @@ button:disabled {
   align-items: center;
   gap: 4px;
   margin: 0;
-  color: #8b968f;
+  color: var(--muted);
   font-size: 8px;
 }
 .dashboard-grid {
@@ -1831,7 +1833,7 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 9px;
   font-weight: 700;
   text-decoration: none;
@@ -1869,7 +1871,7 @@ button:disabled {
 .recent-item > div small {
   display: block;
   margin-top: 4px;
-  color: #8b968f;
+  color: var(--muted);
   font-size: 9px;
 }
 .dashboard-side {

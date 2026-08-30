@@ -1,0 +1,285 @@
+[
+  {
+    "day": 71,
+    "source": "week-11-backends-security.md#day-71",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "backend.dual"
+    ],
+    "starter": "frontend/src/server",
+    "checks": [
+      {
+        "id": "D71-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      },
+      {
+        "id": "D71-A2",
+        "kind": "dotnet-test",
+        "project": "root",
+        "solution": "IssueFlow.slnx",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D71-E1",
+        "pathTemplate": "learning-evidence/day-71/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D71-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 72,
+    "source": "week-11-backends-security.md#day-72",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "backend.dual"
+    ],
+    "starter": "frontend/src/server",
+    "checks": [
+      {
+        "id": "D72-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      },
+      {
+        "id": "D72-A2",
+        "kind": "dotnet-test",
+        "project": "root",
+        "solution": "IssueFlow.slnx",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D72-E1",
+        "pathTemplate": "learning-evidence/day-72/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D72-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 73,
+    "source": "week-11-backends-security.md#day-73",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "backend.dual"
+    ],
+    "starter": "frontend/src/server",
+    "checks": [
+      {
+        "id": "D73-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      },
+      {
+        "id": "D73-A2",
+        "kind": "dotnet-test",
+        "project": "root",
+        "solution": "IssueFlow.slnx",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D73-E1",
+        "pathTemplate": "learning-evidence/day-73/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D73-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 74,
+    "source": "week-11-backends-security.md#day-74",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "backend.dual"
+    ],
+    "starter": "frontend/src/server",
+    "checks": [
+      {
+        "id": "D74-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      },
+      {
+        "id": "D74-A2",
+        "kind": "dotnet-test",
+        "project": "root",
+        "solution": "IssueFlow.slnx",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D74-E1",
+        "pathTemplate": "learning-evidence/day-74/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D74-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 75,
+    "source": "week-11-backends-security.md#day-75",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "backend.dual",
+      "security.boundary"
+    ],
+    "starter": "frontend/src/server",
+    "checks": [
+      {
+        "id": "D75-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      },
+      {
+        "id": "D75-A2",
+        "kind": "dotnet-test",
+        "project": "root",
+        "solution": "IssueFlow.slnx",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D75-E1",
+        "pathTemplate": "learning-evidence/day-75/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D75-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 76,
+    "source": "week-11-backends-security.md#day-76",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "backend.dual",
+      "security.boundary"
+    ],
+    "starter": "frontend/src/server",
+    "checks": [
+      {
+        "id": "D76-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test",
+        "expectedExit": 0
+      },
+      {
+        "id": "D76-A2",
+        "kind": "dotnet-test",
+        "project": "root",
+        "solution": "IssueFlow.slnx",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D76-E1",
+        "pathTemplate": "learning-evidence/day-76/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D76-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  },
+  {
+    "day": 77,
+    "source": "week-11-backends-security.md#day-77",
+    "durationMinutes": 120,
+    "requiresConcepts": [
+      "backend.dual",
+      "security.boundary"
+    ],
+    "starter": "frontend/contract-tests/dual-backend",
+    "checks": [
+      {
+        "id": "D77-A1",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "test:contract:dual",
+        "expectedExit": 0
+      },
+      {
+        "id": "D77-A2",
+        "kind": "dotnet-test",
+        "project": "root",
+        "solution": "IssueFlow.slnx",
+        "expectedExit": 0
+      }
+    ],
+    "evidence": [
+      {
+        "id": "D77-E1",
+        "pathTemplate": "learning-evidence/day-77/report.json",
+        "schema": "learning-evidence-v1"
+      }
+    ],
+    "manual": [
+      {
+        "id": "D77-M1",
+        "procedure": "完成当天独立变体并解释输入、状态、输出和失败路径。",
+        "expected": "提交可定位 diff、一个边界输入和脱敏复盘。",
+        "requiresReview": true
+      }
+    ]
+  }
+]

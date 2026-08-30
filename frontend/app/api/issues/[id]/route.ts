@@ -1,4 +1,4 @@
-import type { IssueUpdate } from '@/src/features/issues/types';
+import { decodeIssueUpdate } from '@/src/features/issues/runtime-contracts';
 import { requireMutationAccess } from '@/src/server/auth';
 import {
   deleteIssue,
@@ -9,6 +9,7 @@ import {
   validateServerIssue,
 } from '@/src/server/issueflow-db';
 import { asErrorResponse, problem } from '@/src/server/problem';
+import { readJsonBody } from '@/src/server/request-contract';
 
 export const dynamic = 'force-dynamic';
 type Context = { params: Promise<{ id: string }> };
@@ -39,12 +40,9 @@ export async function PATCH(request: Request, context: Context) {
     if (!id) return problem(400, 'Invalid issue ID', 'Issue IDs must be positive integers.');
     const current = await findIssue(id);
     if (!current) return problem(404, 'Issue not found', 'The requested issue could not be found.');
-    let update: IssueUpdate;
-    try {
-      update = (await request.json()) as IssueUpdate;
-    } catch {
-      return problem(400, 'Invalid request', 'Send a JSON issue payload.');
-    }
+    const body = await readJsonBody(request, decodeIssueUpdate);
+    if (!body.ok) return body.response;
+    const update = body.value;
     const input = normalizeIssueInput(update, current);
     const errors = validateServerIssue(input);
     if (Object.keys(errors).length)

@@ -22,7 +22,7 @@ unknown → parse → wire decode → typed value → domain validation → appl
 
 ---
 
-## Day 43：边界审计——类型从哪里开始不可信
+## Day 43：边界审计——类型从哪里开始不可信 {#day-43}
 
 ### 今日目标
 
@@ -77,7 +77,7 @@ nullability、枚举、ID、日期和未知字段策略。
 
 ---
 
-## Day 44：Decoder 协议与第一个对象 Decoder
+## Day 44：Decoder 协议与第一个对象 Decoder {#day-44}
 
 ### 今日目标
 
@@ -134,7 +134,7 @@ null/string 两态。采用 accumulate 策略，错误包含字段路径。
 
 ---
 
-## Day 45：组合 Decoder、数组与嵌套错误路径
+## Day 45：组合 Decoder、数组与嵌套错误路径 {#day-45}
 
 ### 今日目标
 
@@ -199,7 +199,7 @@ string、空 page。比较错误能否精确指出元素位置。
 
 ---
 
-## Day 46：Wire Decode、领域 Validation 与未知字段策略
+## Day 46：Wire Decode、领域 Validation 与未知字段策略 {#day-46}
 
 ### 今日目标
 
@@ -252,7 +252,7 @@ validateIssue(raw);
 
 ---
 
-## Day 47：浏览器边界——URL、DOM 与 localStorage
+## Day 47：浏览器边界——URL、DOM 与 localStorage {#day-47}
 
 ### 今日目标
 
@@ -296,7 +296,7 @@ const unsafeStatus: IssueStatus = params.get("status");
 
 ---
 
-## Day 48：.NET、JSON 与 TypeScript Wire Contract
+## Day 48：.NET、JSON 与 TypeScript Wire Contract {#day-48}
 
 ### 今日目标
 
@@ -351,7 +351,7 @@ Problem Details、204。再说明若 ID 改为 string，会影响 Router、Query
 
 ---
 
-## Day 49：周项目——Decoder 驱动的 API 边界
+## Day 49：周项目——Decoder 驱动的 API 边界 {#day-49}
 
 ### 今日目标
 

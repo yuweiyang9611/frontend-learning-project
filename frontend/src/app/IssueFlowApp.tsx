@@ -5,8 +5,8 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { AppProviders, useAuth } from './AppProviders';
 import { PageLoading } from '@/src/components/ui';
 import AppLayout from '@/src/layouts/AppLayout';
+import LoginPage from '@/src/screens/LoginPage';
 
-const LoginPage = lazy(() => import('@/src/screens/LoginPage'));
 const DashboardPage = lazy(() => import('@/src/screens/DashboardPage'));
 const IssuesPage = lazy(() => import('@/src/screens/IssuesPage'));
 const IssueDetailPage = lazy(() => import('@/src/screens/IssueDetailPage'));
@@ -62,13 +62,47 @@ function AppRoutes() {
   );
 }
 
-export default function IssueFlowApp() {
+function LoginPreview() {
+  return (
+    <main className="login-page">
+      <section className="login-story" aria-label="IssueFlow introduction">
+        <div className="brand-row">
+          <span className="brand-mark" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span className="brand-name">IssueFlow</span>
+        </div>
+        <div className="login-story-copy">
+          <p className="eyebrow">Built for focused teams</p>
+          <h1>
+            Clarity for every issue.
+            <br />
+            Momentum for every team.
+          </h1>
+          <p>Turn scattered requests into a calm, visible flow of work—from first report to final resolution.</p>
+        </div>
+      </section>
+      <section className="login-form-wrap">
+        <div className="login-form" role="status" aria-label="Preparing sign in">
+          <p className="eyebrow">Welcome back</p>
+          <h2>Sign in to your workspace</h2>
+          <p className="form-intro">Preparing the secure local sign-in form…</p>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+export default function IssueFlowApp({ initialPath = '/' }: { initialPath?: string }) {
   const mounted = useSyncExternalStore(
     () => () => undefined,
     () => true,
     () => false,
   );
-  if (!mounted)
+  if (!mounted) {
+    if (initialPath === '/login') return <LoginPreview />;
     return (
       <div className="app-boot">
         <span className="brand-mark" aria-hidden="true">
@@ -80,6 +114,7 @@ export default function IssueFlowApp() {
         <small>Preparing your workspace…</small>
       </div>
     );
+  }
   return (
     <BrowserRouter>
       <AppProviders>

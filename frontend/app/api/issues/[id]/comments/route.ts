@@ -30,8 +30,12 @@ export async function POST(request: Request, context: Context) {
     if (!(await findIssue(id))) return problem(404, 'Issue not found', 'The requested issue could not be found.');
     let body = '';
     try {
-      const payload = (await request.json()) as { body?: unknown };
-      body = typeof payload.body === 'string' ? payload.body.trim() : '';
+      const payload: unknown = await request.json();
+      if (typeof payload !== 'object' || payload === null || Array.isArray(payload)) {
+        return problem(400, 'Invalid request', 'The comment payload must be a JSON object.');
+      }
+      const value = Reflect.get(payload, 'body');
+      body = typeof value === 'string' ? value.trim() : '';
     } catch {
       return problem(400, 'Invalid request', 'Send a JSON comment payload.');
     }

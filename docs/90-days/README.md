@@ -52,7 +52,7 @@
 
 开始前先阅读[怎样学习每天 2 小时](how-to-study.md)，复制
 [91 天进度与日志模板](progress-and-journal.md)，并了解
-[考核、检查点与毕业标准](assessments.md)。概念需要深入时，日课会链接到
+[考核、检查点与毕业标准](assessments.md)和[陌生领域迁移任务](transfer-tasks.md)。概念需要深入时，日课会链接到
 [00–12 知识主线](../learning/)和[TypeScript 专题](../typescript/)，避免在多个地方
 复制相同教材。
 

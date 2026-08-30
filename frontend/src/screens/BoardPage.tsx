@@ -9,6 +9,7 @@ import { useToast } from '@/src/app/AppProviders';
 import { ErrorState, MemberAvatar, PageHeader, PriorityMark, TableSkeleton } from '@/src/components/ui';
 import {
   ISSUE_STATUSES,
+  isIssueStatus,
   statusLabels,
   type Issue,
   type IssueStatus,
@@ -154,7 +155,10 @@ export default function BoardPage() {
                       className="board-status-select"
                       id={`board-status-${issue.id}`}
                       value={issue.status}
-                      onChange={(event) => move(issue, event.target.value as IssueStatus)}
+                      onChange={(event) => {
+                        const next = event.currentTarget.value;
+                        if (isIssueStatus(next)) move(issue, next);
+                      }}
                     >
                       {ISSUE_STATUSES.map((value) => (
                         <option key={value} value={value}>

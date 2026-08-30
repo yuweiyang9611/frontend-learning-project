@@ -22,6 +22,7 @@ import {
   type Member,
   type PagedResult,
 } from '@/src/features/issues/types';
+import { RequestValidationError } from '@/src/server/problem';
 
 type RuntimeEnv = { DB: D1Database; UPLOADS?: R2Bucket };
 
@@ -621,14 +622,34 @@ export function parseIssueQuery(searchParams: URLSearchParams): IssueQuery {
   const rawPriority = searchParams.get('priority') ?? '';
   const rawSort = searchParams.get('sortBy') ?? 'updatedAt';
   const rawDirection = searchParams.get('sortDirection') ?? 'desc';
-  const rawAssigneeId = Number(searchParams.get('assigneeId'));
+  const rawPage = searchParams.get('page');
+  const rawPageSize = searchParams.get('pageSize');
+  const rawAssigneeId = searchParams.get('assigneeId');
+  const page = rawPage === null ? 1 : Number(rawPage);
+  const pageSize = rawPageSize === null ? 20 : Number(rawPageSize);
+  const assigneeId = rawAssigneeId === null ? undefined : Number(rawAssigneeId);
+  const errors: FieldErrors = {};
+
+  if (!Number.isSafeInteger(page) || page < 1) errors.page = ['Page must be a positive integer.'];
+  if (!Number.isSafeInteger(pageSize) || pageSize < 1 || pageSize > 100) {
+    errors.pageSize = ['Page size must be an integer from 1 to 100.'];
+  }
+  if (rawStatus && !isIssueStatus(rawStatus)) errors.status = ['Choose a valid status.'];
+  if (rawPriority && !isIssuePriority(rawPriority)) errors.priority = ['Choose a valid priority.'];
+  if (!isIssueSort(rawSort)) errors.sortBy = ['Choose a valid sort field.'];
+  if (!isSortDirection(rawDirection)) errors.sortDirection = ['Choose asc or desc.'];
+  if (rawAssigneeId !== null && !isPositiveIntegerId(assigneeId)) {
+    errors.assigneeId = ['Assignee ID must be a positive integer.'];
+  }
+  if (Object.keys(errors).length > 0) throw new RequestValidationError(errors);
+
   return {
-    page: Math.max(1, Number(searchParams.get('page')) || 1),
-    pageSize: Math.min(100, Math.max(1, Number(searchParams.get('pageSize')) || 20)),
+    page,
+    pageSize,
     search: searchParams.get('search')?.slice(0, 200) ?? '',
     status: isIssueStatus(rawStatus) ? rawStatus : '',
     priority: isIssuePriority(rawPriority) ? rawPriority : '',
-    assigneeId: isPositiveIntegerId(rawAssigneeId) ? rawAssigneeId : undefined,
+    assigneeId,
     sortBy: isIssueSort(rawSort) ? rawSort : 'updatedAt',
     sortDirection: isSortDirection(rawDirection) ? rawDirection : 'desc',
   };

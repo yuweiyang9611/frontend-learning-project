@@ -15,7 +15,12 @@
 
 ---
 
-## Day 22：值、类型、相等与转换
+## Day 22：值、类型、相等与转换 {#day-22}
+
+开始前在仓库根运行 `npm run learn:create -- --day 22`、`npm run learn:start`。支架提供
+model/view/api/main 四个模块以及成功、404、500、延迟 fixture；用
+`npm run learn:test:web -- --day 22` 验证 `learning-work/day-22` 中你的纯逻辑和 HTTP 错误边界；
+`npm run learn:day -- 22` 会自动传入当天编号并生成待人工复核的证据报告。
 
 ### 120 分钟任务
 
@@ -52,7 +57,7 @@ DOM input、URLSearchParams 和 JSON 字段不因“看起来像数字”就自�
 
 ---
 
-## Day 23：函数、作用域、闭包与依赖
+## Day 23：函数、作用域、闭包与依赖 {#day-23}
 
 ### 120 分钟任务
 
@@ -94,7 +99,7 @@ const formatKey = createIssueKeyFormatter("ISS");
 
 ---
 
-## Day 24：对象、数组、解构与不可变更新
+## Day 24：对象、数组、解构与不可变更新 {#day-24}
 
 ### 120 分钟任务
 
@@ -139,7 +144,7 @@ function listIssues(source, query) {
 
 ---
 
-## Day 25：DOM、事件传播与委托
+## Day 25：DOM、事件传播与委托 {#day-25}
 
 ### 120 分钟任务
 
@@ -179,7 +184,7 @@ function createIssueItem(issue) {
 
 ---
 
-## Day 26：ES Modules、错误与可测试边界
+## Day 26：ES Modules、错误与可测试边界 {#day-26}
 
 ### 120 分钟任务
 
@@ -209,7 +214,7 @@ function createIssueItem(issue) {
 
 ---
 
-## Day 27：Promise、Fetch、取消与竞态
+## Day 27：Promise、Fetch、取消与竞态 {#day-27}
 
 ### 120 分钟任务
 
@@ -248,7 +253,7 @@ Fetch 只在网络层失败时 reject；HTTP 404/500 仍需要检查 `response.o
 
 ---
 
-## Day 28：Vanilla Issue 列表交付
+## Day 28：Vanilla Issue 列表交付 {#day-28}
 
 ### 120 分钟任务
 

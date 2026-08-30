@@ -8,7 +8,42 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
-    include: ['src/**/*.test.{ts,tsx}'],
-    coverage: { reporter: ['text', 'html'] },
+    include: ['src/**/*.test.{ts,tsx}', 'exercises/**/*.test.ts', 'contract-tests/**/*.test.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json-summary', 'html', 'lcov'],
+      include: [
+        'src/**/*.{ts,tsx}',
+        'exercises/typescript/contracts.ts',
+        'exercises/typescript/reference.ts',
+      ],
+      exclude: [
+        'src/data/**',
+        'src/app/**',
+        'src/layouts/**',
+        'src/screens/**',
+        'src/server/issueflow-db.ts',
+        'src/features/typescript-lab/catalog.ts',
+        'exercises/typescript/workbench.ts',
+      ],
+      thresholds: {
+        lines: 50,
+        statements: 50,
+        functions: 45,
+        branches: 45,
+        'src/features/issues/runtime-contracts.ts': {
+          lines: 80,
+          statements: 75,
+          functions: 80,
+          branches: 70,
+        },
+        'src/server/request-contract.ts': {
+          lines: 100,
+          statements: 100,
+          functions: 100,
+          branches: 80,
+        },
+      },
+    },
   },
 });
