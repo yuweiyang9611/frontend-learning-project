@@ -8,9 +8,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   docs:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -19,10 +24,19 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run docs:verify
+      - name: Upload documentation browser-test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: docs-playwright-results
+          path: test-results
+          if-no-files-found: ignore
 
   frontend:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: frontend
@@ -34,25 +48,46 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
+      - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test:coverage
       - run: npm run build
+      - name: Upload frontend coverage reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: frontend-coverage
+          path: frontend/coverage
+          if-no-files-found: ignore
 
   backend:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - run: dotnet restore IssueFlow.slnx
       - run: dotnet build IssueFlow.slnx --configuration Release --no-restore
-      - run: dotnet test IssueFlow.slnx --configuration Release --no-build
+      - run: dotnet test IssueFlow.slnx --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory backend/TestResults
+      - run: npm run backend:check-coverage
       - run: dotnet format IssueFlow.slnx --verify-no-changes --no-restore
+      - name: Upload backend coverage report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: backend-coverage
+          path: backend/TestResults/**/coverage.cobertura.xml
+          if-no-files-found: ignore
 
   e2e:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [frontend, backend]
     defaults:
       run:
@@ -67,9 +102,19 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:e2e
+      - name: Upload end-to-end test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: frontend-playwright-results
+          path: |
+            frontend/playwright-report
+            frontend/test-results
+          if-no-files-found: ignore
 
   contract-parity:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [frontend, backend]
     defaults:
       run:
@@ -81,7 +126,7 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: frontend/package-lock.json
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - run: npm ci
@@ -96,6 +141,7 @@ jobs:
 
   lighthouse:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     needs: frontend
     defaults:
       run:
@@ -110,3 +156,10 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:lighthouse
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: lighthouse-report
+          path: frontend/.lighthouse/report.json
+          if-no-files-found: ignore

@@ -56,11 +56,7 @@ function isStringArray(value: unknown): value is string[] {
 }
 
 function isIsoInstant(value: unknown): value is string {
-  return (
-    typeof value === 'string' &&
-    /(?:Z|[+-]\d{2}:\d{2})$/i.test(value) &&
-    Number.isFinite(Date.parse(value))
-  );
+  return typeof value === 'string' && /(?:Z|[+-]\d{2}:\d{2})$/i.test(value) && Number.isFinite(Date.parse(value));
 }
 
 function collectFieldError(errors: FieldErrors, field: string, message: string) {
@@ -220,8 +216,7 @@ export const decodeAttachment: Decoder<Attachment> = (value) => {
   });
 };
 
-export const decodeAttachments: Decoder<Attachment[]> = (value) =>
-  decodeArray(value, decodeAttachment, 'attachments');
+export const decodeAttachments: Decoder<Attachment[]> = (value) => decodeArray(value, decodeAttachment, 'attachments');
 
 export const decodeSession: Decoder<Session> = (value) => {
   if (!isRecord(value)) return fail('session', 'Session must be an object.');

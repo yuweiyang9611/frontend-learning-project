@@ -48,13 +48,7 @@ describe('issue mutation decoders', () => {
     });
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(Object.keys(result.errors).sort()).toEqual([
-        'assigneeId',
-        'dueDate',
-        'priority',
-        'status',
-        'tags',
-      ]);
+      expect(Object.keys(result.errors).sort()).toEqual(['assigneeId', 'dueDate', 'priority', 'status', 'tags']);
     }
   });
 

@@ -2,6 +2,7 @@ import {
   EXERCISE_IDS,
   type ExerciseSolutions,
   type LabLessonId,
+  type OptimisticTimelineEvent,
   type PagedResult,
   type PreviewDecodeResult,
 } from './contracts';
@@ -16,6 +17,31 @@ function record(value: unknown): Record<string, unknown> | null {
 
 function own(value: Record<string, unknown>, key: string) {
   return Object.prototype.hasOwnProperty.call(value, key);
+}
+
+interface DecodedWireProblem {
+  readonly status: number;
+  readonly hasFieldErrors: boolean;
+}
+
+function decodeWireProblem(value: unknown): DecodedWireProblem | null {
+  const problem = record(value);
+  if (!problem) return null;
+
+  const status = problem.status;
+  if (typeof status !== 'number' || !Number.isSafeInteger(status) || status < 400 || status > 599) return null;
+  if (typeof problem.title !== 'string' || problem.title.trim() === '') return null;
+  if (own(problem, 'detail') && typeof problem.detail !== 'string') return null;
+
+  if (!own(problem, 'errors')) return { status, hasFieldErrors: false };
+  const errors = record(problem.errors);
+  if (!errors) return null;
+
+  for (const messages of Object.values(errors)) {
+    if (!Array.isArray(messages) || !messages.every((message) => typeof message === 'string')) return null;
+  }
+
+  return { status, hasFieldErrors: Object.keys(errors).length > 0 };
 }
 
 const statuses = ['open', 'in_progress', 'resolved', 'closed'] as const;
@@ -220,24 +246,51 @@ export const referenceSolutions: ExerciseSolutions = {
     return false;
   },
   C06: (input) => {
-    const value = record(input);
-    if (!value || !Number.isSafeInteger(value.status)) return 'unknown';
-    if (value.status === 400 && record(value.errors)) return 'validation';
-    if (value.status === 404) return 'not-found';
-    if (Number(value.status) >= 500) return 'server';
-    return 'unknown';
+    if (input instanceof Error || input instanceof DOMException) {
+      return input.name === 'AbortError' ? 'cancelled' : 'network';
+    }
+    const problem = decodeWireProblem(input);
+    if (!problem) return 'contract';
+    if (problem.status === 400 && problem.hasFieldErrors) return 'validation';
+    if (problem.status === 401) return 'unauthorized';
+    if (problem.status === 403) return 'forbidden';
+    if (problem.status === 404) return 'not-found';
+    if (problem.status === 409) return 'conflict';
+    return problem.status >= 500 ? 'server' : 'client';
   },
   C07: (input) => {
     if (input.status === 204) return { kind: 'no-content' };
-    if (input.status >= 200 && input.status < 300) {
-      return { kind: 'json', value: input.body };
-    }
-    return { kind: 'problem', status: input.status };
+    if (input.status < 200 || input.status >= 300) return { kind: 'problem', status: input.status };
+    const decoded = input.decode(input.body);
+    return decoded.ok ? { kind: 'json', value: decoded.value } : { kind: 'contract-error', message: decoded.message };
   },
-  C08: (input) => (isStatus(input) ? input : null),
+  C08: (input) => {
+    if (!isStatus(input.raw)) {
+      return {
+        accepted: false,
+        state: input.current,
+        request: null,
+        error: 'Invalid status selection',
+      };
+    }
+    return {
+      accepted: true,
+      state: input.raw,
+      request: { status: input.raw },
+      error: null,
+    };
+  },
   C09: (input) => {
-    if (input.failed) return input.items.map((item) => ({ ...item }));
-    return input.items.map((item) => (item.id === input.id ? { ...item, status: input.next } : item));
+    const snapshot = input.items.map((item) => ({ ...item }));
+    const optimistic = snapshot.map((item) => (item.id === input.id ? { ...item, status: input.next } : item));
+    const timeline: OptimisticTimelineEvent[] = [
+      { phase: 'snapshot' as const, items: snapshot },
+      { phase: 'optimistic' as const, items: optimistic },
+    ];
+    if (input.failed) {
+      timeline.push({ phase: 'rollback' as const, items: snapshot.map((item) => ({ ...item })) });
+    }
+    return [...timeline, { phase: 'invalidate' as const, queryKey: ['issues'] as const }];
   },
 };
 

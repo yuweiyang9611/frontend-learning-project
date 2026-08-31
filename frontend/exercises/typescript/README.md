@@ -9,3 +9,8 @@
 
 每题至少有三个运行时契约；compile-time-checks.ts 由 tsc 验证负例。CI 默认验证参考实现，
 不会因为尚未完成的 workbench 题目阻塞仓库。
+
+91 天路线的 Day 29–49 每天运行一道主练习，剩余挑战按前置知识分散复习：Day 47 `C04`、
+Day 48 `C05`、Day 52 `C08`、Day 57 `C07`、Day 68 `C06`、Day 69 `C09`。这些题不会早于
+localStorage、wire scalar、安全 select、request adapter、Problem Details 或乐观回滚的讲授日。
+`npm run learn:day -- 69` 这类命令会同时运行当天验收和对应挑战题，两者都必须由学习者实现通过。

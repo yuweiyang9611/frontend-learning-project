@@ -43,47 +43,28 @@ public sealed class SharedContractCorpusTests(IssueFlowApiFactory factory)
                     (int)loginResponse.StatusCode);
             }
 
-            var requestDefinition = sourceCase.GetProperty("request");
-            var method = new HttpMethod(requestDefinition.GetProperty("method").GetString()!);
-            var path = requestDefinition.GetProperty("path").GetString()!;
             var runId = Guid.NewGuid().ToString("N");
-            using var request = new HttpRequestMessage(method, path);
-
-            if (requestDefinition.TryGetProperty("rawBody", out var rawBody))
-            {
-                request.Content = JsonContent(ReplacePlaceholders(rawBody.GetString()!, id, runId));
-            }
-            else if (requestDefinition.TryGetProperty("body", out var body))
-            {
-                request.Content = JsonContent(ReplacePlaceholders(body.GetRawText(), id, runId));
-            }
-
+            using var request = RequestFrom(sourceCase.GetProperty("request"), id, runId);
             using var response = await client.SendAsync(request);
             var expectation = sourceCase.GetProperty("expect");
-            var expectedStatus = expectation.GetProperty("status").GetInt32();
-            Assert.True(
-                (int)response.StatusCode == expectedStatus,
-                $"{id} expected {expectedStatus} but received {(int)response.StatusCode}.");
+            using var responseJson = await AssertContractResponseAsync(id, response, expectation);
 
-            var expectedContentType = expectation.GetProperty("contentType").GetString();
-            Assert.Equal(expectedContentType, response.Content.Headers.ContentType?.MediaType);
-
-            using var responseJson = JsonDocument.Parse(await response.Content.ReadAsStreamAsync());
-            if (expectation.TryGetProperty("jsonKind", out var jsonKind))
+            if (sourceCase.TryGetProperty("followUps", out var followUps))
             {
-                var expectedKind = jsonKind.GetString() == "array"
-                    ? JsonValueKind.Array
-                    : JsonValueKind.Object;
-                Assert.Equal(expectedKind, responseJson.RootElement.ValueKind);
-            }
-
-            if (expectation.TryGetProperty("requiredJsonPaths", out var requiredPaths))
-            {
-                foreach (var requiredPath in requiredPaths.EnumerateArray())
+                var responseId = responseJson!.RootElement.GetProperty("id").GetRawText();
+                foreach (var followUp in followUps.EnumerateArray())
                 {
-                    Assert.True(
-                        HasJsonPath(responseJson.RootElement, requiredPath.GetString()!),
-                        $"{id} response is missing {requiredPath.GetString()}.");
+                    var followUpId = followUp.GetProperty("id").GetString()!;
+                    using var followUpRequest = RequestFrom(
+                        followUp.GetProperty("request"),
+                        id,
+                        runId,
+                        responseId);
+                    using var followUpResponse = await client.SendAsync(followUpRequest);
+                    using var followUpJson = await AssertContractResponseAsync(
+                        $"{id}:{followUpId}",
+                        followUpResponse,
+                        followUp.GetProperty("expect"));
                 }
             }
 
@@ -92,7 +73,7 @@ public sealed class SharedContractCorpusTests(IssueFlowApiFactory factory)
                 var cleanupPath = cleanup.GetProperty("path").GetString()!
                     .Replace(
                         "{{response.id}}",
-                        responseJson.RootElement.GetProperty("id").GetRawText(),
+                        responseJson!.RootElement.GetProperty("id").GetRawText(),
                         StringComparison.Ordinal);
                 using var cleanupRequest = new HttpRequestMessage(
                     new HttpMethod(cleanup.GetProperty("method").GetString()!),
@@ -114,11 +95,108 @@ public sealed class SharedContractCorpusTests(IssueFlowApiFactory factory)
                 (int)logoutResponse.StatusCode);
         }
 
-        Assert.Equal(
-            ["R01", "R02", "R03", "R04", "R05", "R06",
-             "W01", "W02", "W03", "W04", "W05", "W06",
-             "S01", "S02", "S03", "S04", "S05", "S06"],
-            executedIds);
+        Assert.NotEmpty(executedIds);
+        Assert.Equal(executedIds.Count, executedIds.Distinct(StringComparer.Ordinal).Count());
+        Assert.Contains("R07", executedIds);
+        Assert.Contains("R08", executedIds);
+        Assert.Contains("W07", executedIds);
+        Assert.Contains("W08", executedIds);
+        Assert.Contains("W09", executedIds);
+    }
+
+    private static HttpRequestMessage RequestFrom(
+        JsonElement requestDefinition,
+        string id,
+        string runId,
+        string? responseId = null)
+    {
+        var path = ReplacePlaceholders(requestDefinition.GetProperty("path").GetString()!, id, runId);
+        if (responseId is not null)
+        {
+            path = path.Replace("{{response.id}}", responseId, StringComparison.Ordinal);
+        }
+
+        var request = new HttpRequestMessage(
+            new HttpMethod(requestDefinition.GetProperty("method").GetString()!),
+            path);
+        if (requestDefinition.TryGetProperty("rawBody", out var rawBody))
+        {
+            request.Content = JsonContent(ReplacePlaceholders(rawBody.GetString()!, id, runId));
+        }
+        else if (requestDefinition.TryGetProperty("body", out var body))
+        {
+            var bodyText = ReplacePlaceholders(body.GetRawText(), id, runId);
+            if (responseId is not null)
+            {
+                bodyText = bodyText.Replace("{{response.id}}", responseId, StringComparison.Ordinal);
+            }
+            request.Content = JsonContent(bodyText);
+        }
+        return request;
+    }
+
+    private static async Task<JsonDocument?> AssertContractResponseAsync(
+        string label,
+        HttpResponseMessage response,
+        JsonElement expectation)
+    {
+        var expectedStatus = expectation.GetProperty("status").GetInt32();
+        Assert.True(
+            (int)response.StatusCode == expectedStatus,
+            $"{label} expected {expectedStatus} but received {(int)response.StatusCode}.");
+
+        if (expectation.TryGetProperty("contentType", out var contentType))
+        {
+            Assert.Equal(contentType.GetString(), response.Content.Headers.ContentType?.MediaType);
+        }
+
+        var responseBytes = await response.Content.ReadAsByteArrayAsync();
+        if (expectation.TryGetProperty("jsonKind", out var emptyKind) && emptyKind.GetString() == "empty")
+        {
+            Assert.Empty(responseBytes);
+            return null;
+        }
+
+        var expectsJson = expectation.TryGetProperty("contentType", out _) ||
+            expectation.TryGetProperty("jsonKind", out _) ||
+            expectation.TryGetProperty("requiredJsonPaths", out _) ||
+            expectation.TryGetProperty("jsonValues", out _);
+        if (!expectsJson)
+        {
+            return null;
+        }
+
+        var responseJson = JsonDocument.Parse(responseBytes);
+        if (expectation.TryGetProperty("jsonKind", out var jsonKind))
+        {
+            var expectedKind = jsonKind.GetString() == "array"
+                ? JsonValueKind.Array
+                : JsonValueKind.Object;
+            Assert.Equal(expectedKind, responseJson.RootElement.ValueKind);
+        }
+
+        if (expectation.TryGetProperty("requiredJsonPaths", out var requiredPaths))
+        {
+            foreach (var requiredPath in requiredPaths.EnumerateArray())
+            {
+                Assert.True(
+                    TryReadJsonPath(responseJson.RootElement, requiredPath.GetString()!, out _),
+                    $"{label} response is missing {requiredPath.GetString()}.");
+            }
+        }
+
+        if (expectation.TryGetProperty("jsonValues", out var jsonValues))
+        {
+            foreach (var expectedValue in jsonValues.EnumerateObject())
+            {
+                Assert.True(
+                    TryReadJsonPath(responseJson.RootElement, expectedValue.Name, out var actualValue),
+                    $"{label} response is missing {expectedValue.Name}.");
+                Assert.Equal(expectedValue.Value.GetRawText(), actualValue.GetRawText());
+            }
+        }
+
+        return responseJson;
     }
 
     private static HttpRequestMessage JsonRequest(HttpMethod method, string path, string json)
@@ -136,17 +214,28 @@ public sealed class SharedContractCorpusTests(IssueFlowApiFactory factory)
     private static string ReplacePlaceholders(string json, string id, string runId) =>
         json.Replace("{{uniqueTitle}}", $"Contract {id} {runId}", StringComparison.Ordinal);
 
-    private static bool HasJsonPath(JsonElement root, string path)
+    private static bool TryReadJsonPath(JsonElement root, string path, out JsonElement value)
     {
         var current = root;
         foreach (var segment in path.Split('.', StringSplitOptions.RemoveEmptyEntries))
         {
-            if (current.ValueKind != JsonValueKind.Object ||
-                !current.TryGetProperty(segment, out current))
+            if (current.ValueKind == JsonValueKind.Object && current.TryGetProperty(segment, out var property))
             {
-                return false;
+                current = property;
+                continue;
             }
+            if (current.ValueKind == JsonValueKind.Array &&
+                int.TryParse(segment, out var index) &&
+                index >= 0 &&
+                index < current.GetArrayLength())
+            {
+                current = current[index];
+                continue;
+            }
+            value = default;
+            return false;
         }
+        value = current;
         return true;
     }
 }

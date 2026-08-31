@@ -108,13 +108,18 @@ async function sendRequest(fetchImpl, baseUrl, jar, requestDefinition) {
   return response;
 }
 
-function responseObservation(response, responseText, responseJson, parsed, requiredJsonPaths) {
+function responseObservation(response, responseText, responseJson, parsed, expectation) {
+  const requiredJsonPaths = expectation.requiredJsonPaths ?? [];
+  const expectedJsonValues = expectation.jsonValues ?? {};
   return {
     status: response.status,
     contentType: mediaType(response.headers),
     bodyKind: bodyKind(responseJson, parsed, responseText),
     requiredJsonPaths: Object.fromEntries(
       requiredJsonPaths.map((jsonPath) => [jsonPath, readJsonPath(responseJson, jsonPath) !== undefined]),
+    ),
+    jsonValues: Object.fromEntries(
+      Object.keys(expectedJsonValues).map((jsonPath) => [jsonPath, readJsonPath(responseJson, jsonPath)]),
     ),
   };
 }
@@ -124,17 +129,45 @@ function assertionErrors(expectation, actual, parsed) {
   if (actual.status !== expectation.status) {
     errors.push(`status: expected ${expectation.status}, received ${actual.status}`);
   }
-  if (actual.contentType !== expectation.contentType.toLowerCase()) {
+  if (expectation.contentType && actual.contentType !== expectation.contentType.toLowerCase()) {
     errors.push(`content-type: expected ${expectation.contentType}, received ${actual.contentType ?? '<missing>'}`);
   }
-  if (!parsed) errors.push('body: expected valid JSON');
+  const expectsJson = Boolean(
+    expectation.contentType?.includes('json') ||
+    (expectation.jsonKind && expectation.jsonKind !== 'empty') ||
+    expectation.requiredJsonPaths?.length ||
+    Object.keys(expectation.jsonValues ?? {}).length,
+  );
+  if (expectsJson && !parsed) errors.push('body: expected valid JSON');
   if (expectation.jsonKind && actual.bodyKind !== expectation.jsonKind) {
     errors.push(`body kind: expected ${expectation.jsonKind}, received ${actual.bodyKind}`);
   }
   for (const [jsonPath, present] of Object.entries(actual.requiredJsonPaths)) {
     if (!present) errors.push(`body: missing JSON path ${jsonPath}`);
   }
+  for (const [jsonPath, expected] of Object.entries(expectation.jsonValues ?? {})) {
+    const received = actual.jsonValues[jsonPath];
+    if (JSON.stringify(received) !== JSON.stringify(expected)) {
+      errors.push(`body: ${jsonPath} expected ${JSON.stringify(expected)}, received ${JSON.stringify(received)}`);
+    }
+  }
   return errors;
+}
+
+async function observeResponse(response, expectation) {
+  const responseText = await response.text();
+  let responseJson;
+  let parsed = false;
+  if (responseText) {
+    try {
+      responseJson = JSON.parse(responseText);
+      parsed = true;
+    } catch {
+      responseJson = undefined;
+    }
+  }
+  const actual = responseObservation(response, responseText, responseJson, parsed, expectation);
+  return { actual, errors: assertionErrors(expectation, actual, parsed), responseJson, parsed };
 }
 
 function cleanupPath(template, responseJson) {
@@ -173,6 +206,7 @@ export async function runHttpContractSuite({ backend, baseUrl, corpus, fetchImpl
       expected: contractCase.expect,
       actual: null,
       cleanup: { attempted: false, passed: true, status: null },
+      followUps: [],
       sessionCleanup: { attempted: false, passed: true, status: null },
       errors: [],
     };
@@ -190,26 +224,27 @@ export async function runHttpContractSuite({ backend, baseUrl, corpus, fetchImpl
       }
 
       const response = await sendRequest(fetchImpl, baseUrl, jar, contractCase.request);
-      const responseText = await response.text();
-      let responseJson;
-      let parsed = false;
-      if (responseText) {
-        try {
-          responseJson = JSON.parse(responseText);
-          parsed = true;
-        } catch {
-          responseJson = undefined;
+      const observation = await observeResponse(response, contractCase.expect);
+      const { responseJson, parsed } = observation;
+      result.actual = observation.actual;
+      result.errors.push(...observation.errors);
+
+      if (parsed && result.errors.length === 0) {
+        for (const followUp of contractCase.followUps ?? []) {
+          const followUpResponse = await sendRequest(fetchImpl, baseUrl, jar, {
+            ...followUp.request,
+            path: cleanupPath(followUp.request.path, responseJson),
+          });
+          const followUpObservation = await observeResponse(followUpResponse, followUp.expect);
+          result.followUps.push({
+            id: followUp.id,
+            passed: followUpObservation.errors.length === 0,
+            expected: followUp.expect,
+            actual: followUpObservation.actual,
+          });
+          result.errors.push(...followUpObservation.errors.map((error) => `follow-up ${followUp.id}: ${error}`));
         }
       }
-
-      result.actual = responseObservation(
-        response,
-        responseText,
-        responseJson,
-        parsed,
-        contractCase.expect.requiredJsonPaths ?? [],
-      );
-      result.errors.push(...assertionErrors(contractCase.expect, result.actual, parsed));
 
       if (contractCase.cleanup && parsed) {
         const cleanupResponse = await sendRequest(fetchImpl, baseUrl, jar, {
@@ -250,7 +285,7 @@ export async function runHttpContractSuite({ backend, baseUrl, corpus, fetchImpl
   return {
     backend,
     baseUrl: new URL(baseUrl).origin,
-    passed: cases.length === 18 && cases.every(({ passed }) => passed),
+    passed: cases.length === corpus.cases.length && cases.every(({ passed }) => passed),
     caseCount: cases.length,
     cases,
   };
@@ -261,6 +296,7 @@ function comparableCase(result) {
     id: result.id,
     passed: result.passed,
     actual: result.actual,
+    followUps: result.followUps,
     cleanup: result.cleanup,
     sessionCleanup: result.sessionCleanup,
   };

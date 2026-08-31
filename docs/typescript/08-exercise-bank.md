@@ -245,26 +245,32 @@ npm test -- src/features/typescript-lab/examples.test.ts
 ### C07：Decoder 驱动 Request 与 204
 
 - **目标：**让调用者必须提供成功 response decoder，并单独处理 no-content。
-- **起始接口或输入：**现有 `request<T>()`、fake fetch responses、一个简单 endpoint。
+- **起始接口或输入：**`{status, body, decode}` response adapter、fake responses、一个简单 endpoint。
 - **陷阱：**继续 `as Promise<T>`；对 204 调 json；所有失败都包装成同一种 Error。
-- **证据：**合法/畸形 200、无效 JSON、404 Problem、HTML 500、204、网络失败测试。
-- **提示：**先只迁移一个 endpoint；body 与 no-body 可以是两个函数，而不是一个巨大泛型。
+- **工作台 Contract：**合法 200 的值必须来自 decoder；畸形 200 返回 `contract-error`；
+  204 与非 2xx 使用会主动抛错的 decoder，证明该 decoder 没有被调用。
+- **纵向扩展证据：**迁移一个真实 endpoint 后，再补无效 JSON、404 Problem、HTML 500 和网络失败测试。
+- **提示：**先按 204、非 2xx、需要解码的 2xx 分支；不要让 raw body 成为泛型返回值。
 
 ### C08：安全 React Select
 
 - **目标：**移除一处 `event.target.value as IssueStatus`。
-- **起始接口或输入：**IssueForm 或 Board 的 status select。
+- **起始接口或输入：**`{current, raw}` 的纯 transition，再接 IssueForm 或 Board 的 status select。
 - **陷阱：**只改成 `currentTarget.value as ...`；因为 options typed 就省略 guard；非法值静默进入 mutation。
-- **证据：**合法 change 更新；forged blocked 不更新/不请求；编译器拒绝 raw string 直传。
-- **提示：**把 parser 写成纯函数，先做 unit test，再接组件 handler。
+- **证据：**合法 change 同时产生新 state 和 request effect；forged `blocked` 保留 current 且
+  `request: null`；编译器拒绝 raw string 直接成为 `IssueStatus`。
+- **提示：**先让纯函数返回 `state/request/error`，Contract 通过后再把效果接到组件 handler。
 
 ### C09：乐观更新与 Typed Rollback
 
 - **目标：**类型化 mutation variables/context，并验证失败回滚。
 - **起始接口或输入：**BoardPage 的 `PagedResult<Issue>` cache、状态 mutation、500 response。
-- **陷阱：**快照类型是 unknown；只更新当前页面；失败覆盖更晚成功结果；固定 sleep 测试。
-- **证据：**optimistic move、rollback、toast、invalidate 四步可见测试；非法 status 编译负例。
-- **提示：**先画 cache identity 与时间线；并发问题可以记录为后续约束，不必一次解决。
+- **陷阱：**只返回最终数组；快照类型是 unknown；失败后忘记 invalidate；固定 sleep 测试。
+- **工作台 Contract：**成功返回 `snapshot → optimistic → invalidate`；失败返回
+  `snapshot → optimistic → rollback → invalidate`；每个事件携带 typed items 或 query key。
+- **纵向扩展证据：**组件测试再观察 optimistic move、失败 toast、rollback 和最终 refetch；
+  并发失败覆盖更晚成功的问题记录为后续约束。
+- **提示：**先返回 discriminated event array 固定顺序，再把每个事件映射到 Query 生命周期回调。
 
 ## 分级完成标准
 

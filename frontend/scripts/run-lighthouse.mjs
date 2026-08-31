@@ -11,7 +11,10 @@ const build = spawnSync(npmCommand, npmArgs('run', 'build'), { stdio: 'inherit',
 if (build.error) throw build.error;
 if (build.status !== 0) process.exit(build.status ?? 1);
 const server = spawn(npmCommand, npmArgs('run', 'preview'), { stdio: 'inherit', shell: false });
-if (!server.pid) throw server.spawnargs.length ? new Error('Could not start the production preview.') : new Error('Invalid preview command.');
+if (!server.pid)
+  throw server.spawnargs.length
+    ? new Error('Could not start the production preview.')
+    : new Error('Invalid preview command.');
 const target = 'http://127.0.0.1:3000/login';
 const runStartedAt = Date.now();
 

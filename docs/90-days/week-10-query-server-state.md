@@ -276,10 +276,15 @@ stream：initialPageParam → pages[] → getNextPageParam → flattened items
 ### 120 分钟任务
 
 - **0–15：**按顺序写出 Mutation 的五个生命周期阶段。
-- **15–40：**学习 mutationFn、onMutate、onError、onSuccess、onSettled 的职责。
-- **40–80：**追踪创建、编辑、评论中各一条 Mutation 到 ApiError 和 cache 更新。
-- **80–110：**为 400、401、404、409、500 与网络失败建立 UI 行为测试。
-- **110–120：**整理错误放在字段、页面或 Toast 的决策表。
+- **15–35：**学习 mutationFn、onMutate、onError、onSuccess、onSettled 的职责。
+- **35–70：**追踪创建、编辑、评论中各一条 Mutation 到 ApiError 和 cache 更新。
+- **70–95：**为 400、401、404、409、500 与网络失败建立 UI 行为测试。
+- **95–115：**完成 TypeScript 挑战 `C06`，解码并分类 Problem Details。
+- **115–120：**整理错误放在字段、页面或 Toast 的决策表。
+
+`C06` 必须先把未知响应解码成受证明的 wire problem，再区分 validation、401/403/404/409、
+其他 4xx、5xx、network、cancelled 或 contract；HTML 500、无效 status、缺失 title 和畸形
+`errors` 都必须归入 contract，不能伪装成结构化错误。
 
 ### 源码追踪
 
@@ -332,10 +337,14 @@ submit
 ### 120 分钟任务
 
 - **0–15：**不看文档写出 `cancel → snapshot → write → rollback/invalidate` 流程。
-- **15–40：**精读列表与 Board 的 onMutate/onError/onSettled 实现。
-- **40–80：**让 PATCH 可控地返回 500，观察列表、Board、详情和 Toast。
-- **80–110：**制造 A→B、B→C 两次 mutation 的乱序完成，选择并实现安全策略。
-- **110–120：**画时间线并记录策略边界。
+- **15–35：**精读列表与 Board 的 onMutate/onError/onSettled 实现。
+- **35–65：**让 PATCH 可控地返回 500，观察列表、Board、详情和 Toast。
+- **65–90：**制造 A→B、B→C 两次 mutation 的乱序完成，选择并实现安全策略。
+- **90–110：**完成 TypeScript 挑战 `C09`，断言快照、乐观写、回滚和失效时间线。
+- **110–120：**画出真实请求时间线并记录策略边界。
+
+`C09` 不以“最终数组看起来正确”为通过标准。测试必须观察保存快照、应用 optimistic change、
+失败时恢复原快照，以及 settled 后触发 invalidate；成功路径也必须保留失效证据。
 
 ### 失败回滚实验
 

@@ -80,17 +80,66 @@ export type PreviewArrayDecodeResult =
   | { readonly ok: false; readonly paths: readonly string[] };
 
 export type LabLessonId = 'literal-unions' | 'runtime-decoder' | 'wire-scalars';
-export type ProblemClassification = 'validation' | 'not-found' | 'server' | 'unknown';
+export type ProblemClassification =
+  | 'validation'
+  | 'unauthorized'
+  | 'forbidden'
+  | 'not-found'
+  | 'conflict'
+  | 'client'
+  | 'server'
+  | 'network'
+  | 'cancelled'
+  | 'contract';
 
-export interface HttpExerciseInput {
+export type HttpDecodeResult<T> =
+  { readonly ok: true; readonly value: T } | { readonly ok: false; readonly message: string };
+
+export type HttpResponseDecoder<T> = (value: unknown) => HttpDecodeResult<T>;
+
+export interface HttpExerciseInput<T> {
   readonly status: number;
   readonly body: unknown;
+  readonly decode: HttpResponseDecoder<T>;
 }
 
-export type HttpExerciseResult =
-  | { readonly kind: 'json'; readonly value: unknown }
+export type HttpExerciseResult<T> =
+  | { readonly kind: 'json'; readonly value: T }
   | { readonly kind: 'no-content' }
-  | { readonly kind: 'problem'; readonly status: number };
+  | { readonly kind: 'problem'; readonly status: number }
+  | { readonly kind: 'contract-error'; readonly message: string };
+
+export interface StatusSelectInput {
+  readonly current: ExerciseStatus;
+  readonly raw: string;
+}
+
+export type StatusSelectTransition =
+  | {
+      readonly accepted: true;
+      readonly state: ExerciseStatus;
+      readonly request: { readonly status: ExerciseStatus };
+      readonly error: null;
+    }
+  | {
+      readonly accepted: false;
+      readonly state: ExerciseStatus;
+      readonly request: null;
+      readonly error: 'Invalid status selection';
+    };
+
+export interface OptimisticExerciseInput {
+  readonly items: readonly IssueListItem[];
+  readonly id: number;
+  readonly next: ExerciseStatus;
+  readonly failed: boolean;
+}
+
+export type OptimisticTimelineEvent =
+  | { readonly phase: 'snapshot'; readonly items: readonly IssueListItem[] }
+  | { readonly phase: 'optimistic'; readonly items: readonly IssueListItem[] }
+  | { readonly phase: 'rollback'; readonly items: readonly IssueListItem[] }
+  | { readonly phase: 'invalidate'; readonly queryKey: readonly ['issues'] };
 
 export interface PageMapperSolution {
   <T, U>(input: PagedResult<T> & { readonly map: (value: T) => U }): PagedResult<U>;
@@ -137,14 +186,9 @@ export interface ExerciseSignatures {
   C04(input: unknown): readonly LabLessonId[];
   C05(input: unknown): boolean;
   C06(input: unknown): ProblemClassification;
-  C07(input: HttpExerciseInput): HttpExerciseResult;
-  C08(input: unknown): ExerciseStatus | null;
-  C09(input: {
-    readonly items: readonly IssueListItem[];
-    readonly id: number;
-    readonly next: ExerciseStatus;
-    readonly failed: boolean;
-  }): readonly IssueListItem[];
+  C07<T>(input: HttpExerciseInput<T>): HttpExerciseResult<T>;
+  C08(input: StatusSelectInput): StatusSelectTransition;
+  C09(input: OptimisticExerciseInput): readonly OptimisticTimelineEvent[];
 }
 
 export type ExerciseSolutions = { [Id in ExerciseId]: ExerciseSignatures[Id] };
@@ -164,6 +208,27 @@ export interface ContractCase {
 }
 
 const cases = (...values: ContractCase[]) => values;
+
+const decodeExerciseIssueId: HttpResponseDecoder<{ readonly id: number }> = (value) => {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    return { ok: false, message: '$ must be an object' };
+  }
+  const rawId = Reflect.get(value, 'id');
+  const id = typeof rawId === 'string' && rawId.trim() !== '' ? Number(rawId) : rawId;
+  return typeof id === 'number' && Number.isSafeInteger(id) && id > 0
+    ? { ok: true, value: { id } }
+    : { ok: false, message: '$.id must be a positive safe integer' };
+};
+
+const decodeExerciseLabel: HttpResponseDecoder<string> = (value) => ({
+  ok: true,
+  value: `decoded:${String(value)}`,
+});
+
+/* v8 ignore next -- this sentinel exists to prove 204 and error paths never decode JSON. */
+const decoderMustNotRun: HttpResponseDecoder<never> = () => {
+  throw new Error('The success decoder must not run for 204 or error responses.');
+};
 
 export const exerciseContracts: Record<ExerciseId, readonly ContractCase[]> = {
   B01: cases(
@@ -418,42 +483,148 @@ export const exerciseContracts: Record<ExerciseId, readonly ContractCase[]> = {
       input: { status: 400, title: 'Validation failed', errors: { title: ['Required'] } },
       expected: 'validation',
     },
+    {
+      name: 'classifies a valid 400 without field errors as a generic client problem',
+      input: { status: 400, title: 'Bad request' },
+      expected: 'client',
+    },
+    {
+      name: 'rejects malformed validation errors as a contract failure',
+      input: { status: 400, title: 'Validation failed', errors: { title: 42 } },
+      expected: 'contract',
+    },
+    {
+      name: 'requires a non-empty problem title',
+      input: { status: 400, errors: { title: ['Required'] } },
+      expected: 'contract',
+    },
+    { name: 'classifies unauthorized', input: { status: 401, title: 'Sign in' }, expected: 'unauthorized' },
+    { name: 'classifies forbidden', input: { status: 403, title: 'Forbidden' }, expected: 'forbidden' },
     { name: 'classifies not found', input: { status: 404, title: 'Missing' }, expected: 'not-found' },
-    { name: 'rejects an HTML error body', input: '<html>500</html>', expected: 'unknown' },
+    { name: 'classifies conflict', input: { status: 409, title: 'Conflict' }, expected: 'conflict' },
+    { name: 'classifies another 4xx response', input: { status: 418, title: 'Teapot' }, expected: 'client' },
+    { name: 'classifies a 5xx response', input: { status: 503, title: 'Unavailable' }, expected: 'server' },
+    { name: 'rejects an HTML error body', input: '<html>500</html>', expected: 'contract' },
+    { name: 'rejects an out-of-range status', input: { status: 200, title: 'Not a problem' }, expected: 'contract' },
+    { name: 'classifies a fetch-style failure', input: new TypeError('fetch failed'), expected: 'network' },
+    {
+      name: 'classifies an aborted request',
+      input: new DOMException('The request was aborted', 'AbortError'),
+      expected: 'cancelled',
+    },
   ),
   C07: cases(
     {
-      name: 'decodes JSON success',
-      input: { status: 200, body: { id: 1 } },
-      expected: { kind: 'json', value: { id: 1 } },
+      name: 'returns the value produced by the success decoder',
+      input: { status: 200, body: { id: '7' }, decode: decodeExerciseIssueId },
+      expected: { kind: 'json', value: { id: 7 } },
     },
-    { name: 'models 204 separately', input: { status: 204, body: null }, expected: { kind: 'no-content' } },
     {
-      name: 'classifies an error response',
-      input: { status: 500, body: { title: 'Failed' } },
+      name: 'turns a malformed success body into a contract error',
+      input: { status: 200, body: { id: 'not-a-number' }, decode: decodeExerciseIssueId },
+      expected: { kind: 'contract-error', message: '$.id must be a positive safe integer' },
+    },
+    {
+      name: 'rejects a non-object success body through the decoder',
+      input: { status: 200, body: null, decode: decodeExerciseIssueId },
+      expected: { kind: 'contract-error', message: '$ must be an object' },
+    },
+    {
+      name: 'preserves a second decoder output type',
+      input: { status: 200, body: 'created', decode: decodeExerciseLabel },
+      expected: { kind: 'json', value: 'decoded:created' },
+    },
+    {
+      name: 'models 204 without calling the JSON decoder',
+      input: { status: 204, body: null, decode: decoderMustNotRun },
+      expected: { kind: 'no-content' },
+    },
+    {
+      name: 'classifies an error response without calling the success decoder',
+      input: { status: 500, body: { title: 'Failed' }, decode: decoderMustNotRun },
       expected: { kind: 'problem', status: 500 },
     },
   ),
   C08: cases(
-    { name: 'accepts a valid select value', input: 'resolved', expected: 'resolved' },
-    { name: 'rejects a forged value', input: 'blocked', expected: null },
-    { name: 'rejects a non-string', input: 2, expected: null },
+    {
+      name: 'updates state and schedules a request for a valid select value',
+      input: { current: 'open', raw: 'resolved' },
+      expected: { accepted: true, state: 'resolved', request: { status: 'resolved' }, error: null },
+    },
+    {
+      name: 'accepts another valid select value instead of hard-coding resolved',
+      input: { current: 'resolved', raw: 'open' },
+      expected: { accepted: true, state: 'open', request: { status: 'open' }, error: null },
+    },
+    {
+      name: 'keeps state and suppresses the request for a forged DOM value',
+      input: { current: 'in_progress', raw: 'blocked' },
+      expected: {
+        accepted: false,
+        state: 'in_progress',
+        request: null,
+        error: 'Invalid status selection',
+      },
+    },
+    {
+      name: 'keeps state and suppresses the request for a non-string runtime value',
+      input: { current: 'closed', raw: 2 },
+      expected: {
+        accepted: false,
+        state: 'closed',
+        request: null,
+        error: 'Invalid status selection',
+      },
+    },
   ),
   C09: cases(
     {
-      name: 'keeps an optimistic success',
-      input: { items: [{ id: 1, status: 'open' }], id: 1, next: 'closed', failed: false },
-      expected: [{ id: 1, status: 'closed' }],
+      name: 'records snapshot then optimistic state before invalidating on success',
+      input: {
+        items: [
+          { id: 1, status: 'open' },
+          { id: 2, status: 'resolved' },
+        ],
+        id: 1,
+        next: 'closed',
+        failed: false,
+      },
+      expected: [
+        {
+          phase: 'snapshot',
+          items: [
+            { id: 1, status: 'open' },
+            { id: 2, status: 'resolved' },
+          ],
+        },
+        {
+          phase: 'optimistic',
+          items: [
+            { id: 1, status: 'closed' },
+            { id: 2, status: 'resolved' },
+          ],
+        },
+        { phase: 'invalidate', queryKey: ['issues'] },
+      ],
     },
     {
-      name: 'rolls back a failure',
+      name: 'records rollback between optimistic state and invalidation on failure',
       input: { items: [{ id: 1, status: 'open' }], id: 1, next: 'closed', failed: true },
-      expected: [{ id: 1, status: 'open' }],
+      expected: [
+        { phase: 'snapshot', items: [{ id: 1, status: 'open' }] },
+        { phase: 'optimistic', items: [{ id: 1, status: 'closed' }] },
+        { phase: 'rollback', items: [{ id: 1, status: 'open' }] },
+        { phase: 'invalidate', queryKey: ['issues'] },
+      ],
     },
     {
-      name: 'does not touch another id',
+      name: 'keeps every timeline state unchanged for an unknown id',
       input: { items: [{ id: 1, status: 'open' }], id: 2, next: 'closed', failed: false },
-      expected: [{ id: 1, status: 'open' }],
+      expected: [
+        { phase: 'snapshot', items: [{ id: 1, status: 'open' }] },
+        { phase: 'optimistic', items: [{ id: 1, status: 'open' }] },
+        { phase: 'invalidate', queryKey: ['issues'] },
+      ],
     },
   ),
 };

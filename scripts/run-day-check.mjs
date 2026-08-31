@@ -3,6 +3,8 @@ import path from "node:path";
 import process from "node:process";
 import { spawnSync } from "node:child_process";
 
+import { validateLearnerFileContent } from "./learner-file-validation.mjs";
+
 const day = Number(process.argv.find((value) => /^\d{1,2}$/.test(value)));
 if (!Number.isInteger(day) || day < 1 || day > 91) {
   console.error(
@@ -68,6 +70,11 @@ function resolveCheck(check, index) {
     check.requiredText ??
     []
   ).map(renderTemplate);
+  const requiredCommands = (
+    check.requiredCommandsTemplate ??
+    check.requiredCommands ??
+    []
+  ).map(renderTemplate);
   return {
     ...check,
     id: renderTemplate(
@@ -75,6 +82,7 @@ function resolveCheck(check, index) {
     ),
     args,
     requiredText,
+    requiredCommands,
     target: renderTemplate(
       check.targetTemplate ?? check.target ?? manifest.starter,
     ),
@@ -244,14 +252,9 @@ for (const [index, sourceCheck] of configuredChecks.entries()) {
     const failures = [];
     try {
       const content = await readFile(targetPath, "utf8");
-      if ([...content.trim()].length < check.minimumCharacters)
-        failures.push("file is too short");
-      if (/\b(?:TODO|TBD)\b|待填写/i.test(content))
-        failures.push("file still contains a placeholder");
-      for (const requiredText of check.requiredText) {
-        if (!content.includes(requiredText))
-          failures.push(`missing required text: ${requiredText}`);
-      }
+      failures.push(
+        ...validateLearnerFileContent(check.target, content, check),
+      );
     } catch (error) {
       if (error?.code === "ENOENT") failures.push("file does not exist");
       else throw error;

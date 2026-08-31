@@ -12,7 +12,8 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary', 'html', 'lcov'],
-      include: ['src/**/*.{ts,tsx}', 'exercises/typescript/contracts.ts', 'exercises/typescript/reference.ts'],
+      reportsDirectory: 'coverage/product',
+      include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/data/**',
         'src/app/**',
@@ -20,13 +21,30 @@ export default defineConfig({
         'src/screens/**',
         'src/server/issueflow-db.ts',
         'src/features/typescript-lab/catalog.ts',
-        'exercises/typescript/workbench.ts',
       ],
       thresholds: {
-        lines: 50,
-        statements: 50,
-        functions: 45,
-        branches: 45,
+        lines: 67,
+        statements: 63,
+        functions: 62,
+        branches: 60,
+        'src/api/issueflowApi.ts': {
+          lines: 40,
+          statements: 35,
+          functions: 35,
+          branches: 28,
+        },
+        'src/server/auth.ts': {
+          lines: 95,
+          statements: 95,
+          functions: 100,
+          branches: 90,
+        },
+        'src/server/problem.ts': {
+          lines: 100,
+          statements: 100,
+          functions: 100,
+          branches: 100,
+        },
         'src/features/issues/runtime-contracts.ts': {
           lines: 80,
           statements: 75,

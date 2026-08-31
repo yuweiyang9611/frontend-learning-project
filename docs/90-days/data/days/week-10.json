@@ -66,6 +66,17 @@
     "requiresConcepts": ["query.mutation"],
     "starter": "frontend/src",
     "acceptanceProfile": "frontend-day-test",
+    "additionalChecks": [
+      {
+        "id": "D68-A2",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "exercise:test",
+        "args": ["C06"],
+        "target": "frontend/exercises/typescript/workbench.ts#C06",
+        "expectedExit": 0
+      }
+    ],
     "evidence": [
       {
         "id": "D68-E1",
@@ -81,6 +92,17 @@
     "requiresConcepts": ["query.rollback"],
     "starter": "frontend/src",
     "acceptanceProfile": "frontend-day-test",
+    "additionalChecks": [
+      {
+        "id": "D69-A2",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "exercise:test",
+        "args": ["C09"],
+        "target": "frontend/exercises/typescript/workbench.ts#C09",
+        "expectedExit": 0
+      }
+    ],
     "evidence": [
       {
         "id": "D69-E1",

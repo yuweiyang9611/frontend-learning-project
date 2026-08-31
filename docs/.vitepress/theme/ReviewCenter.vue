@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { withBase } from "vitepress";
-import { getQuizQuestion, weeklyQuizzes, type QuizQuestion } from "./quiz-bank";
+import { computed, onMounted, ref } from 'vue';
+import { withBase } from 'vitepress';
+import { getQuizQuestion, weeklyQuizzes, type QuizQuestion } from './quiz-bank';
 import {
   REVIEW_STORAGE_KEY,
   createReviewState,
@@ -9,18 +9,16 @@ import {
   questionNeedsReview,
   recordReviewAnswer,
   reviewSummary,
-} from "./review-state.mjs";
+} from './review-state.mjs';
 
 const state = ref(createReviewState());
 const selected = ref<number | null>(null);
-const status = ref("");
+const status = ref('');
 const now = ref(new Date().toISOString());
 
 onMounted(() => {
   try {
-    state.value = decodeReviewState(
-      JSON.parse(localStorage.getItem(REVIEW_STORAGE_KEY) ?? "null"),
-    );
+    state.value = decodeReviewState(JSON.parse(localStorage.getItem(REVIEW_STORAGE_KEY) ?? 'null'));
   } catch {
     state.value = createReviewState();
   }
@@ -37,7 +35,7 @@ const current = computed(() => candidates.value[0]);
 
 function answerCurrent() {
   if (!current.value || selected.value === null) {
-    status.value = "请先选择答案。";
+    status.value = '请先选择答案。';
     return;
   }
   const correct = selected.value === current.value.correctIndex;
@@ -45,31 +43,28 @@ function answerCurrent() {
   try {
     localStorage.setItem(REVIEW_STORAGE_KEY, JSON.stringify(state.value));
   } catch {
-    status.value = "结果只保存在当前页面内存。";
+    status.value = '结果只保存在当前页面内存。';
   }
-  status.value = correct
-    ? "回答正确；该题已安排下一次间隔复习。"
-    : "仍需订正；请读解释后重新作答。";
+  status.value = correct ? '回答正确；该题已安排下一次间隔复习。' : '仍需订正；请读解释后重新作答。';
   selected.value = null;
   now.value = new Date().toISOString();
 }
 
 function exportReview() {
   const blob = new Blob([JSON.stringify(state.value, null, 2)], {
-    type: "application/json",
+    type: 'application/json',
   });
   const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.href = url;
-  link.download =
-    "issueflow-review-" + new Date().toISOString().slice(0, 10) + ".json";
+  link.download = 'issueflow-review-' + new Date().toISOString().slice(0, 10) + '.json';
   link.click();
   URL.revokeObjectURL(url);
-  status.value = "复习记录已导出；分享前请检查文件内容。";
+  status.value = '复习记录已导出；分享前请检查文件内容。';
 }
 
 function resetReview() {
-  if (!window.confirm("确定清空这台设备上的周测与错题记录吗？")) return;
+  if (!window.confirm('确定清空这台设备上的周测与错题记录吗？')) return;
   state.value = createReviewState();
   selected.value = null;
   try {
@@ -77,7 +72,7 @@ function resetReview() {
   } catch {
     // The in-memory state has still been reset.
   }
-  status.value = "本设备复习记录已清空。";
+  status.value = '本设备复习记录已清空。';
 }
 </script>
 
@@ -104,20 +99,13 @@ function resetReview() {
     </dl>
     <div class="review-center__actions">
       <button type="button" @click="exportReview">导出复习 JSON</button>
-      <button type="button" class="danger" @click="resetReview">
-        清空本机复习
-      </button>
+      <button type="button" class="danger" @click="resetReview">清空本机复习</button>
     </div>
 
-    <article v-if="current" class="review-center__card">
-      <h3>{{ current.prompt }}</h3>
+    <fieldset v-if="current" class="review-center__card">
+      <legend>{{ current.prompt }}</legend>
       <label v-for="(choice, index) in current.choices" :key="choice">
-        <input
-          v-model.number="selected"
-          type="radio"
-          name="review-answer"
-          :value="index"
-        />
+        <input v-model.number="selected" type="radio" name="review-answer" :value="index" />
         {{ choice }}
       </label>
       <button type="button" @click="answerCurrent">提交复习答案</button>
@@ -126,7 +114,7 @@ function resetReview() {
         <p>{{ current.explanation }}</p>
         <a :href="withBase(current.remediation)">回到课程</a>
       </details>
-    </article>
+    </fieldset>
     <p v-else>当前没有到期错题。完成每周测验后，复习计划会显示在这里。</p>
     <p aria-live="polite">{{ status }}</p>
 

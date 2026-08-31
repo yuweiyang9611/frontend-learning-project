@@ -2,6 +2,8 @@ import type {
   ExerciseFieldErrors,
   ExerciseId,
   ExerciseStatus,
+  HttpDecodeResult,
+  IssueListItem,
   IssuePreview,
   PreviewArrayDecodeResult,
   PreviewDecodeResult,
@@ -210,21 +212,42 @@ export const compilerChecksByExercise = {
     void status;
   },
   C07: () => {
-    const response = referenceSolutions.C07({ status: 204, body: null });
-    void response;
+    const decodeNumber = (value: unknown): HttpDecodeResult<number> =>
+      typeof value === 'number' ? { ok: true, value } : { ok: false, message: 'Expected a number' };
+    const response = referenceSolutions.C07({ status: 200, body: 7, decode: decodeNumber });
+    if (response.kind === 'json') {
+      const decoded: number = response.value;
+      void decoded;
+      // @ts-expect-error C07 result value is determined by the supplied decoder
+      const wrongValue: string = response.value;
+      void wrongValue;
+    }
+    // @ts-expect-error C07 requires a success decoder instead of trusting body as T
+    referenceSolutions.C07({ status: 200, body: 7 });
     // @ts-expect-error C07 requires a numeric HTTP status
-    referenceSolutions.C07({ status: '204', body: null });
+    referenceSolutions.C07({ status: '204', body: null, decode: decodeNumber });
   },
   C08: () => {
-    const status: ExerciseStatus | null = referenceSolutions.C08('resolved');
-    void status;
-    // @ts-expect-error C08 may reject a forged value with null
-    const requiredStatus: ExerciseStatus = referenceSolutions.C08('blocked');
-    void requiredStatus;
+    const transition = referenceSolutions.C08({ current: 'open', raw: 'resolved' });
+    if (transition.accepted) {
+      const requestStatus: ExerciseStatus = transition.request.status;
+      void requestStatus;
+    }
+    const rawDomValue: string = 'blocked';
+    // @ts-expect-error a raw DOM string is not a validated ExerciseStatus
+    const unsafeStatus: ExerciseStatus = rawDomValue;
+    void unsafeStatus;
+    // @ts-expect-error C08 current state must already be a validated domain value
+    referenceSolutions.C08({ current: 'blocked', raw: 'open' });
   },
   C09: () => {
     const items = [{ id: 1, status: 'open' }] as const;
-    referenceSolutions.C09({ items, id: 1, next: 'closed', failed: false });
+    const timeline = referenceSolutions.C09({ items, id: 1, next: 'closed', failed: false });
+    const phase: 'snapshot' | 'optimistic' | 'rollback' | 'invalidate' = timeline[0]!.phase;
+    void phase;
+    // @ts-expect-error C09 returns observable timeline events, not only final issue items
+    const finalItems: readonly IssueListItem[] = timeline;
+    void finalItems;
     // @ts-expect-error C09 optimistic state uses the closed status union
     referenceSolutions.C09({ items, id: 1, next: 'blocked', failed: false });
   },

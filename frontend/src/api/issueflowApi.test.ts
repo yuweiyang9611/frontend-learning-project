@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { seedMembers } from '@/src/data/seed';
+import { seedAttachments, seedComments, seedIssues, seedMembers } from '@/src/data/seed';
 import { ContractDecodeError } from '@/src/features/issues/runtime-contracts';
 import { issueflowApi } from './issueflowApi';
 
@@ -18,10 +18,7 @@ describe('HTTP and stored-session runtime boundaries', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     await expect(issueflowApi.getMembers()).resolves.toEqual(seedMembers);
-    expect(fetchMock).toHaveBeenCalledWith(
-      '/api/members',
-      expect.objectContaining({ credentials: 'include' }),
-    );
+    expect(fetchMock).toHaveBeenCalledWith('/api/members', expect.objectContaining({ credentials: 'include' }));
   });
 
   it('rejects successful responses with invalid JSON or an invalid wire shape', async () => {
@@ -102,5 +99,99 @@ describe('HTTP and stored-session runtime boundaries', () => {
 
     await expect(issueflowApi.restoreSession()).resolves.toBeNull();
     expect(localStorage.getItem('issueflow-session')).toBeNull();
+  });
+
+  it('routes the complete mutation lifecycle through typed HTTP boundaries', async () => {
+    const issue = seedIssues[0];
+    const comment = seedComments[0];
+    const attachment = seedAttachments[0];
+    const session = {
+      email: 'demo@issueflow.dev',
+      displayName: 'Jordan Davis',
+      initials: 'JD',
+      role: 'Admin' as const,
+    };
+    const input = {
+      title: 'Contract client lifecycle',
+      description: 'Exercise every HTTP adapter.',
+      status: 'open' as const,
+      priority: 'high' as const,
+      assigneeId: 2,
+      tags: ['contract'],
+      dueDate: null,
+    };
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(Response.json({ items: [issue], page: 1, pageSize: 10, total: 1 }))
+      .mockResolvedValueOnce(Response.json(issue))
+      .mockResolvedValueOnce(Response.json(issue, { status: 201 }))
+      .mockResolvedValueOnce(Response.json({ ...issue, status: 'resolved' }))
+      .mockResolvedValueOnce(Response.json([comment]))
+      .mockResolvedValueOnce(Response.json(comment, { status: 201 }))
+      .mockResolvedValueOnce(new Response(null, { status: 204 }))
+      .mockResolvedValueOnce(Response.json([attachment]))
+      .mockResolvedValueOnce(Response.json(attachment, { status: 201 }))
+      .mockResolvedValueOnce(Response.json(session))
+      .mockResolvedValueOnce(new Response(null, { status: 204 }))
+      .mockResolvedValueOnce(new Response(null, { status: 204 }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    await expect(issueflowApi.listIssues({ page: 1, pageSize: 10, search: 'session' })).resolves.toMatchObject({
+      total: 1,
+    });
+    await expect(issueflowApi.getIssue(issue.id)).resolves.toEqual(issue);
+    await expect(issueflowApi.createIssue(input)).resolves.toEqual(issue);
+    await expect(issueflowApi.updateIssue(issue.id, { status: 'resolved' })).resolves.toMatchObject({
+      status: 'resolved',
+    });
+    await expect(issueflowApi.getComments(issue.id)).resolves.toEqual([comment]);
+    await expect(issueflowApi.addComment(issue.id, 'A useful comment')).resolves.toEqual(comment);
+    await expect(issueflowApi.deleteComment(issue.id, comment.id)).resolves.toBeUndefined();
+    await expect(issueflowApi.getAttachments(issue.id)).resolves.toEqual([attachment]);
+    await expect(
+      issueflowApi.uploadAttachment(issue.id, new File(['trace'], 'trace.txt', { type: 'text/plain' })),
+    ).resolves.toEqual(attachment);
+    await expect(issueflowApi.login(session.email, 'issueflow')).resolves.toEqual(session);
+    expect(issueflowApi.getStoredSession()).toEqual(session);
+    await expect(issueflowApi.logout()).resolves.toBeUndefined();
+    expect(issueflowApi.getStoredSession()).toBeNull();
+    await expect(issueflowApi.deleteIssue(issue.id)).resolves.toBeUndefined();
+
+    expect(fetchMock.mock.calls[0][0]).toContain('/api/issues?');
+    expect(fetchMock.mock.calls[2]).toEqual([
+      '/api/issues',
+      expect.objectContaining({ method: 'POST', body: JSON.stringify(input) }),
+    ]);
+    expect(fetchMock.mock.calls[8][1]).toEqual(expect.objectContaining({ method: 'POST', body: expect.any(FormData) }));
+  });
+
+  it('restores valid sessions, signs out on 401, and falls back only for unavailable contracts', async () => {
+    const session = {
+      email: 'demo@issueflow.dev',
+      displayName: 'Jordan Davis',
+      initials: 'JD',
+      role: 'Admin' as const,
+    };
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValueOnce(Response.json(session))
+        .mockResolvedValueOnce(Response.json({ title: 'Authentication required', status: 401 }, { status: 401 }))
+        .mockResolvedValueOnce(new Response('<html>offline</html>', { status: 200 })),
+    );
+
+    await expect(issueflowApi.restoreSession()).resolves.toEqual(session);
+    expect(issueflowApi.getStoredSession()).toEqual(session);
+    await expect(issueflowApi.restoreSession()).resolves.toBeNull();
+    expect(issueflowApi.getStoredSession()).toBeNull();
+
+    localStorage.setItem('issueflow-session', JSON.stringify(session));
+    await expect(issueflowApi.restoreSession()).resolves.toEqual(session);
+  });
+
+  it('rejects 204 from endpoints whose contract requires a JSON document', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(null, { status: 204 })));
+    await expect(issueflowApi.getMembers()).rejects.toBeInstanceOf(ContractDecodeError);
   });
 });

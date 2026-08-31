@@ -114,12 +114,16 @@ npx prettier --check "../README.md" "../LEARNING_GUIDE.md" "../frontend_learning
 
 ```powershell
 npm ci
-npm run docs:check-curriculum
-npm run docs:build
+npx playwright install chromium
+npm run docs:verify
 
 git diff --check
 rg -n "11 lessons|完全等价|纯 Vite SPA|Tailwind" README.md docs frontend/src/features/typescript-lab/README.md
 ```
+
+`docs:verify` 会依次运行状态单元测试、课程与链接检查、生产构建，以及文档站的
+Playwright + axe 浏览器测试。浏览器测试覆盖进度门槛与刷新、周测进入错题队列、
+复习题键盘/单选组语义、浅色/深色主题和 360px 窄屏；首次运行前需要安装 Chromium。
 
 命中不一定错误；要逐项判断语境。
 

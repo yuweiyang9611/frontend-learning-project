@@ -149,8 +149,8 @@ setTooNarrow(seedIssues[0]);
 | 15–35   | 学习 ChangeEvent、FormEvent、KeyboardEvent         | 事件类型表      |
 | 35–65   | 阅读 `IssueForm.change`、submit 与 select handlers | 边界追踪        |
 | 65–85   | 用 Testing Library 输入标题、标签和非法状态        | 运行记录        |
-| 85–110  | 独立替换一个 `as IssueStatus`                      | guard、组件测试 |
-| 110–120 | 复盘浏览器校验与领域校验的关系                     | 说明段落        |
+| 85–100  | 独立替换一个 `as IssueStatus`                      | guard、组件测试 |
+| 100–120 | 完成 React Day 52 工作台与 TypeScript 挑战 `C08`   | 两组运行证据    |
 
 ### 安全 handler
 
@@ -188,6 +188,9 @@ state；guard 版本必须保持原状态或显示明确错误。
 为 assigneeId 编写 parser：空字符串 → null，正 safe integer → number，0/负数/小数/普通文本
 → failure。把 parser 测试与组件测试分开。
 
+挑战 `C08` 要把合法与伪造的 DOM string 都输入安全 select 状态转换；非法值必须保留旧状态，
+并明确返回“不得提交请求”的结果。不要用 `as IssueStatus` 让测试假装输入可信。
+
 ### 验收证据
 
 - [ ] handler 使用 currentTarget。
@@ -209,12 +212,12 @@ state；guard 版本必须保持原状态或显示明确错误。
 
 | 时间    | 活动                                            | 产物           |
 | ------- | ----------------------------------------------- | -------------- |
-| 0–15    | 写出 loading/error/data booleans 的非法组合       | 状态反例       |
-| 15–35   | 复习 RemoteData，学习组合与状态提升               | 状态树         |
-| 35–60   | 阅读一个页面的 loading/empty/error/success 分支    | 可见状态表     |
-| 60–85   | 为四种 RemoteData 渲染和 retry 写行为测试          | 组件测试       |
-| 85–110  | 独立拆分 RemoteIssuesPanel 并提升唯一共享 state    | 组件与数据流图 |
-| 110–120 | 判断 Props、children 或 Context 的最小选择          | 复盘记录       |
+| 0–15    | 写出 loading/error/data booleans 的非法组合     | 状态反例       |
+| 15–35   | 复习 RemoteData，学习组合与状态提升             | 状态树         |
+| 35–60   | 阅读一个页面的 loading/empty/error/success 分支 | 可见状态表     |
+| 60–85   | 为四种 RemoteData 渲染和 retry 写行为测试       | 组件测试       |
+| 85–110  | 独立拆分 RemoteIssuesPanel 并提升唯一共享 state | 组件与数据流图 |
+| 110–120 | 判断 Props、children 或 Context 的最小选择      | 复盘记录       |
 
 ### 示例与负例
 
@@ -317,14 +320,14 @@ inputRef.current.focus();
 
 ### 完整 120 分钟
 
-| 时间    | 活动                                           | 产物         |
-| ------- | ---------------------------------------------- | ------------ |
-| 0–15    | 画点击保存到成功/失败的时间线                   | 状态图       |
-| 15–35   | 为 save callback、参数和错误结果写类型          | 函数 Contract |
-| 35–60   | 阅读一个普通异步提交与 ApiError 显示路径        | 调用链       |
-| 60–85   | 测试 pending 禁用、成功确认和失败恢复           | 可见行为记录 |
-| 85–110  | 独立实现 SaveStatusButton，不进行乐观写入       | 组件与测试   |
-| 110–120 | 解释为什么本周先等待服务器确认                  | 复盘段落     |
+| 时间    | 活动                                      | 产物          |
+| ------- | ----------------------------------------- | ------------- |
+| 0–15    | 画点击保存到成功/失败的时间线             | 状态图        |
+| 15–35   | 为 save callback、参数和错误结果写类型    | 函数 Contract |
+| 35–60   | 阅读一个普通异步提交与 ApiError 显示路径  | 调用链        |
+| 60–85   | 测试 pending 禁用、成功确认和失败恢复     | 可见行为记录  |
+| 85–110  | 独立实现 SaveStatusButton，不进行乐观写入 | 组件与测试    |
+| 110–120 | 解释为什么本周先等待服务器确认            | 复盘段落      |
 
 ### 类型化快照
 

@@ -10,9 +10,16 @@ export interface ContractRequest {
 
 export interface ContractExpectation {
   status: number;
-  contentType: string;
+  contentType?: string;
   requiredJsonPaths?: string[];
-  jsonKind?: 'array' | 'object';
+  jsonKind?: 'array' | 'object' | 'empty';
+  jsonValues?: Record<string, unknown>;
+}
+
+export interface ContractFollowUp {
+  id: string;
+  request: ContractRequest;
+  expect: ContractExpectation;
 }
 
 export interface ContractCase {
@@ -21,6 +28,7 @@ export interface ContractCase {
   auth: boolean;
   request: ContractRequest;
   expect: ContractExpectation;
+  followUps?: ContractFollowUp[];
   cleanup?: {
     method: 'DELETE';
     path: string;

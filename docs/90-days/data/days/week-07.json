@@ -71,6 +71,17 @@
     "starter": "frontend/exercises/typescript",
     "acceptanceProfile": "typescript-workbench",
     "exerciseId": "C01",
+    "additionalChecks": [
+      {
+        "id": "D47-A2",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "exercise:test",
+        "args": ["C04"],
+        "target": "frontend/exercises/typescript/workbench.ts#C04",
+        "expectedExit": 0
+      }
+    ],
     "evidence": [
       {
         "id": "D47-E1",
@@ -87,6 +98,17 @@
     "starter": "frontend/exercises/typescript",
     "acceptanceProfile": "typescript-workbench",
     "exerciseId": "C02",
+    "additionalChecks": [
+      {
+        "id": "D48-A2",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "exercise:test",
+        "args": ["C05"],
+        "target": "frontend/exercises/typescript/workbench.ts#C05",
+        "expectedExit": 0
+      }
+    ],
     "evidence": [
       {
         "id": "D48-E1",

@@ -33,13 +33,13 @@ Playwright 浏览器下载、双后端启动、CI 排队和完整构建可能额
 
 如果当天只有严格的两小时墙钟，使用以下停点：
 
-| 重日 | 两小时墙钟内必须完成 | 可顺延但不能伪装完成 |
-| ---- | -------------------- | -------------------- |
-| Day 01 | Node/npm/Git、仓库和第一个静态实验 | .NET SDK 可到 Day 71 前补齐 |
-| Day 77 | 两后端各跑现有 18-case corpus、定位第一处 mismatch | Playwright/xUnit 消费者与完整差异报告 |
-| Day 80 | 安装后跑一条 Chromium 关键旅程 | Firefox/WebKit 扩展矩阵 |
-| Day 83 | 本地按 CI 顺序找到第一处失败 | 远端 runner 排队与 artifact 下载 |
-| Day 90 | 目标 typecheck、单测和一条关键 E2E | 全量矩阵与视频整理 |
+| 重日   | 两小时墙钟内必须完成                               | 可顺延但不能伪装完成                  |
+| ------ | -------------------------------------------------- | ------------------------------------- |
+| Day 01 | Node/npm/Git、仓库和第一个静态实验                 | .NET SDK 可到 Day 71 前补齐           |
+| Day 77 | 两后端各跑现有 23-case corpus、定位第一处 mismatch | Playwright/xUnit 消费者与完整差异报告 |
+| Day 80 | 安装后跑一条 Chromium 关键旅程                     | Firefox/WebKit 扩展矩阵               |
+| Day 83 | 本地按 CI 顺序找到第一处失败                       | 远端 runner 排队与 artifact 下载      |
+| Day 90 | 目标 typecheck、单测和一条关键 E2E                 | 全量矩阵与视频整理                    |
 
 到达停点时记录“部分完成”和下一步，不勾选 Day。可以在下一学习块继续累计主动分钟；不要把
 安装等待算作学习，也不要为了守住日历数字删掉测试层。
@@ -88,23 +88,25 @@ Day 01–70 在仓库根运行 `npm run learn:day -- NN`。验收器不会再用
 解释与风险”四节后再运行，模板中的 `TODO` 或空泛短句不能通过结构检查。
 
 Day 57–70 的测试文件固定为
-`frontend/src/learning/day-NN.acceptance.test.tsx`。这不是仓库预先给好的绿色测试：当天必须
-自己创建它，用用户可见行为或数据边界证明日课要求。验收报告仍把人工项标为
+`frontend/src/learning/day-NN.acceptance.test.tsx`。先运行
+`npm run learn:create -- --day NN --dry-run` 查看目标，再去掉 `--dry-run` 生成不会覆盖已有文件的
+红灯支架。支架不是预先给好的绿色测试：必须用用户可见行为或数据边界替换 `LEARNING_TODO`。
+验收报告仍把人工项标为
 `pendingReview`，只有对照日课标准完成复核后才能勾选当天。
 
 后续日课也使用可预测的当日产物：
 
-- Day 71–76 与 82：分别创建
+- Day 71–76 与 82：生成并分别完成
   `frontend/contract-tests/learning/day-NN.acceptance.test.ts` 和
   `backend/IssueFlow.Api.Tests/Learning/DayNNAcceptanceTests.cs`；xUnit 类或方法名包含
   `DayNNAcceptance`，runner 只筛选当天测试；
 - Day 77：运行统一的 `test:contract:dual` HTTP parity harness；
 - Day 78、79、81、86–89：继续使用
   `frontend/src/learning/day-NN.acceptance.test.tsx`；
-- Day 80 与 90：创建 `frontend/e2e/learning/day-NN.acceptance.spec.ts`；
-- Day 83：创建 `.github/workflows/day-83-learning-ci.yml`，明确只读权限与本地等价命令；
+- Day 80 与 90：生成并完成 `frontend/e2e/learning/day-NN.acceptance.spec.ts`；
+- Day 83：生成并完成 `.github/workflows/day-83-learning-ci.yml`，明确只读权限与本地等价命令；
 - Day 84、85、91：分别交付 `quality-gate.md`、`project-charter.md`、
-  `evidence-index.md`，具体路径由首次 runner 的失败信息给出。
+  `evidence-index.md`；`learn:create` 会打印具体路径并生成带分节提示的红灯支架。
 
 这些文件不是为了重复产品测试，而是保存当天闭卷迁移题的最小红灯到绿灯证据。若目标文件
 不存在、仍含 `TODO`、测试没有运行或日课人工标准尚未复核，当天都不能写成通过。
@@ -113,10 +115,11 @@ Day 57–70 的测试文件固定为
 
 1. 打开当天文档，读“今天要解决的问题”和“验收证据”。
 2. 查看工作区状态，确认没有覆盖别人或自己未提交的改动。
-3. 从当天使用的 `package.json`、项目文件或 README 查真实命令，不凭记忆发明脚本。
-4. 写下当前数据模式：local、同源 D1/R2 API 或独立 .NET API。
-5. 创建当天分支并记录开始提交。
-6. 启动正计时器，开始第一个主动任务。
+3. 运行 `npm run learn:create -- --day NN --dry-run`；需要独立文件时再正式生成支架。
+4. 从当天使用的 `package.json`、项目文件或 README 查真实命令，不凭记忆发明脚本。
+5. 写下当前数据模式：local、同源 D1/R2 API 或独立 .NET API。
+6. 创建当天分支并记录开始提交。
+7. 启动正计时器，开始第一个主动任务。
 
 项目有多个运行入口时，先只选当天需要的一个。页面出现数据不代表你知道数据来自哪里，必须用 Network、环境配置或日志确认。
 

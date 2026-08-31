@@ -125,7 +125,9 @@ function emptyRun(backend, baseUrl, error) {
 
 const options = parseArguments(process.argv.slice(2));
 const { corpus: contractCorpus, digest } = loadHttpContractCorpus(repositoryRoot);
-if (contractCorpus.cases.length !== 18) throw new Error('The shared HTTP corpus must contain exactly 18 cases.');
+if (contractCorpus.cases.length === 0) throw new Error('The shared HTTP corpus must contain at least one case.');
+const caseIds = contractCorpus.cases.map(({ id }) => id);
+if (new Set(caseIds).size !== caseIds.length) throw new Error('Every shared HTTP contract case must have a unique ID.');
 const runId = `${Date.now()}-${process.pid}`;
 const nextBaseUrl = checkedBaseUrl(options.nextUrl ?? 'http://127.0.0.1:3100', options.allowRemote);
 const dotnetBaseUrl = checkedBaseUrl(options.dotnetUrl ?? 'http://127.0.0.1:5180', options.allowRemote);
