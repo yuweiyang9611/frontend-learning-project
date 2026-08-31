@@ -2,11 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { loadContractCorpus, materializeContractCase, readJsonPath } from './corpus';
 
 describe('shared dual-backend contract corpus', () => {
-  it('contains the ordered 18-case R/W/S scaffold', () => {
+  it('contains an extensible corpus with unique IDs and lifecycle coverage', () => {
     const corpus = loadContractCorpus();
-    expect(corpus.cases.map(({ id }) => id)).toEqual(
-      ['R', 'W', 'S'].flatMap((prefix) => Array.from({ length: 6 }, (_, index) => `${prefix}0${index + 1}`)),
-    );
+    const ids = corpus.cases.map(({ id }) => id);
+    expect(ids.length).toBeGreaterThan(0);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toEqual(expect.arrayContaining(['R07', 'R08', 'W07', 'W08', 'W09']));
   });
 
   it('materializes unique write data without mutating the source case', () => {
@@ -31,5 +32,16 @@ describe('shared dual-backend contract corpus', () => {
       path: '/api/issues/{{response.id}}',
       expect: { status: 204 },
     });
+  });
+
+  it('describes exact JSON values and multi-step mutation lifecycles', () => {
+    const corpus = loadContractCorpus();
+    expect(corpus.cases.find(({ id }) => id === 'R07')?.expect.jsonValues).toMatchObject({ total: 3 });
+    expect(corpus.cases.find(({ id }) => id === 'W07')?.followUps?.map(({ id }) => id)).toEqual([
+      'omit',
+      'null',
+      'value',
+    ]);
+    expect(corpus.cases.find(({ id }) => id === 'W09')?.followUps?.at(-1)?.expect.status).toBe(404);
   });
 });

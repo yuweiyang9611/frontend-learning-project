@@ -176,13 +176,12 @@
           "kind": "learner-file",
           "targetTemplate": ".github/workflows/day-{dayPadded}-learning-ci.yml",
           "minimumCharacters": 240,
-          "requiredTextTemplate": [
-            "permissions:",
-            "contents: read",
+          "requiredTextTemplate": ["permissions:", "contents: read"],
+          "requiredCommandsTemplate": [
             "npm ci",
-            "typecheck",
-            "test",
-            "build"
+            "npm run typecheck",
+            "npm run test",
+            "npm run build"
           ],
           "expectedExit": 0
         },

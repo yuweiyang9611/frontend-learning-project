@@ -9,6 +9,8 @@ Thumbs.db
 node_modules/
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+playwright-report/
+test-results/
 frontend/node_modules/
 frontend/.next/
 frontend/.vinext/

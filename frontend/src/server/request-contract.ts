@@ -24,6 +24,11 @@ export async function readJsonBody<T>(request: Request, decoder: Decoder<T>): Pr
     ? { ok: true, value: decoded.value }
     : {
         ok: false,
-        response: problem(400, 'Validation failed', 'The JSON payload does not match the issue contract.', decoded.errors),
+        response: problem(
+          400,
+          'Validation failed',
+          'The JSON payload does not match the issue contract.',
+          decoded.errors,
+        ),
       };
 }

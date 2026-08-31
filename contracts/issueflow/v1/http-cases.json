@@ -307,6 +307,213 @@
         "contentType": "application/problem+json",
         "requiredJsonPaths": ["title", "status"]
       }
+    },
+    {
+      "id": "R07",
+      "title": "搜索结果保持总数与标题排序",
+      "auth": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/issues?page=1&pageSize=10&search=Refresh%20session&sortBy=title&sortDirection=asc"
+      },
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["items.0.id", "items.0.title", "total"],
+        "jsonValues": {
+          "total": 3,
+          "items.0.id": 248,
+          "items.0.title": "Refresh session after returning from sleep"
+        }
+      }
+    },
+    {
+      "id": "R08",
+      "title": "状态优先级与负责人筛选可以组合",
+      "auth": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/issues?page=1&pageSize=10&status=closed&priority=low&assigneeId=6&sortBy=title&sortDirection=asc"
+      },
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "requiredJsonPaths": [
+          "items.0.id",
+          "items.0.status",
+          "items.0.priority",
+          "items.0.assignee.id",
+          "total"
+        ],
+        "jsonValues": {
+          "total": 8,
+          "items.0.id": 204,
+          "items.0.status": "closed",
+          "items.0.priority": "low",
+          "items.0.assignee.id": 6
+        }
+      }
+    },
+    {
+      "id": "W07",
+      "title": "PATCH 区分省略、null 与具体值",
+      "auth": true,
+      "request": {
+        "method": "POST",
+        "path": "/api/issues",
+        "body": {
+          "title": "{{uniqueTitle}}",
+          "description": "PATCH tri-state contract",
+          "status": "open",
+          "priority": "medium",
+          "assigneeId": 2,
+          "tags": ["contract", "patch"],
+          "dueDate": "2099-12-31"
+        }
+      },
+      "expect": {
+        "status": 201,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["id", "status", "assignee.id", "dueDate"]
+      },
+      "followUps": [
+        {
+          "id": "omit",
+          "request": {
+            "method": "PATCH",
+            "path": "/api/issues/{{response.id}}",
+            "body": { "status": "in_progress" }
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "status": "in_progress",
+              "assignee.id": 2,
+              "dueDate": "2099-12-31"
+            }
+          }
+        },
+        {
+          "id": "null",
+          "request": {
+            "method": "PATCH",
+            "path": "/api/issues/{{response.id}}",
+            "body": { "assigneeId": null, "dueDate": null }
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "status": "in_progress",
+              "assignee": null,
+              "dueDate": null
+            }
+          }
+        },
+        {
+          "id": "value",
+          "request": {
+            "method": "PATCH",
+            "path": "/api/issues/{{response.id}}",
+            "body": { "assigneeId": 1, "dueDate": "2099-11-30" }
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "status": "in_progress",
+              "assignee.id": 1,
+              "dueDate": "2099-11-30"
+            }
+          }
+        }
+      ],
+      "cleanup": {
+        "method": "DELETE",
+        "path": "/api/issues/{{response.id}}",
+        "expect": { "status": 204 }
+      }
+    },
+    {
+      "id": "W08",
+      "title": "评论可以创建、删除且不能重复删除",
+      "auth": true,
+      "request": {
+        "method": "POST",
+        "path": "/api/issues/248/comments",
+        "body": { "body": "Contract comment {{uniqueTitle}}" }
+      },
+      "expect": {
+        "status": 201,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["id", "issueId", "body"],
+        "jsonValues": { "issueId": 248 }
+      },
+      "followUps": [
+        {
+          "id": "delete",
+          "request": {
+            "method": "DELETE",
+            "path": "/api/issues/248/comments/{{response.id}}"
+          },
+          "expect": { "status": 204, "jsonKind": "empty" }
+        },
+        {
+          "id": "delete-again",
+          "request": {
+            "method": "DELETE",
+            "path": "/api/issues/248/comments/{{response.id}}"
+          },
+          "expect": {
+            "status": 404,
+            "contentType": "application/problem+json",
+            "requiredJsonPaths": ["title", "status"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "W09",
+      "title": "Issue 删除后无法再次读取",
+      "auth": true,
+      "request": {
+        "method": "POST",
+        "path": "/api/issues",
+        "body": {
+          "title": "{{uniqueTitle}}",
+          "description": "Delete lifecycle contract",
+          "status": "open",
+          "priority": "high",
+          "assigneeId": null,
+          "tags": ["contract", "delete"],
+          "dueDate": null
+        }
+      },
+      "expect": {
+        "status": 201,
+        "contentType": "application/json",
+        "requiredJsonPaths": ["id", "key", "title"]
+      },
+      "followUps": [
+        {
+          "id": "delete",
+          "request": {
+            "method": "DELETE",
+            "path": "/api/issues/{{response.id}}"
+          },
+          "expect": { "status": 204, "jsonKind": "empty" }
+        },
+        {
+          "id": "read-after-delete",
+          "request": { "method": "GET", "path": "/api/issues/{{response.id}}" },
+          "expect": {
+            "status": 404,
+            "contentType": "application/problem+json",
+            "requiredJsonPaths": ["title", "status"]
+          }
+        }
+      ]
     }
   ]
 }

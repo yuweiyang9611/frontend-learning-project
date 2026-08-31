@@ -12,11 +12,23 @@ if (requested && !isExerciseId(requested)) throw new Error('Unknown exercise ID:
 const selected: readonly ExerciseId[] = requested && isExerciseId(requested) ? [requested] : EXERCISE_IDS;
 const solutions = process.env.EXERCISE_TARGET === 'workbench' ? workbenchSolutions : referenceSolutions;
 
+function cloneContractInput(value: unknown): unknown {
+  if (typeof value === 'function') return value;
+  if (value instanceof Error || value instanceof DOMException) return value;
+  if (Array.isArray(value)) return value.map(cloneContractInput);
+  if (typeof value === 'object' && value !== null) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, nestedValue]) => [key, cloneContractInput(nestedValue)]),
+    );
+  }
+  return value;
+}
+
 for (const id of selected) {
   describe(id + ' contract', () => {
     for (const contract of exerciseContracts[id]) {
       it(contract.name, () => {
-        expect(runExercise(solutions, id, structuredClone(contract.input))).toEqual(contract.expected);
+        expect(runExercise(solutions, id, cloneContractInput(contract.input))).toEqual(contract.expected);
       });
     }
   });

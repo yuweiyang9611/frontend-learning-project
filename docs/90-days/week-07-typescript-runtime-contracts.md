@@ -260,14 +260,14 @@ validateIssue(raw);
 
 ### 完整 120 分钟
 
-| 时间    | 活动                                                   | 产物         |
-| ------- | ------------------------------------------------------ | ------------ |
-| 0–15    | 列出 URL、select、number input、storage 的真实返回类型 | 边界表       |
-| 15–35   | 阅读 IssuesPage 参数解析和 `readProgress`              | 源码批注     |
-| 35–65   | 运行 query-builder 的编码与非法枚举实验                | URL 输入矩阵 |
-| 65–85   | 向 select 伪造 blocked，向 storage 注入损坏 JSON       | 运行记录     |
-| 85–110  | 独立实现 parsePositiveId 和 decodeProgress             | 工具与测试   |
-| 110–120 | 定义损坏 storage 的恢复策略                            | 决策日志     |
+| 时间   | 活动                                                   | 产物         |
+| ------ | ------------------------------------------------------ | ------------ |
+| 0–15   | 列出 URL、select、number input、storage 的真实返回类型 | 边界表       |
+| 15–30  | 阅读 IssuesPage 参数解析和 `readProgress`              | 源码批注     |
+| 30–50  | 运行 query-builder 的编码与非法枚举实验                | URL 输入矩阵 |
+| 50–65  | 向 select 伪造 blocked，向 storage 注入损坏 JSON       | 运行记录     |
+| 65–95  | 独立实现 parsePositiveId 和 decodeProgress             | 工具与测试   |
+| 95–120 | 工作台 `C01` 与挑战 `C04`                              | 两题运行证据 |
 
 ### 示例与负例
 
@@ -287,6 +287,9 @@ const unsafeStatus: IssueStatus = params.get("status");
 给 progress decoder 输入：无值、坏 JSON、object、混合 array、未知 lesson ID、合法 ID。
 返回只包含当前 catalog 中的 string ID。再为 URL page 测试空、0、负数、小数、极大值。
 
+配套工作台先完成 `C01`，再完成挑战 `C04`。用损坏、重复和过期课程 ID 证明 localStorage
+恢复逻辑只保留当前 catalog 中的唯一合法值。
+
 ### 验收证据
 
 - [ ] 特殊搜索文本 `&`、`+`、空格和中文可往返。
@@ -304,14 +307,14 @@ const unsafeStatus: IssueStatus = params.get("status");
 
 ### 完整 120 分钟
 
-| 时间    | 活动                                                | 产物              |
-| ------- | --------------------------------------------------- | ----------------- |
-| 0–15    | 预测 C# long、DateOnly、DateTimeOffset 的 JSON 形状 | 预测表            |
-| 15–40   | 阅读 IssueContracts.cs 与 TS types.ts               | 三列 Contract 表  |
-| 40–65   | 运行 Lab `wire-scalars` 的 ID/日期/instant 矩阵     | 运行证据          |
-| 65–85   | 对照 PATCH DTO 的 Has* 属性和 TS Partial            | presence 表       |
-| 85–110  | 阅读 ApiContractTests 的 400/404/409/204 用例       | Contract 测试地图 |
-| 110–120 | 写出一个兼容演进策略                                | 决策记录          |
+| 时间   | 活动                                                | 产物              |
+| ------ | --------------------------------------------------- | ----------------- |
+| 0–15   | 预测 C# long、DateOnly、DateTimeOffset 的 JSON 形状 | 预测表            |
+| 15–35  | 阅读 IssueContracts.cs 与 TS types.ts               | 三列 Contract 表  |
+| 35–55  | 运行 Lab `wire-scalars` 的 ID/日期/instant 矩阵     | 运行证据          |
+| 55–70  | 对照 PATCH DTO 的 Has* 属性和 TS Partial            | presence 表       |
+| 70–95  | 阅读 ApiContractTests 的 400/404/409/204 用例       | Contract 测试地图 |
+| 95–120 | 工作台 `C02` 与挑战 `C05`                           | 两题运行证据      |
 
 ### 关键差异
 
@@ -342,6 +345,9 @@ instant 带 Z、+09:00、无 offset；PATCH `{}`、null、value。
 完成 `.NET → JSON → TypeScript → runtime check` 表，至少包含 Issue、Member、PagedResult、
 Problem Details、204。再说明若 ID 改为 string，会影响 Router、Query key、Map、DTO 和数据库的哪些位置。
 
+配套工作台先完成 `C02`，再完成挑战 `C05`，分别验证安全整数、DateOnly 和带 offset instant；
+每类 scalar 都必须有合法、边界和非法输入。
+
 ### 验收证据
 
 - [ ] 至少 12 个 wire scalar 输入有实际结果。
@@ -361,11 +367,12 @@ Problem Details、204。再说明若 ID 改为 string，会影响 Router、Query
 
 | 时间    | 活动                                          | 产物             |
 | ------- | --------------------------------------------- | ---------------- |
-| 0–15    | 重读 Day 43 的 endpoint Contract              | 最终范围         |
-| 15–30   | 设计 request、requestVoid、ContractError 接口 | 接口草图         |
-| 30–70   | 接入一个 endpoint decoder                     | 纵向实现         |
-| 70–95   | 测合法 200、畸形 200、404、非 JSON、204       | API adapter 测试 |
-| 95–110  | 运行 typecheck、Vitest 和适用 Contract tests  | 命令输出         |
+| 0–10    | 重读 Day 43 的 endpoint Contract              | 最终范围         |
+| 10–25   | 设计 request、requestVoid、ContractError 接口 | 接口草图         |
+| 25–55   | 接入一个 endpoint decoder                     | 纵向实现         |
+| 55–75   | 测合法 200、畸形 200、404、非 JSON、204       | API adapter 测试 |
+| 75–90   | 运行 typecheck、Vitest 和适用 Contract tests  | 命令输出         |
+| 90–110  | 工作台 `C03`                                  | 往返运行证据     |
 | 110–120 | 写迁移清单和失败复盘                          | 周总结           |
 
 ### 推荐接口

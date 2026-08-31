@@ -27,10 +27,13 @@
 ### 120 分钟任务
 
 - **0–15：**不看源码，画出访问 `/issues/248` 后可能经过的三种“路由”。
-- **15–40：**精读双层路由章节，给 Document 导航、客户端导航和 API 请求各写定义。
-- **40–80：**从 `frontend/app` 追到 `IssueFlowApp.tsx`，再从 Screen 追到 `/api/issues/248`。
-- **80–110：**为 `/settings/learning` 建立惰性加载 Screen、父级 Settings 导航和 Not Found 行为。
-- **110–120：**保存路由树、相关文件路径、运行截图和一次测试结果。
+- **15–35：**精读双层路由章节，给 Document 导航、客户端导航和 API 请求各写定义。
+- **35–70：**从 `frontend/app` 追到 `IssueFlowApp.tsx`，再从 Screen 追到 `/api/issues/248`。
+- **70–100：**为 `/settings/learning` 建立惰性加载 Screen、父级 Settings 导航和 Not Found 行为。
+- **100–120：**完成 TypeScript 挑战 `C07`，保存路由树、运行截图和测试结果。
+
+`C07` 是 Day 49 request adapter 的间隔复习：JSON 成功必须经过 decoder，204 必须走 no-content
+分支，HTTP/解码失败必须保留不同错误证据。不要让泛型或 `unknown` 直接冒充领域值。
 
 ### 概念与源码追踪
 

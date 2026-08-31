@@ -15,6 +15,15 @@ const rootPackage = JSON.parse(
 const frontendPackage = JSON.parse(
   await readFile(path.join(root, "frontend", "package.json"), "utf8"),
 );
+const typescriptExerciseManifest = JSON.parse(
+  await readFile(
+    path.join(root, "frontend", "exercises", "typescript", "manifest.json"),
+    "utf8",
+  ),
+);
+const typescriptExerciseCatalog = new Set(
+  typescriptExerciseManifest.map((entry) => entry.id),
+);
 const manifests = [];
 
 for (let week = 1; week <= 13; week += 1) {
@@ -127,6 +136,7 @@ if (manifests.length !== 91)
 
 const manualSignatures = new Map();
 const exerciseIds = new Set();
+const reachableExerciseIds = new Set();
 const requiredHeavyDays = new Set([1, 77, 80, 83, 90]);
 
 for (const [index, day] of manifests.entries()) {
@@ -209,7 +219,10 @@ for (const [index, day] of manifests.entries()) {
     }
     if (exerciseIds.has(day.exerciseId))
       throw new Error("Duplicate TypeScript exerciseId: " + day.exerciseId);
+    if (!typescriptExerciseCatalog.has(day.exerciseId))
+      throw new Error("Unknown TypeScript exerciseId: " + day.exerciseId);
     exerciseIds.add(day.exerciseId);
+    reachableExerciseIds.add(day.exerciseId);
   } else if ("exerciseId" in day) {
     throw new Error(
       "Day " +
@@ -268,8 +281,24 @@ for (const [index, day] of manifests.entries()) {
     checkpointPadded: String(checkpoint).padStart(2, "0"),
     exerciseId: day.exerciseId ?? "",
   };
-  for (const check of configuredChecks)
+  for (const check of configuredChecks) {
+    if (check.project === "frontend" && check.script === "exercise:test") {
+      const [candidateId] = (check.argsTemplate ?? check.args ?? []).map(
+        (item) => renderTemplate(item, context),
+      );
+      if (!typescriptExerciseCatalog.has(candidateId)) {
+        throw new Error(
+          "Day " +
+            day.day +
+            " references unknown TypeScript exercise " +
+            candidateId +
+            ".",
+        );
+      }
+      reachableExerciseIds.add(candidateId);
+    }
     await validateCheck(check, day, context);
+  }
 
   if (day.day >= 57 && day.acceptanceProfile !== "dual-contract") {
     const hasDayTarget = profile.automaticChecks.some((check) => {
@@ -306,6 +335,16 @@ if (exerciseIds.size !== 21) {
   );
 }
 
+const unreachableExerciseIds = [...typescriptExerciseCatalog].filter(
+  (exerciseId) => !reachableExerciseIds.has(exerciseId),
+);
+if (unreachableExerciseIds.length > 0) {
+  throw new Error(
+    "Every registered TypeScript exercise must be reachable from a learning day. Missing: " +
+      unreachableExerciseIds.join(", "),
+  );
+}
+
 console.log(
-  "Daily acceptance: all 91 days use precise profiles, lesson-derived human review, staged prerequisites, and reviewable evidence.",
+  "Daily acceptance: all 91 days use precise profiles, all 27 TypeScript exercises are reachable, and every day has reviewable evidence.",
 );

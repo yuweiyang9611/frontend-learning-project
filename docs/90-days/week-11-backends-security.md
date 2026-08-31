@@ -414,7 +414,7 @@ file input
 ### 120 分钟任务
 
 - **0–15：**闭卷画出 React 到两种真实后端及各自存储的拓扑。
-- **15–35：**阅读共享 JSON corpus，逐项预测当前 18 个 case 的请求与结果。
+- **15–35：**阅读共享 JSON corpus，逐项预测当前 23 个 case 的请求与结果。
 - **35–65：**运行统一 HTTP harness，依次验证 Next 同源 API 与 .NET/SQLite。
 - **65–85：**阅读标准化 JSON 报告，区分“符合预期”和“两后端 parity”。
 - **85–105：**分别运行 Playwright 与 xUnit 快速消费者，确认它们仍读取同一 corpus。
@@ -495,7 +495,7 @@ Playwright 和 xUnit 都消费这个文件；环境 Adapter 只处理 Base URL�
 ```
 
 标准报告先检查每个后端是否满足共享预期，再比较两份归一化观察结果。若 parity mismatch 为
-零，只能说明这 18 个观察点一致，不能推出所有行为完全等价。Day 74 的 search 范围、空
+零，只能说明这 23 个观察点一致，不能推出所有行为完全等价。Day 74 的 search 范围、空
 PATCH、非 nullable null、tags 规范化与上传差异应继续放在定向差异报告，不能伪装成 corpus
 已经覆盖。
 
@@ -514,7 +514,7 @@ PATCH、非 nullable null、tags 规范化与上传差异应继续放在定向�
 - 能通过 Network、进程和存储同时证明当前后端；
 - HTTP harness 对两个 loopback 后端复用同一 corpus 和断言，只把启动、Base URL 与存储放进 Adapter；
 - 两个后端各有 18 项可检查结果，所有 case 符合预期且 parity 无未解释 mismatch；
-- 能准确说出当前 18 项未覆盖的行为，不把局部 parity 宣称为完整等价；
+- 能准确说出当前 23 项未覆盖的行为，不把局部 parity 宣称为完整等价；
 - 所有差异均分类并有产品决定，不声称两后端完全等价；
 - 前端 Screen 不出现按后端名称分支或解析专属错误字符串；
 - 未认证写入为结构化 401，W03 创建资源与 session cleanup 通过；

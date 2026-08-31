@@ -36,6 +36,17 @@
     "requiresConcepts": ["react.state"],
     "starter": "frontend/src",
     "acceptanceProfile": "react-foundations",
+    "additionalChecks": [
+      {
+        "id": "D52-A2",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "exercise:test",
+        "args": ["C08"],
+        "target": "frontend/exercises/typescript/workbench.ts#C08",
+        "expectedExit": 0
+      }
+    ],
     "evidence": [
       {
         "id": "D52-E1",

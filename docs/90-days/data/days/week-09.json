@@ -6,6 +6,17 @@
     "requiresConcepts": ["forms.a11y"],
     "starter": "frontend/src",
     "acceptanceProfile": "frontend-day-test",
+    "additionalChecks": [
+      {
+        "id": "D57-A2",
+        "kind": "npm-script",
+        "project": "frontend",
+        "script": "exercise:test",
+        "args": ["C07"],
+        "target": "frontend/exercises/typescript/workbench.ts#C07",
+        "expectedExit": 0
+      }
+    ],
     "evidence": [
       {
         "id": "D57-E1",

@@ -9,24 +9,30 @@
   "scripts": {
     "docs:dev": "vitepress dev docs --host 127.0.0.1",
     "docs:build": "npm run docs:check-curriculum && npm run docs:check-policy && vitepress build docs && node scripts/check-doc-site-links.mjs",
-    "docs:check-curriculum": "node scripts/check-curriculum.mjs && node scripts/check-assessment-order.mjs && node scripts/check-daily-acceptance.mjs && node scripts/check-ts-exercises.mjs && node scripts/check-contract-corpus.mjs && node scripts/check-review-bank.mjs",
+    "docs:check-curriculum": "node scripts/check-curriculum.mjs && node scripts/check-assessment-order.mjs && node scripts/check-daily-acceptance.mjs && node scripts/check-ts-exercises.mjs && node scripts/check-contract-corpus.mjs && node scripts/check-review-bank.mjs && npm run learn:test:scaffolds && npm run learn:check:scaffolds",
     "docs:check-links": "node scripts/check-doc-site-links.mjs",
     "docs:check-policy": "node scripts/check-doc-search-boundaries.mjs && node scripts/check-doc-assets.mjs",
     "docs:preview": "vitepress preview docs --host 127.0.0.1",
     "docs:test": "node --test docs/.vitepress/theme/*.test.mjs",
-    "docs:verify": "npm run docs:test && npm run docs:build",
+    "docs:test:e2e": "npm run docs:build && playwright test --config playwright.docs.config.ts",
+    "docs:verify": "npm run docs:test && npm run docs:test:e2e",
     "learn:check": "node scripts/check-prerequisites.mjs",
+    "learn:check:scaffolds": "node scripts/create-learning-workspace.mjs --check-all",
+    "learn:test:scaffolds": "node --test scripts/create-learning-workspace.test.mjs",
     "learn:create": "node scripts/create-learning-workspace.mjs",
     "learn:start": "node labs/web-foundations/tools/server.mjs",
     "learn:test:web": "node scripts/check-learning-work.mjs",
     "learn:test:web:baseline": "node --test labs/web-foundations/snapshots/day-22/test/*.test.mjs",
     "learn:check:typescript": "node scripts/check-ts-exercises.mjs",
     "learn:day": "node scripts/run-day-check.mjs",
+    "backend:check-coverage": "node scripts/check-cobertura-coverage.mjs --directory backend/TestResults --lines 50 --branches 38",
     "privacy:check": "node scripts/check-repository-privacy.mjs",
     "security:audit:root": "node scripts/check-npm-audit.mjs --workspace / --level high --exceptions .github/npm-audit-exceptions.json",
     "security:audit:frontend": "node scripts/check-npm-audit.mjs --workspace frontend --level high"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.62.1",
     "vitepress": "1.6.4"
   }
 }

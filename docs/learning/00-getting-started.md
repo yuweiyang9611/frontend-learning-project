@@ -66,6 +66,17 @@ npm run learn:start
 浏览器打开终端打印的 `127.0.0.1` 地址。支架只绑定本机，不要把开发服务器暴露到局域网、
 公网隧道或共享机器。工作区已存在时创建器会拒绝覆盖；先保存或重命名旧目录再继续。
 
+`learn:create` 也认识后期课程。例如 `npm run learn:create -- --day 71` 会同时生成当天的前端
+Contract 测试和 xUnit 红灯支架；Day 80/90 会生成 Playwright 支架，Day 83 会生成最小权限
+workflow 支架。生成器只创建缺失文件，已经存在的学习者文件会原样保留。想先查看将创建什么，运行：
+
+```powershell
+npm run learn:create -- --day 71 --dry-run
+```
+
+支架中的 `LEARNING_TODO` 是有意保留的失败点。先运行 `npm run learn:day -- 71`，确认失败原因
+指向当天任务，再用自己的断言和证据替换它；不要仅删除标记让检查变绿。
+
 ## 启动默认模式
 
 ```powershell

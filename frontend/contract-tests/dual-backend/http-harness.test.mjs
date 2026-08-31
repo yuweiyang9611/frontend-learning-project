@@ -22,12 +22,12 @@ function run(backend, cases) {
 }
 
 describe('shared HTTP parity report', () => {
-  it('loads the ordered 18-case corpus and a stable digest', () => {
+  it('loads an extensible corpus with unique IDs and a stable digest', () => {
     const { corpus, digest } = loadHttpContractCorpus();
-    expect(corpus.cases).toHaveLength(18);
-    expect(corpus.cases.map(({ id }) => id)).toEqual(
-      ['R', 'W', 'S'].flatMap((prefix) => Array.from({ length: 6 }, (_, index) => `${prefix}0${index + 1}`)),
-    );
+    const ids = corpus.cases.map(({ id }) => id);
+    expect(ids.length).toBeGreaterThan(0);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids).toEqual(expect.arrayContaining(['R07', 'R08', 'W07', 'W08', 'W09']));
     expect(digest).toMatch(/^[a-f0-9]{64}$/);
   });
 
