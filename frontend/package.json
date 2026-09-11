@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@cloudflare/vite-plugin": "1.54.2",
+    "@cloudflare/vite-plugin": "1.54.7",
     "@cloudflare/workers-types": "5.20260830.1",
     "@openai/sites-vite-plugin": "^0.1.0 || ^0.2.0",
     "@playwright/test": "^1.62.1",
@@ -69,7 +69,7 @@
     "vinext": "1.0.0-beta.8",
     "vite": "8.2.2",
     "vitest": "^4.1.11",
-    "wrangler": "4.127.1"
+    "wrangler": "4.131.0"
   },
   "type": "module"
 }
