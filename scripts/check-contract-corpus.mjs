@@ -24,7 +24,7 @@ for (const prefix of ['R', 'W', 'S']) {
 }
 
 function validateRequestAndExpectation(id, request, expect) {
-  if (!['GET', 'POST', 'PATCH', 'DELETE'].includes(request?.method) || !request.path?.startsWith('/api/')) {
+  if (!['GET', 'POST', 'PATCH', 'PUT', 'DELETE'].includes(request?.method) || !request.path?.startsWith('/api/')) {
     throw new Error(`${id} has an invalid request.`);
   }
   if ('body' in request && 'rawBody' in request) {

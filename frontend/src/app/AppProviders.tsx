@@ -1,6 +1,6 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
 import { CheckCircle2, CircleAlert, Info, X } from 'lucide-react';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { issueflowApi } from '@/src/api/issueflowApi';
@@ -32,6 +32,7 @@ interface AuthContextValue {
   ready: boolean;
   login: (email: string, password: string) => Promise<Session>;
   logout: () => Promise<void>;
+  updateProfile: (name: string) => Promise<Session>;
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null);
@@ -120,6 +121,7 @@ function ThemeProvider({ children }: { children: ReactNode }) {
 }
 
 function AuthProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient();
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
   useEffect(() => {
@@ -144,10 +146,29 @@ function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
   const logout = useCallback(async () => {
     await issueflowApi.logout();
+    await queryClient.cancelQueries();
+    queryClient.clear();
     setSession(null);
-  }, []);
+  }, [queryClient]);
 
-  return <AuthContext.Provider value={{ session, ready, login, logout }}>{children}</AuthContext.Provider>;
+  const updateProfile = useCallback(
+    async (name: string) => {
+      const next = await issueflowApi.updateProfile(name);
+      setSession(next);
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['me'] }),
+        queryClient.invalidateQueries({ queryKey: ['members'] }),
+        queryClient.invalidateQueries({ queryKey: ['issues'] }),
+        queryClient.invalidateQueries({ queryKey: ['issue'] }),
+        queryClient.invalidateQueries({ queryKey: ['comments'] }),
+      ]);
+      return next;
+    },
+    [queryClient],
+  );
+  return (
+    <AuthContext.Provider value={{ session, ready, login, logout, updateProfile }}>{children}</AuthContext.Provider>
+  );
 }
 
 export function AppProviders({ children }: { children: ReactNode }) {

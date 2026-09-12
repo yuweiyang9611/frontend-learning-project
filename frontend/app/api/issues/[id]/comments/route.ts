@@ -1,5 +1,6 @@
+import { currentSettings } from '@/src/server/settings';
 import { requireMutationAccess } from '@/src/server/auth';
-import { addComment, findIssue, listComments, memberIdForEmail } from '@/src/server/issueflow-db';
+import { addComment, findIssue, listComments } from '@/src/server/issueflow-db';
 import { asErrorResponse, problem } from '@/src/server/problem';
 
 export const dynamic = 'force-dynamic';
@@ -25,6 +26,8 @@ export async function POST(request: Request, context: Context) {
   try {
     const actor = await requireMutationAccess(request);
     if (actor instanceof Response) return actor;
+    const settings = await currentSettings(request);
+    if (settings instanceof Response) return settings;
     const id = await parseId(context);
     if (!id) return problem(400, 'Invalid issue ID', 'Issue IDs must be positive integers.');
     if (!(await findIssue(id))) return problem(404, 'Issue not found', 'The requested issue could not be found.');
@@ -45,7 +48,7 @@ export async function POST(request: Request, context: Context) {
       return problem(400, 'Validation failed', 'Comment is too long.', {
         body: ['Comment must be 2,000 characters or fewer.'],
       });
-    return Response.json(await addComment(id, await memberIdForEmail(actor.email), body), { status: 201 });
+    return Response.json(await addComment(id, settings.memberId, body), { status: 201 });
   } catch (error) {
     return asErrorResponse(error);
   }

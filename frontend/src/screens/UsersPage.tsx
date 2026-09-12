@@ -11,8 +11,8 @@ export default function UsersPage() {
   const [role, setRole] = useState('');
   const members = useQuery({ queryKey: ['members'], queryFn: issueflowApi.getMembers });
   const issues = useQuery({
-    queryKey: ['issues', 'team-workload'],
-    queryFn: () => issueflowApi.listIssues({ page: 1, pageSize: 100, sortBy: 'updatedAt', sortDirection: 'desc' }),
+    queryKey: ['issues', 'overview'],
+    queryFn: issueflowApi.getOverview,
   });
   const filtered = useMemo(
     () =>
@@ -25,6 +25,8 @@ export default function UsersPage() {
   );
 
   if (members.isError) return <ErrorState message={members.error.message} onRetry={() => members.refetch()} />;
+  if (issues.isError) return <ErrorState message={issues.error.message} onRetry={() => issues.refetch()} />;
+  if (members.isPending || issues.isPending) return <TableSkeleton />;
   return (
     <>
       <div className="breadcrumb">
@@ -54,9 +56,7 @@ export default function UsersPage() {
         </p>
         <i />
         <p>
-          <strong>
-            {issues.data?.items.filter((issue) => issue.status === 'in_progress').length ?? 0} active issues
-          </strong>
+          <strong>{issues.data?.byStatus.in_progress ?? 0} active issues</strong>
           <span>currently moving</span>
         </p>
       </section>
@@ -91,8 +91,9 @@ export default function UsersPage() {
         ) : (
           <div className="member-grid">
             {filtered.map((member) => {
-              const owned = issues.data?.items.filter((issue) => issue.assignee?.id === member.id) ?? [];
-              const active = owned.filter((issue) => issue.status === 'in_progress').length;
+              const workload = issues.data?.workloads.find((item) => item.memberId === member.id);
+              const owned = workload?.assigned ?? 0;
+              const active = workload?.inProgress ?? 0;
               return (
                 <article className="member-card" key={member.id}>
                   <header>
@@ -107,7 +108,7 @@ export default function UsersPage() {
                   <a href={`mailto:${member.email}`}>{member.email}</a>
                   <div>
                     <span>
-                      <strong>{owned.length}</strong> assigned
+                      <strong>{owned}</strong> assigned
                     </span>
                     <span>
                       <strong>{active}</strong> in progress
@@ -115,7 +116,7 @@ export default function UsersPage() {
                   </div>
                   <footer>
                     <i>
-                      <b style={{ width: `${Math.min(100, (active / Math.max(owned.length, 1)) * 100)}%` }} />
+                      <b style={{ width: `${Math.min(100, (active / Math.max(owned, 1)) * 100)}%` }} />
                     </i>
                     <span>{active ? 'Actively contributing' : 'Available for work'}</span>
                   </footer>

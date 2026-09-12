@@ -18,15 +18,35 @@
       ],
       "correctIndex": 1,
       "explanation": "它影响 TypeScript 推断，不等同于 Object.freeze。",
-      "remediation": "/90-days/week-05-typescript-foundations.html#day-31"
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-31",
+      "kind": "concept",
+      "conceptId": "typescript.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：它影响 TypeScript 推断，不等同于 Object.freeze。",
+        "正确：它影响 TypeScript 推断，不等同于 Object.freeze。",
+        "不正确：它影响 TypeScript 推断，不等同于 Object.freeze。"
+      ]
     },
     {
       "id": "w05-q02",
       "prompt": "从 JSON.parse 得到的数据最诚实的起点是什么？",
-      "choices": ["unknown", "完整领域类型断言", "any"],
+      "choices": [
+        "unknown",
+        "完整领域类型断言",
+        "any"
+      ],
       "correctIndex": 0,
       "explanation": "外部数据尚未被证明，应从 unknown 经过运行时检查。",
-      "remediation": "/90-days/week-05-typescript-foundations.html#day-34"
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-34",
+      "kind": "concept",
+      "conceptId": "typescript.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：外部数据尚未被证明，应从 unknown 经过运行时检查。",
+        "不正确：外部数据尚未被证明，应从 unknown 经过运行时检查。",
+        "不正确：外部数据尚未被证明，应从 unknown 经过运行时检查。"
+      ]
     },
     {
       "id": "w05-q03",
@@ -38,7 +58,199 @@
       ],
       "correctIndex": 0,
       "explanation": "readonly 是静态约束，默认既不深层也不执行复制。",
-      "remediation": "/90-days/week-05-typescript-foundations.html#day-35"
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "concept",
+      "conceptId": "typescript.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：readonly 是静态约束，默认既不深层也不执行复制。",
+        "不正确：readonly 是静态约束，默认既不深层也不执行复制。",
+        "不正确：readonly 是静态约束，默认既不深层也不执行复制。"
+      ]
+    },
+    {
+      "id": "w05-q04",
+      "prompt": "推断下面变量的类型时，let 与 const 的主要差异是什么？",
+      "choices": [
+        "let 自动变成 any",
+        "const 让对象所有属性永远只读",
+        "const 可保留字面量类型，let 通常扩大为 string"
+      ],
+      "correctIndex": 2,
+      "explanation": "const 限制变量重新赋值并可保留字面量；不等于深度只读，let 也仍有类型推断。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "reading",
+      "conceptId": "typescript.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“let 自动变成 any”不成立：const 限制变量重新赋值并可保留字面量；不等于深度只读，let 也仍有类型推断。",
+        "“const 让对象所有属性永远只读”不成立：const 限制变量重新赋值并可保留字面量；不等于深度只读，let 也仍有类型推断。",
+        "正确：const 限制变量重新赋值并可保留字面量；不等于深度只读，let 也仍有类型推断。"
+      ],
+      "code": "let a = 'open';\nconst b = 'open';",
+      "language": "typescript"
+    },
+    {
+      "id": "w05-q05",
+      "prompt": "可选属性 title?: string 被读取时还可能是什么？",
+      "choices": [
+        "undefined",
+        "一定是空字符串",
+        "自动转换成 null"
+      ],
+      "correctIndex": 0,
+      "explanation": "可选属性可以不存在，因此需处理 undefined；缺失不等于空字符串或 null。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "reading",
+      "conceptId": "typescript.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：可选属性可以不存在，因此需处理 undefined；缺失不等于空字符串或 null。",
+        "“一定是空字符串”不成立：可选属性可以不存在，因此需处理 undefined；缺失不等于空字符串或 null。",
+        "“自动转换成 null”不成立：可选属性可以不存在，因此需处理 undefined；缺失不等于空字符串或 null。"
+      ]
+    },
+    {
+      "id": "w05-q06",
+      "prompt": "编译后的 JavaScript 会保留 interface 来检查 JSON 吗？",
+      "choices": [
+        "会自动修复字段值",
+        "不会，类型声明会被擦除",
+        "会自动校验全部字段"
+      ],
+      "correctIndex": 1,
+      "explanation": "interface 提供编译期约束；外部数据仍需要运行时校验。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "reading",
+      "conceptId": "typescript.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“会自动修复字段值”不成立：interface 提供编译期约束；外部数据仍需要运行时校验。",
+        "正确：interface 提供编译期约束；外部数据仍需要运行时校验。",
+        "“会自动校验全部字段”不成立：interface 提供编译期约束；外部数据仍需要运行时校验。"
+      ],
+      "code": "interface Issue { id: number }\nconst data = JSON.parse(text);",
+      "language": "typescript"
+    },
+    {
+      "id": "w05-q07",
+      "prompt": "把未知 JSON 直接断言为 Issue，缺少了什么？",
+      "choices": [
+        "更多类型断言",
+        "一个更短的类型名称",
+        "运行时验证数据是否符合契约"
+      ],
+      "correctIndex": 2,
+      "explanation": "断言不会检查或转换数据；增加断言或改名也不能证明字段正确。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "debugging",
+      "conceptId": "typescript.core",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“更多类型断言”不成立：断言不会检查或转换数据；增加断言或改名也不能证明字段正确。",
+        "“一个更短的类型名称”不成立：断言不会检查或转换数据；增加断言或改名也不能证明字段正确。",
+        "正确：断言不会检查或转换数据；增加断言或改名也不能证明字段正确。"
+      ]
+    },
+    {
+      "id": "w05-q08",
+      "prompt": "函数声明返回 number，却可能走到没有 return 的分支，应怎样修复？",
+      "choices": [
+        "为所有路径定义明确结果或错误",
+        "在调用处断言结果为 number",
+        "关闭类型检查"
+      ],
+      "correctIndex": 0,
+      "explanation": "缺失返回值是实现路径问题，断言和关闭检查只是隐藏问题。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "debugging",
+      "conceptId": "typescript.core",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：缺失返回值是实现路径问题，断言和关闭检查只是隐藏问题。",
+        "“在调用处断言结果为 number”不成立：缺失返回值是实现路径问题，断言和关闭检查只是隐藏问题。",
+        "“关闭类型检查”不成立：缺失返回值是实现路径问题，断言和关闭检查只是隐藏问题。"
+      ]
+    },
+    {
+      "id": "w05-q09",
+      "prompt": "把可空负责人直接访问 name 引发报错，应怎样处理？",
+      "choices": [
+        "把所有类型改为 any",
+        "先缩窄或使用明确的空值分支",
+        "在所有地方加非空断言"
+      ],
+      "correctIndex": 1,
+      "explanation": "负责人为空是合法业务状态，需要显示未分配等分支；断言不能创造对象。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "debugging",
+      "conceptId": "typescript.core",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“把所有类型改为 any”不成立：负责人为空是合法业务状态，需要显示未分配等分支；断言不能创造对象。",
+        "正确：负责人为空是合法业务状态，需要显示未分配等分支；断言不能创造对象。",
+        "“在所有地方加非空断言”不成立：负责人为空是合法业务状态，需要显示未分配等分支；断言不能创造对象。"
+      ]
+    },
+    {
+      "id": "w05-q10",
+      "prompt": "为四个固定状态设计类型，哪种更贴近契约？",
+      "choices": [
+        "任意 string",
+        "number[]",
+        "字符串字面量联合"
+      ],
+      "correctIndex": 2,
+      "explanation": "联合限制合法值并支持缩窄；任意字符串和数字数组都不能表达固定状态集合。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "transfer",
+      "conceptId": "typescript.core",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“任意 string”不成立：联合限制合法值并支持缩窄；任意字符串和数字数组都不能表达固定状态集合。",
+        "“number[]”不成立：联合限制合法值并支持缩窄；任意字符串和数字数组都不能表达固定状态集合。",
+        "正确：联合限制合法值并支持缩窄；任意字符串和数字数组都不能表达固定状态集合。"
+      ]
+    },
+    {
+      "id": "w05-q11",
+      "prompt": "新增 API 字段时，应该同时考虑什么？",
+      "choices": [
+        "类型、运行时解码和消费代码",
+        "只更新截图",
+        "只把旧字段改为 any"
+      ],
+      "correctIndex": 0,
+      "explanation": "编译期和运行时边界都要跟随契约变化；截图与 any 无法保证兼容性。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "transfer",
+      "conceptId": "typescript.core",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：编译期和运行时边界都要跟随契约变化；截图与 any 无法保证兼容性。",
+        "“只更新截图”不成立：编译期和运行时边界都要跟随契约变化；截图与 any 无法保证兼容性。",
+        "“只把旧字段改为 any”不成立：编译期和运行时边界都要跟随契约变化；截图与 any 无法保证兼容性。"
+      ]
+    },
+    {
+      "id": "w05-q12",
+      "prompt": "希望函数只读取对象而不修改，应如何表达意图？",
+      "choices": [
+        "对调用结果加非空断言",
+        "用只读输入类型并避免内部变更",
+        "把参数命名成 readonly 就够了"
+      ],
+      "correctIndex": 1,
+      "explanation": "只读类型约束写操作，名称只是约定，非空断言与变更控制无关。",
+      "remediation": "/90-days/week-05-typescript-foundations.html#day-35",
+      "kind": "transfer",
+      "conceptId": "typescript.core",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“对调用结果加非空断言”不成立：只读类型约束写操作，名称只是约定，非空断言与变更控制无关。",
+        "正确：只读类型约束写操作，名称只是约定，非空断言与变更控制无关。",
+        "“把参数命名成 readonly 就够了”不成立：只读类型约束写操作，名称只是约定，非空断言与变更控制无关。"
+      ]
     }
   ]
 }

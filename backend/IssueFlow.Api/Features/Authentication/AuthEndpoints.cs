@@ -92,7 +92,7 @@ public static class AuthEndpoints
             : Results.Ok(await ToSessionAsync(user, userManager));
     }
 
-    private static async Task<SessionResponse> ToSessionAsync(
+    internal static async Task<SessionResponse> ToSessionAsync(
         ApplicationUser user,
         UserManager<ApplicationUser> userManager)
     {
@@ -107,7 +107,7 @@ public static class AuthEndpoints
 
     private static string Initials(string displayName)
     {
-        var parts = displayName.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var parts = displayName.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         return string.Concat(parts.Take(2).Select(part => char.ToUpperInvariant(part[0])));
     }
 

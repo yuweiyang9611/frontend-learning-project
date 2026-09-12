@@ -1,20 +1,11 @@
 'use client';
-
 import { GripVertical, Plus } from 'lucide-react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { issueflowApi } from '@/src/api/issueflowApi';
 import { useToast } from '@/src/app/AppProviders';
 import { ErrorState, MemberAvatar, PageHeader, PriorityMark, TableSkeleton } from '@/src/components/ui';
-import {
-  ISSUE_STATUSES,
-  isIssueStatus,
-  statusLabels,
-  type Issue,
-  type IssueStatus,
-  type PagedResult,
-} from '@/src/features/issues/types';
+import { ISSUE_STATUSES, isIssueStatus, statusLabels, type IssueStatus } from '@/src/features/issues/types';
+import { useBoard } from '@/src/features/workspace/useBoard';
 
 const columnCopy: Record<IssueStatus, string> = {
   open: 'Ready for triage',
@@ -22,53 +13,11 @@ const columnCopy: Record<IssueStatus, string> = {
   resolved: 'Ready to verify',
   closed: 'Completed work',
 };
-
 export default function BoardPage() {
   const [draggedId, setDraggedId] = useState<number | null>(null);
   const [overStatus, setOverStatus] = useState<IssueStatus | null>(null);
-  const queryClient = useQueryClient();
   const { toast } = useToast();
-  const query = useQuery({
-    queryKey: ['issues', 'board'],
-    queryFn: () => issueflowApi.listIssues({ page: 1, pageSize: 100, sortBy: 'priority', sortDirection: 'desc' }),
-  });
-  const mutation = useMutation({
-    mutationFn: ({ issue, status }: { issue: Issue; status: IssueStatus }) =>
-      issueflowApi.updateIssue(issue.id, { status }),
-    onMutate: async ({ issue, status }) => {
-      await queryClient.cancelQueries({ queryKey: ['issues', 'board'] });
-      const previous = queryClient.getQueryData<PagedResult<Issue>>(['issues', 'board']);
-      queryClient.setQueryData<PagedResult<Issue>>(['issues', 'board'], (current) =>
-        current
-          ? { ...current, items: current.items.map((item) => (item.id === issue.id ? { ...item, status } : item)) }
-          : current,
-      );
-      return { previous };
-    },
-    onError: (error, _variables, context) => {
-      queryClient.setQueryData(['issues', 'board'], context?.previous);
-      toast('Card returned to its previous column', { description: error.message, tone: 'error' });
-    },
-    onSuccess: (issue) => toast(`${issue.key} moved to ${statusLabels[issue.status]}`),
-    onSettled: (_data, _error, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['issues'] });
-      queryClient.invalidateQueries({ queryKey: ['issue', variables.issue.id] });
-    },
-  });
-
-  if (query.isPending) return <TableSkeleton />;
-  if (query.isError) return <ErrorState message={query.error.message} onRetry={() => query.refetch()} />;
-  const issues = query.data.items;
-  const move = (issue: Issue, status: IssueStatus) => {
-    if (issue.status !== status) mutation.mutate({ issue, status });
-  };
-  const drop = (status: IssueStatus) => {
-    const issue = issues.find((item) => item.id === draggedId);
-    if (issue) move(issue, status);
-    setDraggedId(null);
-    setOverStatus(null);
-  };
-
+  const board = useBoard((title, error) => toast(title, { description: error, tone: error ? 'error' : 'success' }));
   return (
     <>
       <div className="breadcrumb">
@@ -77,7 +26,7 @@ export default function BoardPage() {
       <PageHeader
         eyebrow="Live workflow"
         title="Product board"
-        description="Move work through the flow. Every drag updates the shared issue state immediately."
+        description="Move work through the flow."
         actions={
           <Link className="primary-button" to="/issues/new">
             <Plus size={18} />
@@ -86,47 +35,60 @@ export default function BoardPage() {
         }
       />
       <div className="board-toolbar">
-        <p>
-          <span className="live-dot" />
-          Board synced · {issues.length} issues
+        <p role="status">
+          {board.syncing ? 'Synchronizing…' : board.batchActive ? 'Changes awaiting synchronization' : 'Board synced'} ·{' '}
+          {board.columns.reduce((sum, c) => sum + c.total, 0)} issues
         </p>
         <span>Drag cards or use each card’s status menu for keyboard access.</span>
       </div>
+      {board.syncError && <ErrorState message={board.syncError} onRetry={() => board.sync()} />}
       <section className="kanban-board" aria-label="Issue board">
-        {ISSUE_STATUSES.map((status) => {
-          const columnIssues = issues.filter((issue) => issue.status === status);
+        {ISSUE_STATUSES.map((status, index) => {
+          const query = board.queries[index],
+            column = board.columns[index];
           return (
-            <div
+            <section
+              aria-label={statusLabels[status]}
+              className={`kanban-column ${status}${overStatus === status ? ' drag-over' : ''}`}
               key={status}
-              className={overStatus === status ? `kanban-column ${status} drag-over` : `kanban-column ${status}`}
-              onDragOver={(event) => {
-                event.preventDefault();
+              onDragOver={(e) => {
+                e.preventDefault();
                 setOverStatus(status);
               }}
               onDragLeave={() => setOverStatus(null)}
-              onDrop={() => drop(status)}
+              onDrop={() => {
+                const issue = board.columns.flatMap((c) => c.items).find((i) => i.id === draggedId);
+                if (issue) void board.move(issue, status);
+                setDraggedId(null);
+                setOverStatus(null);
+              }}
             >
               <header>
                 <div>
                   <i />
                   <h2>{statusLabels[status]}</h2>
-                  <span>{columnIssues.length}</span>
+                  <span>
+                    {column.items.length} / {column.total}
+                  </span>
                 </div>
                 <p>{columnCopy[status]}</p>
               </header>
+              {query.isPending ? (
+                <TableSkeleton />
+              ) : query.isError ? (
+                <ErrorState message={query.error.message} onRetry={() => query.refetch()} />
+              ) : null}
               <div className="kanban-cards">
-                {columnIssues.map((issue) => (
+                {column.items.map((issue) => (
                   <article
-                    className={
-                      mutation.isPending && mutation.variables?.issue.id === issue.id
-                        ? 'kanban-card pending'
-                        : 'kanban-card'
-                    }
+                    tabIndex={-1}
+                    id={`board-card-${issue.id}`}
+                    className={board.locked(issue.id) ? 'kanban-card pending' : 'kanban-card'}
                     key={issue.id}
-                    draggable
-                    onDragStart={(event) => {
+                    draggable={!board.locked(issue.id)}
+                    onDragStart={(e) => {
                       setDraggedId(issue.id);
-                      event.dataTransfer.effectAllowed = 'move';
+                      e.dataTransfer.effectAllowed = 'move';
                     }}
                     onDragEnd={() => {
                       setDraggedId(null);
@@ -155,9 +117,10 @@ export default function BoardPage() {
                       className="board-status-select"
                       id={`board-status-${issue.id}`}
                       value={issue.status}
-                      onChange={(event) => {
-                        const next = event.currentTarget.value;
-                        if (isIssueStatus(next)) move(issue, next);
+                      disabled={board.locked(issue.id)}
+                      onChange={(e) => {
+                        const next = e.currentTarget.value;
+                        if (isIssueStatus(next)) void board.move(issue, next, true);
                       }}
                     >
                       {ISSUE_STATUSES.map((value) => (
@@ -168,9 +131,20 @@ export default function BoardPage() {
                     </select>
                   </article>
                 ))}
-                {columnIssues.length === 0 && <div className="empty-column">Drop an issue here</div>}
+                {!query.isPending && !query.isError && column.total === 0 && (
+                  <div className="empty-column">Drop an issue here</div>
+                )}
               </div>
-            </div>
+              {query.hasNextPage && (
+                <button
+                  className="secondary-button"
+                  disabled={query.isFetchingNextPage || board.batchActive}
+                  onClick={() => void query.fetchNextPage()}
+                >
+                  Load more {statusLabels[status]}
+                </button>
+              )}
+            </section>
           );
         })}
       </section>

@@ -11,10 +11,22 @@
     {
       "id": "w09-q01",
       "prompt": "搜索和筛选需要可分享、可前进后退时，主要状态应放在哪里？",
-      "choices": ["仅组件 local state", "URL query", "模块级变量"],
+      "choices": [
+        "仅组件 local state",
+        "URL query",
+        "模块级变量"
+      ],
       "correctIndex": 1,
       "explanation": "URL 能表达导航历史、刷新恢复和可分享状态。",
-      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-59"
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-59",
+      "kind": "concept",
+      "conceptId": "forms.a11y",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：URL 能表达导航历史、刷新恢复和可分享状态。",
+        "正确：URL 能表达导航历史、刷新恢复和可分享状态。",
+        "不正确：URL 能表达导航历史、刷新恢复和可分享状态。"
+      ]
     },
     {
       "id": "w09-q02",
@@ -26,15 +38,215 @@
       ],
       "correctIndex": 1,
       "explanation": "在身份未知时渲染受保护内容会造成错误泄露和视觉闪烁。",
-      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-61"
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-61",
+      "kind": "concept",
+      "conceptId": "forms.a11y",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：在身份未知时渲染受保护内容会造成错误泄露和视觉闪烁。",
+        "正确：在身份未知时渲染受保护内容会造成错误泄露和视觉闪烁。",
+        "不正确：在身份未知时渲染受保护内容会造成错误泄露和视觉闪烁。"
+      ]
     },
     {
       "id": "w09-q03",
       "prompt": "Modal 关闭后焦点通常应去哪里？",
-      "choices": ["document.body", "触发打开 Modal 的控件", "浏览器地址栏"],
+      "choices": [
+        "document.body",
+        "触发打开 Modal 的控件",
+        "浏览器地址栏"
+      ],
       "correctIndex": 1,
       "explanation": "恢复到触发控件能维持键盘用户的任务上下文。",
-      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63"
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "concept",
+      "conceptId": "forms.a11y",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：恢复到触发控件能维持键盘用户的任务上下文。",
+        "正确：恢复到触发控件能维持键盘用户的任务上下文。",
+        "不正确：恢复到触发控件能维持键盘用户的任务上下文。"
+      ]
+    },
+    {
+      "id": "w09-q04",
+      "prompt": "查询条件来自 URL 时，刷新页面应恢复什么？",
+      "choices": [
+        "相同筛选、排序和页码",
+        "所有 React 内存变量",
+        "上次鼠标所在位置"
+      ],
+      "correctIndex": 0,
+      "explanation": "URL 可序列化查询条件；它不会自动恢复任意内存状态或指针位置。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "reading",
+      "conceptId": "forms.a11y",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：URL 可序列化查询条件；它不会自动恢复任意内存状态或指针位置。",
+        "“所有 React 内存变量”不成立：URL 可序列化查询条件；它不会自动恢复任意内存状态或指针位置。",
+        "“上次鼠标所在位置”不成立：URL 可序列化查询条件；它不会自动恢复任意内存状态或指针位置。"
+      ]
+    },
+    {
+      "id": "w09-q05",
+      "prompt": "表单提交失败后将焦点移到第一个错误字段的目的是什么？",
+      "choices": [
+        "删除不合法字段",
+        "让用户立即定位可修正的问题",
+        "自动更正所有错误"
+      ],
+      "correctIndex": 1,
+      "explanation": "焦点管理帮助用户继续任务，不会替代校验或自动修改输入。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "reading",
+      "conceptId": "forms.a11y",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“删除不合法字段”不成立：焦点管理帮助用户继续任务，不会替代校验或自动修改输入。",
+        "正确：焦点管理帮助用户继续任务，不会替代校验或自动修改输入。",
+        "“自动更正所有错误”不成立：焦点管理帮助用户继续任务，不会替代校验或自动修改输入。"
+      ]
+    },
+    {
+      "id": "w09-q06",
+      "prompt": "Modal 打开时，Tab 的合理行为是什么？",
+      "choices": [
+        "跳到被遮挡页面的按钮",
+        "完全失去键盘焦点",
+        "在当前对话框可操作控件之间循环"
+      ],
+      "correctIndex": 2,
+      "explanation": "模态交互需要焦点约束；背景操作或丢失焦点都会妨碍键盘任务。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "reading",
+      "conceptId": "forms.a11y",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“跳到被遮挡页面的按钮”不成立：模态交互需要焦点约束；背景操作或丢失焦点都会妨碍键盘任务。",
+        "“完全失去键盘焦点”不成立：模态交互需要焦点约束；背景操作或丢失焦点都会妨碍键盘任务。",
+        "正确：模态交互需要焦点约束；背景操作或丢失焦点都会妨碍键盘任务。"
+      ]
+    },
+    {
+      "id": "w09-q07",
+      "prompt": "搜索关键词改变后仍停留在第 12 页，结果为空，应该如何修复？",
+      "choices": [
+        "更新搜索时将页码重置为 1",
+        "认定没有匹配结果",
+        "把所有分页按钮删除"
+      ],
+      "correctIndex": 0,
+      "explanation": "旧页码可能超出新结果范围；空页不等于无匹配，删除分页也没有处理状态关系。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "debugging",
+      "conceptId": "forms.a11y",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：旧页码可能超出新结果范围；空页不等于无匹配，删除分页也没有处理状态关系。",
+        "“认定没有匹配结果”不成立：旧页码可能超出新结果范围；空页不等于无匹配，删除分页也没有处理状态关系。",
+        "“把所有分页按钮删除”不成立：旧页码可能超出新结果范围；空页不等于无匹配，删除分页也没有处理状态关系。"
+      ]
+    },
+    {
+      "id": "w09-q08",
+      "prompt": "直接打开受保护详情页，登录后总去首页，缺少什么？",
+      "choices": [
+        "延长登录动画",
+        "保存并恢复原目标路径",
+        "更换登录按钮文案"
+      ],
+      "correctIndex": 1,
+      "explanation": "导航目标需要显式传递和恢复；文案与动画不保存路由上下文。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "debugging",
+      "conceptId": "forms.a11y",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“延长登录动画”不成立：导航目标需要显式传递和恢复；文案与动画不保存路由上下文。",
+        "正确：导航目标需要显式传递和恢复；文案与动画不保存路由上下文。",
+        "“更换登录按钮文案”不成立：导航目标需要显式传递和恢复；文案与动画不保存路由上下文。"
+      ]
+    },
+    {
+      "id": "w09-q09",
+      "prompt": "关闭删除对话框后焦点落到页面顶部，应该怎样处理？",
+      "choices": [
+        "让对话框永久不关闭",
+        "隐藏所有可聚焦元素",
+        "把焦点归还给触发控件或合理后继"
+      ],
+      "correctIndex": 2,
+      "explanation": "焦点应延续原任务；永久模态或隐藏控件会阻断使用。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "debugging",
+      "conceptId": "forms.a11y",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“让对话框永久不关闭”不成立：焦点应延续原任务；永久模态或隐藏控件会阻断使用。",
+        "“隐藏所有可聚焦元素”不成立：焦点应延续原任务；永久模态或隐藏控件会阻断使用。",
+        "正确：焦点应延续原任务；永久模态或隐藏控件会阻断使用。"
+      ]
+    },
+    {
+      "id": "w09-q10",
+      "prompt": "把 Issue 筛选链接发给同事，希望对方看到同样查询，应保存在哪里？",
+      "choices": [
+        "URL 查询参数",
+        "只放组件 state",
+        "只记录在鼠标事件对象"
+      ],
+      "correctIndex": 0,
+      "explanation": "URL 可分享和恢复；组件 state 和事件对象不随链接传递。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "transfer",
+      "conceptId": "forms.a11y",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：URL 可分享和恢复；组件 state 和事件对象不随链接传递。",
+        "“只放组件 state”不成立：URL 可分享和恢复；组件 state 和事件对象不随链接传递。",
+        "“只记录在鼠标事件对象”不成立：URL 可分享和恢复；组件 state 和事件对象不随链接传递。"
+      ]
+    },
+    {
+      "id": "w09-q11",
+      "prompt": "手机上操作表格，哪个验收标准更合理？",
+      "choices": [
+        "只要没有 CSS 报错即可",
+        "关键内容和操作都可访问且焦点可见",
+        "页面看起来与桌面完全相同"
+      ],
+      "correctIndex": 1,
+      "explanation": "响应式目标是完成任务；布局可以变化，CSS 成功不证明可用性。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "transfer",
+      "conceptId": "forms.a11y",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“只要没有 CSS 报错即可”不成立：响应式目标是完成任务；布局可以变化，CSS 成功不证明可用性。",
+        "正确：响应式目标是完成任务；布局可以变化，CSS 成功不证明可用性。",
+        "“页面看起来与桌面完全相同”不成立：响应式目标是完成任务；布局可以变化，CSS 成功不证明可用性。"
+      ]
+    },
+    {
+      "id": "w09-q12",
+      "prompt": "非法详情 ID 为 abc 时，页面应该怎样做？",
+      "choices": [
+        "直接转换后发送 NaN",
+        "重定向到任意第一条 Issue",
+        "显示明确无效状态并避免发送 NaN 请求"
+      ],
+      "correctIndex": 2,
+      "explanation": "应在边界验证路由输入；无效请求和任意重定向都会误导用户。",
+      "remediation": "/90-days/week-09-routing-forms-a11y.html#day-63",
+      "kind": "transfer",
+      "conceptId": "forms.a11y",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“直接转换后发送 NaN”不成立：应在边界验证路由输入；无效请求和任意重定向都会误导用户。",
+        "“重定向到任意第一条 Issue”不成立：应在边界验证路由输入；无效请求和任意重定向都会误导用户。",
+        "正确：应在边界验证路由输入；无效请求和任意重定向都会误导用户。"
+      ]
     }
   ]
 }

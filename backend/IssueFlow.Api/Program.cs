@@ -1,3 +1,4 @@
+using IssueFlow.Api.Features.Workspace;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using IssueFlow.Api.Data;
@@ -18,8 +19,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 const string FrontendPolicy = "Frontend";
-var connectionString = builder.Configuration.GetConnectionString("Default")
-    ?? throw new InvalidOperationException("Connection string 'Default' is required.");
 var frontendOrigins = builder.Configuration.GetSection("Frontend:Origins").Get<string[]>()
     ?? ["http://localhost:3000", "http://localhost:5173"];
 
@@ -40,7 +39,9 @@ builder.Services.ConfigureHttpJsonOptions(options =>
         new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower, allowIntegerValues: false));
 });
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<AppDbContext>((services, options) =>
+    options.UseSqlite(services.GetRequiredService<IConfiguration>().GetConnectionString("Default")
+        ?? throw new InvalidOperationException("Connection string 'Default' is required.")));
 builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
@@ -132,6 +133,7 @@ app.MapGet("/api/health", () => Results.Ok(new { status = "ok" }))
     .Produces(StatusCodes.Status200OK);
 
 app.MapAuthEndpoints();
+app.MapWorkspaceEndpoints();
 app.MapIssueEndpoints();
 app.MapMemberEndpoints();
 app.MapCommentEndpoints();

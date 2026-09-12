@@ -21,8 +21,9 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run build && npm run preview',
+    env: { ISSUEFLOW_D1_PERSIST_TO: '.wrangler/e2e-state' },
     url: 'http://localhost:3000/login',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 180_000,
   },
 });

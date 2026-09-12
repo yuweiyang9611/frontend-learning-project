@@ -18,7 +18,15 @@
       ],
       "correctIndex": 1,
       "explanation": "最小 Props Contract 降低耦合并提高可测试性。",
-      "remediation": "/90-days/week-08-react-typescript.html#day-50"
+      "remediation": "/90-days/week-08-react-typescript.html#day-50",
+      "kind": "concept",
+      "conceptId": "react.state",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：最小 Props Contract 降低耦合并提高可测试性。",
+        "正确：最小 Props Contract 降低耦合并提高可测试性。",
+        "不正确：最小 Props Contract 降低耦合并提高可测试性。"
+      ]
     },
     {
       "id": "w08-q02",
@@ -30,7 +38,15 @@
       ],
       "correctIndex": 1,
       "explanation": "可直接计算的派生值应在渲染中计算，不需要 Effect 和第二份 state。",
-      "remediation": "/90-days/week-08-react-typescript.html#day-54"
+      "remediation": "/90-days/week-08-react-typescript.html#day-54",
+      "kind": "concept",
+      "conceptId": "react.state",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：可直接计算的派生值应在渲染中计算，不需要 Effect 和第二份 state。",
+        "正确：可直接计算的派生值应在渲染中计算，不需要 Effect 和第二份 state。",
+        "不正确：可直接计算的派生值应在渲染中计算，不需要 Effect 和第二份 state。"
+      ]
     },
     {
       "id": "w08-q03",
@@ -42,7 +58,199 @@
       ],
       "correctIndex": 1,
       "explanation": "DOM 值始终是运行时 string，必须证明它属于领域 union。",
-      "remediation": "/90-days/week-08-react-typescript.html#day-52"
+      "remediation": "/90-days/week-08-react-typescript.html#day-52",
+      "kind": "concept",
+      "conceptId": "react.state",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：DOM 值始终是运行时 string，必须证明它属于领域 union。",
+        "正确：DOM 值始终是运行时 string，必须证明它属于领域 union。",
+        "不正确：DOM 值始终是运行时 string，必须证明它属于领域 union。"
+      ]
+    },
+    {
+      "id": "w08-q04",
+      "prompt": "下面连续调用两次后，最终状态通常是什么？",
+      "choices": [
+        "一定增加 2",
+        "一定保持不变",
+        "只增加 1"
+      ],
+      "correctIndex": 2,
+      "explanation": "两个调用读取同一渲染快照的 count；函数式更新才能依次基于最新值计算。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "reading",
+      "conceptId": "react.state",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“一定增加 2”不成立：两个调用读取同一渲染快照的 count；函数式更新才能依次基于最新值计算。",
+        "“一定保持不变”不成立：两个调用读取同一渲染快照的 count；函数式更新才能依次基于最新值计算。",
+        "正确：两个调用读取同一渲染快照的 count；函数式更新才能依次基于最新值计算。"
+      ],
+      "code": "setCount(count + 1);\nsetCount(count + 1);",
+      "language": "typescript"
+    },
+    {
+      "id": "w08-q05",
+      "prompt": "由 issues 和 filter 计算的 visibleIssues 通常放在哪里？",
+      "choices": [
+        "渲染时计算，必要时 memo",
+        "再建一个独立 state 并用 Effect 同步",
+        "写入模块全局变量"
+      ],
+      "correctIndex": 0,
+      "explanation": "派生数据通常可直接计算，重复 state 容易失步；模块全局值也不属于组件实例。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "reading",
+      "conceptId": "react.state",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：派生数据通常可直接计算，重复 state 容易失步；模块全局值也不属于组件实例。",
+        "“再建一个独立 state 并用 Effect 同步”不成立：派生数据通常可直接计算，重复 state 容易失步；模块全局值也不属于组件实例。",
+        "“写入模块全局变量”不成立：派生数据通常可直接计算，重复 state 容易失步；模块全局值也不属于组件实例。"
+      ]
+    },
+    {
+      "id": "w08-q06",
+      "prompt": "Effect 返回的函数什么时候用于清理？",
+      "choices": [
+        "只在浏览器永久关闭时",
+        "依赖变化后重跑前及卸载时",
+        "每次点击都自动执行"
+      ],
+      "correctIndex": 1,
+      "explanation": "清理对应上一轮外部同步；不由任意点击触发，也不能依赖关闭浏览器才执行。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "reading",
+      "conceptId": "react.state",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“只在浏览器永久关闭时”不成立：清理对应上一轮外部同步；不由任意点击触发，也不能依赖关闭浏览器才执行。",
+        "正确：清理对应上一轮外部同步；不由任意点击触发，也不能依赖关闭浏览器才执行。",
+        "“每次点击都自动执行”不成立：清理对应上一轮外部同步；不由任意点击触发，也不能依赖关闭浏览器才执行。"
+      ],
+      "code": "useEffect(() => { window.addEventListener('resize', onResize); return () => window.removeEventListener('resize', onResize); }, []);",
+      "language": "typescript"
+    },
+    {
+      "id": "w08-q07",
+      "prompt": "直接执行 items.push(x) 后界面不更新，应该怎么改？",
+      "choices": [
+        "继续多 push 几次",
+        "直接修改 DOM 绕过状态",
+        "创建新数组并调用 setter"
+      ],
+      "correctIndex": 2,
+      "explanation": "React 状态更新需要通过 setter 提交新值；重复原地修改或直接改 DOM 会破坏一致性。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "debugging",
+      "conceptId": "react.state",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“继续多 push 几次”不成立：React 状态更新需要通过 setter 提交新值；重复原地修改或直接改 DOM 会破坏一致性。",
+        "“直接修改 DOM 绕过状态”不成立：React 状态更新需要通过 setter 提交新值；重复原地修改或直接改 DOM 会破坏一致性。",
+        "正确：React 状态更新需要通过 setter 提交新值；重复原地修改或直接改 DOM 会破坏一致性。"
+      ]
+    },
+    {
+      "id": "w08-q08",
+      "prompt": "列表用数组索引做 key，排序后输入串到别的行，原因是什么？",
+      "choices": [
+        "key 没有稳定代表业务对象",
+        "React 不支持输入框",
+        "服务器一定返回重复数据"
+      ],
+      "correctIndex": 0,
+      "explanation": "索引随位置变化，组件状态可能跟随位置而非对象；应使用稳定业务 ID。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "debugging",
+      "conceptId": "react.state",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：索引随位置变化，组件状态可能跟随位置而非对象；应使用稳定业务 ID。",
+        "“React 不支持输入框”不成立：索引随位置变化，组件状态可能跟随位置而非对象；应使用稳定业务 ID。",
+        "“服务器一定返回重复数据”不成立：索引随位置变化，组件状态可能跟随位置而非对象；应使用稳定业务 ID。"
+      ]
+    },
+    {
+      "id": "w08-q09",
+      "prompt": "异步完成时组件已卸载，适合怎样处理？",
+      "choices": [
+        "把所有请求放进 render",
+        "清理时取消请求或忽略过期结果",
+        "强制重新挂载所有组件"
+      ],
+      "correctIndex": 1,
+      "explanation": "应控制异步结果的生命周期；强制挂载或渲染中请求会制造更多副作用。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "debugging",
+      "conceptId": "react.state",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“把所有请求放进 render”不成立：应控制异步结果的生命周期；强制挂载或渲染中请求会制造更多副作用。",
+        "正确：应控制异步结果的生命周期；强制挂载或渲染中请求会制造更多副作用。",
+        "“强制重新挂载所有组件”不成立：应控制异步结果的生命周期；强制挂载或渲染中请求会制造更多副作用。"
+      ]
+    },
+    {
+      "id": "w08-q10",
+      "prompt": "子组件需要修改父组件拥有的状态，应怎样传递能力？",
+      "choices": [
+        "在子组件修改父 Props",
+        "把所有状态改成 window 属性",
+        "传入明确的回调 Props"
+      ],
+      "correctIndex": 2,
+      "explanation": "单向数据流使用回调通知拥有者；Props 只读，全局属性扩大耦合。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "transfer",
+      "conceptId": "react.state",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“在子组件修改父 Props”不成立：单向数据流使用回调通知拥有者；Props 只读，全局属性扩大耦合。",
+        "“把所有状态改成 window 属性”不成立：单向数据流使用回调通知拥有者；Props 只读，全局属性扩大耦合。",
+        "正确：单向数据流使用回调通知拥有者；Props 只读，全局属性扩大耦合。"
+      ]
+    },
+    {
+      "id": "w08-q11",
+      "prompt": "普通异步保存按钮如何避免双击重复提交？",
+      "choices": [
+        "保存期间禁用并在处理函数检查 pending",
+        "成功后才禁用",
+        "只把按钮文字变灰"
+      ],
+      "correctIndex": 0,
+      "explanation": "请求期间才是重复提交窗口；文字样式不能阻止事件。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "transfer",
+      "conceptId": "react.state",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：请求期间才是重复提交窗口；文字样式不能阻止事件。",
+        "“成功后才禁用”不成立：请求期间才是重复提交窗口；文字样式不能阻止事件。",
+        "“只把按钮文字变灰”不成立：请求期间才是重复提交窗口；文字样式不能阻止事件。"
+      ]
+    },
+    {
+      "id": "w08-q12",
+      "prompt": "测试一个状态编辑器，优先验证什么？",
+      "choices": [
+        "只统计 JSX 行数",
+        "用户选择后看到的新状态与失败反馈",
+        "只断言内部 setter 被调用"
+      ],
+      "correctIndex": 1,
+      "explanation": "行为测试保护输入到输出的流程；内部调用和代码行数不能证明用户体验。",
+      "remediation": "/90-days/week-08-react-typescript.html#day-56",
+      "kind": "transfer",
+      "conceptId": "react.state",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“只统计 JSX 行数”不成立：行为测试保护输入到输出的流程；内部调用和代码行数不能证明用户体验。",
+        "正确：行为测试保护输入到输出的流程；内部调用和代码行数不能证明用户体验。",
+        "“只断言内部 setter 被调用”不成立：行为测试保护输入到输出的流程；内部调用和代码行数不能证明用户体验。"
+      ]
     }
   ]
 }

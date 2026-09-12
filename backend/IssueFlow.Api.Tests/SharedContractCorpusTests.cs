@@ -51,7 +51,7 @@ public sealed class SharedContractCorpusTests(IssueFlowApiFactory factory)
 
             if (sourceCase.TryGetProperty("followUps", out var followUps))
             {
-                var responseId = responseJson!.RootElement.GetProperty("id").GetRawText();
+                var responseId = responseJson is not null && responseJson.RootElement.TryGetProperty("id", out var responseIdValue) ? responseIdValue.GetRawText() : null;
                 foreach (var followUp in followUps.EnumerateArray())
                 {
                     var followUpId = followUp.GetProperty("id").GetString()!;

@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -145,6 +145,14 @@ try {
       : async () => {
           const viteBin = path.join(frontendRoot, 'node_modules', 'vite', 'bin', 'vite.js');
           await fs.access(path.join(frontendRoot, 'dist'));
+          const persist = path.join(temporaryDirectory, 'd1');
+          const migrated = spawnSync(process.execPath, [path.join(frontendRoot, 'scripts/migrate-local.mjs')], {
+            cwd: frontendRoot,
+            env: { ...process.env, ISSUEFLOW_D1_PERSIST_TO: persist },
+            encoding: 'utf8',
+            windowsHide: true,
+          });
+          if (migrated.status !== 0) throw new Error(migrated.stderr || migrated.stdout);
           return startProcess(
             'Next same-origin preview',
             process.execPath,
@@ -154,6 +162,7 @@ try {
               env: {
                 ...process.env,
                 SITE_URL: nextBaseUrl,
+                ISSUEFLOW_D1_PERSIST_TO: persist,
                 WRANGLER_WRITE_LOGS: 'false',
                 WRANGLER_LOG_PATH: path.join(temporaryDirectory, 'wrangler-logs'),
                 MINIFLARE_REGISTRY_PATH: path.join(temporaryDirectory, 'miniflare-registry'),

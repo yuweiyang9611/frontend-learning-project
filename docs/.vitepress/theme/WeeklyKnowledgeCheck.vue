@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
 import { withBase } from "vitepress";
-import { getWeeklyQuiz } from "./quiz-bank";
+import { scoreConcepts } from "./quiz-diagnostics.mjs";
+import {
+  conceptLabel,
+  kindLabels,
+  difficultyLabels,
+  getWeeklyQuiz,
+} from "./quiz-bank";
 import {
   REVIEW_STORAGE_KEY,
   createReviewState,
@@ -13,6 +19,9 @@ const props = defineProps<{ week: number }>();
 const quiz = getWeeklyQuiz(props.week);
 const answers = reactive<Record<string, number>>({});
 const submitted = ref(false);
+const conceptScores = computed(() =>
+  scoreConcepts(quiz?.questions ?? [], answers),
+);
 const status = ref("");
 const reviewState = ref(createReviewState());
 
@@ -79,6 +88,15 @@ function submitQuiz() {
       :key="question.id"
     >
       <legend>{{ questionIndex + 1 }}. {{ question.prompt }}</legend>
+      <p>
+        {{ kindLabels[question.kind] }} ·
+        {{ conceptLabel(question.conceptId) }} ·
+        {{ difficultyLabels[question.difficulty] }}
+      </p>
+      <pre
+        v-if="question.code"
+        class="quiz-code"
+      ><code>{{ question.code }}</code></pre>
       <label v-for="(choice, choiceIndex) in question.choices" :key="choice">
         <input
           v-model.number="answers[question.id]"
@@ -102,6 +120,18 @@ function submitQuiz() {
           answers[question.id] === question.correctIndex ? "正确" : "需要复习"
         }}</strong>
         <p>{{ question.explanation }}</p>
+        <details>
+          <summary>查看各选项解释</summary>
+          <ul>
+            <li
+              v-for="(reason, index) in question.choiceExplanations"
+              :key="index"
+            >
+              <strong>{{ question.choices[index] }}</strong
+              >：{{ reason }}
+            </li>
+          </ul>
+        </details>
         <a
           v-if="answers[question.id] !== question.correctIndex"
           :href="withBase(question.remediation)"
@@ -115,6 +145,14 @@ function submitQuiz() {
     </button>
     <p class="knowledge-check__status" aria-live="polite">{{ status }}</p>
 
+    <section v-if="submitted" aria-label="本周概念诊断">
+      <h3>本周概念诊断</h3>
+      <ul>
+        <li v-for="row in conceptScores" :key="row.conceptId">
+          {{ conceptLabel(row.conceptId) }}：{{ row.correct }} / {{ row.total }}
+        </li>
+      </ul>
+    </section>
     <details>
       <summary>本周口试 / 代码审查</summary>
       <p>{{ quiz.reviewPrompt }}</p>

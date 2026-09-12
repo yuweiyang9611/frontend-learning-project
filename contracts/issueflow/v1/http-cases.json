@@ -6,41 +6,61 @@
       "email": "demo@issueflow.dev",
       "password": "issueflow"
     },
-    "expect": { "status": 200 }
+    "expect": {
+      "status": 200
+    }
   },
   "logout": {
     "method": "POST",
     "path": "/api/auth/logout",
-    "expect": { "status": 204 }
+    "expect": {
+      "status": 204
+    }
   },
   "cases": [
     {
       "id": "R01",
       "title": "健康检查返回 JSON",
       "auth": false,
-      "request": { "method": "GET", "path": "/api/health" },
+      "request": {
+        "method": "GET",
+        "path": "/api/health"
+      },
       "expect": {
         "status": 200,
         "contentType": "application/json",
-        "requiredJsonPaths": ["status"]
+        "requiredJsonPaths": [
+          "status"
+        ]
       }
     },
     {
       "id": "R02",
       "title": "默认列表返回分页 envelope",
       "auth": false,
-      "request": { "method": "GET", "path": "/api/issues?page=1&pageSize=5" },
+      "request": {
+        "method": "GET",
+        "path": "/api/issues?page=1&pageSize=5"
+      },
       "expect": {
         "status": 200,
         "contentType": "application/json",
-        "requiredJsonPaths": ["items", "page", "pageSize", "total"]
+        "requiredJsonPaths": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ]
       }
     },
     {
       "id": "R03",
       "title": "成员列表返回数组",
       "auth": false,
-      "request": { "method": "GET", "path": "/api/members" },
+      "request": {
+        "method": "GET",
+        "path": "/api/members"
+      },
       "expect": {
         "status": 200,
         "contentType": "application/json",
@@ -51,11 +71,17 @@
       "id": "R04",
       "title": "未知 Issue 返回 Problem Details",
       "auth": false,
-      "request": { "method": "GET", "path": "/api/issues/999999" },
+      "request": {
+        "method": "GET",
+        "path": "/api/issues/999999"
+      },
       "expect": {
         "status": 404,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -69,14 +95,21 @@
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status", "errors"]
+        "requiredJsonPaths": [
+          "title",
+          "status",
+          "errors"
+        ]
       }
     },
     {
       "id": "R06",
       "title": "已知 Issue 保持共享 wire shape",
       "auth": false,
-      "request": { "method": "GET", "path": "/api/issues/248" },
+      "request": {
+        "method": "GET",
+        "path": "/api/issues/248"
+      },
       "expect": {
         "status": 200,
         "contentType": "application/json",
@@ -111,7 +144,10 @@
       "expect": {
         "status": 401,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -121,12 +157,19 @@
       "request": {
         "method": "POST",
         "path": "/api/auth/login",
-        "body": { "email": "demo@issueflow.dev", "password": "issueflow" }
+        "body": {
+          "email": "demo@issueflow.dev",
+          "password": "issueflow"
+        }
       },
       "expect": {
         "status": 200,
         "contentType": "application/json",
-        "requiredJsonPaths": ["email", "displayName", "role"]
+        "requiredJsonPaths": [
+          "email",
+          "displayName",
+          "role"
+        ]
       }
     },
     {
@@ -142,19 +185,29 @@
           "status": "open",
           "priority": "high",
           "assigneeId": 2,
-          "tags": ["contract"],
+          "tags": [
+            "contract"
+          ],
           "dueDate": null
         }
       },
       "expect": {
         "status": 201,
         "contentType": "application/json",
-        "requiredJsonPaths": ["id", "key", "title", "status", "reporter"]
+        "requiredJsonPaths": [
+          "id",
+          "key",
+          "title",
+          "status",
+          "reporter"
+        ]
       },
       "cleanup": {
         "method": "DELETE",
         "path": "/api/issues/{{response.id}}",
-        "expect": { "status": 204 }
+        "expect": {
+          "status": 204
+        }
       }
     },
     {
@@ -177,7 +230,11 @@
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status", "errors"]
+        "requiredJsonPaths": [
+          "title",
+          "status",
+          "errors"
+        ]
       }
     },
     {
@@ -200,7 +257,10 @@
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -223,7 +283,10 @@
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -238,29 +301,46 @@
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
       "id": "S02",
       "title": "null body 返回 400 而不是 500",
       "auth": true,
-      "request": { "method": "POST", "path": "/api/issues", "rawBody": "null" },
+      "request": {
+        "method": "POST",
+        "path": "/api/issues",
+        "rawBody": "null"
+      },
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
       "id": "S03",
       "title": "数组 body 返回 400 而不是 500",
       "auth": true,
-      "request": { "method": "POST", "path": "/api/issues", "rawBody": "[]" },
+      "request": {
+        "method": "POST",
+        "path": "/api/issues",
+        "rawBody": "[]"
+      },
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -275,7 +355,10 @@
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -285,12 +368,17 @@
       "request": {
         "method": "PATCH",
         "path": "/api/issues/999999",
-        "body": { "status": "resolved" }
+        "body": {
+          "status": "resolved"
+        }
       },
       "expect": {
         "status": 404,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -300,12 +388,17 @@
       "request": {
         "method": "POST",
         "path": "/api/issues/248/comments",
-        "body": { "body": "" }
+        "body": {
+          "body": ""
+        }
       },
       "expect": {
         "status": 400,
         "contentType": "application/problem+json",
-        "requiredJsonPaths": ["title", "status"]
+        "requiredJsonPaths": [
+          "title",
+          "status"
+        ]
       }
     },
     {
@@ -319,7 +412,11 @@
       "expect": {
         "status": 200,
         "contentType": "application/json",
-        "requiredJsonPaths": ["items.0.id", "items.0.title", "total"],
+        "requiredJsonPaths": [
+          "items.0.id",
+          "items.0.title",
+          "total"
+        ],
         "jsonValues": {
           "total": 3,
           "items.0.id": 248,
@@ -367,14 +464,22 @@
           "status": "open",
           "priority": "medium",
           "assigneeId": 2,
-          "tags": ["contract", "patch"],
+          "tags": [
+            "contract",
+            "patch"
+          ],
           "dueDate": "2099-12-31"
         }
       },
       "expect": {
         "status": 201,
         "contentType": "application/json",
-        "requiredJsonPaths": ["id", "status", "assignee.id", "dueDate"]
+        "requiredJsonPaths": [
+          "id",
+          "status",
+          "assignee.id",
+          "dueDate"
+        ]
       },
       "followUps": [
         {
@@ -382,7 +487,9 @@
           "request": {
             "method": "PATCH",
             "path": "/api/issues/{{response.id}}",
-            "body": { "status": "in_progress" }
+            "body": {
+              "status": "in_progress"
+            }
           },
           "expect": {
             "status": 200,
@@ -399,7 +506,10 @@
           "request": {
             "method": "PATCH",
             "path": "/api/issues/{{response.id}}",
-            "body": { "assigneeId": null, "dueDate": null }
+            "body": {
+              "assigneeId": null,
+              "dueDate": null
+            }
           },
           "expect": {
             "status": 200,
@@ -416,7 +526,10 @@
           "request": {
             "method": "PATCH",
             "path": "/api/issues/{{response.id}}",
-            "body": { "assigneeId": 1, "dueDate": "2099-11-30" }
+            "body": {
+              "assigneeId": 1,
+              "dueDate": "2099-11-30"
+            }
           },
           "expect": {
             "status": 200,
@@ -432,7 +545,9 @@
       "cleanup": {
         "method": "DELETE",
         "path": "/api/issues/{{response.id}}",
-        "expect": { "status": 204 }
+        "expect": {
+          "status": 204
+        }
       }
     },
     {
@@ -442,13 +557,21 @@
       "request": {
         "method": "POST",
         "path": "/api/issues/248/comments",
-        "body": { "body": "Contract comment {{uniqueTitle}}" }
+        "body": {
+          "body": "Contract comment {{uniqueTitle}}"
+        }
       },
       "expect": {
         "status": 201,
         "contentType": "application/json",
-        "requiredJsonPaths": ["id", "issueId", "body"],
-        "jsonValues": { "issueId": 248 }
+        "requiredJsonPaths": [
+          "id",
+          "issueId",
+          "body"
+        ],
+        "jsonValues": {
+          "issueId": 248
+        }
       },
       "followUps": [
         {
@@ -457,7 +580,10 @@
             "method": "DELETE",
             "path": "/api/issues/248/comments/{{response.id}}"
           },
-          "expect": { "status": 204, "jsonKind": "empty" }
+          "expect": {
+            "status": 204,
+            "jsonKind": "empty"
+          }
         },
         {
           "id": "delete-again",
@@ -468,7 +594,10 @@
           "expect": {
             "status": 404,
             "contentType": "application/problem+json",
-            "requiredJsonPaths": ["title", "status"]
+            "requiredJsonPaths": [
+              "title",
+              "status"
+            ]
           }
         }
       ]
@@ -486,14 +615,21 @@
           "status": "open",
           "priority": "high",
           "assigneeId": null,
-          "tags": ["contract", "delete"],
+          "tags": [
+            "contract",
+            "delete"
+          ],
           "dueDate": null
         }
       },
       "expect": {
         "status": 201,
         "contentType": "application/json",
-        "requiredJsonPaths": ["id", "key", "title"]
+        "requiredJsonPaths": [
+          "id",
+          "key",
+          "title"
+        ]
       },
       "followUps": [
         {
@@ -502,18 +638,271 @@
             "method": "DELETE",
             "path": "/api/issues/{{response.id}}"
           },
-          "expect": { "status": 204, "jsonKind": "empty" }
+          "expect": {
+            "status": 204,
+            "jsonKind": "empty"
+          }
         },
         {
           "id": "read-after-delete",
-          "request": { "method": "GET", "path": "/api/issues/{{response.id}}" },
+          "request": {
+            "method": "GET",
+            "path": "/api/issues/{{response.id}}"
+          },
           "expect": {
             "status": 404,
             "contentType": "application/problem+json",
-            "requiredJsonPaths": ["title", "status"]
+            "requiredJsonPaths": [
+              "title",
+              "status"
+            ]
           }
         }
       ]
+    },
+    {
+      "id": "R09",
+      "title": "全量工作区统计",
+      "auth": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/workspace/overview"
+      },
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "jsonValues": {},
+        "requiredJsonPaths": [
+          "asOf",
+          "total",
+          "byStatus",
+          "workloads",
+          "recentIssues",
+          "focus"
+        ]
+      }
+    },
+    {
+      "id": "R10",
+      "title": "已认证个人设置",
+      "auth": true,
+      "request": {
+        "method": "GET",
+        "path": "/api/me/settings"
+      },
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "jsonValues": {},
+        "requiredJsonPaths": [
+          "session",
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "W10",
+      "title": "显示名保存后会话和资料保持一致",
+      "auth": true,
+      "request": {
+        "method": "PATCH",
+        "path": "/api/me/profile",
+        "body": {
+          "displayName": "Contract Profile"
+        }
+      },
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "jsonValues": {
+          "displayName": "Contract Profile"
+        },
+        "requiredJsonPaths": []
+      },
+      "followUps": [
+        {
+          "id": "settings",
+          "request": {
+            "method": "GET",
+            "path": "/api/me/settings"
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "session.displayName": "Contract Profile"
+            },
+            "requiredJsonPaths": []
+          }
+        },
+        {
+          "id": "session",
+          "request": {
+            "method": "GET",
+            "path": "/api/auth/session"
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "displayName": "Contract Profile"
+            },
+            "requiredJsonPaths": []
+          }
+        },
+        {
+          "id": "restore",
+          "request": {
+            "method": "PATCH",
+            "path": "/api/me/profile",
+            "body": {
+              "displayName": "Jordan Davis"
+            }
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "displayName": "Jordan Davis"
+            },
+            "requiredJsonPaths": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "W11",
+      "title": "通知偏好保存并读回",
+      "auth": true,
+      "request": {
+        "method": "PUT",
+        "path": "/api/me/preferences",
+        "body": {
+          "assigned": false,
+          "mentions": false,
+          "digest": true
+        }
+      },
+      "expect": {
+        "status": 200,
+        "contentType": "application/json",
+        "jsonValues": {
+          "assigned": false,
+          "mentions": false,
+          "digest": true
+        },
+        "requiredJsonPaths": []
+      },
+      "followUps": [
+        {
+          "id": "read",
+          "request": {
+            "method": "GET",
+            "path": "/api/me/settings"
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "notifications.digest": true,
+              "notifications.assigned": false
+            },
+            "requiredJsonPaths": []
+          }
+        },
+        {
+          "id": "restore",
+          "request": {
+            "method": "PUT",
+            "path": "/api/me/preferences",
+            "body": {
+              "assigned": true,
+              "mentions": true,
+              "digest": false
+            }
+          },
+          "expect": {
+            "status": 200,
+            "contentType": "application/json",
+            "jsonValues": {
+              "digest": false
+            },
+            "requiredJsonPaths": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "title": "匿名设置访问被拒绝",
+      "auth": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/me/settings"
+      },
+      "expect": {
+        "status": 401
+      }
+    },
+    {
+      "id": "S08",
+      "title": "禁止通过资料接口修改身份",
+      "auth": true,
+      "request": {
+        "method": "PATCH",
+        "path": "/api/me/profile",
+        "body": {
+          "displayName": "Name",
+          "email": "alice@example.com"
+        }
+      },
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": [
+          "errors.displayName"
+        ]
+      }
+    },
+    {
+      "id": "S09",
+      "title": "通知开关必须是真实布尔值",
+      "auth": true,
+      "request": {
+        "method": "PUT",
+        "path": "/api/me/preferences",
+        "body": {
+          "assigned": "true",
+          "mentions": true,
+          "digest": false
+        }
+      },
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": [
+          "errors.notifications"
+        ]
+      }
+    },
+    {
+      "id": "S10",
+      "title": "显示名不能为空",
+      "auth": true,
+      "request": {
+        "method": "PATCH",
+        "path": "/api/me/profile",
+        "body": {
+          "displayName": " "
+        }
+      },
+      "expect": {
+        "status": 400,
+        "contentType": "application/problem+json",
+        "requiredJsonPaths": [
+          "errors.displayName"
+        ]
+      }
     }
   ]
 }

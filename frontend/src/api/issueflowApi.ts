@@ -1,3 +1,13 @@
+import { createOverview } from '@/src/features/workspace/overview';
+import {
+  decodeOverview,
+  decodePreferences,
+  decodeProfileInput,
+  decodeSettings,
+  defaultPreferences,
+  type NotificationPreferences,
+  type UserSettings,
+} from '@/src/features/workspace/contracts';
 import { seedAttachments, seedComments, seedIssues, seedMembers } from '@/src/data/seed';
 import {
   buildIssueQuery,
@@ -291,7 +301,101 @@ async function mockUpload(issueId: number, file: File): Promise<Attachment> {
   return clone(attachment);
 }
 
+function localSettings(session: Session): UserSettings {
+  const raw = localStorage.getItem('issueflow-settings:' + session.email.toLowerCase());
+  if (raw) {
+    try {
+      const decoded = decodeSettings(JSON.parse(raw));
+      if (decoded.ok)
+        return {
+          ...decoded.value,
+          session: {
+            ...session,
+            displayName: decoded.value.session.displayName,
+            initials: decoded.value.session.initials,
+          },
+        };
+    } catch {
+      /* Recover preferences only. */
+    }
+  }
+  return { session, notifications: { ...defaultPreferences } };
+}
+function localIdentity(): Session {
+  const session = issueflowApi.getStoredSession();
+  if (!session) throw new ApiError('Sign in to manage your settings.', 401);
+  return session;
+}
 export const issueflowApi = {
+  getOverview: async () => {
+    if (USE_HTTP_API) return requestJson('/api/workspace/overview', decodeOverview);
+    const db = readDatabase();
+    return createOverview(db.issues, db.members);
+  },
+  getSettings: async (): Promise<UserSettings> =>
+    USE_HTTP_API ? requestJson('/api/me/settings', decodeSettings) : localSettings(localIdentity()),
+  updateProfile: async (displayName: string): Promise<Session> => {
+    const input = unwrapDecoded(decodeProfileInput({ displayName }), 'Profile');
+    let session: Session;
+    if (USE_HTTP_API)
+      session = await requestJson('/api/me/profile', decodeSession, { method: 'PATCH', body: JSON.stringify(input) });
+    else {
+      const settings = localSettings(localIdentity());
+      session = {
+        ...settings.session,
+        displayName: input.displayName,
+        initials: input.displayName
+          .split(/\s+/)
+          .slice(0, 2)
+          .map((p) => p[0])
+          .join('')
+          .toUpperCase(),
+      };
+      const db = readDatabase();
+      let member = db.members.find(
+        (m) =>
+          m.email.toLowerCase() === session.email.toLowerCase() ||
+          (session.email === 'demo@issueflow.dev' && m.id === 1),
+      );
+      if (!member) {
+        member = {
+          id: Math.max(0, ...db.members.map((m) => m.id)) + 1,
+          displayName: session.displayName,
+          email: session.email,
+          initials: session.initials,
+          role: 'Developer',
+          color: 'green',
+          avatarUrl: null,
+        };
+        db.members.push(member);
+      }
+      Object.assign(member, { displayName: session.displayName, initials: session.initials });
+      for (const issue of db.issues) {
+        if (issue.assignee?.id === member.id) issue.assignee = { ...member };
+        if (issue.reporter.id === member.id) issue.reporter = { ...member };
+      }
+      for (const comment of db.comments) if (comment.author.id === member.id) comment.author = { ...member };
+      writeDatabase(db);
+      localStorage.setItem(
+        'issueflow-settings:' + session.email.toLowerCase(),
+        JSON.stringify({ ...settings, session }),
+      );
+    }
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    return session;
+  },
+  savePreferences: async (input: NotificationPreferences) => {
+    const prefs = unwrapDecoded(decodePreferences(input), 'Preferences');
+    if (USE_HTTP_API)
+      return requestJson('/api/me/preferences', decodePreferences, { method: 'PUT', body: JSON.stringify(prefs) });
+    const settings = localSettings(localIdentity());
+    localStorage.setItem(
+      'issueflow-settings:' + settings.session.email.toLowerCase(),
+      JSON.stringify({ ...settings, notifications: prefs }),
+    );
+    return prefs;
+  },
+
   listIssues: (query: IssueQuery) =>
     USE_HTTP_API ? requestJson(`/api/issues${buildIssueQuery(query)}`, decodePagedIssues) : mockList(query),
   getIssue: (id: number) => (USE_HTTP_API ? requestJson(`/api/issues/${id}`, decodeIssue) : mockGetIssue(id)),
@@ -352,6 +456,7 @@ export const issueflowApi = {
         role: 'Admin',
       };
     }
+    if (!USE_HTTP_API) session = localSettings(session).session;
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
     return session;
   },

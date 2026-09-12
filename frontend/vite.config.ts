@@ -50,6 +50,7 @@ export default defineConfig(async () => {
       vinext(),
       sites(),
       cloudflare({
+        persistState: { path: process.env.ISSUEFLOW_D1_PERSIST_TO ?? '.wrangler/state' },
         viteEnvironment: { name: 'rsc', childEnvironments: ['ssr'] },
         config: localBindingConfig,
       }),

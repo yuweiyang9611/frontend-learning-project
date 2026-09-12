@@ -11,10 +11,22 @@
     {
       "id": "w13-q01",
       "prompt": "毕业项目最先冻结什么？",
-      "choices": ["技术栈清单", "用户问题、Must/非目标和验收证据", "页面数量"],
+      "choices": [
+        "技术栈清单",
+        "用户问题、Must/非目标和验收证据",
+        "页面数量"
+      ],
       "correctIndex": 1,
       "explanation": "范围必须围绕可验证的问题闭环，而不是堆功能。",
-      "remediation": "/90-days/week-13-capstone.html#day-85"
+      "remediation": "/90-days/week-13-capstone.html#day-85",
+      "kind": "concept",
+      "conceptId": "capstone.delivery",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：范围必须围绕可验证的问题闭环，而不是堆功能。",
+        "正确：范围必须围绕可验证的问题闭环，而不是堆功能。",
+        "不正确：范围必须围绕可验证的问题闭环，而不是堆功能。"
+      ]
     },
     {
       "id": "w13-q02",
@@ -26,7 +38,15 @@
       ],
       "correctIndex": 1,
       "explanation": "相同 TypeScript shape 不能替代各实现的运行证据。",
-      "remediation": "/90-days/week-13-capstone.html#day-87"
+      "remediation": "/90-days/week-13-capstone.html#day-87",
+      "kind": "concept",
+      "conceptId": "capstone.delivery",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：相同 TypeScript shape 不能替代各实现的运行证据。",
+        "正确：相同 TypeScript shape 不能替代各实现的运行证据。",
+        "不正确：相同 TypeScript shape 不能替代各实现的运行证据。"
+      ]
     },
     {
       "id": "w13-q03",
@@ -38,7 +58,195 @@
       ],
       "correctIndex": 1,
       "explanation": "只展示理想路径无法证明系统在真实边界下可恢复。",
-      "remediation": "/90-days/week-13-capstone.html#day-91"
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "concept",
+      "conceptId": "capstone.delivery",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：只展示理想路径无法证明系统在真实边界下可恢复。",
+        "正确：只展示理想路径无法证明系统在真实边界下可恢复。",
+        "不正确：只展示理想路径无法证明系统在真实边界下可恢复。"
+      ]
+    },
+    {
+      "id": "w13-q04",
+      "prompt": "毕业演示只有顺利新建 Issue，覆盖了什么？",
+      "choices": [
+        "已经证明两个后端完全一致",
+        "仅覆盖一个正常路径",
+        "已经覆盖所有失败与权限边界"
+      ],
+      "correctIndex": 1,
+      "explanation": "单个正常流程不能证明错误处理、安全和双后端行为，需要额外证据。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "reading",
+      "conceptId": "capstone.delivery",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“已经证明两个后端完全一致”不成立：单个正常流程不能证明错误处理、安全和双后端行为，需要额外证据。",
+        "正确：单个正常流程不能证明错误处理、安全和双后端行为，需要额外证据。",
+        "“已经覆盖所有失败与权限边界”不成立：单个正常流程不能证明错误处理、安全和双后端行为，需要额外证据。"
+      ]
+    },
+    {
+      "id": "w13-q05",
+      "prompt": "交接文档应让接手者能够完成什么？",
+      "choices": [
+        "只看到作者的学习时长",
+        "仅浏览一张产品截图",
+        "启动、验证并定位主要调用链"
+      ],
+      "correctIndex": 2,
+      "explanation": "交接需要可执行的操作与代码入口；时长和截图不能支持维护。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "reading",
+      "conceptId": "capstone.delivery",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“只看到作者的学习时长”不成立：交接需要可执行的操作与代码入口；时长和截图不能支持维护。",
+        "“仅浏览一张产品截图”不成立：交接需要可执行的操作与代码入口；时长和截图不能支持维护。",
+        "正确：交接需要可执行的操作与代码入口；时长和截图不能支持维护。"
+      ]
+    },
+    {
+      "id": "w13-q06",
+      "prompt": "功能清单写“通知已接入”，但只存了开关，准确描述应是什么？",
+      "choices": [
+        "通知偏好可保存，投递尚未接入",
+        "邮件已经自动发送",
+        "开关有动画就算通知完成"
+      ],
+      "correctIndex": 0,
+      "explanation": "偏好存储与邮件投递是不同能力，功能边界必须如实描述。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "reading",
+      "conceptId": "capstone.delivery",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：偏好存储与邮件投递是不同能力，功能边界必须如实描述。",
+        "“邮件已经自动发送”不成立：偏好存储与邮件投递是不同能力，功能边界必须如实描述。",
+        "“开关有动画就算通知完成”不成立：偏好存储与邮件投递是不同能力，功能边界必须如实描述。"
+      ]
+    },
+    {
+      "id": "w13-q07",
+      "prompt": "新需求同时改动类型、两个后端与页面，最容易遗漏什么？",
+      "choices": [
+        "提交消息中的表情数量",
+        "运行时解码、契约测试和迁移兼容性",
+        "项目 logo 的颜色"
+      ],
+      "correctIndex": 1,
+      "explanation": "跨层变更需要同步输入输出和升级路径，装饰内容不影响契约完整性。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "debugging",
+      "conceptId": "capstone.delivery",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“提交消息中的表情数量”不成立：跨层变更需要同步输入输出和升级路径，装饰内容不影响契约完整性。",
+        "正确：跨层变更需要同步输入输出和升级路径，装饰内容不影响契约完整性。",
+        "“项目 logo 的颜色”不成立：跨层变更需要同步输入输出和升级路径，装饰内容不影响契约完整性。"
+      ]
+    },
+    {
+      "id": "w13-q08",
+      "prompt": "发布说明写“数据库可随代码自动回滚”，为什么危险？",
+      "choices": [
+        "数据库永远不需要备份",
+        "所有迁移都是只读操作",
+        "已应用迁移不会因代码回退自动撤销"
+      ],
+      "correctIndex": 2,
+      "explanation": "结构与数据变更有独立生命周期，应说明兼容性及恢复策略。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "debugging",
+      "conceptId": "capstone.delivery",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“数据库永远不需要备份”不成立：结构与数据变更有独立生命周期，应说明兼容性及恢复策略。",
+        "“所有迁移都是只读操作”不成立：结构与数据变更有独立生命周期，应说明兼容性及恢复策略。",
+        "正确：结构与数据变更有独立生命周期，应说明兼容性及恢复策略。"
+      ]
+    },
+    {
+      "id": "w13-q09",
+      "prompt": "为了赶进度把未完成项写进已实现清单，损害什么？",
+      "choices": [
+        "可审查的交付可信度",
+        "只影响文案长度",
+        "能提高测试通过率"
+      ],
+      "correctIndex": 0,
+      "explanation": "声明与证据矛盾使接手者误判能力；文案不会改变实际测试结果。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "debugging",
+      "conceptId": "capstone.delivery",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：声明与证据矛盾使接手者误判能力；文案不会改变实际测试结果。",
+        "“只影响文案长度”不成立：声明与证据矛盾使接手者误判能力；文案不会改变实际测试结果。",
+        "“能提高测试通过率”不成立：声明与证据矛盾使接手者误判能力；文案不会改变实际测试结果。"
+      ]
+    },
+    {
+      "id": "w13-q10",
+      "prompt": "给毕业项目安排改进顺序，应该优先考虑什么？",
+      "choices": [
+        "平均修改每个文件",
+        "用户影响、数据正确性和可验证风险",
+        "只做最显眼动画"
+      ],
+      "correctIndex": 1,
+      "explanation": "优先级应与影响相联系；动画和平均改文件不能衡量核心价值。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "transfer",
+      "conceptId": "capstone.delivery",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“平均修改每个文件”不成立：优先级应与影响相联系；动画和平均改文件不能衡量核心价值。",
+        "正确：优先级应与影响相联系；动画和平均改文件不能衡量核心价值。",
+        "“只做最显眼动画”不成立：优先级应与影响相联系；动画和平均改文件不能衡量核心价值。"
+      ]
+    },
+    {
+      "id": "w13-q11",
+      "prompt": "独立迁移任务想证明已理解原实现，怎样设计？",
+      "choices": [
+        "逐字复制参考答案",
+        "只背诵类型名称",
+        "更换输入或需求并解释哪些约束仍成立"
+      ],
+      "correctIndex": 2,
+      "explanation": "变化后的任务能检验迁移能力；复制和背诵不能证明独立应用。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "transfer",
+      "conceptId": "capstone.delivery",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“逐字复制参考答案”不成立：变化后的任务能检验迁移能力；复制和背诵不能证明独立应用。",
+        "“只背诵类型名称”不成立：变化后的任务能检验迁移能力；复制和背诵不能证明独立应用。",
+        "正确：变化后的任务能检验迁移能力；复制和背诵不能证明独立应用。"
+      ]
+    },
+    {
+      "id": "w13-q12",
+      "prompt": "交付时仍有一个环境无法运行，怎样处理最合适？",
+      "choices": [
+        "说明阻塞原因、已验证范围和重现方法",
+        "声称该环境也通过",
+        "省略所有验证记录"
+      ],
+      "correctIndex": 0,
+      "explanation": "准确披露限制帮助后续验证；虚报或不留记录会扩大不确定性。",
+      "remediation": "/90-days/week-13-capstone.html#day-91",
+      "kind": "transfer",
+      "conceptId": "capstone.delivery",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：准确披露限制帮助后续验证；虚报或不留记录会扩大不确定性。",
+        "“声称该环境也通过”不成立：准确披露限制帮助后续验证；虚报或不留记录会扩大不确定性。",
+        "“省略所有验证记录”不成立：准确披露限制帮助后续验证；虚报或不留记录会扩大不确定性。"
+      ]
     }
   ]
 }

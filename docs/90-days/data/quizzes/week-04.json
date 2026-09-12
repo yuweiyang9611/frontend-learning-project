@@ -18,7 +18,15 @@
       ],
       "correctIndex": 1,
       "explanation": "Promise reaction 进入 microtask queue，在当前同步任务结束后运行。",
-      "remediation": "/90-days/week-04-javascript-dom-async.html#day-25"
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-25",
+      "kind": "concept",
+      "conceptId": "javascript.dom",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：Promise reaction 进入 microtask queue，在当前同步任务结束后运行。",
+        "正确：Promise reaction 进入 microtask queue，在当前同步任务结束后运行。",
+        "不正确：Promise reaction 进入 microtask queue，在当前同步任务结束后运行。"
+      ]
     },
     {
       "id": "w04-q02",
@@ -30,7 +38,15 @@
       ],
       "correctIndex": 0,
       "explanation": "监听父级并通过 target/closest 判断来源，可以处理动态子项。",
-      "remediation": "/90-days/week-04-javascript-dom-async.html#day-24"
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-24",
+      "kind": "concept",
+      "conceptId": "javascript.dom",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：监听父级并通过 target/closest 判断来源，可以处理动态子项。",
+        "不正确：监听父级并通过 target/closest 判断来源，可以处理动态子项。",
+        "不正确：监听父级并通过 target/closest 判断来源，可以处理动态子项。"
+      ]
     },
     {
       "id": "w04-q03",
@@ -42,7 +58,199 @@
       ],
       "correctIndex": 1,
       "explanation": "到达顺序不等于意图顺序，需要取消或身份校验。",
-      "remediation": "/90-days/week-04-javascript-dom-async.html#day-27"
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-27",
+      "kind": "concept",
+      "conceptId": "javascript.dom",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：到达顺序不等于意图顺序，需要取消或身份校验。",
+        "正确：到达顺序不等于意图顺序，需要取消或身份校验。",
+        "不正确：到达顺序不等于意图顺序，需要取消或身份校验。"
+      ]
+    },
+    {
+      "id": "w04-q04",
+      "prompt": "这段代码中，点击后读到的 value 是什么类型？",
+      "choices": [
+        "自动推断成领域枚举",
+        "字符串",
+        "数字"
+      ],
+      "correctIndex": 1,
+      "explanation": "DOM input.value 返回字符串，即使输入看起来像数字，也需要明确解析。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "reading",
+      "conceptId": "javascript.dom",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“自动推断成领域枚举”不成立：DOM input.value 返回字符串，即使输入看起来像数字，也需要明确解析。",
+        "正确：DOM input.value 返回字符串，即使输入看起来像数字，也需要明确解析。",
+        "“数字”不成立：DOM input.value 返回字符串，即使输入看起来像数字，也需要明确解析。"
+      ],
+      "code": "const value = document.querySelector('input').value;",
+      "language": "javascript"
+    },
+    {
+      "id": "w04-q05",
+      "prompt": "HTTP 500 时 fetch 通常怎样结束？",
+      "choices": [
+        "必然触发 catch",
+        "返回数字 500 而没有 Response",
+        "兑现为 Response，需要检查 ok"
+      ],
+      "correctIndex": 2,
+      "explanation": "HTTP 错误仍可产生 Response；网络错误才通常使 fetch 拒绝，业务层应检查 ok。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "reading",
+      "conceptId": "javascript.dom",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“必然触发 catch”不成立：HTTP 错误仍可产生 Response；网络错误才通常使 fetch 拒绝，业务层应检查 ok。",
+        "“返回数字 500 而没有 Response”不成立：HTTP 错误仍可产生 Response；网络错误才通常使 fetch 拒绝，业务层应检查 ok。",
+        "正确：HTTP 错误仍可产生 Response；网络错误才通常使 fetch 拒绝，业务层应检查 ok。"
+      ],
+      "code": "const response = await fetch('/api/issues');",
+      "language": "javascript"
+    },
+    {
+      "id": "w04-q06",
+      "prompt": "两次搜索请求先后发出，后发请求先返回，直接赋值可能怎样？",
+      "choices": [
+        "晚到的旧结果覆盖新结果",
+        "自动按输入顺序显示",
+        "浏览器自动合并两个结果"
+      ],
+      "correctIndex": 0,
+      "explanation": "异步完成顺序不等于发出顺序，需要取消或序号校验来保护最新搜索。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "reading",
+      "conceptId": "javascript.dom",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：异步完成顺序不等于发出顺序，需要取消或序号校验来保护最新搜索。",
+        "“自动按输入顺序显示”不成立：异步完成顺序不等于发出顺序，需要取消或序号校验来保护最新搜索。",
+        "“浏览器自动合并两个结果”不成立：异步完成顺序不等于发出顺序，需要取消或序号校验来保护最新搜索。"
+      ]
+    },
+    {
+      "id": "w04-q07",
+      "prompt": "重复渲染后一次点击执行多次处理，最可能缺少什么？",
+      "choices": [
+        "更长的 setTimeout",
+        "事件监听器的清理或稳定注册",
+        "更多 console.log"
+      ],
+      "correctIndex": 1,
+      "explanation": "重复注册监听器会累计回调；日志和延迟不消除重复监听。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "debugging",
+      "conceptId": "javascript.dom",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“更长的 setTimeout”不成立：重复注册监听器会累计回调；日志和延迟不消除重复监听。",
+        "正确：重复注册监听器会累计回调；日志和延迟不消除重复监听。",
+        "“更多 console.log”不成立：重复注册监听器会累计回调；日志和延迟不消除重复监听。"
+      ]
+    },
+    {
+      "id": "w04-q08",
+      "prompt": "把用户文本直接写入 innerHTML，应怎样改进？",
+      "choices": [
+        "先把字符串转成大写",
+        "相信输入框会移除所有标签",
+        "纯文本使用 textContent"
+      ],
+      "correctIndex": 2,
+      "explanation": "textContent 按文本显示；改变大小写或信任输入控件不能阻止 HTML 被解释。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "debugging",
+      "conceptId": "javascript.dom",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“先把字符串转成大写”不成立：textContent 按文本显示；改变大小写或信任输入控件不能阻止 HTML 被解释。",
+        "“相信输入框会移除所有标签”不成立：textContent 按文本显示；改变大小写或信任输入控件不能阻止 HTML 被解释。",
+        "正确：textContent 按文本显示；改变大小写或信任输入控件不能阻止 HTML 被解释。"
+      ]
+    },
+    {
+      "id": "w04-q09",
+      "prompt": "catch 后什么也不显示，会造成什么问题？",
+      "choices": [
+        "用户无法区分失败和仍在等待",
+        "请求自动重试成功",
+        "服务器自动保留表单草稿"
+      ],
+      "correctIndex": 0,
+      "explanation": "吞掉错误会隐藏状态；重试和草稿保存必须明确实现。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "debugging",
+      "conceptId": "javascript.dom",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：吞掉错误会隐藏状态；重试和草稿保存必须明确实现。",
+        "“请求自动重试成功”不成立：吞掉错误会隐藏状态；重试和草稿保存必须明确实现。",
+        "“服务器自动保留表单草稿”不成立：吞掉错误会隐藏状态；重试和草稿保存必须明确实现。"
+      ]
+    },
+    {
+      "id": "w04-q10",
+      "prompt": "为搜索实现防抖，哪个行为符合目标？",
+      "choices": [
+        "每次输入刷新整页",
+        "新输入取消前一次计时，只发最后一次请求",
+        "每个字符都设置不可取消的请求"
+      ],
+      "correctIndex": 1,
+      "explanation": "防抖合并密集输入；不可取消的计时仍会执行每次请求，整页刷新会丢失交互状态。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "transfer",
+      "conceptId": "javascript.dom",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“每次输入刷新整页”不成立：防抖合并密集输入；不可取消的计时仍会执行每次请求，整页刷新会丢失交互状态。",
+        "正确：防抖合并密集输入；不可取消的计时仍会执行每次请求，整页刷新会丢失交互状态。",
+        "“每个字符都设置不可取消的请求”不成立：防抖合并密集输入；不可取消的计时仍会执行每次请求，整页刷新会丢失交互状态。"
+      ]
+    },
+    {
+      "id": "w04-q11",
+      "prompt": "删除接口返回 204，客户端应如何处理？",
+      "choices": [
+        "继续调用 json 并要求对象",
+        "认定响应为空就是失败",
+        "按成功处理，不强制解析 JSON"
+      ],
+      "correctIndex": 2,
+      "explanation": "204 表示成功且无响应体；强制解析空正文会制造错误。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "transfer",
+      "conceptId": "javascript.dom",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“继续调用 json 并要求对象”不成立：204 表示成功且无响应体；强制解析空正文会制造错误。",
+        "“认定响应为空就是失败”不成立：204 表示成功且无响应体；强制解析空正文会制造错误。",
+        "正确：204 表示成功且无响应体；强制解析空正文会制造错误。"
+      ]
+    },
+    {
+      "id": "w04-q12",
+      "prompt": "新建失败后怎样保留用户的工作？",
+      "choices": [
+        "保留输入并提供错误和重试",
+        "立即清空所有字段",
+        "无提示返回列表"
+      ],
+      "correctIndex": 0,
+      "explanation": "失败后的输入是用户尚未保存的工作；清空或导航会让恢复更困难。",
+      "remediation": "/90-days/week-04-javascript-dom-async.html#day-28",
+      "kind": "transfer",
+      "conceptId": "javascript.dom",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：失败后的输入是用户尚未保存的工作；清空或导航会让恢复更困难。",
+        "“立即清空所有字段”不成立：失败后的输入是用户尚未保存的工作；清空或导航会让恢复更困难。",
+        "“无提示返回列表”不成立：失败后的输入是用户尚未保存的工作；清空或导航会让恢复更困难。"
+      ]
     }
   ]
 }

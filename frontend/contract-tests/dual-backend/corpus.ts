@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export interface ContractRequest {
-  method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+  method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
   path: string;
   body?: unknown;
   rawBody?: string;
