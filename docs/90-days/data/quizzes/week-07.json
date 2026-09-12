@@ -18,7 +18,15 @@
       ],
       "correctIndex": 0,
       "explanation": "泛型是调用者声明，编译后被擦除，外部数据仍需 decoder。",
-      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-44"
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-44",
+      "kind": "concept",
+      "conceptId": "typescript.runtime",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：泛型是调用者声明，编译后被擦除，外部数据仍需 decoder。",
+        "不正确：泛型是调用者声明，编译后被擦除，外部数据仍需 decoder。",
+        "不正确：泛型是调用者声明，编译后被擦除，外部数据仍需 decoder。"
+      ]
     },
     {
       "id": "w07-q02",
@@ -30,15 +38,217 @@
       ],
       "correctIndex": 1,
       "explanation": "日历日不等同于时间点，自动时区转换会改变日期。",
-      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-46"
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-46",
+      "kind": "concept",
+      "conceptId": "typescript.runtime",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：日历日不等同于时间点，自动时区转换会改变日期。",
+        "正确：日历日不等同于时间点，自动时区转换会改变日期。",
+        "不正确：日历日不等同于时间点，自动时区转换会改变日期。"
+      ]
     },
     {
       "id": "w07-q03",
       "prompt": "数组 decoder 遇到第 2 项错误时，最有用的报告是什么？",
-      "choices": ["invalid", "$[1].status 等索引化路径", "静默过滤错误项"],
+      "choices": [
+        "invalid",
+        "$[1].status 等索引化路径",
+        "静默过滤错误项"
+      ],
       "correctIndex": 1,
       "explanation": "路径化错误能定位 wire contract 的第一处具体差异。",
-      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-48"
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-48",
+      "kind": "concept",
+      "conceptId": "typescript.runtime",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：路径化错误能定位 wire contract 的第一处具体差异。",
+        "正确：路径化错误能定位 wire contract 的第一处具体差异。",
+        "不正确：路径化错误能定位 wire contract 的第一处具体差异。"
+      ]
+    },
+    {
+      "id": "w07-q04",
+      "prompt": "unknown 值经过 typeof value==='string' 后意味着什么？",
+      "choices": [
+        "原始数据已被永久转换",
+        "当前分支可按字符串使用",
+        "其他分支也都是字符串"
+      ],
+      "correctIndex": 1,
+      "explanation": "类型守卫只缩窄其控制流范围，不转换原始值，也不影响未证明的分支。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "reading",
+      "conceptId": "typescript.runtime",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“原始数据已被永久转换”不成立：类型守卫只缩窄其控制流范围，不转换原始值，也不影响未证明的分支。",
+        "正确：类型守卫只缩窄其控制流范围，不转换原始值，也不影响未证明的分支。",
+        "“其他分支也都是字符串”不成立：类型守卫只缩窄其控制流范围，不转换原始值，也不影响未证明的分支。"
+      ]
+    },
+    {
+      "id": "w07-q05",
+      "prompt": "PATCH 中字段缺失与字段为 null 的合理区别是什么？",
+      "choices": [
+        "两者总是清空字段",
+        "两者总是非法",
+        "缺失保留原值，null 按契约清空可空字段"
+      ],
+      "correctIndex": 2,
+      "explanation": "部分更新需要区分未提供与明确清空；是否合法取决于字段可空性。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "reading",
+      "conceptId": "typescript.runtime",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“两者总是清空字段”不成立：部分更新需要区分未提供与明确清空；是否合法取决于字段可空性。",
+        "“两者总是非法”不成立：部分更新需要区分未提供与明确清空；是否合法取决于字段可空性。",
+        "正确：部分更新需要区分未提供与明确清空；是否合法取决于字段可空性。"
+      ],
+      "code": "{}\n{ \"assigneeId\": null }",
+      "language": "typescript"
+    },
+    {
+      "id": "w07-q06",
+      "prompt": "JSON 中字符串 '42' 能否直接作为安全整数 ID？",
+      "choices": [
+        "先按契约解析和验证，再使用",
+        "能，因为看起来像数字",
+        "不能使用任何数字 ID"
+      ],
+      "correctIndex": 0,
+      "explanation": "字符串不是 number；需检查格式、正整数和安全整数范围，而不是禁止数字 ID。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "reading",
+      "conceptId": "typescript.runtime",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：字符串不是 number；需检查格式、正整数和安全整数范围，而不是禁止数字 ID。",
+        "“能，因为看起来像数字”不成立：字符串不是 number；需检查格式、正整数和安全整数范围，而不是禁止数字 ID。",
+        "“不能使用任何数字 ID”不成立：字符串不是 number；需检查格式、正整数和安全整数范围，而不是禁止数字 ID。"
+      ]
+    },
+    {
+      "id": "w07-q07",
+      "prompt": "用 if(value) 判断 PATCH 字段是否提供，会遗漏什么？",
+      "choices": [
+        "字段会自动转成 null",
+        "false、0 和空字符串等有效值",
+        "所有对象都会消失"
+      ],
+      "correctIndex": 1,
+      "explanation": "真值判断与字段存在性不同；有效的假值也会进入未提供分支。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "debugging",
+      "conceptId": "typescript.runtime",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“字段会自动转成 null”不成立：真值判断与字段存在性不同；有效的假值也会进入未提供分支。",
+        "正确：真值判断与字段存在性不同；有效的假值也会进入未提供分支。",
+        "“所有对象都会消失”不成立：真值判断与字段存在性不同；有效的假值也会进入未提供分支。"
+      ]
+    },
+    {
+      "id": "w07-q08",
+      "prompt": "只验证数组本身是 Array，却不检查成员，缺少什么？",
+      "choices": [
+        "更长的变量名",
+        "把数组复制一次",
+        "逐项字段验证"
+      ],
+      "correctIndex": 2,
+      "explanation": "外层数组合法不代表其中元素合法；复制或改名不会校验成员。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "debugging",
+      "conceptId": "typescript.runtime",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“更长的变量名”不成立：外层数组合法不代表其中元素合法；复制或改名不会校验成员。",
+        "“把数组复制一次”不成立：外层数组合法不代表其中元素合法；复制或改名不会校验成员。",
+        "正确：外层数组合法不代表其中元素合法；复制或改名不会校验成员。"
+      ]
+    },
+    {
+      "id": "w07-q09",
+      "prompt": "2026-02-30 通过简单日期正则后仍有问题，原因是什么？",
+      "choices": [
+        "格式正确不代表日历日期真实存在",
+        "所有 YYYY-MM-DD 都合法",
+        "必须把日期改成任意字符串"
+      ],
+      "correctIndex": 0,
+      "explanation": "正则可检验外形，但月份天数等需要日历校验；放宽类型不能解决非法日期。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "debugging",
+      "conceptId": "typescript.runtime",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：正则可检验外形，但月份天数等需要日历校验；放宽类型不能解决非法日期。",
+        "“所有 YYYY-MM-DD 都合法”不成立：正则可检验外形，但月份天数等需要日历校验；放宽类型不能解决非法日期。",
+        "“必须把日期改成任意字符串”不成立：正则可检验外形，但月份天数等需要日历校验；放宽类型不能解决非法日期。"
+      ]
+    },
+    {
+      "id": "w07-q10",
+      "prompt": "实现共享 HTTP 契约时，204 应如何进入解码流程？",
+      "choices": [
+        "把空响应改成字符串 null",
+        "先按状态处理空响应，再决定是否解码正文",
+        "总是要求 JSON 对象"
+      ],
+      "correctIndex": 1,
+      "explanation": "状态码决定正文语义；204 不应强制解析或伪造响应体。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "transfer",
+      "conceptId": "typescript.runtime",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“把空响应改成字符串 null”不成立：状态码决定正文语义；204 不应强制解析或伪造响应体。",
+        "正确：状态码决定正文语义；204 不应强制解析或伪造响应体。",
+        "“总是要求 JSON 对象”不成立：状态码决定正文语义；204 不应强制解析或伪造响应体。"
+      ]
+    },
+    {
+      "id": "w07-q11",
+      "prompt": "后端新增未知状态 waiting，前端 decoder 应如何处理？",
+      "choices": [
+        "断言成 open",
+        "无提示丢弃整个页面",
+        "返回可观察的契约错误"
+      ],
+      "correctIndex": 2,
+      "explanation": "未知枚举意味着契约不匹配，应显式失败以便定位；伪装已有值会误导业务。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "transfer",
+      "conceptId": "typescript.runtime",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“断言成 open”不成立：未知枚举意味着契约不匹配，应显式失败以便定位；伪装已有值会误导业务。",
+        "“无提示丢弃整个页面”不成立：未知枚举意味着契约不匹配，应显式失败以便定位；伪装已有值会误导业务。",
+        "正确：未知枚举意味着契约不匹配，应显式失败以便定位；伪装已有值会误导业务。"
+      ]
+    },
+    {
+      "id": "w07-q12",
+      "prompt": "负责人 ID 为 null 时，表单和 API 应怎样协作？",
+      "choices": [
+        "保留明确的未分配语义",
+        "转换成不存在的 ID 0",
+        "自动分配给管理员"
+      ],
+      "correctIndex": 0,
+      "explanation": "null 是契约允许的未分配状态；伪造 ID 或默认指派会改变用户意图。",
+      "remediation": "/90-days/week-07-typescript-runtime-contracts.html#day-49",
+      "kind": "transfer",
+      "conceptId": "typescript.runtime",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：null 是契约允许的未分配状态；伪造 ID 或默认指派会改变用户意图。",
+        "“转换成不存在的 ID 0”不成立：null 是契约允许的未分配状态；伪造 ID 或默认指派会改变用户意图。",
+        "“自动分配给管理员”不成立：null 是契约允许的未分配状态；伪造 ID 或默认指派会改变用户意图。"
+      ]
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { createOverview } from '@/src/features/workspace/overview';
 import { env } from 'cloudflare:workers';
 import { seedAttachments, seedComments, seedIssues, seedMembers } from '@/src/data/seed';
 import {
@@ -87,63 +88,6 @@ interface AttachmentRow {
   created_at: string;
 }
 
-const schemaStatements = [
-  `CREATE TABLE IF NOT EXISTS members (
-    id INTEGER PRIMARY KEY,
-    display_name TEXT NOT NULL,
-    email TEXT NOT NULL COLLATE NOCASE,
-    avatar_url TEXT,
-    role TEXT NOT NULL,
-    initials TEXT NOT NULL,
-    color TEXT NOT NULL
-  )`,
-  'CREATE UNIQUE INDEX IF NOT EXISTS ux_members_email ON members(email)',
-  `CREATE TABLE IF NOT EXISTS issues (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    issue_key TEXT NOT NULL UNIQUE,
-    title TEXT NOT NULL COLLATE NOCASE UNIQUE,
-    description TEXT NOT NULL DEFAULT '',
-    status TEXT NOT NULL CHECK(status IN ('open','in_progress','resolved','closed')),
-    priority TEXT NOT NULL CHECK(priority IN ('low','medium','high','critical')),
-    assignee_id INTEGER REFERENCES members(id) ON DELETE SET NULL,
-    reporter_id INTEGER NOT NULL REFERENCES members(id),
-    tags_json TEXT NOT NULL DEFAULT '[]',
-    due_date TEXT,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL
-  )`,
-  'CREATE INDEX IF NOT EXISTS idx_issues_updated_at ON issues(updated_at DESC, id DESC)',
-  'CREATE INDEX IF NOT EXISTS idx_issues_status_updated_at ON issues(status, updated_at DESC)',
-  'CREATE INDEX IF NOT EXISTS idx_issues_priority_updated_at ON issues(priority, updated_at DESC)',
-  'CREATE INDEX IF NOT EXISTS idx_issues_assignee_updated_at ON issues(assignee_id, updated_at DESC)',
-  `CREATE TABLE IF NOT EXISTS comments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    issue_id INTEGER NOT NULL REFERENCES issues(id) ON DELETE CASCADE,
-    author_id INTEGER NOT NULL REFERENCES members(id),
-    body TEXT NOT NULL,
-    created_at TEXT NOT NULL
-  )`,
-  'CREATE INDEX IF NOT EXISTS idx_comments_issue_created_at ON comments(issue_id, created_at)',
-  `CREATE TABLE IF NOT EXISTS attachments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    issue_id INTEGER NOT NULL REFERENCES issues(id) ON DELETE CASCADE,
-    object_key TEXT,
-    original_file_name TEXT NOT NULL,
-    content_type TEXT NOT NULL,
-    size INTEGER NOT NULL,
-    created_at TEXT NOT NULL
-  )`,
-  'CREATE INDEX IF NOT EXISTS idx_attachments_issue_created_at ON attachments(issue_id, created_at)',
-  `CREATE TABLE IF NOT EXISTS local_sessions (
-    token_hash TEXT PRIMARY KEY,
-    email TEXT NOT NULL,
-    display_name TEXT NOT NULL,
-    initials TEXT NOT NULL,
-    expires_at TEXT NOT NULL
-  )`,
-  'CREATE INDEX IF NOT EXISTS idx_local_sessions_expires_at ON local_sessions(expires_at)',
-];
-
 let initialization: Promise<void> | undefined;
 
 export function runtimeEnv(): RuntimeEnv {
@@ -151,87 +95,59 @@ export function runtimeEnv(): RuntimeEnv {
 }
 
 async function initialize(database: D1Database) {
-  await database.batch(schemaStatements.map((sql) => database.prepare(sql)));
-  const memberCount = await database.prepare('SELECT COUNT(*) AS count FROM members').first<{ count: number }>();
-  if (Number(memberCount?.count ?? 0) === 0) {
-    await database.batch(
-      seedMembers.map((member) =>
-        database
-          .prepare(
-            `INSERT INTO members (id, display_name, email, avatar_url, role, initials, color)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-          )
-          .bind(
-            member.id,
-            member.displayName,
-            member.email,
-            member.avatarUrl,
-            member.role,
-            member.initials,
-            member.color,
-          ),
-      ),
-    );
+  const seeded = await database.prepare("SELECT value FROM app_metadata WHERE key = 'seed-v1'").first();
+  if (seeded) return;
+  const marker = database.prepare("INSERT OR IGNORE INTO app_metadata (key,value) VALUES ('seed-v1','complete')");
+  // Existing data is never repopulated, including an intentionally empty issue list.
+  const existing = await database.prepare('SELECT COUNT(*) AS count FROM members').first<{ count: number }>();
+  if (Number(existing?.count ?? 0) > 0) {
+    await marker.run();
+    return;
   }
-
-  const issueCount = await database.prepare('SELECT COUNT(*) AS count FROM issues').first<{ count: number }>();
-  if (Number(issueCount?.count ?? 0) === 0) {
-    await database.batch(
-      seedIssues.map((issue) =>
-        database
-          .prepare(
-            `INSERT INTO issues
-       (id, issue_key, title, description, status, priority, assignee_id, reporter_id, tags_json, due_date, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-          )
-          .bind(
-            issue.id,
-            issue.key,
-            issue.title,
-            issue.description,
-            issue.status,
-            issue.priority,
-            issue.assignee?.id ?? null,
-            issue.reporter.id,
-            JSON.stringify(issue.tags),
-            issue.dueDate,
-            issue.createdAt,
-            issue.updatedAt,
-          ),
-      ),
-    );
-
-    if (seedComments.length) {
-      await database.batch(
-        seedComments.map((comment) =>
-          database
-            .prepare('INSERT INTO comments (id, issue_id, author_id, body, created_at) VALUES (?, ?, ?, ?, ?)')
-            .bind(comment.id, comment.issueId, comment.author.id, comment.body, comment.createdAt),
+  // Seed rows and completion marker commit together; a failed seed can be retried.
+  const statements: D1PreparedStatement[] = [
+    ...seedMembers.map((m) =>
+      database
+        .prepare(
+          'INSERT OR IGNORE INTO members (id,display_name,email,avatar_url,role,initials,color) VALUES (?,?,?,?,?,?,?)',
+        )
+        .bind(m.id, m.displayName, m.email, m.avatarUrl, m.role, m.initials, m.color),
+    ),
+    ...seedIssues.map((i) =>
+      database
+        .prepare(
+          'INSERT OR IGNORE INTO issues (id,issue_key,title,description,status,priority,assignee_id,reporter_id,tags_json,due_date,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+        )
+        .bind(
+          i.id,
+          i.key,
+          i.title,
+          i.description,
+          i.status,
+          i.priority,
+          i.assignee?.id ?? null,
+          i.reporter.id,
+          JSON.stringify(i.tags),
+          i.dueDate,
+          i.createdAt,
+          i.updatedAt,
         ),
-      );
-    }
-    if (seedAttachments.length) {
-      await database.batch(
-        seedAttachments.map((attachment) =>
-          database
-            .prepare(
-              `INSERT INTO attachments
-         (id, issue_id, object_key, original_file_name, content_type, size, created_at)
-         VALUES (?, ?, NULL, ?, ?, ?, ?)`,
-            )
-            .bind(
-              attachment.id,
-              attachment.issueId,
-              attachment.originalFileName,
-              attachment.contentType,
-              attachment.size,
-              attachment.createdAt,
-            ),
-        ),
-      );
-    }
-  }
-  await database.prepare('PRAGMA optimize').run();
+    ),
+    ...seedComments.map((c) =>
+      database
+        .prepare('INSERT OR IGNORE INTO comments (id,issue_id,author_id,body,created_at) VALUES (?,?,?,?,?)')
+        .bind(c.id, c.issueId, c.author.id, c.body, c.createdAt),
+    ),
+    ...seedAttachments.map((a) =>
+      database
+        .prepare(
+          'INSERT OR IGNORE INTO attachments (id,issue_id,object_key,original_file_name,content_type,size,created_at) VALUES (?,?,NULL,?,?,?,?)',
+        )
+        .bind(a.id, a.issueId, a.originalFileName, a.contentType, a.size, a.createdAt),
+    ),
+    marker,
+  ];
+  await database.batch(statements);
 }
 
 export async function getDatabase() {
@@ -327,28 +243,6 @@ export async function listMembers(): Promise<Member[]> {
   return result.results.map(memberFromRow);
 }
 
-export async function memberIdForRequest(request: Request): Promise<number> {
-  const database = await getDatabase();
-  const email = request.headers.get('oai-authenticated-user-email');
-  if (email) {
-    const member = await database
-      .prepare('SELECT id FROM members WHERE email = ? COLLATE NOCASE')
-      .bind(email)
-      .first<{ id: number }>();
-    if (member) return member.id;
-  }
-  return 1;
-}
-
-export async function memberIdForEmail(email: string): Promise<number> {
-  const database = await getDatabase();
-  const member = await database
-    .prepare('SELECT id FROM members WHERE email = ? COLLATE NOCASE')
-    .bind(email)
-    .first<{ id: number }>();
-  return member?.id ?? 1;
-}
-
 function escapeLike(value: string) {
   return value.replace(/[\\%_]/g, (match) => `\\${match}`);
 }
@@ -429,8 +323,8 @@ export function validateServerIssue(input: IssueInput): FieldErrors {
 export async function duplicateTitle(title: string, excludingId?: number) {
   const database = await getDatabase();
   const sql = excludingId
-    ? 'SELECT id FROM issues WHERE title = ? COLLATE NOCASE AND id != ?'
-    : 'SELECT id FROM issues WHERE title = ? COLLATE NOCASE';
+    ? 'SELECT id FROM issues WHERE title = ? COLLATE NOCASE COLLATE NOCASE AND id != ?'
+    : 'SELECT id FROM issues WHERE title = ? COLLATE NOCASE COLLATE NOCASE';
   return Boolean(
     await database
       .prepare(sql)
@@ -653,4 +547,10 @@ export function parseIssueQuery(searchParams: URLSearchParams): IssueQuery {
     sortBy: isIssueSort(rawSort) ? rawSort : 'updatedAt',
     sortDirection: isSortDirection(rawDirection) ? rawDirection : 'desc',
   };
+}
+
+export async function workspaceOverview() {
+  const database = await getDatabase();
+  const rows = await database.prepare(issueSelect + ' ORDER BY i.updated_at DESC, i.id DESC').all<IssueRow>();
+  return createOverview(rows.results.map(issueFromRow), await listMembers());
 }

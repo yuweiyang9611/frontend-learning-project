@@ -236,3 +236,15 @@ IssueFlow 是一个用于学习现代前端工程的 Issue Tracker。学习者�
 7. CI 结果。
 
 [返回参考资料](../README.md)
+
+## 16. 全量统计和个人设置契约
+
+- `GET /api/workspace/overview`：返回 `asOf`、`total`、`byStatus`、`updatedLast7Days`、`activeAssignees`、`activeMembers`、`workloads`、`recentIssues` 和 `focus`。七天窗口使用服务端 UTC 时刻（包含起止边界，排除未来时间）；recentIssues 最多六条。Team focus 使用全量关联标签计算，排序相同的记录按 ID 稳定排序。
+- `GET /api/me/settings`：认证后返回 `{ session, notifications }`。
+- `PATCH /api/me/profile`：只接受 `{ displayName }`；去除首尾空格后 1–100 字符，返回更新后的 Session。
+- `PUT /api/me/preferences`：必须提交 `assigned`、`mentions`、`digest` 三个布尔值，返回保存后的同形对象；默认值分别为 true、true、false。
+- 个人接口匿名访问返回 401；非法字段返回 400 及字段错误，跨站写入按当前后端来源策略拒绝。用户不能通过请求体选择其他账号，登录邮箱和角色只读。
+- 通知偏好持久化不代表邮件投递已经实现。导出包含已保存的 Session 资料及偏好，不包含安全凭据。
+- Board 分列分页，每页 25 条。单卡 pending 禁止再次移动；不同卡片允许同时保存。失败只撤销本卡片；同步失败显示重试，不将已经保存的操作当成未保存。
+
+业务回归覆盖率单独统计 Dashboard、Team、Board、设置、认证 Provider 和新增业务模块，门槛为行覆盖率 80%、分支覆盖率 70%，不替代原有质量检查。

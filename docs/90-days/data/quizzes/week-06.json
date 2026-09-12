@@ -11,10 +11,22 @@
     {
       "id": "w06-q01",
       "prompt": "类型安全字段更新器的 value 应写成什么？",
-      "choices": ["unknown", "T[keyof T]", "T[K]，其中 K extends keyof T"],
+      "choices": [
+        "unknown",
+        "T[keyof T]",
+        "T[K]，其中 K extends keyof T"
+      ],
       "correctIndex": 2,
       "explanation": "T[K] 保留具体 key 与对应 value 类型的关系。",
-      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-39"
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-39",
+      "kind": "concept",
+      "conceptId": "typescript.modeling",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：T[K] 保留具体 key 与对应 value 类型的关系。",
+        "不正确：T[K] 保留具体 key 与对应 value 类型的关系。",
+        "正确：T[K] 保留具体 key 与对应 value 类型的关系。"
+      ]
     },
     {
       "id": "w06-q02",
@@ -26,7 +38,15 @@
       ],
       "correctIndex": 1,
       "explanation": "never 能让新增成员在未处理时产生编译错误。",
-      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-38"
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-38",
+      "kind": "concept",
+      "conceptId": "typescript.modeling",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：never 能让新增成员在未处理时产生编译错误。",
+        "正确：never 能让新增成员在未处理时产生编译错误。",
+        "不正确：never 能让新增成员在未处理时产生编译错误。"
+      ]
     },
     {
       "id": "w06-q03",
@@ -38,7 +58,199 @@
       ],
       "correctIndex": 1,
       "explanation": "Partial 只改变可选性；至少一项和运行时规则需要额外建模。",
-      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-41"
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-41",
+      "kind": "concept",
+      "conceptId": "typescript.modeling",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：Partial 只改变可选性；至少一项和运行时规则需要额外建模。",
+        "正确：Partial 只改变可选性；至少一项和运行时规则需要额外建模。",
+        "不正确：Partial 只改变可选性；至少一项和运行时规则需要额外建模。"
+      ]
+    },
+    {
+      "id": "w06-q04",
+      "prompt": "判别联合中 status 为 success 时，应该能够访问什么？",
+      "choices": [
+        "该分支定义的数据字段",
+        "所有失败字段且不检查",
+        "任何未声明属性"
+      ],
+      "correctIndex": 0,
+      "explanation": "判别字段把联合缩窄到对应成员；它不会增加未定义属性。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "reading",
+      "conceptId": "typescript.modeling",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：判别字段把联合缩窄到对应成员；它不会增加未定义属性。",
+        "“所有失败字段且不检查”不成立：判别字段把联合缩窄到对应成员；它不会增加未定义属性。",
+        "“任何未声明属性”不成立：判别字段把联合缩窄到对应成员；它不会增加未定义属性。"
+      ],
+      "code": "type State = { status: 'success'; data: string[] } | { status: 'error'; error: string };",
+      "language": "typescript"
+    },
+    {
+      "id": "w06-q05",
+      "prompt": "keyof Issue 表达的是什么？",
+      "choices": [
+        "属性值全部变成字符串",
+        "Issue 属性名构成的联合",
+        "所有 Issue 实例的数组"
+      ],
+      "correctIndex": 1,
+      "explanation": "keyof 产生键的类型，不是实例集合，也不转换属性值。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "reading",
+      "conceptId": "typescript.modeling",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“属性值全部变成字符串”不成立：keyof 产生键的类型，不是实例集合，也不转换属性值。",
+        "正确：keyof 产生键的类型，不是实例集合，也不转换属性值。",
+        "“所有 Issue 实例的数组”不成立：keyof 产生键的类型，不是实例集合，也不转换属性值。"
+      ]
+    },
+    {
+      "id": "w06-q06",
+      "prompt": "泛型 identity<T>(value:T):T 保留了什么联系？",
+      "choices": [
+        "任何输入都转换成 string",
+        "运行时自动复制对象",
+        "输入类型与返回类型的联系"
+      ],
+      "correctIndex": 2,
+      "explanation": "泛型描述类型之间的关系，函数体才决定转换或复制行为。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "reading",
+      "conceptId": "typescript.modeling",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“任何输入都转换成 string”不成立：泛型描述类型之间的关系，函数体才决定转换或复制行为。",
+        "“运行时自动复制对象”不成立：泛型描述类型之间的关系，函数体才决定转换或复制行为。",
+        "正确：泛型描述类型之间的关系，函数体才决定转换或复制行为。"
+      ],
+      "code": "function identity<T>(value: T): T { return value; }",
+      "language": "typescript"
+    },
+    {
+      "id": "w06-q07",
+      "prompt": "把异步状态写成 loading:boolean 加 data? 和 error?，容易出现什么？",
+      "choices": [
+        "互相矛盾的状态组合",
+        "自动保证只有一个状态",
+        "自动消除所有空值"
+      ],
+      "correctIndex": 0,
+      "explanation": "独立布尔和可选字段可能同时为 loading、有数据、有错误；判别联合更容易限制合法组合。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "debugging",
+      "conceptId": "typescript.modeling",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：独立布尔和可选字段可能同时为 loading、有数据、有错误；判别联合更容易限制合法组合。",
+        "“自动保证只有一个状态”不成立：独立布尔和可选字段可能同时为 loading、有数据、有错误；判别联合更容易限制合法组合。",
+        "“自动消除所有空值”不成立：独立布尔和可选字段可能同时为 loading、有数据、有错误；判别联合更容易限制合法组合。"
+      ]
+    },
+    {
+      "id": "w06-q08",
+      "prompt": "使用 Partial<Issue> 作为创建请求可能有什么问题？",
+      "choices": [
+        "它会自动验证必填规则",
+        "必填字段也变成可选",
+        "所有字段都变成必填"
+      ],
+      "correctIndex": 1,
+      "explanation": "Partial 让属性可选，适合部分更新而不一定适合创建；不会生成运行时验证。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "debugging",
+      "conceptId": "typescript.modeling",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“它会自动验证必填规则”不成立：Partial 让属性可选，适合部分更新而不一定适合创建；不会生成运行时验证。",
+        "正确：Partial 让属性可选，适合部分更新而不一定适合创建；不会生成运行时验证。",
+        "“所有字段都变成必填”不成立：Partial 让属性可选，适合部分更新而不一定适合创建；不会生成运行时验证。"
+      ]
+    },
+    {
+      "id": "w06-q09",
+      "prompt": "泛型函数访问 value.id 报错，应该如何表达最小约束？",
+      "choices": [
+        "直接把 value 断言成 any",
+        "要求传入整个数据库",
+        "T extends { id:number }"
+      ],
+      "correctIndex": 2,
+      "explanation": "约束只声明所需能力；any 放弃证明，整个数据库扩大不必要依赖。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "debugging",
+      "conceptId": "typescript.modeling",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“直接把 value 断言成 any”不成立：约束只声明所需能力；any 放弃证明，整个数据库扩大不必要依赖。",
+        "“要求传入整个数据库”不成立：约束只声明所需能力；any 放弃证明，整个数据库扩大不必要依赖。",
+        "正确：约束只声明所需能力；any 放弃证明，整个数据库扩大不必要依赖。"
+      ]
+    },
+    {
+      "id": "w06-q10",
+      "prompt": "组件只显示 id 和 title，Props 应如何定义？",
+      "choices": [
+        "Pick<Issue,'id'|'title'> 或等价最小形状",
+        "传入全部应用状态",
+        "使用 unknown 后到处强制断言"
+      ],
+      "correctIndex": 0,
+      "explanation": "最小形状明确依赖且便于测试；大状态增加耦合，未知值断言隐藏契约。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "transfer",
+      "conceptId": "typescript.modeling",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：最小形状明确依赖且便于测试；大状态增加耦合，未知值断言隐藏契约。",
+        "“传入全部应用状态”不成立：最小形状明确依赖且便于测试；大状态增加耦合，未知值断言隐藏契约。",
+        "“使用 unknown 后到处强制断言”不成立：最小形状明确依赖且便于测试；大状态增加耦合，未知值断言隐藏契约。"
+      ]
+    },
+    {
+      "id": "w06-q11",
+      "prompt": "给每种 IssueStatus 提供显示文案，怎样检查是否漏项？",
+      "choices": [
+        "只检查第一个状态",
+        "Record<IssueStatus,string> 配合 satisfies",
+        "任意 Record<string,string>"
+      ],
+      "correctIndex": 1,
+      "explanation": "有限键的 Record 要求完整覆盖；任意 string 键无法证明所有状态均存在。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "transfer",
+      "conceptId": "typescript.modeling",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“只检查第一个状态”不成立：有限键的 Record 要求完整覆盖；任意 string 键无法证明所有状态均存在。",
+        "正确：有限键的 Record 要求完整覆盖；任意 string 键无法证明所有状态均存在。",
+        "“任意 Record<string,string>”不成立：有限键的 Record 要求完整覆盖；任意 string 键无法证明所有状态均存在。"
+      ]
+    },
+    {
+      "id": "w06-q12",
+      "prompt": "新增联合成员后希望编译器提醒未处理分支，应使用什么？",
+      "choices": [
+        "默认返回空字符串掩盖遗漏",
+        "直接忽略新成员",
+        "穷尽检查与 never"
+      ],
+      "correctIndex": 2,
+      "explanation": "never 检查让遗漏成为编译错误；静默默认值会隐藏未支持的状态。",
+      "remediation": "/90-days/week-06-typescript-modeling-generics.html#day-42",
+      "kind": "transfer",
+      "conceptId": "typescript.modeling",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“默认返回空字符串掩盖遗漏”不成立：never 检查让遗漏成为编译错误；静默默认值会隐藏未支持的状态。",
+        "“直接忽略新成员”不成立：never 检查让遗漏成为编译错误；静默默认值会隐藏未支持的状态。",
+        "正确：never 检查让遗漏成为编译错误；静默默认值会隐藏未支持的状态。"
+      ]
     }
   ]
 }

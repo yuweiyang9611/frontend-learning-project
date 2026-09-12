@@ -161,3 +161,15 @@ ORDER BY priority DESC, id DESC
 - [ ] 能从查询参数追到 SQL 与稳定排序。
 
 [上一章：Minimal API 与 HTTP Contract](01-minimal-api-and-contracts.md) · [下一章：认证、Problem Details 与上传安全](03-auth-errors-and-uploads.md)
+
+## 12. D1 与 .NET 的升级路径
+
+D1 使用 Drizzle schema 和追加 SQL 迁移，运行时只处理数据。执行 `npm run db:generate` 后必须审查生成的 SQL；尤其不能直接执行可能级联删除子资源的父表重建。当前追加迁移保留已有 Issue 表中的枚举 CHECK，通过索引统一标题和成员邮箱的大小写唯一性，并新增设置表与 Seed 标记表。
+
+本地命令 `npm run db:migrate:local` 在 `_issueflow_migrations` 记录文件名和 SHA-256；只接受已知初始结构的旧库基线。空库、已迁移库和旧运行时建表库都由 `npm run db:test` 验证。应用启动按 `app_metadata.seed-v1` 识别已完成 Seed，不以 Issue 数量是否为零决定补种。
+
+.NET 继续使用 EF Core migrations，通知偏好绑定 Identity 用户 ID。Profile 更新在事务中同步 Identity 显示名与关联成员资料；D1 则使用 Sites 稳定用户 ID，loopback 演示使用独立身份键。HTTP 请求不接受目标用户 ID，也不能修改邮箱和角色。
+
+升级前备份 SQLite/D1 及附件存储。迁移成功后才启用依赖新表的代码；失败时保留现场并检查迁移记录，不修改已应用的历史文件。生产恢复需使用明确的兼容修复或备份恢复步骤，不能假定代码回退会撤销数据变更。
+
+测试宿主在服务解析时读取数据库配置，避免多个测试误用输出目录中的同一个 SQLite 文件。

@@ -4,7 +4,12 @@ import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
   plugins: [react()],
-  resolve: { alias: { '@': fileURLToPath(new URL('.', import.meta.url)) } },
+  resolve: {
+    alias: {
+      'cloudflare:workers': fileURLToPath(new URL('./test/cloudflare.ts', import.meta.url)),
+      '@': fileURLToPath(new URL('.', import.meta.url)),
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],

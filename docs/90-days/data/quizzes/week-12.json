@@ -11,10 +11,22 @@
     {
       "id": "w12-q01",
       "prompt": "最适合证明用户跨页面关键旅程的是哪层？",
-      "choices": ["纯函数单元测试", "少量稳定 E2E", "TypeScript 注释"],
+      "choices": [
+        "纯函数单元测试",
+        "少量稳定 E2E",
+        "TypeScript 注释"
+      ],
       "correctIndex": 1,
       "explanation": "E2E 保护真实集成旅程，但数量应少且聚焦高价值路径。",
-      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-80"
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-80",
+      "kind": "concept",
+      "conceptId": "testing.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：E2E 保护真实集成旅程，但数量应少且聚焦高价值路径。",
+        "正确：E2E 保护真实集成旅程，但数量应少且聚焦高价值路径。",
+        "不正确：E2E 保护真实集成旅程，但数量应少且聚焦高价值路径。"
+      ]
     },
     {
       "id": "w12-q02",
@@ -26,7 +38,15 @@
       ],
       "correctIndex": 1,
       "explanation": "固定等待既慢又不能保证时序，只会隐藏竞态。",
-      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-83"
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-83",
+      "kind": "concept",
+      "conceptId": "testing.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：固定等待既慢又不能保证时序，只会隐藏竞态。",
+        "正确：固定等待既慢又不能保证时序，只会隐藏竞态。",
+        "不正确：固定等待既慢又不能保证时序，只会隐藏竞态。"
+      ]
     },
     {
       "id": "w12-q03",
@@ -38,7 +58,195 @@
       ],
       "correctIndex": 1,
       "explanation": "性能测量受机器和注入影响，应使用稳定环境及 LCP/TBT/CLS 等具体证据。",
-      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-82"
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-82",
+      "kind": "concept",
+      "conceptId": "testing.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：性能测量受机器和注入影响，应使用稳定环境及 LCP/TBT/CLS 等具体证据。",
+        "正确：性能测量受机器和注入影响，应使用稳定环境及 LCP/TBT/CLS 等具体证据。",
+        "不正确：性能测量受机器和注入影响，应使用稳定环境及 LCP/TBT/CLS 等具体证据。"
+      ]
+    },
+    {
+      "id": "w12-q04",
+      "prompt": "一个组件测试通过，只能证明什么？",
+      "choices": [
+        "所断言的场景在该测试条件下成立",
+        "所有浏览器全部可用",
+        "线上永远不会失败"
+      ],
+      "correctIndex": 0,
+      "explanation": "测试结论受输入、环境和断言范围限制，不能无限外推。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "reading",
+      "conceptId": "testing.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：测试结论受输入、环境和断言范围限制，不能无限外推。",
+        "“所有浏览器全部可用”不成立：测试结论受输入、环境和断言范围限制，不能无限外推。",
+        "“线上永远不会失败”不成立：测试结论受输入、环境和断言范围限制，不能无限外推。"
+      ]
+    },
+    {
+      "id": "w12-q05",
+      "prompt": "覆盖率中排除了所有 screens，数字代表什么？",
+      "choices": [
+        "所有用户流程都已验证",
+        "仅纳入统计文件的执行覆盖",
+        "整个应用所有页面的质量"
+      ],
+      "correctIndex": 1,
+      "explanation": "排除项不进入分母；覆盖率也不等价于行为正确性。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "reading",
+      "conceptId": "testing.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“所有用户流程都已验证”不成立：排除项不进入分母；覆盖率也不等价于行为正确性。",
+        "正确：排除项不进入分母；覆盖率也不等价于行为正确性。",
+        "“整个应用所有页面的质量”不成立：排除项不进入分母；覆盖率也不等价于行为正确性。"
+      ]
+    },
+    {
+      "id": "w12-q06",
+      "prompt": "CI 中 npm ci 与锁文件配合的主要价值是什么？",
+      "choices": [
+        "自动升级到所有最新版本",
+        "自动修复全部业务错误",
+        "按锁定依赖安装以提高可重复性"
+      ],
+      "correctIndex": 2,
+      "explanation": "锁定安装使依赖树可重复；不以升级为目标，也不验证业务语义。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "reading",
+      "conceptId": "testing.ci",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“自动升级到所有最新版本”不成立：锁定安装使依赖树可重复；不以升级为目标，也不验证业务语义。",
+        "“自动修复全部业务错误”不成立：锁定安装使依赖树可重复；不以升级为目标，也不验证业务语义。",
+        "正确：锁定安装使依赖树可重复；不以升级为目标，也不验证业务语义。"
+      ]
+    },
+    {
+      "id": "w12-q07",
+      "prompt": "测试只检查保存函数被调用，却没检查刷新后结果，缺少什么？",
+      "choices": [
+        "用户可见持久化行为的证据",
+        "更多函数名匹配",
+        "更大的超时时间"
+      ],
+      "correctIndex": 0,
+      "explanation": "调用发生不代表保存成功或可恢复；增加匹配和超时不能补行为断言。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "debugging",
+      "conceptId": "testing.core",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：调用发生不代表保存成功或可恢复；增加匹配和超时不能补行为断言。",
+        "“更多函数名匹配”不成立：调用发生不代表保存成功或可恢复；增加匹配和超时不能补行为断言。",
+        "“更大的超时时间”不成立：调用发生不代表保存成功或可恢复；增加匹配和超时不能补行为断言。"
+      ]
+    },
+    {
+      "id": "w12-q08",
+      "prompt": "E2E 偶尔失败后只增加重试次数，主要问题是什么？",
+      "choices": [
+        "消除所有异步依赖",
+        "可能掩盖竞态或状态污染的根因",
+        "证明业务已经正确"
+      ],
+      "correctIndex": 1,
+      "explanation": "重试有助收集偶发证据，但不能代替定位不稳定源。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "debugging",
+      "conceptId": "testing.core",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“消除所有异步依赖”不成立：重试有助收集偶发证据，但不能代替定位不稳定源。",
+        "正确：重试有助收集偶发证据，但不能代替定位不稳定源。",
+        "“证明业务已经正确”不成立：重试有助收集偶发证据，但不能代替定位不稳定源。"
+      ]
+    },
+    {
+      "id": "w12-q09",
+      "prompt": "迁移测试只在空库通过，为什么仍不够？",
+      "choices": [
+        "空库测试没有任何价值",
+        "升级永远只发生在空库",
+        "无法证明已有数据升级后被保留"
+      ],
+      "correctIndex": 2,
+      "explanation": "空库覆盖初始化，但已有库的约束、历史和数据保存需要独立验证。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "debugging",
+      "conceptId": "testing.core",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“空库测试没有任何价值”不成立：空库覆盖初始化，但已有库的约束、历史和数据保存需要独立验证。",
+        "“升级永远只发生在空库”不成立：空库覆盖初始化，但已有库的约束、历史和数据保存需要独立验证。",
+        "正确：空库覆盖初始化，但已有库的约束、历史和数据保存需要独立验证。"
+      ]
+    },
+    {
+      "id": "w12-q10",
+      "prompt": "验证并发回滚，哪种测试输入最有针对性？",
+      "choices": [
+        "两次独立操作乱序结束且一次失败",
+        "每次只发一个成功请求",
+        "只检查 loading 类名"
+      ],
+      "correctIndex": 0,
+      "explanation": "混合成功失败和乱序才能暴露快照覆盖风险，串行成功无法触发该问题。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "transfer",
+      "conceptId": "testing.core",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：混合成功失败和乱序才能暴露快照覆盖风险，串行成功无法触发该问题。",
+        "“每次只发一个成功请求”不成立：混合成功失败和乱序才能暴露快照覆盖风险，串行成功无法触发该问题。",
+        "“只检查 loading 类名”不成立：混合成功失败和乱序才能暴露快照覆盖风险，串行成功无法触发该问题。"
+      ]
+    },
+    {
+      "id": "w12-q11",
+      "prompt": "修复错误后应该补什么回归证据？",
+      "choices": [
+        "只记录代码行数减少",
+        "修复前会失败、修复后通过的行为测试",
+        "一个永远 expect(true) 的测试"
+      ],
+      "correctIndex": 1,
+      "explanation": "回归测试要能检出原缺陷；恒真断言和行数不能保护行为。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "transfer",
+      "conceptId": "testing.core",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“只记录代码行数减少”不成立：回归测试要能检出原缺陷；恒真断言和行数不能保护行为。",
+        "正确：回归测试要能检出原缺陷；恒真断言和行数不能保护行为。",
+        "“一个永远 expect(true) 的测试”不成立：回归测试要能检出原缺陷；恒真断言和行数不能保护行为。"
+      ]
+    },
+    {
+      "id": "w12-q12",
+      "prompt": "提交前发现格式、类型、E2E 中只有 E2E 失败，应该怎么报告？",
+      "choices": [
+        "笼统写全部通过",
+        "删除失败测试以绿灯交付",
+        "准确列出已通过检查和失败场景"
+      ],
+      "correctIndex": 2,
+      "explanation": "交付证据应反映真实边界；隐藏或删除失败会破坏质量信号。",
+      "remediation": "/90-days/week-12-testing-debugging-ci.html#day-84",
+      "kind": "transfer",
+      "conceptId": "testing.core",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“笼统写全部通过”不成立：交付证据应反映真实边界；隐藏或删除失败会破坏质量信号。",
+        "“删除失败测试以绿灯交付”不成立：交付证据应反映真实边界；隐藏或删除失败会破坏质量信号。",
+        "正确：交付证据应反映真实边界；隐藏或删除失败会破坏质量信号。"
+      ]
     }
   ]
 }

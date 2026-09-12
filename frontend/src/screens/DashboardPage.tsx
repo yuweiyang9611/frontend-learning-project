@@ -19,39 +19,25 @@ import { ISSUE_STATUSES, statusLabels, type IssueStatus } from '@/src/features/i
 export default function DashboardPage() {
   const { session } = useAuth();
   const query = useQuery({
-    queryKey: ['issues', 'dashboard'],
-    queryFn: () => issueflowApi.listIssues({ page: 1, pageSize: 100, sortBy: 'updatedAt', sortDirection: 'desc' }),
+    queryKey: ['issues', 'overview'],
+    queryFn: issueflowApi.getOverview,
   });
 
   if (query.isError) return <ErrorState message={query.error.message} onRetry={() => query.refetch()} />;
-  const issues = query.data?.items ?? [];
-  const count = (status: IssueStatus) => issues.filter((issue) => issue.status === status).length;
-  const open = count('open');
-  const active = count('in_progress');
-  const resolved = count('resolved');
-  const total = Math.max(issues.length, 1);
-  const updatedThisWeek = query.dataUpdatedAt
-    ? issues.filter((issue) => query.dataUpdatedAt - new Date(issue.updatedAt).getTime() <= 7 * 86400_000).length
-    : 0;
-  const activeAssignees = new Set(
-    issues
-      .filter((issue) => issue.status === 'in_progress')
-      .map((issue) => issue.assignee?.id)
-      .filter(Boolean),
-  ).size;
-  const activeMembers = new Set(issues.flatMap((issue) => [issue.assignee?.id, issue.reporter.id]).filter(Boolean))
-    .size;
-  const focusIssue = issues.find((issue) => issue.priority === 'critical' && issue.status !== 'closed') ?? issues[0];
-  const related = focusIssue ? issues.filter((issue) => issue.tags.some((tag) => focusIssue.tags.includes(tag))) : [];
-  const focusProgress = related.length
-    ? Math.round(
-        (related.filter((issue) => issue.status === 'resolved' || issue.status === 'closed').length / related.length) *
-          100,
-      )
-    : 0;
-  const focusMembers = Array.from(
-    new Map(related.filter((issue) => issue.assignee).map((issue) => [issue.assignee!.id, issue.assignee!])).values(),
-  );
+
+  const overview = query.data;
+  const issues = overview?.recentIssues ?? [];
+  const count = (status: IssueStatus) => overview?.byStatus[status] ?? 0;
+  const open = count('open'),
+    active = count('in_progress'),
+    resolved = count('resolved');
+  const total = Math.max(overview?.total ?? 0, 1);
+  const updatedThisWeek = overview?.updatedLast7Days ?? 0;
+  const activeAssignees = overview?.activeAssignees ?? 0;
+  const activeMembers = overview?.activeMembers ?? 0;
+  const focusIssue = overview?.focus.issue;
+  const focusProgress = overview?.focus.progress ?? 0;
+  const focusMembers = overview?.focus.members ?? [];
   const todayLabel = query.dataUpdatedAt
     ? new Intl.DateTimeFormat('en', { weekday: 'long', month: 'long', day: 'numeric' }).format(
         new Date(query.dataUpdatedAt),
@@ -175,7 +161,7 @@ export default function DashboardPage() {
                 }
               >
                 <span>
-                  <strong>{issues.length}</strong>
+                  <strong>{overview?.total ?? 0}</strong>
                   <small>Total issues</small>
                 </span>
               </div>
@@ -196,7 +182,7 @@ export default function DashboardPage() {
             <span>Team focus</span>
             <h2>{focusIssue?.title ?? 'No active focus issue'}</h2>
             <p>
-              {related.length} related issues · {focusProgress}% complete
+              {overview?.focus.relatedCount ?? 0} related issues · {focusProgress}% complete
             </p>
             <i>
               <b style={{ width: `${focusProgress}%` }} />

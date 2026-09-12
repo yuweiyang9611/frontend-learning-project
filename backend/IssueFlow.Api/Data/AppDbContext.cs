@@ -16,6 +16,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.Entity<ApplicationUser>().Property(u => u.NotifyAssigned).HasDefaultValue(true);
+        builder.Entity<ApplicationUser>().Property(u => u.NotifyMentions).HasDefaultValue(true);
 
         var dateTimeOffsetConverter = new ValueConverter<DateTimeOffset, long>(
             value => value.ToUnixTimeMilliseconds(),

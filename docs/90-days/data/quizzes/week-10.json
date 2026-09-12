@@ -18,7 +18,15 @@
       ],
       "correctIndex": 1,
       "explanation": "缓存身份必须包含所有会改变响应的稳定输入。",
-      "remediation": "/90-days/week-10-query-server-state.html#day-65"
+      "remediation": "/90-days/week-10-query-server-state.html#day-65",
+      "kind": "concept",
+      "conceptId": "query.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：缓存身份必须包含所有会改变响应的稳定输入。",
+        "正确：缓存身份必须包含所有会改变响应的稳定输入。",
+        "不正确：缓存身份必须包含所有会改变响应的稳定输入。"
+      ]
     },
     {
       "id": "w10-q02",
@@ -30,7 +38,15 @@
       ],
       "correctIndex": 1,
       "explanation": "旧请求可能在乐观写入后返回并覆盖缓存。",
-      "remediation": "/90-days/week-10-query-server-state.html#day-69"
+      "remediation": "/90-days/week-10-query-server-state.html#day-69",
+      "kind": "concept",
+      "conceptId": "query.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：旧请求可能在乐观写入后返回并覆盖缓存。",
+        "正确：旧请求可能在乐观写入后返回并覆盖缓存。",
+        "不正确：旧请求可能在乐观写入后返回并覆盖缓存。"
+      ]
     },
     {
       "id": "w10-q03",
@@ -42,7 +58,195 @@
       ],
       "correctIndex": 1,
       "explanation": "typed snapshot 让 rollback 恢复到此次 mutation 前的已知状态。",
-      "remediation": "/90-days/week-10-query-server-state.html#day-69"
+      "remediation": "/90-days/week-10-query-server-state.html#day-69",
+      "kind": "concept",
+      "conceptId": "query.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：typed snapshot 让 rollback 恢复到此次 mutation 前的已知状态。",
+        "正确：typed snapshot 让 rollback 恢复到此次 mutation 前的已知状态。",
+        "不正确：typed snapshot 让 rollback 恢复到此次 mutation 前的已知状态。"
+      ]
+    },
+    {
+      "id": "w10-q04",
+      "prompt": "queryKey 没有包含 status 筛选，可能造成什么？",
+      "choices": [
+        "后端自动修复客户端缓存键",
+        "不同筛选误用同一份缓存",
+        "自动为每个筛选生成缓存"
+      ],
+      "correctIndex": 1,
+      "explanation": "查询键必须表达影响结果的输入；后端不管理客户端缓存身份。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "reading",
+      "conceptId": "query.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“后端自动修复客户端缓存键”不成立：查询键必须表达影响结果的输入；后端不管理客户端缓存身份。",
+        "正确：查询键必须表达影响结果的输入；后端不管理客户端缓存身份。",
+        "“自动为每个筛选生成缓存”不成立：查询键必须表达影响结果的输入；后端不管理客户端缓存身份。"
+      ]
+    },
+    {
+      "id": "w10-q05",
+      "prompt": "staleTime 的作用是什么？",
+      "choices": [
+        "让服务器数据永远不变",
+        "设置请求超时时长",
+        "指定缓存多长时间被视为新鲜"
+      ],
+      "correctIndex": 2,
+      "explanation": "新鲜度影响重取策略，不冻结服务器，也不是网络超时设置。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "reading",
+      "conceptId": "query.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“让服务器数据永远不变”不成立：新鲜度影响重取策略，不冻结服务器，也不是网络超时设置。",
+        "“设置请求超时时长”不成立：新鲜度影响重取策略，不冻结服务器，也不是网络超时设置。",
+        "正确：新鲜度影响重取策略，不冻结服务器，也不是网络超时设置。"
+      ]
+    },
+    {
+      "id": "w10-q06",
+      "prompt": "Infinite Query 判断下一页时应该依据什么？",
+      "choices": [
+        "分页元数据与已加载范围",
+        "固定假设只有两页",
+        "当前列表是否有任何一条数据"
+      ],
+      "correctIndex": 0,
+      "explanation": "总数和页范围决定是否继续；非空页面不代表一定还有下一页。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "reading",
+      "conceptId": "query.core",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：总数和页范围决定是否继续；非空页面不代表一定还有下一页。",
+        "“固定假设只有两页”不成立：总数和页范围决定是否继续；非空页面不代表一定还有下一页。",
+        "“当前列表是否有任何一条数据”不成立：总数和页范围决定是否继续；非空页面不代表一定还有下一页。"
+      ]
+    },
+    {
+      "id": "w10-q07",
+      "prompt": "两张卡片并发更新，一张失败时恢复整页快照有什么风险？",
+      "choices": [
+        "让失败请求在服务器撤销其他事务",
+        "覆盖另一张卡片已成功的界面状态",
+        "自动合并所有成功请求"
+      ],
+      "correctIndex": 1,
+      "explanation": "整页快照包含其他对象的旧值；它不具备自动合并或远端事务撤销能力。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "debugging",
+      "conceptId": "query.rollback",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“让失败请求在服务器撤销其他事务”不成立：整页快照包含其他对象的旧值；它不具备自动合并或远端事务撤销能力。",
+        "正确：整页快照包含其他对象的旧值；它不具备自动合并或远端事务撤销能力。",
+        "“自动合并所有成功请求”不成立：整页快照包含其他对象的旧值；它不具备自动合并或远端事务撤销能力。"
+      ]
+    },
+    {
+      "id": "w10-q08",
+      "prompt": "搜索组件取消查询后旧请求仍改写自定义 state，缺少什么？",
+      "choices": [
+        "增加更多并发请求",
+        "只改缓存显示名称",
+        "取消或过期检查覆盖完整的数据写入路径"
+      ],
+      "correctIndex": 2,
+      "explanation": "查询取消不能自动保护所有额外 state 写入；需要控制旧结果是否仍可提交。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "debugging",
+      "conceptId": "query.mutation",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“增加更多并发请求”不成立：查询取消不能自动保护所有额外 state 写入；需要控制旧结果是否仍可提交。",
+        "“只改缓存显示名称”不成立：查询取消不能自动保护所有额外 state 写入；需要控制旧结果是否仍可提交。",
+        "正确：查询取消不能自动保护所有额外 state 写入；需要控制旧结果是否仍可提交。"
+      ]
+    },
+    {
+      "id": "w10-q09",
+      "prompt": "更新详情成功但 Dashboard 数字不变，应检查什么？",
+      "choices": [
+        "是否失效了相关统计查询",
+        "是否更新了 favicon",
+        "是否隐藏了 Dashboard"
+      ],
+      "correctIndex": 0,
+      "explanation": "变更影响多个消费查询，需有一致的失效策略；图标或隐藏界面不修复缓存。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "debugging",
+      "conceptId": "query.mutation",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：变更影响多个消费查询，需有一致的失效策略；图标或隐藏界面不修复缓存。",
+        "“是否更新了 favicon”不成立：变更影响多个消费查询，需有一致的失效策略；图标或隐藏界面不修复缓存。",
+        "“是否隐藏了 Dashboard”不成立：变更影响多个消费查询，需有一致的失效策略；图标或隐藏界面不修复缓存。"
+      ]
+    },
+    {
+      "id": "w10-q10",
+      "prompt": "保存成功但随后刷新失败，应该如何反馈？",
+      "choices": [
+        "再次无条件提交同一操作",
+        "区分已保存与同步失败，提供重试",
+        "把保存成功也改成失败回滚"
+      ],
+      "correctIndex": 1,
+      "explanation": "两个阶段含义不同；误回滚或重复写入可能制造错误。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "transfer",
+      "conceptId": "query.mutation",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“再次无条件提交同一操作”不成立：两个阶段含义不同；误回滚或重复写入可能制造错误。",
+        "正确：两个阶段含义不同；误回滚或重复写入可能制造错误。",
+        "“把保存成功也改成失败回滚”不成立：两个阶段含义不同；误回滚或重复写入可能制造错误。"
+      ]
+    },
+    {
+      "id": "w10-q11",
+      "prompt": "想避免同一卡片连续操作乱序，最小可靠方案是什么？",
+      "choices": [
+        "锁死整个应用直到刷新",
+        "让最后返回的响应永远获胜",
+        "该卡片 pending 时阻止再次提交"
+      ],
+      "correctIndex": 2,
+      "explanation": "按对象限制并发保留其他任务的可操作性；最后返回不一定是最新意图。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "transfer",
+      "conceptId": "query.mutation",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“锁死整个应用直到刷新”不成立：按对象限制并发保留其他任务的可操作性；最后返回不一定是最新意图。",
+        "“让最后返回的响应永远获胜”不成立：按对象限制并发保留其他任务的可操作性；最后返回不一定是最新意图。",
+        "正确：按对象限制并发保留其他任务的可操作性；最后返回不一定是最新意图。"
+      ]
+    },
+    {
+      "id": "w10-q12",
+      "prompt": "看板分列加载，怎样显示数量才能避免误导？",
+      "choices": [
+        "同时显示已加载数量和服务端总数",
+        "把已加载数量标成全部数量",
+        "默认所有列总数都是 100"
+      ],
+      "correctIndex": 0,
+      "explanation": "分页列表只是部分数据，应区分加载范围与真实总量。",
+      "remediation": "/90-days/week-10-query-server-state.html#day-70",
+      "kind": "transfer",
+      "conceptId": "query.mutation",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：分页列表只是部分数据，应区分加载范围与真实总量。",
+        "“把已加载数量标成全部数量”不成立：分页列表只是部分数据，应区分加载范围与真实总量。",
+        "“默认所有列总数都是 100”不成立：分页列表只是部分数据，应区分加载范围与真实总量。"
+      ]
     }
   ]
 }

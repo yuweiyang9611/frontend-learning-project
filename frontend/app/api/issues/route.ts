@@ -1,9 +1,9 @@
+import { currentSettings } from '@/src/server/settings';
 import { decodeIssueCreate } from '@/src/features/issues/runtime-contracts';
 import { requireMutationAccess } from '@/src/server/auth';
 import {
   duplicateTitle,
   listIssues,
-  memberIdForEmail,
   normalizeIssueInput,
   parseIssueQuery,
   saveIssue,
@@ -28,6 +28,8 @@ export async function POST(request: Request) {
   try {
     const actor = await requireMutationAccess(request);
     if (actor instanceof Response) return actor;
+    const settings = await currentSettings(request);
+    if (settings instanceof Response) return settings;
     const body = await readJsonBody(request, decodeIssueCreate);
     if (!body.ok) return body.response;
     const input = normalizeIssueInput(body.value);
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
         title: ['An issue with this title already exists.'],
       });
     }
-    const issue = await saveIssue(input, await memberIdForEmail(actor.email));
+    const issue = await saveIssue(input, settings.memberId);
     return Response.json(issue, { status: 201, headers: { Location: `/api/issues/${issue.id}` } });
   } catch (error) {
     return asErrorResponse(error);

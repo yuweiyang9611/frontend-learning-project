@@ -51,6 +51,7 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
+      - run: npm run db:test
       - run: npm run test:coverage
       - run: npm run build
       - name: Upload frontend coverage reports

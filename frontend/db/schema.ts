@@ -1,4 +1,5 @@
-import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { sql } from 'drizzle-orm';
+import { check, index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 
 export const members = sqliteTable(
   'members',
@@ -11,7 +12,7 @@ export const members = sqliteTable(
     initials: text('initials').notNull(),
     color: text('color').notNull(),
   },
-  (table) => [uniqueIndex('ux_members_email').on(table.email)],
+  (table) => [uniqueIndex('ux_members_email').on(sql`${table.email} COLLATE NOCASE`)],
 );
 
 export const issues = sqliteTable(
@@ -34,8 +35,10 @@ export const issues = sqliteTable(
   },
   (table) => [
     uniqueIndex('ux_issues_issue_key').on(table.issueKey),
-    uniqueIndex('ux_issues_title_nocase').on(table.title),
-    index('idx_issues_updated_at').on(table.updatedAt),
+    uniqueIndex('ux_issues_title_nocase').on(sql`${table.title} COLLATE NOCASE`),
+    check('ck_issues_status', sql`${table.status} IN ('open','in_progress','resolved','closed')`),
+    check('ck_issues_priority', sql`${table.priority} IN ('low','medium','high','critical')`),
+    index('idx_issues_updated_at').on(sql`${table.updatedAt} DESC`, sql`${table.id} DESC`),
     index('idx_issues_status_updated_at').on(table.status, table.updatedAt),
     index('idx_issues_priority_updated_at').on(table.priority, table.updatedAt),
     index('idx_issues_assignee_updated_at').on(table.assigneeId, table.updatedAt),
@@ -85,3 +88,22 @@ export const localSessions = sqliteTable(
   },
   (table) => [index('idx_local_sessions_expires_at').on(table.expiresAt)],
 );
+
+export const userSettings = sqliteTable(
+  'user_settings',
+  {
+    subject: text('subject').primaryKey(),
+    memberId: integer('member_id')
+      .notNull()
+      .references(() => members.id),
+    displayName: text('display_name').notNull(),
+    assigned: integer('assigned', { mode: 'boolean' }).notNull().default(true),
+    mentions: integer('mentions', { mode: 'boolean' }).notNull().default(true),
+    digest: integer('digest', { mode: 'boolean' }).notNull().default(false),
+  },
+  (table) => [uniqueIndex('ux_user_settings_member').on(table.memberId)],
+);
+export const appMetadata = sqliteTable('app_metadata', {
+  key: text('key').primaryKey(),
+  value: text('value').notNull(),
+});

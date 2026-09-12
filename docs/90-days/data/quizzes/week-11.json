@@ -18,7 +18,15 @@
       ],
       "correctIndex": 1,
       "explanation": "Shape Contract 只是兼容性的一层，Error 和 Behavioral Contract 也需要证据。",
-      "remediation": "/90-days/week-11-backends-security.html#day-77"
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "concept",
+      "conceptId": "backend.dual",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：Shape Contract 只是兼容性的一层，Error 和 Behavioral Contract 也需要证据。",
+        "正确：Shape Contract 只是兼容性的一层，Error 和 Behavioral Contract 也需要证据。",
+        "不正确：Shape Contract 只是兼容性的一层，Error 和 Behavioral Contract 也需要证据。"
+      ]
     },
     {
       "id": "w11-q02",
@@ -30,7 +38,15 @@
       ],
       "correctIndex": 0,
       "explanation": "客户端名称和 Content-Type 都是不可信输入，需多层验证及隔离存储。",
-      "remediation": "/90-days/week-11-backends-security.html#day-76"
+      "remediation": "/90-days/week-11-backends-security.html#day-76",
+      "kind": "concept",
+      "conceptId": "backend.dual",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：客户端名称和 Content-Type 都是不可信输入，需多层验证及隔离存储。",
+        "不正确：客户端名称和 Content-Type 都是不可信输入，需多层验证及隔离存储。",
+        "不正确：客户端名称和 Content-Type 都是不可信输入，需多层验证及隔离存储。"
+      ]
     },
     {
       "id": "w11-q03",
@@ -42,7 +58,195 @@
       ],
       "correctIndex": 1,
       "explanation": "客户端存储可被用户修改，不是可信授权边界。",
-      "remediation": "/90-days/week-11-backends-security.html#day-74"
+      "remediation": "/90-days/week-11-backends-security.html#day-74",
+      "kind": "concept",
+      "conceptId": "backend.dual",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：客户端存储可被用户修改，不是可信授权边界。",
+        "正确：客户端存储可被用户修改，不是可信授权边界。",
+        "不正确：客户端存储可被用户修改，不是可信授权边界。"
+      ]
+    },
+    {
+      "id": "w11-q04",
+      "prompt": "数据库有外键约束时，引用不存在的成员 ID 应怎样处理？",
+      "choices": [
+        "自动创建任意管理员",
+        "静默把所有成员改成该 ID",
+        "拒绝违反关联约束的数据"
+      ],
+      "correctIndex": 2,
+      "explanation": "外键维护引用完整性，不负责猜测用户或改写其他记录。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "reading",
+      "conceptId": "backend.dual",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“自动创建任意管理员”不成立：外键维护引用完整性，不负责猜测用户或改写其他记录。",
+        "“静默把所有成员改成该 ID”不成立：外键维护引用完整性，不负责猜测用户或改写其他记录。",
+        "正确：外键维护引用完整性，不负责猜测用户或改写其他记录。"
+      ]
+    },
+    {
+      "id": "w11-q05",
+      "prompt": "HttpOnly Cookie 的主要作用是什么？",
+      "choices": [
+        "阻止页面 JavaScript 直接读取该 Cookie",
+        "自动提供全部权限控制",
+        "保证任何上传文件安全"
+      ],
+      "correctIndex": 0,
+      "explanation": "HttpOnly 保护 Cookie 的脚本读取边界；授权和文件检查仍需服务端实现。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "reading",
+      "conceptId": "backend.dual",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：HttpOnly 保护 Cookie 的脚本读取边界；授权和文件检查仍需服务端实现。",
+        "“自动提供全部权限控制”不成立：HttpOnly 保护 Cookie 的脚本读取边界；授权和文件检查仍需服务端实现。",
+        "“保证任何上传文件安全”不成立：HttpOnly 保护 Cookie 的脚本读取边界；授权和文件检查仍需服务端实现。"
+      ]
+    },
+    {
+      "id": "w11-q06",
+      "prompt": "迁移记录的意义是什么？",
+      "choices": [
+        "代替所有数据库备份",
+        "记录哪些结构变更已经应用",
+        "保存页面主题"
+      ],
+      "correctIndex": 1,
+      "explanation": "迁移记录控制结构演进顺序，既不是 UI 偏好，也不包含完整数据备份。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "reading",
+      "conceptId": "backend.dual",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“代替所有数据库备份”不成立：迁移记录控制结构演进顺序，既不是 UI 偏好，也不包含完整数据备份。",
+        "正确：迁移记录控制结构演进顺序，既不是 UI 偏好，也不包含完整数据备份。",
+        "“保存页面主题”不成立：迁移记录控制结构演进顺序，既不是 UI 偏好，也不包含完整数据备份。"
+      ]
+    },
+    {
+      "id": "w11-q07",
+      "prompt": "仅在前端隐藏删除按钮，为什么不足以授权？",
+      "choices": [
+        "隐藏按钮会自动阻止所有请求",
+        "浏览器 CSS 可以验证身份",
+        "攻击者仍可直接调用删除 API"
+      ],
+      "correctIndex": 2,
+      "explanation": "API 必须独立检查身份与权限；视觉隐藏无法约束直接请求。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "debugging",
+      "conceptId": "security.boundary",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“隐藏按钮会自动阻止所有请求”不成立：API 必须独立检查身份与权限；视觉隐藏无法约束直接请求。",
+        "“浏览器 CSS 可以验证身份”不成立：API 必须独立检查身份与权限；视觉隐藏无法约束直接请求。",
+        "正确：API 必须独立检查身份与权限；视觉隐藏无法约束直接请求。"
+      ]
+    },
+    {
+      "id": "w11-q08",
+      "prompt": "运行时建表与迁移同时维护同一结构有什么风险？",
+      "choices": [
+        "不同入口生成不一致的约束和索引",
+        "自动形成双倍安全性",
+        "无需再维护 schema"
+      ],
+      "correctIndex": 0,
+      "explanation": "重复结构来源容易漂移，并不会自动互相校验。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "debugging",
+      "conceptId": "security.boundary",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：重复结构来源容易漂移，并不会自动互相校验。",
+        "“自动形成双倍安全性”不成立：重复结构来源容易漂移，并不会自动互相校验。",
+        "“无需再维护 schema”不成立：重复结构来源容易漂移，并不会自动互相校验。"
+      ]
+    },
+    {
+      "id": "w11-q09",
+      "prompt": "平台用户找不到成员时默认使用 member 1，可能造成什么？",
+      "choices": [
+        "让身份映射更准确",
+        "把不同用户的操作归给同一成员",
+        "自动保证用户隔离"
+      ],
+      "correctIndex": 1,
+      "explanation": "默认复用他人成员破坏归属隔离，应该建立明确的身份关联。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "debugging",
+      "conceptId": "security.boundary",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“让身份映射更准确”不成立：默认复用他人成员破坏归属隔离，应该建立明确的身份关联。",
+        "正确：默认复用他人成员破坏归属隔离，应该建立明确的身份关联。",
+        "“自动保证用户隔离”不成立：默认复用他人成员破坏归属隔离，应该建立明确的身份关联。"
+      ]
+    },
+    {
+      "id": "w11-q10",
+      "prompt": "附件下载接口面对未知存储路径时应怎么做？",
+      "choices": [
+        "直接拼接用户输入到磁盘路径",
+        "允许任意绝对路径",
+        "按受控元数据定位对象并拒绝路径穿越"
+      ],
+      "correctIndex": 2,
+      "explanation": "客户端路径不应决定任意文件访问；服务端元数据和路径限制共同控制资源边界。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "transfer",
+      "conceptId": "security.boundary",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“直接拼接用户输入到磁盘路径”不成立：客户端路径不应决定任意文件访问；服务端元数据和路径限制共同控制资源边界。",
+        "“允许任意绝对路径”不成立：客户端路径不应决定任意文件访问；服务端元数据和路径限制共同控制资源边界。",
+        "正确：客户端路径不应决定任意文件访问；服务端元数据和路径限制共同控制资源边界。"
+      ]
+    },
+    {
+      "id": "w11-q11",
+      "prompt": "升级线上数据库的迁移已经应用后，发现新代码有问题，应该怎么办？",
+      "choices": [
+        "保留迁移历史并制定兼容修复或备份恢复方案",
+        "直接修改已应用的迁移文件",
+        "假设回退代码会撤销数据库变更"
+      ],
+      "correctIndex": 0,
+      "explanation": "迁移应用独立于代码回退；重写历史会让环境分歧，修复应尊重真实应用状态。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "transfer",
+      "conceptId": "security.boundary",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：迁移应用独立于代码回退；重写历史会让环境分歧，修复应尊重真实应用状态。",
+        "“直接修改已应用的迁移文件”不成立：迁移应用独立于代码回退；重写历史会让环境分歧，修复应尊重真实应用状态。",
+        "“假设回退代码会撤销数据库变更”不成立：迁移应用独立于代码回退；重写历史会让环境分歧，修复应尊重真实应用状态。"
+      ]
+    },
+    {
+      "id": "w11-q12",
+      "prompt": "比较两套后端时，哪些证据比接口名字相同更可靠？",
+      "choices": [
+        "使用相同编程语言",
+        "相同请求的响应形状、状态码和行为测试",
+        "文件夹名称一致"
+      ],
+      "correctIndex": 1,
+      "explanation": "相同名字或语言不能证明行为一致；可重复契约测试才直接检验互操作。",
+      "remediation": "/90-days/week-11-backends-security.html#day-77",
+      "kind": "transfer",
+      "conceptId": "security.boundary",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“使用相同编程语言”不成立：相同名字或语言不能证明行为一致；可重复契约测试才直接检验互操作。",
+        "正确：相同名字或语言不能证明行为一致；可重复契约测试才直接检验互操作。",
+        "“文件夹名称一致”不成立：相同名字或语言不能证明行为一致；可重复契约测试才直接检验互操作。"
+      ]
     }
   ]
 }

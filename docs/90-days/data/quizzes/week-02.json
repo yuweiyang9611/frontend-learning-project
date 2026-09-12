@@ -18,7 +18,15 @@
       ],
       "correctIndex": 1,
       "explanation": "原生交互元素自带键盘、角色和状态语义。",
-      "remediation": "/90-days/week-02-html-accessibility.html#day-09"
+      "remediation": "/90-days/week-02-html-accessibility.html#day-09",
+      "kind": "concept",
+      "conceptId": "html.semantic",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：原生交互元素自带键盘、角色和状态语义。",
+        "正确：原生交互元素自带键盘、角色和状态语义。",
+        "不正确：原生交互元素自带键盘、角色和状态语义。"
+      ]
     },
     {
       "id": "w02-q02",
@@ -30,7 +38,15 @@
       ],
       "correctIndex": 1,
       "explanation": "颜色和 placeholder 都不能替代稳定的标签与错误关联。",
-      "remediation": "/90-days/week-02-html-accessibility.html#day-12"
+      "remediation": "/90-days/week-02-html-accessibility.html#day-12",
+      "kind": "concept",
+      "conceptId": "html.semantic",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：颜色和 placeholder 都不能替代稳定的标签与错误关联。",
+        "正确：颜色和 placeholder 都不能替代稳定的标签与错误关联。",
+        "不正确：颜色和 placeholder 都不能替代稳定的标签与错误关联。"
+      ]
     },
     {
       "id": "w02-q03",
@@ -42,7 +58,199 @@
       ],
       "correctIndex": 1,
       "explanation": "自动扫描覆盖有限，焦点顺序、状态播报和任务可完成性仍需行为验证。",
-      "remediation": "/90-days/week-02-html-accessibility.html#day-14"
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "concept",
+      "conceptId": "html.semantic",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：自动扫描覆盖有限，焦点顺序、状态播报和任务可完成性仍需行为验证。",
+        "正确：自动扫描覆盖有限，焦点顺序、状态播报和任务可完成性仍需行为验证。",
+        "不正确：自动扫描覆盖有限，焦点顺序、状态播报和任务可完成性仍需行为验证。"
+      ]
+    },
+    {
+      "id": "w02-q04",
+      "prompt": "点击关联 label 后，正确的预期是什么？",
+      "choices": [
+        "所有输入框被清空",
+        "表单自动提交",
+        "对应表单控件获得焦点或被激活"
+      ],
+      "correctIndex": 2,
+      "explanation": "label 通过 for/id 关联控件，不承担清空和提交整个表单的职责。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "reading",
+      "conceptId": "html.semantic",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“所有输入框被清空”不成立：label 通过 for/id 关联控件，不承担清空和提交整个表单的职责。",
+        "“表单自动提交”不成立：label 通过 for/id 关联控件，不承担清空和提交整个表单的职责。",
+        "正确：label 通过 for/id 关联控件，不承担清空和提交整个表单的职责。"
+      ],
+      "code": "<label for=\"title\">标题</label>\n<input id=\"title\">",
+      "language": "html"
+    },
+    {
+      "id": "w02-q05",
+      "prompt": "在表单中省略按钮 type，通常会发生什么？",
+      "choices": [
+        "按钮默认尝试提交表单",
+        "按钮自动禁用",
+        "按钮只能响应鼠标"
+      ],
+      "correctIndex": 0,
+      "explanation": "表单中的 button 默认是 submit；禁用和键盘支持是另外的行为。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "reading",
+      "conceptId": "html.semantic",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：表单中的 button 默认是 submit；禁用和键盘支持是另外的行为。",
+        "“按钮自动禁用”不成立：表单中的 button 默认是 submit；禁用和键盘支持是另外的行为。",
+        "“按钮只能响应鼠标”不成立：表单中的 button 默认是 submit；禁用和键盘支持是另外的行为。"
+      ],
+      "code": "<form><button>取消</button></form>",
+      "language": "html"
+    },
+    {
+      "id": "w02-q06",
+      "prompt": "用浏览器标题导航浏览页面时，什么最有帮助？",
+      "choices": [
+        "用空格模拟标题缩进",
+        "有层次的真实标题元素",
+        "全部用加粗的 div"
+      ],
+      "correctIndex": 1,
+      "explanation": "h1–h6 提供语义层次；视觉加粗和空格不能提供标题语义。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "reading",
+      "conceptId": "html.semantic",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“用空格模拟标题缩进”不成立：h1–h6 提供语义层次；视觉加粗和空格不能提供标题语义。",
+        "正确：h1–h6 提供语义层次；视觉加粗和空格不能提供标题语义。",
+        "“全部用加粗的 div”不成立：h1–h6 提供语义层次；视觉加粗和空格不能提供标题语义。"
+      ]
+    },
+    {
+      "id": "w02-q07",
+      "prompt": "用 div 和 click 模拟按钮后键盘无法操作，应优先怎样修复？",
+      "choices": [
+        "只增加鼠标悬停颜色",
+        "给文字加粗",
+        "改用原生 button"
+      ],
+      "correctIndex": 2,
+      "explanation": "原生按钮提供焦点和键盘激活语义；视觉样式不能补足交互行为。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "debugging",
+      "conceptId": "html.semantic",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“只增加鼠标悬停颜色”不成立：原生按钮提供焦点和键盘激活语义；视觉样式不能补足交互行为。",
+        "“给文字加粗”不成立：原生按钮提供焦点和键盘激活语义；视觉样式不能补足交互行为。",
+        "正确：原生按钮提供焦点和键盘激活语义；视觉样式不能补足交互行为。"
+      ]
+    },
+    {
+      "id": "w02-q08",
+      "prompt": "两个输入框用了同一个 id，会影响什么？",
+      "choices": [
+        "label 关联可能指向错误控件",
+        "自动获得两个不同标签",
+        "浏览器自动保证关联正确"
+      ],
+      "correctIndex": 0,
+      "explanation": "id 应唯一；重复 ID 会使关联含糊，浏览器不会替开发者设计唯一语义。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "debugging",
+      "conceptId": "html.semantic",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：id 应唯一；重复 ID 会使关联含糊，浏览器不会替开发者设计唯一语义。",
+        "“自动获得两个不同标签”不成立：id 应唯一；重复 ID 会使关联含糊，浏览器不会替开发者设计唯一语义。",
+        "“浏览器自动保证关联正确”不成立：id 应唯一；重复 ID 会使关联含糊，浏览器不会替开发者设计唯一语义。"
+      ]
+    },
+    {
+      "id": "w02-q09",
+      "prompt": "给装饰图片设置冗长 alt 的问题是什么？",
+      "choices": [
+        "图片会变成按钮",
+        "读屏会重复播报无用内容",
+        "图片一定加载失败"
+      ],
+      "correctIndex": 1,
+      "explanation": "装饰图通常使用空 alt；alt 不控制资源加载，也不会改变元素交互类型。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "debugging",
+      "conceptId": "html.semantic",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“图片会变成按钮”不成立：装饰图通常使用空 alt；alt 不控制资源加载，也不会改变元素交互类型。",
+        "正确：装饰图通常使用空 alt；alt 不控制资源加载，也不会改变元素交互类型。",
+        "“图片一定加载失败”不成立：装饰图通常使用空 alt；alt 不控制资源加载，也不会改变元素交互类型。"
+      ]
+    },
+    {
+      "id": "w02-q10",
+      "prompt": "新增“删除 Issue”操作，最合适的元素是什么？",
+      "choices": [
+        "空 href 的 a",
+        "只有图标的 span",
+        "有明确名称的 button"
+      ],
+      "correctIndex": 2,
+      "explanation": "执行操作使用按钮并提供可访问名称；链接用于导航，span 默认没有按钮语义。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "transfer",
+      "conceptId": "html.semantic",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“空 href 的 a”不成立：执行操作使用按钮并提供可访问名称；链接用于导航，span 默认没有按钮语义。",
+        "“只有图标的 span”不成立：执行操作使用按钮并提供可访问名称；链接用于导航，span 默认没有按钮语义。",
+        "正确：执行操作使用按钮并提供可访问名称；链接用于导航，span 默认没有按钮语义。"
+      ]
+    },
+    {
+      "id": "w02-q11",
+      "prompt": "必填标题报错后，错误信息应如何关联？",
+      "choices": [
+        "用 aria-describedby 指向错误文本",
+        "只让边框变红",
+        "把错误放在页面标题里"
+      ],
+      "correctIndex": 0,
+      "explanation": "文本关联让读屏理解具体错误；颜色不能作为唯一提示，页面标题也不是字段关联。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "transfer",
+      "conceptId": "html.semantic",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：文本关联让读屏理解具体错误；颜色不能作为唯一提示，页面标题也不是字段关联。",
+        "“只让边框变红”不成立：文本关联让读屏理解具体错误；颜色不能作为唯一提示，页面标题也不是字段关联。",
+        "“把错误放在页面标题里”不成立：文本关联让读屏理解具体错误；颜色不能作为唯一提示，页面标题也不是字段关联。"
+      ]
+    },
+    {
+      "id": "w02-q12",
+      "prompt": "三个状态选项只能选一个，适合怎样分组？",
+      "choices": [
+        "三段无法聚焦的文字",
+        "相同 name 的 radio 放入 fieldset",
+        "三个互不相关的 checkbox"
+      ],
+      "correctIndex": 1,
+      "explanation": "radio 同组保证单选，fieldset/legend 提供组名；checkbox 表示独立开关。",
+      "remediation": "/90-days/week-02-html-accessibility.html#day-14",
+      "kind": "transfer",
+      "conceptId": "html.semantic",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“三段无法聚焦的文字”不成立：radio 同组保证单选，fieldset/legend 提供组名；checkbox 表示独立开关。",
+        "正确：radio 同组保证单选，fieldset/legend 提供组名；checkbox 表示独立开关。",
+        "“三个互不相关的 checkbox”不成立：radio 同组保证单选，fieldset/legend 提供组名；checkbox 表示独立开关。"
+      ]
     }
   ]
 }

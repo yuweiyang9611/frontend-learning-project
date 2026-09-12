@@ -114,3 +114,38 @@ npm run docs:build
 ```
 
 发布规则和故障排查见 [GitHub Pages 发布说明](docs/maintainers/github-pages.md)。
+
+## 工作区统计、设置与数据升级
+
+Dashboard 和 Team 使用 `GET /api/workspace/overview` 统计全部 Issue；Board 每列独立按 25 条加载，并显示已加载数与总数。并发移动按卡片恢复失败状态；保存成功但刷新失败时保留已确认结果，并提供重试。
+
+Profile 可保存显示名，登录邮箱由身份提供方管理。Account 可保存三项通知偏好并导出已保存的资料与偏好；**目前没有邮件投递服务**。三种数据模式提供相同行为，local 模式的设置仅存于当前浏览器。
+
+新增接口在两套后端保持相同契约：
+
+| 接口 | 用途 |
+| --- | --- |
+| `GET /api/workspace/overview` | 全量统计、成员工作量、最近六条 Issue 与 Team focus |
+| `GET /api/me/settings` | 当前登录会话资料和通知偏好 |
+| `PATCH /api/me/profile` | 提交 `{ "displayName": "新显示名" }`，返回更新后的 Session |
+| `PUT /api/me/preferences` | 提交完整的 `assigned`、`mentions`、`digest` 布尔值 |
+
+三个 `/api/me` 接口需要登录，默认通知偏好为 `true/true/false`。显示名去除首尾空白后为 1–100 字符；资料接口不接受邮箱、角色或其他用户 ID。
+
+D1 结构由 `frontend/db/schema.ts` 与提交的 Drizzle SQL 迁移管理，请求处理不会再建表。首次启动需要构建生成本地 D1 配置，`npm run dev` 和 `npm run preview` 会自动执行本地迁移；也可手动运行：
+
+```powershell
+cd frontend
+npm run build
+npm run db:migrate:local
+npm run db:test
+npm run test:coverage:workspace
+```
+
+本地默认数据目录是 `frontend/.wrangler/state`。通过 `ISSUEFLOW_D1_PERSIST_TO` 切换目录时，迁移与预览必须使用同一个值；浏览器测试与双后端契约测试使用隔离数据库。已知旧库会保留数据并登记迁移基线，未知结构或迁移校验值不符时停止，不自动删除数据库。Seed 完成标记保证清空 Issue 后重启不会重新插入示例任务。
+
+.NET 新增 `20260911234526_UserNotificationPreferences` 迁移，继续使用 EF Core。在仓库根目录执行 `dotnet ef database update --project backend/IssueFlow.Api` 可将配置的本地 SQLite 升级到最新结构。D1 新增迁移为 `0001_workspace_settings.sql`。
+
+已经应用的 SQL 迁移及其元数据不可修改。线上升级应先备份、应用追加迁移，再启用新代码；回退代码不自动回退数据库。本次改进不要求自动发布或执行远端迁移。
+
+周测现为 **13 周 × 12 题 = 156 题**，每周保留原 3 题并新增阅读预测、错误定位、应用变式各 3 题；提交后显示逐选项解释和概念诊断。原题 ID、答案及本地复习记录保持兼容。

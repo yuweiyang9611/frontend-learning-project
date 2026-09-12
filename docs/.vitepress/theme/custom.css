@@ -490,3 +490,5 @@ html {
     grid-template-columns: 1fr;
   }
 }
+
+.quiz-code { max-width: 100%; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; border: 1px solid var(--vp-c-divider); border-radius: 6px; }

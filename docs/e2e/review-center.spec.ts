@@ -1,3 +1,4 @@
+import weekOne from '../90-days/data/quizzes/week-01.json' with { type: 'json' };
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
@@ -67,8 +68,9 @@ test('周测错题写入复习队列并可在复习中心继续作答', async ({
   await quiz.getByRole('radio', { name: '看页面配色' }).check();
   await quiz.getByRole('radio', { name: 'Promise fulfilled，但 response.ok 为 false' }).check();
   await quiz.getByRole('radio', { name: '能说明一个假设和一个结果的小提交' }).check();
+  for(const question of weekOne.questions.slice(3)) await quiz.locator('input[name="'+question.id+'"]').nth(question.correctIndex).check();
   await quiz.getByRole('button', { name: '提交本周测验' }).click();
-  await expect(quiz.getByText('本周得分 2 / 3；错题已进入复习中心。')).toBeVisible();
+  await expect(quiz.getByText('本周得分 11 / 12；错题已进入复习中心。')).toBeVisible();
   await expectNoBlockingAxeViolations(page, '.knowledge-check');
 
   await page.goto(reviewUrl);

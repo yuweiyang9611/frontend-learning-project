@@ -18,7 +18,15 @@
       ],
       "correctIndex": 1,
       "explanation": "Grid/Flex 子项默认最小内容尺寸可能阻止收缩，应先修正布局约束。",
-      "remediation": "/90-days/week-03-css-responsive.html#day-18"
+      "remediation": "/90-days/week-03-css-responsive.html#day-18",
+      "kind": "concept",
+      "conceptId": "css.responsive",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：Grid/Flex 子项默认最小内容尺寸可能阻止收缩，应先修正布局约束。",
+        "正确：Grid/Flex 子项默认最小内容尺寸可能阻止收缩，应先修正布局约束。",
+        "不正确：Grid/Flex 子项默认最小内容尺寸可能阻止收缩，应先修正布局约束。"
+      ]
     },
     {
       "id": "w03-q02",
@@ -30,7 +38,15 @@
       ],
       "correctIndex": 1,
       "explanation": "断点服务于内容和交互，不应绑定具体设备型号。",
-      "remediation": "/90-days/week-03-css-responsive.html#day-19"
+      "remediation": "/90-days/week-03-css-responsive.html#day-19",
+      "kind": "concept",
+      "conceptId": "css.responsive",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：断点服务于内容和交互，不应绑定具体设备型号。",
+        "正确：断点服务于内容和交互，不应绑定具体设备型号。",
+        "不正确：断点服务于内容和交互，不应绑定具体设备型号。"
+      ]
     },
     {
       "id": "w03-q03",
@@ -42,7 +58,199 @@
       ],
       "correctIndex": 1,
       "explanation": "可见焦点是键盘导航的核心状态信号。",
-      "remediation": "/90-days/week-03-css-responsive.html#day-20"
+      "remediation": "/90-days/week-03-css-responsive.html#day-20",
+      "kind": "concept",
+      "conceptId": "css.responsive",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "不正确：可见焦点是键盘导航的核心状态信号。",
+        "正确：可见焦点是键盘导航的核心状态信号。",
+        "不正确：可见焦点是键盘导航的核心状态信号。"
+      ]
+    },
+    {
+      "id": "w03-q04",
+      "prompt": "在 border-box 下，声明 width:200px 的盒子包含哪些部分？",
+      "choices": [
+        "内容、内边距和边框",
+        "只有内容",
+        "还包含外边距"
+      ],
+      "correctIndex": 0,
+      "explanation": "border-box 把 padding 和 border 计入声明宽度，margin 始终在盒子之外。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "reading",
+      "conceptId": "css.responsive",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "正确：border-box 把 padding 和 border 计入声明宽度，margin 始终在盒子之外。",
+        "“只有内容”不成立：border-box 把 padding 和 border 计入声明宽度，margin 始终在盒子之外。",
+        "“还包含外边距”不成立：border-box 把 padding 和 border 计入声明宽度，margin 始终在盒子之外。"
+      ],
+      "code": "* { box-sizing: border-box; }\n.card { width: 200px; padding: 20px; border: 1px solid; }",
+      "language": "css"
+    },
+    {
+      "id": "w03-q05",
+      "prompt": "Flex 容器设置 gap:16px 会影响什么？",
+      "choices": [
+        "浏览器窗口尺寸",
+        "子项之间的间距",
+        "每个子项内部的字体"
+      ],
+      "correctIndex": 1,
+      "explanation": "gap 定义布局项之间的空隙，不修改字体或视口。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "reading",
+      "conceptId": "css.responsive",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“浏览器窗口尺寸”不成立：gap 定义布局项之间的空隙，不修改字体或视口。",
+        "正确：gap 定义布局项之间的空隙，不修改字体或视口。",
+        "“每个子项内部的字体”不成立：gap 定义布局项之间的空隙，不修改字体或视口。"
+      ]
+    },
+    {
+      "id": "w03-q06",
+      "prompt": "媒体查询 max-width:600px 在什么情况下匹配？",
+      "choices": [
+        "内容字符数不超过 600",
+        "屏幕高度超过 600px",
+        "视口宽度不超过 600px"
+      ],
+      "correctIndex": 2,
+      "explanation": "width 媒体特性针对视口宽度，不是文本长度或高度。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "reading",
+      "conceptId": "css.responsive",
+      "difficulty": "foundation",
+      "choiceExplanations": [
+        "“内容字符数不超过 600”不成立：width 媒体特性针对视口宽度，不是文本长度或高度。",
+        "“屏幕高度超过 600px”不成立：width 媒体特性针对视口宽度，不是文本长度或高度。",
+        "正确：width 媒体特性针对视口宽度，不是文本长度或高度。"
+      ],
+      "code": "@media (max-width: 600px) { .sidebar { display: none; } }",
+      "language": "css"
+    },
+    {
+      "id": "w03-q07",
+      "prompt": "窄屏卡片被长网址撑宽，优先检查什么？",
+      "choices": [
+        "最小宽度与长文本换行规则",
+        "API 密码",
+        "图片文件名大小写"
+      ],
+      "correctIndex": 0,
+      "explanation": "布局溢出应检查 min-width 和 overflow-wrap；凭据和文件命名不是文本换行规则。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "debugging",
+      "conceptId": "css.responsive",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "正确：布局溢出应检查 min-width 和 overflow-wrap；凭据和文件命名不是文本换行规则。",
+        "“API 密码”不成立：布局溢出应检查 min-width 和 overflow-wrap；凭据和文件命名不是文本换行规则。",
+        "“图片文件名大小写”不成立：布局溢出应检查 min-width 和 overflow-wrap；凭据和文件命名不是文本换行规则。"
+      ]
+    },
+    {
+      "id": "w03-q08",
+      "prompt": "设置 outline:none 后键盘用户看不到位置，应该怎样修复？",
+      "choices": [
+        "让鼠标指针变大",
+        "提供清晰的 focus-visible 样式",
+        "同时禁用 Tab 键"
+      ],
+      "correctIndex": 1,
+      "explanation": "焦点必须可见；禁用键盘会阻断操作，鼠标指针也不能显示键盘焦点。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "debugging",
+      "conceptId": "css.responsive",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“让鼠标指针变大”不成立：焦点必须可见；禁用键盘会阻断操作，鼠标指针也不能显示键盘焦点。",
+        "正确：焦点必须可见；禁用键盘会阻断操作，鼠标指针也不能显示键盘焦点。",
+        "“同时禁用 Tab 键”不成立：焦点必须可见；禁用键盘会阻断操作，鼠标指针也不能显示键盘焦点。"
+      ]
+    },
+    {
+      "id": "w03-q09",
+      "prompt": "四列固定宽度表格在手机上被裁掉操作列，合理修复是什么？",
+      "choices": [
+        "隐藏全部操作",
+        "把全页字体缩到难以阅读",
+        "提供横向滚动或窄屏替代布局"
+      ],
+      "correctIndex": 2,
+      "explanation": "需要保留信息和操作的可达性；隐藏功能或极小字体只是掩盖问题。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "debugging",
+      "conceptId": "css.responsive",
+      "difficulty": "application",
+      "choiceExplanations": [
+        "“隐藏全部操作”不成立：需要保留信息和操作的可达性；隐藏功能或极小字体只是掩盖问题。",
+        "“把全页字体缩到难以阅读”不成立：需要保留信息和操作的可达性；隐藏功能或极小字体只是掩盖问题。",
+        "正确：需要保留信息和操作的可达性；隐藏功能或极小字体只是掩盖问题。"
+      ]
+    },
+    {
+      "id": "w03-q10",
+      "prompt": "给布局增加卡片间距，怎样避免最后一张卡片多出外边距？",
+      "choices": [
+        "在容器使用 gap",
+        "给每张卡片固定右外边距",
+        "在内容中插入空格"
+      ],
+      "correctIndex": 0,
+      "explanation": "gap 只作用于相邻布局项之间；逐项 margin 需额外边界处理，空格不是布局工具。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "transfer",
+      "conceptId": "css.responsive",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "正确：gap 只作用于相邻布局项之间；逐项 margin 需额外边界处理，空格不是布局工具。",
+        "“给每张卡片固定右外边距”不成立：gap 只作用于相邻布局项之间；逐项 margin 需额外边界处理，空格不是布局工具。",
+        "“在内容中插入空格”不成立：gap 只作用于相邻布局项之间；逐项 margin 需额外边界处理，空格不是布局工具。"
+      ]
+    },
+    {
+      "id": "w03-q11",
+      "prompt": "支持系统减少动态效果偏好时应该怎么做？",
+      "choices": [
+        "强制所有用户使用更长动画",
+        "在 prefers-reduced-motion 下减少非必要动画",
+        "把所有按钮禁用"
+      ],
+      "correctIndex": 1,
+      "explanation": "该偏好影响动态效果，不应取消功能；延长动画与减少动态的目的相反。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "transfer",
+      "conceptId": "css.responsive",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“强制所有用户使用更长动画”不成立：该偏好影响动态效果，不应取消功能；延长动画与减少动态的目的相反。",
+        "正确：该偏好影响动态效果，不应取消功能；延长动画与减少动态的目的相反。",
+        "“把所有按钮禁用”不成立：该偏好影响动态效果，不应取消功能；延长动画与减少动态的目的相反。"
+      ]
+    },
+    {
+      "id": "w03-q12",
+      "prompt": "验证响应式修复时，最可靠的做法是什么？",
+      "choices": [
+        "只缩小截图",
+        "只检查 CSS 能否编译",
+        "在多个视口完成真实操作"
+      ],
+      "correctIndex": 2,
+      "explanation": "编译通过与截图缩放不能证明实际视口中操作可达。",
+      "remediation": "/90-days/week-03-css-responsive.html#day-21",
+      "kind": "transfer",
+      "conceptId": "css.responsive",
+      "difficulty": "analysis",
+      "choiceExplanations": [
+        "“只缩小截图”不成立：编译通过与截图缩放不能证明实际视口中操作可达。",
+        "“只检查 CSS 能否编译”不成立：编译通过与截图缩放不能证明实际视口中操作可达。",
+        "正确：编译通过与截图缩放不能证明实际视口中操作可达。"
+      ]
     }
   ]
 }

@@ -192,3 +192,7 @@ git switch -c learning/due-soon
 能够重新执行完整质量门并解释每个命令的作用后，再进入下一章。
 
 下一章：[01：项目地图与数据模式](01-project-map-and-data-modes.md)
+
+## 本地数据库首次准备
+
+默认同源模式的启动脚本会执行本地 D1 迁移；首次启动先自动构建生成配置，耗时会稍长。也可以在 frontend 中依次运行 `npm run build`、`npm run db:migrate:local`、`npm run dev`。保留 .wrangler/state 中的学习数据；遇到未知旧结构时按错误信息检查和备份，不要删除数据库来绕过迁移。

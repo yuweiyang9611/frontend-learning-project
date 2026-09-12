@@ -13,7 +13,7 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern coverage --ignore-pattern playwright-report --ignore-pattern test-results",
     "typecheck": "tsc --noEmit --incremental false -p tsconfig.json",
     "test": "vitest run",
-    "test:coverage": "npm run test:coverage:product && npm run test:coverage:exercises",
+    "test:coverage": "npm run test:coverage:product && npm run test:coverage:exercises && npm run test:coverage:workspace",
     "test:coverage:product": "vitest run src contract-tests --coverage",
     "test:coverage:exercises": "vitest run --coverage --config vitest.exercises.config.ts",
     "test:contract:corpus": "vitest run contract-tests/dual-backend",
@@ -30,7 +30,14 @@
     "test:a11y": "playwright test e2e/a11y.spec.ts --project=chromium",
     "test:lighthouse": "node scripts/run-lighthouse.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "node --disable-warning=ExperimentalWarning scripts/migrate-local.mjs",
+    "db:test": "node --disable-warning=ExperimentalWarning --test scripts/migrations.test.mjs",
+    "predev": "npm run db:migrate:local",
+    "prepreview": "npm run db:migrate:local",
+    "test:coverage:workspace": "vitest run --coverage --config vitest.workspace.config.ts",
+    "prestart": "npm run db:migrate:local"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.102.5",
@@ -43,8 +50,8 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@cloudflare/vite-plugin": "1.54.2",
-    "@cloudflare/workers-types": "5.20260830.1",
+    "@cloudflare/vite-plugin": "1.54.8",
+    "@cloudflare/workers-types": "5.20260911.1",
     "@openai/sites-vite-plugin": "^0.1.0 || ^0.2.0",
     "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "4.2.1",
@@ -69,7 +76,7 @@
     "vinext": "1.0.0-beta.8",
     "vite": "8.2.2",
     "vitest": "^4.1.11",
-    "wrangler": "4.127.1"
+    "wrangler": "4.131.1"
   },
   "type": "module"
 }
