@@ -34,5 +34,8 @@
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.62.1",
     "vitepress": "1.6.4"
+  },
+  "overrides": {
+    "vite": "6.4.5"
   }
 }
