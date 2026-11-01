@@ -28,7 +28,7 @@ jobs:
       - run: npm run docs:verify
       - name: Upload documentation browser-test diagnostics
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: docs-playwright-results
           path: test-results
@@ -56,7 +56,7 @@ jobs:
       - run: npm run build
       - name: Upload frontend coverage reports
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-coverage
           path: frontend/coverage
@@ -80,7 +80,7 @@ jobs:
       - run: dotnet format IssueFlow.slnx --verify-no-changes --no-restore
       - name: Upload backend coverage report
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: backend-coverage
           path: backend/TestResults/**/coverage.cobertura.xml
@@ -105,7 +105,7 @@ jobs:
       - run: npm run test:e2e
       - name: Upload end-to-end test diagnostics
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-playwright-results
           path: |
@@ -134,7 +134,7 @@ jobs:
       - run: npm run test:contract:dual
       - name: Upload normalized parity report
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: issueflow-http-contract-parity
           path: frontend/test-results/contracts/http-parity.json
@@ -159,7 +159,7 @@ jobs:
       - run: npm run test:lighthouse
       - name: Upload Lighthouse report
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-report
           path: frontend/.lighthouse/report.json
