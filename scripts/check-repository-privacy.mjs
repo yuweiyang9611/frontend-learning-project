@@ -6,7 +6,7 @@ const root = process.cwd();
 const allowlist = JSON.parse(await readFile(new URL('./public-content-allowlist.json', import.meta.url), 'utf8'));
 const allowedEmails = new Set(allowlist.emails.map((value) => value.toLowerCase()));
 const findings = [];
-const emailPattern = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
+const emailPattern = /[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}/g;
 const pathPattern = /(?:[A-Za-z]:\\Users\\|\/Users\/|\/home\/)[^\s"'<>]+/g;
 const secretPattern = /(?:github_pat_|ghp_|sk-(?:proj-)?|AKIA)[A-Za-z0-9_-]{16,}/g;
 
