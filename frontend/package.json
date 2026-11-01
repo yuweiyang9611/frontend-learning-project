@@ -78,5 +78,10 @@
     "vitest": "^4.1.12",
     "wrangler": "4.155.0"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "@esbuild-kit/core-utils": {
+      "esbuild": "^0.25.12"
+    }
+  }
 }
