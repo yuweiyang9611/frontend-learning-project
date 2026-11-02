@@ -11,7 +11,8 @@ test('进度文件导入控件通过键盘获得可见焦点', async ({ page }) 
   await page.keyboard.press('Tab');
   await expect(fileInput).toBeFocused();
   await expect(fileLabel).toHaveCSS('outline-style', 'solid');
-  await expect(fileLabel).toHaveCSS('outline-width', '3px');
+  // The notebook kit's focus ring: 2px solid Link Blue.
+  await expect(fileLabel).toHaveCSS('outline-width', '2px');
 });
 
 test('导入会隔离坏记录、合并有效 Day 并在刷新后保留', async ({ page }) => {

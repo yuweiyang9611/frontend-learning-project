@@ -1,0 +1,76 @@
+// Checks the built site against the notebook kit's rules that a reader would notice first.
+//
+// - The kit's theme.js squeezes a curly quote beside a comma or full stop by replacing text nodes.
+//   Vue owns these pages, so the build emits the `.nb-halt` spans itself; no text run may be left
+//   for the runtime pass (each run between tags becomes one DOM text node).
+// - The server render of the opening screen has no record, so it shows no tick, no 停在这里 and no
+//   solid line, and the old hero and feature cards are gone.
+// - Every page loads the kit's theme.js in <head> and keeps lang="zh-CN".
+import fs from 'node:fs';
+import path from 'node:path';
+
+const outputRoot = path.join(process.cwd(), 'docs', '.vitepress', 'dist');
+if (!fs.existsSync(outputRoot)) {
+  console.error('Missing VitePress output. Run "npm run docs:build" first.');
+  process.exit(1);
+}
+
+function collect(directory, result = []) {
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) collect(fullPath, result);
+    else if (entry.name.endsWith('.html')) result.push(fullPath);
+  }
+  return result;
+}
+
+const decode = (value) =>
+  value.replaceAll('&quot;', '"').replaceAll('&#39;', "'").replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
+const loose = /[”’][，。、；：？！]|[，。、；：？！][“‘]/;
+const skipped = new Set(['code', 'kbd', 'pre', 'samp', 'script', 'style', 'textarea', 'svg', 'title']);
+const problems = [];
+const files = collect(outputRoot);
+
+for (const file of files) {
+  const page = path.relative(outputRoot, file).split(path.sep).join('/');
+  const html = fs.readFileSync(file, 'utf8');
+  if (!/<html lang="zh-CN"/.test(html)) problems.push(`${page}: <html> is not lang="zh-CN"`);
+  const head = html.slice(0, html.indexOf('</head>'));
+  if (!/<script src="[^"]*\/kit\/theme\.js"><\/script>/.test(head)) problems.push(`${page}: the kit's theme.js is not loaded in <head>`);
+
+  const open = [];
+  let runs = 0;
+  for (const part of html.slice(html.indexOf('<body')).split(/(<[^>]+>)/)) {
+    if (part.startsWith('<!--')) continue;
+    const tag = part.match(/^<(\/?)([a-zA-Z][\w-]*)/);
+    if (tag) {
+      const name = tag[2].toLowerCase();
+      if (!skipped.has(name) || part.endsWith('/>')) continue;
+      if (tag[1]) {
+        if (open.at(-1) === name) open.pop();
+      } else open.push(name);
+      continue;
+    }
+    if (open.length === 0 && loose.test(decode(part))) runs += 1;
+  }
+  if (runs > 0) problems.push(`${page}: ${runs} text run(s) still hold touching marks for theme.js to replace`);
+}
+
+const home = fs.readFileSync(path.join(outputRoot, 'index.html'), 'utf8');
+const app = home.slice(home.indexOf('<div id="app">'));
+if (/\baria-current="step"/.test(app) || app.includes('data-record="done"') || app.includes('停在这里')) {
+  problems.push('index.html: the server render shows a record mark without a record');
+}
+if (/class="[^"]*\b(?:VPHero|VPFeatures?|VPHome)\b/.test(app)) problems.push('index.html: the old hero or feature cards are back');
+const continueAt = app.indexOf('class="fe-continue');
+const registerAt = app.indexOf('class="fe-register');
+if (continueAt === -1 || registerAt === -1 || continueAt > registerAt) {
+  problems.push('index.html: the continue link must come first, before the 13-week register');
+}
+
+if (problems.length > 0) {
+  console.error(`Notebook check failed with ${problems.length} problem(s):`);
+  for (const problem of problems) console.error(`- ${problem}`);
+  process.exit(1);
+}
+console.log(`Checked ${files.length} generated page(s): kit loaded, zh-CN, no touching marks left for the runtime pass, opening screen continue-first.`);
