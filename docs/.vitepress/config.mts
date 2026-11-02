@@ -1,4 +1,7 @@
 import { defineConfig } from 'vitepress';
+import { notebookCodeTheme } from './theme/code-theme.mjs';
+import { notebookMarkdown } from './theme/notebook-text.mjs';
+import { headBridge } from './theme/theme-sync.mjs';
 
 const base = '/frontend-learning-project/';
 const repository = 'https://github.com/yuweiyang9611/frontend-learning-project';
@@ -25,8 +28,13 @@ export default defineConfig({
   description: '91 天、182 小时，通过真实 Issue Tracker 学习前端、TypeScript、React、API 与测试。',
   base,
   cleanUrls: false,
-  appearance: true,
+  // The family's day and night choice lives in `site-theme`, applied by the kit's theme.js. VitePress's
+  // own switch would keep a second, conflicting choice, so it is off and theme-sync.mjs mirrors the
+  // kit's data-theme onto the `dark` class that VitePress's styles read.
+  appearance: false,
   lastUpdated: true,
+  // Hash links land below the sticky running head.
+  scrollOffset: { selector: '.nb-head', padding: 12 },
   ignoreDeadLinks: 'localhostLinks',
   sitemap: {
     hostname: siteUrl,
@@ -40,6 +48,15 @@ export default defineConfig({
   },
   markdown: {
     lineNumbers: true,
+    theme: notebookCodeTheme,
+    codeCopyButtonTitle: '复制代码',
+    headers: { level: [2] },
+    config(md) {
+      notebookMarkdown(md);
+      // Tables scroll in their own box at a readable width rather than squeezing on a phone.
+      md.renderer.rules.table_open = () => '<div class="fe-table" tabindex="0"><table>\n';
+      md.renderer.rules.table_close = () => '</table></div>\n';
+    },
   },
   transformPageData(pageData) {
     if (pageData.isNotFound) {
@@ -68,8 +85,11 @@ export default defineConfig({
     };
   },
   head: [
+    // theme.js updates this colour, so it has to come first.
+    ['meta', { name: 'theme-color', content: '#f4efe4' }],
+    ['script', { src: `${base}kit/theme.js` }],
+    ['script', {}, `(${headBridge.toString()})();`],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
-    ['meta', { name: 'theme-color', content: '#6558e8' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
     [
@@ -83,23 +103,15 @@ export default defineConfig({
   ],
   themeConfig: {
     siteTitle: 'IssueFlow 学习站',
-    logo: '/favicon.svg',
+    // The running head: words only. The reference pages list each other in the contents column.
     nav: [
-      { text: '91 天课程', link: '/90-days/' },
-      { text: '复习中心', link: '/90-days/review-center' },
-      { text: '知识专题', link: '/learning/' },
+      { text: '课程', link: '/90-days/', activeMatch: '^/90-days/(?!progress-and-journal|review-center)' },
+      { text: '进度', link: '/90-days/progress-and-journal' },
+      { text: '复习', link: '/90-days/review-center' },
+      { text: '专题', link: '/learning/' },
       { text: 'TypeScript', link: '/typescript/' },
-      { text: '后端对照', link: '/backend/' },
-      {
-        text: '参考',
-        items: [
-          { text: '源码追踪', link: '/reference/source-traces' },
-          { text: '产品需求', link: '/reference/product-requirements' },
-          { text: '术语表', link: '/reference/glossary' },
-          { text: '官方资料', link: '/reference/resources' },
-          { text: '练习模板', link: '/reference/task-template' },
-        ],
-      },
+      { text: '后端', link: '/backend/' },
+      { text: '参考', link: '/reference/source-traces', activeMatch: '^/(reference|maintainers|archive)/' },
     ],
     sidebar: {
       '/90-days/': [
@@ -344,10 +356,6 @@ export default defineConfig({
         },
       ],
     },
-    outline: {
-      level: [2, 3],
-      label: '本页目录',
-    },
     search: {
       provider: 'local',
       options: {
@@ -384,24 +392,10 @@ export default defineConfig({
     },
     lastUpdated: {
       text: '最后更新',
-      formatOptions: {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      },
     },
-    docFooter: {
-      prev: '上一页',
-      next: '下一页',
-    },
-    returnToTopLabel: '返回顶部',
-    sidebarMenuLabel: '课程导航',
-    darkModeSwitchLabel: '外观',
-    lightModeSwitchTitle: '切换到浅色主题',
-    darkModeSwitchTitle: '切换到深色主题',
     socialLinks: [{ icon: 'github', link: repository }],
     footer: {
       message: '以真实 IssueFlow 源码为教材，边运行、边观察、边验证。',
-      copyright: 'IssueFlow Learning Project',
     },
   },
 });

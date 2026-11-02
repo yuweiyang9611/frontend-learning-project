@@ -47,12 +47,14 @@ npm run docs:preview
 
 ## 3. 信息架构
 
-- `docs/index.md` 是在线首页；
+- `docs/index.md` 只声明在线首页，首页内容在 `docs/.vitepress/theme/CourseHome.vue`：先给出接着做的那一天和当天的验收命令，再列 13 周记录；
 - `90-days/README.md`、`learning/README.md`、`typescript/README.md` 与 `backend/README.md`
   通过 VitePress rewrite 映射为各目录首页；
-- `docs/.vitepress/config.mts` 维护顶部导航、分区侧栏、中文搜索和上一页/下一页；
-- `docs/.vitepress/theme/custom.css` 只调整品牌变量、排版、表格和移动端体验；
-- `docs/public/favicon.svg` 与 `docs/public/og.png` 是学习站独立的品牌资源；前端产品资源不再作为文档站的构建输入。
+- `docs/.vitepress/config.mts` 维护顶部导航、分区目录、中文搜索和上一页/下一页；
+- `docs/.vitepress/theme/NotebookLayout.vue` 是全站版式：页头、本节目录、正文和页脚；
+- 版式和配色来自各学习站共用的 notebook 套件：`docs/.vitepress/theme/kit/notebook.css` 与 `docs/public/kit/theme.js` 原样复制自首页仓库的 `kit/v1`，不要直接修改，本站的样式写在 `custom.css`；
+- 白天和晚上的选择存于浏览器的 `site-theme`，与其他学习站共用；
+- `docs/public/favicon.svg` 是套件图标，`docs/public/og.png` 是首页截图；前端产品资源不再作为文档站的构建输入。
 
 不要再创建一个巨型 Markdown 入口。新增知识应放入职责明确的章节，并从最近的专题索引和侧边栏各链接一次。
 
