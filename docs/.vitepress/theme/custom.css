@@ -1,494 +1,797 @@
-:root {
-  --vp-c-brand-1: #6155d9;
-  --vp-c-brand-2: #5044c7;
-  --vp-c-brand-3: #4338b2;
-  --vp-c-brand-soft: rgba(97, 85, 217, 0.14);
-  --vp-c-tip-1: #286b62;
-  --vp-c-tip-2: #1f5a53;
-  --vp-c-tip-3: #194a45;
-  --vp-c-tip-soft: rgba(40, 107, 98, 0.14);
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #6558e8 12%, #2e8f83 88%);
-  --vp-home-hero-image-background-image: linear-gradient(135deg, #6558e860, #38a89855);
-  --vp-home-hero-image-filter: blur(48px);
-  --vp-font-family-base:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', sans-serif;
-  --vp-font-family-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+/* IssueFlow 学习站 on the shared notebook kit (kit/notebook.css, loaded just before this file).
+   Values come from the kit's tokens, which switch on <html data-theme>; theme-sync.mjs keeps VitePress's
+   `dark` class in step for the default-theme pieces that are still used (search, code blocks). */
+
+/* VitePress tokens point at the kit, so the default theme's search box, code blocks and badges follow
+   both schemes. Doubled :root outranks the default theme's own `.dark` block. */
+:root:root {
+  --vp-c-white: var(--nb-paper);
+  --vp-c-black: var(--nb-ink);
+  --vp-c-neutral: var(--nb-ink);
+  --vp-c-neutral-inverse: var(--nb-paper);
+  --vp-c-gray-1: var(--nb-rule-strong);
+  --vp-c-gray-2: var(--nb-rule);
+  --vp-c-gray-3: var(--nb-rule);
+  --vp-c-gray-soft: var(--nb-sheet);
+  --vp-c-indigo-1: var(--nb-link);
+  --vp-c-indigo-2: var(--nb-link);
+  --vp-c-indigo-3: var(--nb-link);
+  --vp-c-indigo-soft: var(--nb-blue-wash);
+  --vp-c-purple-1: var(--nb-purple);
+  --vp-c-purple-2: var(--nb-purple);
+  --vp-c-purple-3: var(--nb-purple);
+  --vp-c-purple-soft: var(--nb-sheet);
+  --vp-c-green-1: var(--nb-done);
+  --vp-c-green-2: var(--nb-done);
+  --vp-c-green-3: var(--nb-done);
+  --vp-c-green-soft: var(--nb-done-wash);
+  /* Warnings and dangers share Wrong Red: the kit has no orange or yellow. */
+  --vp-c-yellow-1: var(--nb-wrong);
+  --vp-c-yellow-2: var(--nb-wrong);
+  --vp-c-yellow-3: var(--nb-wrong);
+  --vp-c-yellow-soft: var(--nb-wrong-wash);
+  --vp-c-red-1: var(--nb-wrong);
+  --vp-c-red-2: var(--nb-wrong);
+  --vp-c-red-3: var(--nb-wrong);
+  --vp-c-red-soft: var(--nb-wrong-wash);
+  --vp-c-brand-1: var(--nb-link);
+  --vp-c-brand-2: var(--nb-link);
+  --vp-c-brand-3: var(--nb-link);
+  --vp-c-brand-soft: var(--nb-blue-wash);
+  --vp-c-bg: var(--nb-paper);
+  --vp-c-bg-alt: var(--nb-paper);
+  --vp-c-bg-elv: var(--nb-paper);
+  --vp-c-bg-soft: var(--nb-sheet);
+  --vp-c-border: var(--nb-rule-strong);
+  --vp-c-divider: var(--nb-rule);
+  --vp-c-gutter: var(--nb-rule);
+  --vp-c-text-1: var(--nb-ink);
+  --vp-c-text-2: var(--nb-ink-soft);
+  --vp-c-text-3: var(--nb-ink-soft);
+  --vp-font-family-base: var(--nb-sans);
+  --vp-font-family-mono: var(--nb-mono);
+  --vp-code-color: var(--nb-code);
+  --vp-code-bg: var(--nb-sheet);
+  --vp-code-block-color: var(--nb-ink);
+  --vp-code-block-bg: var(--nb-sheet);
+  --vp-code-lang-color: var(--nb-ink-soft);
+  --vp-code-line-number-color: var(--nb-ink-soft);
+  --vp-code-copy-copied-text-content: "已复制";
+  --vp-local-search-highlight-bg: var(--nb-blue-wash);
+  --vp-local-search-highlight-text: var(--nb-link);
+  --vp-backdrop-bg-color: rgb(37 33 27 / 55%);
+  --vp-shadow-1: none;
+  --vp-shadow-2: none;
+  --vp-shadow-3: none;
+  --vp-shadow-4: none;
+  --vp-shadow-5: none;
 }
 
-.dark {
-  --vp-c-brand-1: #aaa2ff;
-  --vp-c-brand-2: #8f85f1;
-  --vp-c-brand-3: #776bdb;
-  --vp-c-brand-soft: rgba(143, 133, 241, 0.18);
-  --vp-c-tip-1: #6ad0c1;
-  --vp-c-tip-2: #4db6a7;
-  --vp-c-tip-3: #39998c;
-  --vp-c-tip-soft: rgba(77, 182, 167, 0.16);
+@media screen {
+  :root:root[data-theme="dark"] { --vp-backdrop-bg-color: rgb(0 0 0 / 60%); }
 }
 
-html {
-  scroll-padding-top: calc(var(--vp-nav-height) + 16px);
-}
-
-.VPHome {
-  background:
-    radial-gradient(circle at 8% 12%, rgba(101, 88, 232, 0.1), transparent 32rem),
-    radial-gradient(circle at 92% 18%, rgba(46, 143, 131, 0.1), transparent 28rem);
-}
-
-.VPHero .text {
-  max-width: 720px;
-  letter-spacing: -0.025em;
-}
-
-.VPHero .tagline {
-  max-width: 680px;
-  line-height: 1.75;
-}
-
-.VPFeature {
-  border-color: color-mix(in srgb, var(--vp-c-divider) 74%, var(--vp-c-brand-1));
-  transition:
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.VPFeature:hover {
-  border-color: var(--vp-c-brand-1);
-  box-shadow: 0 16px 38px rgba(48, 42, 110, 0.09);
-  transform: translateY(-2px);
-}
-
-.VPFeature .icon {
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-1);
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.vp-doc {
-  font-size: 16px;
-  line-height: 1.82;
-}
-
-.vp-doc h2 {
-  border-top-color: color-mix(in srgb, var(--vp-c-divider) 75%, transparent);
-}
-
-.vp-doc a {
-  text-underline-offset: 3px;
-}
-
-.vp-doc :not(pre) > code {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 5px;
-}
-
-.vp-doc table {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-}
-
-.vp-doc td,
-.vp-doc th {
-  min-width: 7rem;
-}
-
-.vp-doc blockquote {
-  border-left-color: var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
-  border-radius: 0 8px 8px 0;
-  padding: 12px 18px;
-}
-
-.vp-doc blockquote > p {
-  color: var(--vp-c-text-1);
-}
-
-.VPNavBarTitle .title {
-  font-weight: 760;
-  letter-spacing: -0.01em;
-}
-
-:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 75%, white);
-  outline-offset: 3px;
-}
-
-@media (max-width: 640px) {
-  .VPHero .name {
-    font-size: 2.5rem;
-  }
-
-  .VPHero .text {
-    font-size: 2rem;
-    line-height: 1.2;
-  }
-
-  .vp-doc {
-    font-size: 15px;
-  }
-
-  .vp-doc div[class*='language-'] {
-    margin-inline: -24px;
-    border-radius: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-
-.learning-progress {
-  margin: 2rem 0;
-  padding: clamp(1rem, 3vw, 1.5rem);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--vp-c-bg-soft) 88%, var(--vp-c-brand-soft));
-}
-
-.learning-progress__header,
-.learning-progress__actions,
-.learning-progress__import,
-.learning-progress summary {
-  display: flex;
+/* Text actions: underlined words with a full-size target. Records are blue, destructive ones red. */
+.fe-text-action {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.learning-progress__header h2 {
-  margin: 0;
-  border: 0;
+  min-height: 2.75rem;
   padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nb-ink-soft);
+  font: inherit;
+  font-size: .875rem;
+  text-decoration: underline;
+  text-decoration-color: var(--nb-rule-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+  cursor: pointer;
+}
+.fe-text-action:hover { color: var(--nb-ink); text-decoration-color: currentColor; }
+.fe-text-action.is-record { color: var(--nb-link); }
+.fe-text-action.is-danger { color: var(--nb-wrong); }
+
+/* Running head ---------------------------------------------------------------------------------- */
+/* The scheme words render unpressed on the server; the scheme theme.js applied in <head> marks the
+   right one from the first paint, before Vue sets aria-pressed. */
+:root[data-theme="light"] .nb-theme button[data-scheme="light"],
+:root[data-theme="dark"] .nb-theme button[data-scheme="dark"] {
+  color: var(--nb-link);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .32em;
 }
 
-.learning-progress__header p {
-  margin: 0.4rem 0 0;
+/* The kit's `.nb-nav` rules, under a name theme.js does not look for (see SchemeControl.vue). */
+.fe-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.125rem; margin-left: auto; font-size: .9375rem; }
+.fe-nav a, .fe-nav .DocSearch-Button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--nb-ink-soft);
+  text-decoration: none;
+}
+.fe-nav a:hover, .fe-nav .DocSearch-Button:hover {
+  color: var(--nb-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .32em;
+}
+.fe-nav a[aria-current] {
+  color: var(--nb-link);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .32em;
 }
 
-.learning-progress__eyebrow {
-  color: var(--vp-c-brand-1);
-  font-size: 0.78rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+/* The default theme's search button, set as one more word in the head. */
+.fe-nav .VPNavBarSearch { flex-grow: 0; padding: 0; }
+.fe-nav .DocSearch-Button {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.fe-nav .DocSearch-Button:hover { background: none; }
+.fe-nav .DocSearch-Button .DocSearch-Button-Container { display: inline; }
+.fe-nav .DocSearch-Button .DocSearch-Search-Icon,
+.fe-nav .DocSearch-Button .DocSearch-Button-Keys { display: none; }
+.fe-nav .DocSearch-Button .DocSearch-Button-Placeholder {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  transition: none;
+}
+.fe-nav .DocSearch-Button:focus { outline: none; }
+.fe-nav .DocSearch-Button:focus-visible { outline: 2px solid var(--nb-link); outline-offset: 2px; }
+
+@media (max-width: 56rem) {
+  .fe-nav { order: 3; width: 100%; margin-left: 0; }
+  .fe-nav .VPNavBarSearch { flex: 1 1 40%; }
 }
 
-.learning-progress__score {
-  min-width: 8rem;
-  text-align: right;
-}
+.fe-main { display: block; min-height: calc(100vh - var(--nb-head-height) - 4rem); }
+.fe-main:focus { outline: none; }
 
-.learning-progress__score strong,
-.learning-progress__score span {
+.fe-footer { padding: 1rem var(--nb-inset); border-top: 1px solid var(--nb-rule); color: var(--nb-ink-soft); font-size: .875rem; }
+
+/* Reading pages: the section's contents in the gutter, the page at the measure. ------------------ */
+.fe-doc {
+  display: grid;
+  grid-template-columns: minmax(13rem, 17rem) minmax(0, var(--nb-measure));
+  justify-content: start;
+  align-items: start;
+  gap: 3rem;
+  max-width: var(--nb-page);
+  margin: 0 auto;
+  padding: 1.75rem var(--nb-gutter) 3rem;
+}
+.fe-doc--single { grid-template-columns: minmax(0, var(--nb-measure)); }
+.fe-article { min-width: 0; }
+
+.fe-contents {
+  position: sticky;
+  top: calc(var(--nb-head-height) + 1rem);
+  max-height: calc(100dvh - var(--nb-head-height) - 2rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  font-size: .875rem;
+  line-height: 1.5;
+}
+.fe-contents-title { font-weight: 600; }
+.fe-contents-toggle { display: none; }
+.fe-contents-group-title { margin: .875rem 0 .25rem; color: var(--nb-ink-soft); font-weight: 600; }
+.fe-contents ol { margin: 0; padding: 0; list-style: none; }
+.fe-contents a {
   display: block;
+  padding: .25rem 0 .25rem .75rem;
+  border-left: 1px dashed var(--nb-rule-strong);
+  color: var(--nb-ink-soft);
+  text-decoration: none;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.fe-contents a:hover { color: var(--nb-ink); }
+/* Where the reader is: one solid blue entry, the page until a section has passed under the head. */
+.fe-contents a[aria-current="page"], .fe-contents a[aria-current="location"] {
+  border-left: 1px solid var(--nb-link);
+  color: var(--nb-link);
+  font-weight: 600;
+}
+.fe-contents a[aria-current="page"].is-passed { border-left: 1px dashed var(--nb-rule-strong); color: var(--nb-ink); }
+.fe-contents-sections a { padding-left: 1.5rem; }
+
+@media (max-width: 56rem) {
+  .fe-doc { display: block; padding: 0 var(--nb-gutter) 2.5rem; }
+  .fe-contents { position: static; max-height: none; padding-block: .25rem; border-bottom: 1px solid var(--nb-rule); }
+  .fe-contents-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; }
+  .js .fe-contents-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--nb-ink-soft);
+    font: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--nb-rule-strong);
+    text-underline-offset: .22em;
+    cursor: pointer;
+  }
+  .js .fe-contents-list { display: none; }
+  .js .fe-contents.open .fe-contents-list { display: block; padding-bottom: .75rem; }
+  .fe-article { padding-top: 1.25rem; }
 }
 
-.learning-progress progress {
-  width: 100%;
-  height: 0.8rem;
+/* Generated prose. :where() keeps these below the components' own classes. */
+.fe-prose { font-size: 1rem; line-height: 1.75; }
+.fe-prose :where(h1) { margin: 0 0 1.25rem; }
+.fe-prose :where(h2) {
+  margin: 2.5rem 0 .75rem;
+  padding-bottom: .375rem;
+  border-bottom: 1px solid var(--nb-rule-bold);
+  font-size: 1.375rem;
+  line-height: 1.4;
+}
+.fe-prose :where(h3) { margin: 1.75rem 0 .5rem; font-size: 1.0625rem; line-height: 1.5; }
+.fe-prose :where(h4) { margin: 1.25rem 0 .375rem; font-size: 1rem; font-weight: 600; line-height: 1.5; }
+.fe-prose :where(h5, h6) { margin: 1rem 0 .25rem; font-size: 1rem; font-weight: 600; }
+.fe-prose :where(p) { margin: 0 0 1em; }
+.fe-prose :where(ul, ol) { margin: 0 0 1em; padding-left: 1.5rem; }
+.fe-prose :where(ul) { list-style: disc; }
+.fe-prose :where(ol) { list-style: decimal; }
+.fe-prose :where(li) { margin: .25em 0; }
+.fe-prose :where(li > ul, li > ol) { margin: .25em 0; }
+.fe-prose :where(li > p) { margin: 0 0 .5em; }
+.fe-prose :where(ul.contains-task-list) { list-style: none; padding-left: 0; }
+.fe-prose :where(hr) { margin: 2rem 0; border: 0; border-top: 1px solid var(--nb-rule); }
+.fe-prose :where(blockquote) { margin: 1rem 0; padding: 0 0 0 1rem; border-left: 1px solid var(--nb-rule-strong); }
+.fe-prose :where(blockquote > :last-child) { margin-bottom: 0; }
+.fe-prose :where(strong) { font-weight: 600; }
+.fe-prose :where(img) { max-width: 100%; height: auto; }
+.fe-prose :where(:not(pre) > code) {
+  padding: .08em .3em;
+  border-radius: 2px;
+  background: var(--nb-sheet);
+  color: var(--nb-code);
+  font-size: .875em;
+  overflow-wrap: anywhere;
+}
+.fe-prose :where(a code) { color: inherit; }
+/* The default theme's permalink sign is an icon; anchors keep working without it. */
+.fe-prose .header-anchor { display: none; }
+/* VitePress focuses a heading it scrolls to; the ring would outline every landing. */
+.fe-prose :is(h1, h2, h3, h4, h5, h6)[tabindex="-1"]:focus { outline: none; }
+
+/* Tables scroll in their own box (config.mts wraps them) instead of squeezing a phone. */
+.fe-table { width: 100%; max-width: 100%; margin: 1rem 0; overflow-x: auto; overscroll-behavior-inline: contain; }
+.fe-table table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: .9375rem; line-height: 1.6; }
+.fe-table th, .fe-table td {
+  padding: .5rem .75rem .5rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--nb-rule);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.fe-table th { border-bottom-color: var(--nb-rule-bold); font-weight: 600; }
+.fe-table:focus-visible, .fe-prose pre:focus-visible { outline: 2px solid var(--nb-link); outline-offset: 2px; }
+
+/* Code: pasted on the sheet between hairlines, a plain label line above with the copy word. */
+.fe-prose div[class*="language-"] {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   margin: 1rem 0;
-  accent-color: var(--vp-c-brand-1);
 }
-
-.learning-progress__actions {
-  flex-wrap: wrap;
-  justify-content: flex-start;
+.fe-prose div[class*="language-"] > span.lang {
+  grid-row: 1;
+  grid-column: 1 / 3;
+  align-self: center;
+  color: var(--nb-ink-soft);
+  font: .875rem/1.5 var(--nb-mono);
+  font-variant-ligatures: none;
 }
-
-.learning-progress button,
-.learning-progress select,
-.learning-progress input,
-.learning-progress textarea {
+.fe-prose div[class*="language-"] > button.copy {
+  grid-row: 1;
+  grid-column: 3;
+  justify-self: end;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nb-ink-soft);
+  font: .875rem var(--nb-sans);
+  text-decoration: underline;
+  text-decoration-color: var(--nb-rule-strong);
+  text-underline-offset: .22em;
+  cursor: pointer;
+}
+.fe-prose div[class*="language-"] > button.copy::before { content: "复制"; }
+.fe-prose div[class*="language-"] > button.copy.copied::before { content: "已复制"; }
+.fe-prose div[class*="language-"] > button.copy:hover { color: var(--nb-ink); text-decoration-color: currentColor; }
+.fe-prose div[class*="language-"] > pre,
+.fe-prose div[class*="language-"] > .line-numbers-wrapper {
+  grid-row: 2;
+  margin: 0;
+  padding-block: .75rem;
+  border-block: 1px solid var(--nb-rule-strong);
+  background: var(--nb-sheet);
+  font: .875rem/1.65 var(--nb-mono);
+  font-variant-ligatures: none;
+}
+.fe-prose div[class*="language-"] > pre {
+  grid-column: 1 / 4;
+  padding-inline: 1rem;
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+.fe-prose div[class*="language-"].line-numbers-mode > pre { grid-column: 2 / 4; padding-left: .75rem; }
+.fe-prose div[class*="language-"] > .line-numbers-wrapper {
+  grid-column: 1;
+  padding-inline: 1rem 0;
+  color: var(--nb-ink-soft);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+.fe-prose div[class*="language-"] pre code {
+  display: block;
+  width: fit-content;
+  min-width: 100%;
+  padding: 0;
+  background: none;
+  color: var(--nb-ink);
   font: inherit;
 }
 
-.learning-progress button,
-.learning-progress__file {
-  min-height: 2.5rem;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  padding: 0.45rem 0.75rem;
-  background: var(--vp-c-bg);
-  color: var(--vp-c-text-1);
-  cursor: pointer;
+/* Commands to run: each on its own line on the cyan wash, the copy word on the next line. */
+.fe-prose :is(div.language-powershell, div.language-bash, div.language-sh, div.language-shell) {
+  grid-template-columns: minmax(0, 1fr);
 }
-
-.learning-progress button:hover,
-.learning-progress__file:hover {
-  border-color: var(--vp-c-brand-1);
+.fe-prose :is(div.language-powershell, div.language-bash, div.language-sh, div.language-shell) > :is(span.lang, .line-numbers-wrapper) {
+  display: none;
 }
-
-.learning-progress button.danger {
-  color: var(--vp-c-danger-1);
-}
-
-.learning-progress__file input {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  opacity: 0;
-}
-
-.learning-progress__file:focus-within {
-  outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 75%, white);
-  outline-offset: 3px;
-}
-
-.learning-progress__actions > label:not(.learning-progress__file) {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-}
-
-.learning-progress__actions select {
-  min-height: 2.5rem;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg);
-  color: var(--vp-c-text-1);
-}
-
-.learning-progress__import {
-  margin-top: 1rem;
-  border-left: 4px solid var(--vp-c-tip-1);
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  background: var(--vp-c-tip-soft);
-}
-
-.learning-progress__status {
-  min-height: 1.5rem;
-  margin: 0.75rem 0;
-  color: var(--vp-c-text-2);
-}
-
-.learning-progress__weeks {
-  display: grid;
-  gap: 0.65rem;
-}
-
-.learning-progress details {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
-  background: var(--vp-c-bg);
-}
-
-.learning-progress summary {
-  padding: 0.75rem 1rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.learning-progress__days {
-  display: grid;
-  gap: 0.75rem;
-  padding: 0 0.75rem 0.75rem;
-}
-
-.learning-progress__day {
-  display: grid;
-  grid-template-columns: minmax(7rem, 0.65fr) minmax(8rem, 0.7fr) minmax(14rem, 1.5fr);
-  gap: 0.75rem;
-  align-items: start;
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 0.75rem;
-}
-
-.learning-progress__day label {
-  display: grid;
-  gap: 0.3rem;
-  color: var(--vp-c-text-2);
-  font-size: 0.78rem;
-}
-
-.learning-progress__day label:last-child {
-  grid-column: 1 / -1;
-}
-
-.learning-progress__check {
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  color: var(--vp-c-text-1) !important;
-  font-size: 1rem !important;
-}
-
-.learning-progress__day input:not([type='checkbox']),
-.learning-progress__day textarea {
-  width: 100%;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 7px;
-  padding: 0.5rem 0.6rem;
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-1);
-}
-
-.learning-progress__privacy {
-  margin: 1rem 0 0;
-  color: var(--vp-c-text-2);
-  font-size: 0.8rem;
-}
-
-@media (max-width: 720px) {
-  .learning-progress__header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .learning-progress__score {
-    text-align: left;
-  }
-
-  .learning-progress__day {
-    grid-template-columns: 1fr;
-  }
-
-  .learning-progress__day label:last-child {
-    grid-column: auto;
-  }
-}
-
-.knowledge-check,
-.review-center {
-  margin: 2rem 0;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
-  padding: 1.25rem;
-  background: var(--vp-c-bg-soft);
-}
-
-.knowledge-check__eyebrow {
-  margin: 0;
-  color: var(--vp-c-brand-1);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.knowledge-check fieldset,
-.review-center__card {
-  margin: 1rem 0;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
-  padding: 1rem;
-  background: var(--vp-c-bg);
-}
-
-.knowledge-check legend,
-.review-center__card legend {
-  padding: 0 0.3rem;
-  font-weight: 700;
-}
-
-.knowledge-check fieldset > label,
-.review-center__card > label {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.55rem;
-  margin: 0.55rem 0;
-}
-
-.knowledge-check button,
-.review-center button {
+.fe-prose :is(div.language-powershell, div.language-bash, div.language-sh, div.language-shell) > pre {
+  grid-row: 1;
+  grid-column: 1;
+  padding: .5rem .75rem;
   border: 0;
-  border-radius: 8px;
-  padding: 0.6rem 0.9rem;
-  background: var(--vp-c-brand-1);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
+  background: var(--nb-run-wash);
+}
+.fe-prose div[class*="language-"].line-numbers-mode:is(.language-powershell, .language-bash, .language-sh, .language-shell) > pre {
+  grid-column: 1;
+  padding-left: .75rem;
+}
+/* Shiki writes token colours inline; a command is one job, so it is cyan throughout. */
+.fe-prose :is(div.language-powershell, div.language-bash, div.language-sh, div.language-shell) > pre :is(code, span) {
+  color: var(--nb-run) !important;
+}
+.fe-prose :is(div.language-powershell, div.language-bash, div.language-sh, div.language-shell) > button.copy {
+  grid-row: 2;
+  grid-column: 1;
+  justify-self: start;
+}
+.fe-prose :is(div.language-powershell, div.language-bash, div.language-sh, div.language-shell) > button.copy::before { content: "复制命令"; }
+.fe-prose :is(div.language-powershell, div.language-bash, div.language-sh, div.language-shell) > button.copy.copied::before { content: "已复制"; }
+
+/* Containers keep their written label; a wash is a short band that reaches past the text edge. */
+.fe-prose .custom-block {
+  margin: 1rem -1rem;
+  padding: .75rem 1rem;
+  border: 0;
+  border-radius: 0;
+  background: var(--nb-blue-wash);
+  color: var(--nb-ink);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.fe-prose .custom-block :where(p) { margin: 0 0 .5em; }
+.fe-prose .custom-block > :last-child { margin-bottom: 0; }
+.fe-prose .custom-block .custom-block-title { margin-bottom: .125rem; color: var(--nb-link); font-weight: 600; }
+.fe-prose .custom-block :is(a, code) { color: inherit; }
+.fe-prose .custom-block a { color: var(--nb-link); }
+.fe-prose .custom-block code { background: var(--nb-paper); }
+.fe-prose .custom-block:is(.warning, .danger, .caution) { background: var(--nb-wrong-wash); }
+.fe-prose .custom-block:is(.warning, .danger, .caution) .custom-block-title { color: var(--nb-wrong); }
+.fe-prose .custom-block.details { background: none; margin-inline: 0; padding: 0; }
+
+@media (max-width: 44rem) {
+  .fe-prose .custom-block { margin-inline: calc(-1 * var(--nb-gutter)); padding-inline: var(--nb-gutter); }
 }
 
-.knowledge-check__correct,
-.knowledge-check__incorrect {
-  margin-top: 0.8rem;
-  border-left: 4px solid;
-  padding: 0.6rem 0.8rem;
+.fe-doc-footer { margin-top: 3rem; padding-top: .75rem; border-top: 1px solid var(--nb-rule); }
+.fe-pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 2rem; }
+.fe-pager a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 600;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.fe-pager-next { margin-left: auto; }
+.fe-doc-meta { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin-top: .5rem; color: var(--nb-ink-soft); font-size: .875rem; }
+.fe-doc-meta a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+.fe-doc-meta span { display: inline-flex; align-items: center; min-height: 2.75rem; font-variant-numeric: tabular-nums; }
+
+.fe-lost { max-width: var(--nb-page); margin: 0 auto; padding: 2.5rem var(--nb-gutter) 4rem; }
+.fe-lost p { max-width: var(--nb-measure); margin-top: .75rem; color: var(--nb-ink-soft); }
+.fe-lost-links { max-width: var(--nb-measure); margin-top: 1.25rem; padding: 0; list-style: none; border-top: 1px solid var(--nb-rule-bold); }
+.fe-lost-links li { border-bottom: 1px solid var(--nb-rule); }
+.fe-lost-links a { display: flex; align-items: center; min-height: 2.75rem; font-size: 1.0625rem; font-weight: 600; }
+
+/* Opening screen -------------------------------------------------------------------------------- */
+.fe-home {
+  --col-key: 5.5rem;
+  --col-name: 16rem;
+  --col-state: 11rem;
+  --col-gap: 1.25rem;
+  max-width: var(--nb-page);
+  margin: 0 auto;
+  padding: 0 var(--nb-gutter) 1.5rem;
 }
 
-.knowledge-check__correct {
-  border-color: var(--vp-c-green-1);
-  background: var(--vp-c-green-soft);
-}
-
-.knowledge-check__incorrect {
-  border-color: var(--vp-c-danger-1);
-  background: var(--vp-c-danger-soft);
-}
-
-.knowledge-check__correct p,
-.knowledge-check__incorrect p,
-.knowledge-check__status {
-  margin: 0.25rem 0;
-}
-
-.review-center__summary {
+.fe-desk {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+  gap: 1.5rem 3rem;
+  align-items: start;
+  padding: 2rem 0 1.75rem;
+  border-bottom: 1px solid var(--nb-rule);
+}
+.fe-continue {
+  display: block;
+  margin-top: .875rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.45;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.fe-continue.has-record { text-decoration-color: var(--nb-stopped); }
+.fe-continue:hover { text-decoration-color: currentColor; }
+
+/* The course record, left to right: dashed underneath, solid green as far as the record reaches. */
+.fe-track { position: relative; height: 2px; margin-top: 1rem; border-top: 1px dashed var(--nb-rule-strong); }
+.fe-track span {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--nb-done);
+  transform: scaleX(var(--nb-fraction, 0));
+  transform-origin: left;
+  transition: transform .7s cubic-bezier(.16, 1, .3, 1);
+}
+.fe-record-line { margin-top: .625rem; color: var(--nb-ink-soft); font-size: .9375rem; font-variant-numeric: tabular-nums; }
+.fe-record-line strong { color: var(--nb-ink); }
+.fe-record-line span { white-space: nowrap; }
+.fe-course-note { max-width: var(--nb-measure); margin-top: .875rem; color: var(--nb-ink-soft); font-size: .9375rem; line-height: 1.7; }
+
+.fe-run-label { display: flex; align-items: center; min-height: 2.75rem; color: var(--nb-run); font-size: 1rem; }
+.fe-command {
+  min-width: 0;
+  margin: 0;
+  padding: .5rem .75rem;
+  background: var(--nb-run-wash);
+  color: var(--nb-run);
+  font: .875rem/1.65 var(--nb-mono);
+  font-variant-ligatures: none;
+  white-space: pre;
+  overflow-x: auto;
+}
+.fe-command code { font: inherit; color: inherit; }
+.fe-run-note { color: var(--nb-ink-soft); font-size: .875rem; line-height: 1.65; }
+/* A path is copied whole, so it moves to its own line rather than breaking at a hyphen. */
+.fe-run-note code { white-space: nowrap; }
+.fe-run-note code, .fe-row-note code {
+  padding: .08em .3em;
+  border-radius: 2px;
+  background: var(--nb-sheet);
+  color: var(--nb-code);
+  font-size: .875em;
+  overflow-wrap: anywhere;
 }
 
-.review-center__summary div {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
-  padding: 0.75rem;
-  background: var(--vp-c-bg);
+.fe-section { padding-block: 1.75rem; border-bottom: 1px solid var(--nb-rule); }
+.fe-section:last-child { border-bottom: 0; }
+.fe-section-head { margin-bottom: .75rem; }
+.fe-section-head p { max-width: var(--nb-measure); margin-top: .125rem; color: var(--nb-ink-soft); font-size: .9375rem; }
+
+/* Registers: ruled rows on one left edge; the week rows carry the record line in their gutter. */
+.fe-register { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--nb-rule-bold); }
+.fe-row {
+  display: grid;
+  grid-template-columns: var(--col-key) var(--col-name) minmax(0, 1fr) var(--col-state);
+  gap: 0 var(--col-gap);
+  align-items: baseline;
+  padding: .75rem 0 .75rem 1.25rem;
+  border-bottom: 1px solid var(--nb-rule);
+}
+.fe-row-key { grid-column: 1; grid-row: 1 / span 2; align-self: start; color: var(--nb-ink-soft); font-size: .875rem; word-break: keep-all; overflow-wrap: anywhere; }
+.fe-row-title { grid-column: 2; grid-row: 1; font-size: 1.0625rem; line-height: 1.5; }
+.fe-row-title a { text-decoration: none; }
+.fe-row-title a:hover { text-decoration: underline; text-decoration-color: currentColor; }
+.fe-row .nb-stopped { grid-column: 2; grid-row: 2; }
+.fe-row-note { grid-column: 3; grid-row: 1 / span 2; font-size: .9375rem; line-height: 1.65; }
+.fe-row-state {
+  display: flex;
+  flex-direction: column;
+  grid-column: 4;
+  grid-row: 1 / span 2;
+  color: var(--nb-ink-soft);
+  font-size: .875rem;
+  font-variant-numeric: tabular-nums;
+}
+.fe-row-state.is-done > span:first-child { color: var(--nb-done); }
+
+@media (max-width: 62rem) {
+  .fe-row { grid-template-columns: var(--col-key) minmax(0, 1fr) var(--col-state); }
+  .fe-row-title { grid-column: 2; grid-row: 1; }
+  .fe-row .nb-stopped { grid-column: 2; grid-row: 2; }
+  .fe-row-note { grid-column: 2; grid-row: 3; }
+  .fe-row-state { grid-column: 3; grid-row: 1 / span 3; }
 }
 
-.review-center__summary dt {
-  color: var(--vp-c-text-2);
-  font-size: 0.8rem;
+@media (max-width: 56rem) {
+  .fe-desk { grid-template-columns: minmax(0, 1fr); padding-top: 1.5rem; }
 }
 
-.review-center__summary dd {
-  margin: 0.15rem 0 0;
-  font-size: 1.5rem;
-  font-weight: 700;
+@media (max-width: 44rem) {
+  .fe-home { --col-key: 4.25rem; --col-gap: .875rem; }
+  .fe-row { grid-template-columns: var(--col-key) minmax(0, 1fr); }
+  .fe-row-key { grid-row: 1 / span 4; }
+  .fe-row-note { grid-column: 2; grid-row: 3; }
+  .fe-row-state { grid-column: 2; grid-row: 4; flex-flow: row wrap; gap: 0 .75rem; margin-top: .125rem; }
 }
 
-.review-center__actions {
+/* Progress tracker ------------------------------------------------------------------------------ */
+.learning-progress { margin: 1.5rem 0 2.5rem; }
+.learning-progress > h2 { margin-top: 0; }
+.learning-progress__intro { max-width: var(--nb-measure); color: var(--nb-ink-soft); font-size: .9375rem; }
+.learning-progress__summary { margin-top: .5rem; }
+.learning-progress__summary p { margin-top: .625rem; color: var(--nb-ink-soft); font-size: .9375rem; font-variant-numeric: tabular-nums; }
+.learning-progress__count { color: var(--nb-ink); }
+.learning-progress__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.25rem; margin-top: .5rem; }
+.learning-progress__file { position: relative; }
+.learning-progress__file input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+.learning-progress__file:focus-within { outline: 2px solid var(--nb-link); outline-offset: 2px; }
+.learning-progress__mode { display: inline-flex; align-items: center; gap: .5rem; color: var(--nb-ink-soft); font-size: .875rem; }
+.learning-progress__mode select { width: auto; background: var(--nb-paper); color: var(--nb-ink); }
+.learning-progress__import {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
-  margin: 1rem 0;
+  align-items: center;
+  gap: .5rem 1rem;
+  margin-top: .5rem;
+  padding-block: .5rem;
+  border-block: 1px solid var(--nb-rule);
+}
+.learning-progress__status { min-height: 1.75rem; margin-top: .25rem; color: var(--nb-ink-soft); font-size: .9375rem; }
+.learning-progress__status.is-error { color: var(--nb-wrong); }
+
+.learning-progress__weeks { margin-top: .75rem; border-top: 1px solid var(--nb-rule-bold); }
+.learning-progress__week { border-bottom: 1px solid var(--nb-rule); }
+.learning-progress__week > summary {
+  min-height: 2.75rem;
+  padding-block: .5rem;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.learning-progress__week > summary:hover .learning-progress__week-title { color: var(--nb-ink); }
+.learning-progress__week-key { font-weight: 600; }
+.learning-progress__week-title { margin-left: .75rem; color: var(--nb-ink-soft); }
+.learning-progress__week-count { margin-left: .75rem; color: var(--nb-ink-soft); font-size: .875rem; }
+.learning-progress__week-count.is-done { color: var(--nb-done); }
+.learning-progress__days { margin: 0 0 .75rem; padding: 0; list-style: none; border-top: 1px solid var(--nb-rule); }
+.learning-progress__day { margin: 0; padding-block: .5rem .875rem; border-bottom: 1px solid var(--nb-rule); }
+/* A day row is tall, so the stopped day takes a blue heading rather than the wash. */
+.learning-progress__day[aria-current] { background: none; }
+.learning-progress__day[aria-current] .learning-progress__check span { color: var(--nb-stopped); }
+.learning-progress__day-head {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr) auto;
+  gap: 0 .75rem;
+  align-items: baseline;
+}
+.learning-progress__check {
+  display: inline-flex;
+  align-items: center;
+  gap: .625rem;
+  min-height: 2.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.learning-progress__day-title { grid-column: 2; text-decoration: none; word-break: keep-all; overflow-wrap: anywhere; }
+.learning-progress__day-title:hover { text-decoration: underline; text-decoration-color: currentColor; }
+.learning-progress__day .nb-stopped { grid-column: 2; grid-row: 2; }
+.learning-progress__day-state { grid-column: 3; grid-row: 1; color: var(--nb-ink-soft); font-size: .875rem; font-variant-numeric: tabular-nums; }
+.learning-progress__day-state.is-done { color: var(--nb-done); }
+.learning-progress__fields { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: .5rem .75rem; margin-top: .25rem; }
+.learning-progress__fields label { display: grid; gap: .25rem; color: var(--nb-ink-soft); font-size: .875rem; }
+.learning-progress__fields .nb-input { color: var(--nb-ink); font-size: .9375rem; }
+.learning-progress__note { grid-column: 1 / -1; }
+.learning-progress__fields textarea { min-height: 4.25rem; line-height: 1.6; resize: vertical; }
+.learning-progress__privacy { margin-top: 1rem; color: var(--nb-ink-soft); font-size: .875rem; }
+
+@media (max-width: 44rem) {
+  .learning-progress__day-head { grid-template-columns: 6.25rem minmax(0, 1fr); }
+  .learning-progress__day-state { grid-column: 2; grid-row: 3; }
+  .learning-progress__fields { grid-template-columns: minmax(0, 1fr); }
 }
 
-.review-center__actions .danger {
-  background: var(--vp-c-danger-1);
+/* Review centre and weekly checks --------------------------------------------------------------- */
+.review-center, .knowledge-check { margin: 1.5rem 0 2.5rem; }
+.review-center__head > h2 { margin-top: 0; }
+.fe-counts { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin: .5rem 0 0; font-variant-numeric: tabular-nums; }
+.fe-counts div { display: flex; align-items: baseline; gap: .375rem; }
+.fe-counts dt { color: var(--nb-ink-soft); font-size: .875rem; }
+.fe-counts dd { order: -1; margin: 0; font-weight: 600; }
+.review-center__intro, .knowledge-check__intro { max-width: var(--nb-measure); margin-top: .5rem; color: var(--nb-ink-soft); font-size: .9375rem; }
+.review-center__actions { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.review-center__empty { margin-top: 1rem; color: var(--nb-ink-soft); }
+.review-center__status, .knowledge-check__status { min-height: 1.75rem; margin-top: .5rem; color: var(--nb-ink-soft); }
+.review-center__status.is-error, .knowledge-check__status.is-error { color: var(--nb-wrong); }
+/* Live regions stay in the page for announcements but take no room until they have something to say. */
+.learning-progress__status:empty, .review-center__status:empty, .knowledge-check__status:empty { min-height: 0; margin: 0; }
+.review-center__quizzes, .knowledge-check__oral { margin-top: 1rem; }
+.knowledge-check__title { margin: 0; font-size: 1.125rem; line-height: 1.5; }
+.knowledge-check__diagnosis { margin-top: 1rem; }
+.knowledge-check__diagnosis h4, .knowledge-check__oral h4 { margin: .75rem 0 .25rem; font-size: 1rem; }
+.knowledge-check__review-link { margin-top: .5rem; }
+
+.fe-plain-rows { margin: .5rem 0 1rem; padding: 0; list-style: none; border-top: 1px solid var(--nb-rule-bold); }
+.fe-plain-rows li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 1rem;
+  margin: 0;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--nb-rule);
+}
+.fe-plain-rows-state { color: var(--nb-ink-soft); font-size: .875rem; font-variant-numeric: tabular-nums; }
+.fe-plain-rows-state.is-done { color: var(--nb-done); }
+
+.fe-question { min-width: 0; margin: 1.75rem 0 0; padding: 0; border: 0; }
+.fe-question legend { padding: 0; font-size: 1.0625rem; font-weight: 600; line-height: 1.5; }
+.fe-question-meta { margin: .25rem 0 .5rem; color: var(--nb-ink-soft); font-size: .875rem; }
+.quiz-code {
+  max-width: 100%;
+  margin: .5rem 0 .75rem;
+  padding: .75rem 1rem;
+  border-block: 1px solid var(--nb-rule-strong);
+  background: var(--nb-sheet);
+  font: .875rem/1.65 var(--nb-mono);
+  font-variant-ligatures: none;
+  white-space: pre;
+  overflow-x: auto;
+}
+.quiz-code code { padding: 0; background: none; color: var(--nb-ink); font: inherit; }
+.fe-options { border-top: 1px solid var(--nb-rule-bold); }
+.fe-option {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  min-height: 2.75rem;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--nb-rule);
+  cursor: pointer;
+}
+.fe-option:has(input:checked) { font-weight: 600; }
+.fe-option input { flex: none; width: 1.125rem; height: 1.125rem; margin: 0; accent-color: var(--nb-link); }
+.fe-option:has(input:disabled) { cursor: default; }
+/* A verdict keeps its line form and its word: solid green 正确, dashed red 你的选择. */
+.fe-option.is-correct, .fe-option.is-wrong { margin-inline: -.5rem; padding-inline: .5rem; }
+.fe-option.is-correct { border-bottom: 2px solid var(--nb-done); background: var(--nb-done-wash); }
+.fe-option.is-wrong { border-bottom: 1px dashed var(--nb-wrong); background: var(--nb-wrong-wash); }
+.fe-verdict { margin-left: auto; padding-left: .75rem; font-size: .875rem; font-weight: 600; white-space: nowrap; }
+.fe-option.is-correct .fe-verdict { color: var(--nb-done); }
+.fe-option.is-wrong .fe-verdict { color: var(--nb-wrong); }
+.fe-submit { min-height: 2.75rem; margin-top: 1rem; }
+.fe-feedback { margin-top: .75rem; padding-top: .625rem; border-top: 1px dashed var(--nb-wrong); }
+.fe-feedback.knowledge-check__correct { border-top: 2px solid var(--nb-done); }
+.fe-feedback > strong { color: var(--nb-wrong); font-size: 1.0625rem; }
+.fe-feedback.knowledge-check__correct > strong { color: var(--nb-done); }
+.fe-feedback > p { margin: .25rem 0 .5rem; }
+.fe-hint { margin-top: .75rem; }
+
+.fe-prose :where(details > summary), .fe-hint > summary, .review-center__quizzes > summary, .knowledge-check__oral > summary, .fe-feedback summary {
+  padding-block: .375rem;
+  color: var(--nb-ink-soft);
+  cursor: pointer;
+}
+.fe-prose :where(details > summary):hover { color: var(--nb-ink); }
+
+/* Search: the default theme's box, flattened onto paper with words instead of icons. ------------ */
+:root .VPLocalSearchBox .backdrop { background: var(--vp-backdrop-bg-color); }
+:root .VPLocalSearchBox .shell {
+  border: 1px solid var(--nb-ink);
+  border-radius: 2px;
+  background: var(--nb-paper);
+  box-shadow: none;
+}
+:root .VPLocalSearchBox .search-bar { border: 1px solid var(--nb-rule-strong); border-radius: 2px; }
+:root .VPLocalSearchBox .search-bar:focus-within { border-color: var(--nb-link); outline: 1px solid var(--nb-link); }
+:root .VPLocalSearchBox .search-input { color: var(--nb-ink); font: inherit; caret-color: var(--nb-link); }
+:root .VPLocalSearchBox .search-input::-webkit-search-cancel-button { display: none; appearance: none; }
+:root .VPLocalSearchBox .search-input::placeholder { color: var(--nb-ink-soft); opacity: 1; }
+:root .VPLocalSearchBox .local-search-icon, :root .VPLocalSearchBox .navigate-icon, :root .VPLocalSearchBox .title-icon { display: none; }
+:root .VPLocalSearchBox .search-actions button {
+  width: auto;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0 .375rem;
+  color: var(--nb-ink-soft);
+  font-size: .875rem;
+  text-decoration: underline;
+  text-decoration-color: var(--nb-rule-strong);
+  text-underline-offset: .22em;
+}
+:root .VPLocalSearchBox .search-actions button:hover:not(:disabled) { color: var(--nb-ink); }
+:root .VPLocalSearchBox .search-actions button:disabled { opacity: 1; color: var(--nb-ink-soft); text-decoration-style: dashed; }
+:root .VPLocalSearchBox .back-button::after { content: "关闭"; }
+:root .VPLocalSearchBox .toggle-layout-button::after { content: "摘要"; }
+:root .VPLocalSearchBox .toggle-layout-button.detailed-list { color: var(--nb-link); font-weight: 600; }
+:root .VPLocalSearchBox .clear-button::after { content: "清除"; }
+:root .VPLocalSearchBox .results { margin-top: .5rem; border-top: 1px solid var(--nb-rule-bold); }
+:root .VPLocalSearchBox .results li { margin: 0; }
+:root .VPLocalSearchBox .result {
+  border: 0;
+  border-bottom: 1px solid var(--nb-rule);
+  border-radius: 0;
+  background: none;
+  color: var(--nb-ink);
+  line-height: 1.5;
+  text-decoration: none;
+}
+:root .VPLocalSearchBox .result.selected { background: var(--nb-blue-wash); }
+:root .VPLocalSearchBox .titles { color: var(--nb-ink-soft); }
+:root .VPLocalSearchBox .title { gap: .375rem; }
+:root .VPLocalSearchBox .title:not(.main)::after { content: "/"; color: var(--nb-rule-strong); }
+:root .VPLocalSearchBox .title.main { color: var(--nb-ink); font-weight: 600; }
+:root .VPLocalSearchBox .result.selected .title.main { color: var(--nb-link); }
+:root .VPLocalSearchBox mark { border-radius: 0; background: var(--nb-blue-wash); color: var(--nb-link); font-weight: 600; }
+:root .VPLocalSearchBox .excerpt-gradient-top, :root .VPLocalSearchBox .excerpt-gradient-bottom { display: none; }
+:root .VPLocalSearchBox .excerpt { opacity: 1; color: var(--nb-ink-soft); }
+:root .VPLocalSearchBox .no-results { color: var(--nb-ink-soft); }
+:root .VPLocalSearchBox .search-keyboard-shortcuts { color: var(--nb-ink-soft); font-size: .875rem; }
+:root .VPLocalSearchBox .search-keyboard-shortcuts kbd {
+  min-width: 0;
+  height: auto;
+  padding: 0 .35em;
+  border: 1px solid var(--nb-rule-strong);
+  border-radius: 2px;
+  background: none;
+  color: var(--nb-ink-soft);
+  font: .8125rem var(--nb-mono);
+  font-variant-ligatures: none;
+}
+:root .VPLocalSearchBox .search-keyboard-shortcuts span:first-child kbd:first-child::after { content: "↑"; }
+:root .VPLocalSearchBox .search-keyboard-shortcuts span:first-child kbd:nth-child(2)::after { content: "↓"; }
+:root .VPLocalSearchBox .search-keyboard-shortcuts span:nth-child(2) kbd::after { content: "Enter"; }
+
+@media (forced-colors: active) {
+  .fe-track span { forced-color-adjust: none; background: CanvasText; }
 }
 
-/* The dark theme uses light brand and danger colors, so white text does not
-   have enough contrast on these interactive controls. */
-.dark .knowledge-check button,
-.dark .review-center button {
-  color: #19172d;
+@media print {
+  .fe-contents, .fe-footer, .skip-link, .fe-doc-meta, .fe-pager { display: none !important; }
+  .fe-doc { display: block; }
 }
-
-@media (max-width: 640px) {
-  .knowledge-check,
-  .review-center {
-    padding: 0.9rem;
-  }
-
-  .review-center__summary {
-    grid-template-columns: 1fr;
-  }
-}
-
-.quiz-code { max-width: 100%; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; border: 1px solid var(--vp-c-divider); border-radius: 6px; }
