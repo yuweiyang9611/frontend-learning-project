@@ -28,6 +28,14 @@ updates:
       vinext-platform:
         patterns: ["vinext", "vite", "@vitejs/*", "@cloudflare/*", "wrangler"]
         update-types: ["minor", "patch"]
+      # @vitest/coverage-v8 pins vitest to its own exact version, so they must move together.
+      vitest:
+        patterns: ["vitest", "@vitest/*"]
+    ignore:
+      # eslint-config-next still depends on eslint-plugin-react 7.37, which crashes on ESLint 10
+      # (context.getFilename was removed). Drop this once eslint-config-next supports ESLint 10.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: nuget
     directories:
