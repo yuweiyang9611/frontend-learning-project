@@ -2,6 +2,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import { withBase } from "vitepress";
 import NbText from "./NbText";
+import { announceRecord } from "./course-record.mjs";
 import { scoreConcepts } from "./quiz-diagnostics.mjs";
 import {
   conceptLabel,
@@ -75,6 +76,7 @@ function submitQuiz() {
   status.value = `本周得分 ${score.value} / ${quiz.questions.length}；错题已进入复习中心。`;
   try {
     localStorage.setItem(REVIEW_STORAGE_KEY, JSON.stringify(next));
+    announceRecord();
   } catch {
     status.value += "浏览器无法保存，请在本次会话内完成订正。";
   }

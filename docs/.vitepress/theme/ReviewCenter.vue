@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { announceRecord } from "./course-record.mjs";
 import { reviewConcepts } from "./quiz-diagnostics.mjs";
 import { computed, onMounted, ref } from "vue";
 import { withBase } from "vitepress";
@@ -83,6 +84,7 @@ function answerCurrent() {
   statusError.value = !correct;
   try {
     localStorage.setItem(REVIEW_STORAGE_KEY, JSON.stringify(state.value));
+    announceRecord();
   } catch {
     status.value = "结果只保存在当前页面内存。";
   }
@@ -114,6 +116,7 @@ function resetReview() {
   selected.value = null;
   try {
     localStorage.removeItem(REVIEW_STORAGE_KEY);
+    announceRecord();
   } catch {
     // The in-memory state has still been reset.
   }

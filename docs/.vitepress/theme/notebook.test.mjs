@@ -5,7 +5,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 import { createMarkdownRenderer } from 'vitepress';
 import { loadCourse } from './course.data.mjs';
-import { courseState, readRecords, sinceText, weekCheck } from './course-record.mjs';
+import { PHASES, courseState, pageBand, readRecords, sinceText, weekCheck, weekPhase } from './course-record.mjs';
 import { LOOSE_MARKS, haltParts, joinsWithoutSpace, notebookMarkdown } from './notebook-text.mjs';
 import { createProgress, PROGRESS_STORAGE_KEY } from './progress-state.mjs';
 import { REVIEW_STORAGE_KEY } from './review-state.mjs';
@@ -25,7 +25,7 @@ function memoryStorage(entries = {}) {
 
 test('the kit files are unedited copies of kit v1', () => {
   assert.equal(sha256(kitFile('../../public/kit/theme.js')), '2f26afc56d0152d02f363af644ac51b552a890e02d3e81542795aba6b8d5d5e0');
-  assert.equal(sha256(kitFile('./kit/notebook.css')), 'e5aea068eca83d10ad83a0fbbda3165fbbf0ecf575482066a8d8aba2d137635b');
+  assert.equal(sha256(kitFile('./kit/notebook.css')), '77b6f7006dedd30fac7baa290419b4784d11a349bb0be92605311eb3a42c4857');
   assert.equal(sha256(kitFile('../../public/favicon.svg')), '3ea07acd66b71bcef6462252c4e437ee6622f57898089bbb891410e57b20dc0e');
 });
 
@@ -225,4 +225,76 @@ test('weekly check state counts only that week and only answered questions', () 
   assert.deepEqual(weekCheck(stored, 10), { answered: 1, correct: 1 });
   assert.equal(weekCheck(stored, 2), null);
   assert.equal(weekCheck(null, 1), null);
+});
+
+test('every week sits in one phase with a hue that is not red', () => {
+  const covered = PHASES.flatMap((phase) => phase.weeks);
+  assert.deepEqual(
+    [...covered].sort((left, right) => left - right),
+    Array.from({ length: 13 }, (_, index) => index + 1),
+  );
+  for (const phase of PHASES) {
+    assert.ok(['green', 'cyan', 'blue', 'purple'].includes(phase.hue), phase.word);
+    assert.ok(phase.word.length > 0);
+  }
+  assert.equal(weekPhase(1).hue, 'green');
+  assert.equal(weekPhase(8).word, 'React');
+  assert.equal(weekPhase(13).hue, 'purple');
+});
+
+test('the page band carries the week and its days done, the record pages the course, other pages none', () => {
+  const { weeks } = loadCourse();
+  const progress = createProgress();
+  for (const day of progress.days.slice(0, 9)) {
+    Object.assign(day, {
+      completed: true,
+      completedAt: '2026-10-20T00:00:00.000Z',
+      minutes: 120,
+      note: '这一天的复盘至少有二十个字，并说明了证据和下一步。',
+      evidence: [{ label: 'x', url: '/learning-evidence/report.json' }],
+    });
+  }
+  const records = readRecords(memoryStorage({ [PROGRESS_STORAGE_KEY]: JSON.stringify(progress) }));
+  const none = { progress: null, review: null };
+
+  assert.deepEqual(pageBand('90-days/week-02-html-accessibility.md', weeks, records), {
+    hue: 'green',
+    eyebrow: '第 2 周 · Web 基础',
+    label: '第 2 周进度',
+    note: '2 / 7 天',
+    value: 2,
+    max: 7,
+  });
+  assert.equal(pageBand('90-days/week-02-html-accessibility.md', weeks, none).note, '0 / 7 天');
+  assert.equal(pageBand('90-days/week-13-capstone.md', weeks, none).hue, 'purple');
+  assert.deepEqual(pageBand('90-days/progress-and-journal.md', weeks, records), {
+    hue: 'blue',
+    eyebrow: '记录 · 91 天进度',
+    label: '91 天课程进度',
+    note: '9 / 91 天',
+    value: 9,
+    max: 91,
+  });
+  assert.equal(pageBand('90-days/progress-and-journal.md', weeks, none).note, '还没有记录');
+  const review = {
+    app: 'issueflow-learning-review',
+    schemaVersion: 1,
+    records: {
+      'w01-q01': { stage: 0, lastCorrect: false, lastAnsweredAt: 'a', dueAt: '2000-01-01T00:00:00.000Z', attempts: 1 },
+      'w01-q02': { stage: 1, lastCorrect: true, lastAnsweredAt: 'a', dueAt: '2999-01-01T00:00:00.000Z', attempts: 1 },
+    },
+  };
+  const reviewed = readRecords(memoryStorage({ [REVIEW_STORAGE_KEY]: JSON.stringify(review) }));
+  assert.deepEqual(pageBand('90-days/review-center.md', weeks, reviewed), {
+    hue: 'blue',
+    eyebrow: '记录 · 错题与间隔复习',
+    label: '周测题目掌握进度',
+    note: '1 / 2 题答对 · 1 题待订正 · 1 题到期',
+    value: 1,
+    max: 2,
+  });
+  assert.equal(pageBand('90-days/review-center.md', weeks, none).max, 0);
+  assert.equal(pageBand('90-days/how-to-study.md', weeks, records), null);
+  assert.equal(pageBand('learning/index.md', weeks, records), null);
+  assert.equal(pageBand('index.md', weeks, records), null);
 });

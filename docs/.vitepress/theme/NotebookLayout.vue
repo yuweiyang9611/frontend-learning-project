@@ -4,6 +4,7 @@ import { useData, useRoute, withBase } from 'vitepress';
 import { VPNavBarSearch } from 'vitepress/theme-without-fonts';
 import CourseHome from './CourseHome.vue';
 import NbText from './NbText';
+import PageBand from './PageBand.vue';
 import SchemeControl from './SchemeControl.vue';
 import { isActiveNav, isCurrentPage, neighbours, sidebarFor } from './site-nav.mjs';
 
@@ -129,6 +130,7 @@ watch(
     </section>
 
     <div v-else class="fe-doc" :class="{ 'fe-doc--single': groups.length === 0 }">
+      <PageBand :relative-path="page.relativePath" />
       <nav v-if="groups.length" class="fe-contents" :class="{ open: contentsOpen }" aria-label="本节目录">
         <div class="fe-contents-head">
           <p class="fe-contents-title">本节目录</p>
