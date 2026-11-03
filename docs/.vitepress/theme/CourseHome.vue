@@ -1,10 +1,11 @@
 <script setup lang="ts">
-// The opening screen: the way back to the stopped day first, beside the command that checks it, then the
-// 13 weeks as a register with the record line, then the record pages and the reference shelves.
+// The opening screen as a dashboard: the masthead with the owner's own figures, one dark banner for the
+// day to continue beside the command that checks it, then the 13 weeks as cards whose heads carry the
+// phase's hue and a progress ring, then the record and reference pages as cards without rings.
 import { computed, onMounted, ref, shallowRef } from 'vue';
 import { withBase } from 'vitepress';
 import { data as course } from './course.data.mjs';
-import { courseState, readRecords, reviewState, weekCheck } from './course-record.mjs';
+import { RECORD_HUE, courseState, readRecords, reviewState, weekCheck, weekPhase } from './course-record.mjs';
 import NbText from './NbText';
 
 type Records = ReturnType<typeof readRecords>;
@@ -29,21 +30,104 @@ const next = computed(() => state.value.next);
 const command = computed(() => `npm run learn:day -- ${next.value.day}`);
 const evidence = computed(() => `learning-evidence/day-${String(next.value.day).padStart(2, '0')}/report.json`);
 const hours = computed(() => (state.value.minutes / 60).toFixed(1));
+const fraction = computed(() => state.value.completed / state.value.total);
+// The week the owner is in: the week of the next day once there is a record, none before it.
+const currentWeek = computed(() => (state.value.started ? next.value.week : null));
 
 const weeks = computed(() =>
   course.weeks.map((week, index) => {
     const counts = state.value.weeks[index];
     const check = weekCheck(records.value.review, week.week);
+    const done = new Set((records.value.progress?.days ?? []).filter((day) => day.completed).map((day) => day.day));
+    const weekFraction = counts.completed / counts.total;
     return {
       ...week,
+      phase: weekPhase(week.week),
       completed: counts.completed,
-      fraction: counts.completed / counts.total,
+      fraction: weekFraction,
+      percent: `${Math.round(weekFraction * 100)}%`,
       done: counts.completed === counts.total,
       stopped: state.value.stoppedWeek === week.week,
+      nextDay: week.days.find((day) => !done.has(day.day)) ?? null,
       check,
     };
   }),
 );
+
+const shelf = computed(() => [
+  {
+    kind: '记录',
+    hue: RECORD_HUE,
+    title: '进度与日志',
+    link: '/90-days/progress-and-journal.html',
+    note: '每天记下主动学习分钟、证据链接和复盘，三项达标才能勾选完成。',
+    state: state.value.started ? `${state.value.completed} / ${state.value.total} 天` : '还没有记录',
+  },
+  {
+    kind: '记录',
+    hue: RECORD_HUE,
+    title: '错题与间隔复习',
+    link: '/90-days/review-center.html',
+    note: '周测答错的题立即进入队列，答对后按 1、3、7、14、30 天再出现。',
+    state: review.value ? `${review.value.incorrect} 题待订正 · ${review.value.due} 题到期` : '还没有周测记录',
+  },
+  {
+    kind: '方法',
+    hue: 'green',
+    title: '怎样学习每天 2 小时',
+    link: '/90-days/how-to-study.html',
+    note: '120 分钟怎样分配、什么才算验收证据、卡住时的 15 分钟协议。',
+    state: '',
+  },
+  {
+    kind: '方法',
+    hue: 'green',
+    title: '考核、检查点与毕业标准',
+    link: '/90-days/assessments.html',
+    note: '每周 20 分量表、W4 到 W12 的五个阶段检查点和 100 分毕业量表。',
+    state: '',
+  },
+  {
+    kind: '专题',
+    hue: 'cyan',
+    title: '知识专题 00–12',
+    link: '/learning/',
+    note: '配合日课的知识主线：浏览器、HTML 与 CSS、React、API、测试。',
+    state: `${course.pages.learning} 章`,
+  },
+  {
+    kind: '专题',
+    hue: 'cyan',
+    title: 'TypeScript 专题',
+    link: '/typescript/',
+    note: '从 C# 到 TypeScript、领域建模、运行时边界和类型错误排查。',
+    state: `${course.pages.typescript} 篇`,
+  },
+  {
+    kind: '专题',
+    hue: 'cyan',
+    title: '后端对照',
+    link: '/backend/',
+    note: 'Minimal API、EF Core、认证与上传，以及两套后端的 Contract 对照。',
+    state: `${course.pages.backend} 篇`,
+  },
+  {
+    kind: '参考',
+    hue: 'purple',
+    title: '源码追踪与参考资料',
+    link: '/reference/source-traces.html',
+    note: '源码追踪路线、产品需求、术语表、官方资料和练习模板。',
+    state: `${course.pages.reference} 篇`,
+  },
+  {
+    kind: '参考',
+    hue: 'purple',
+    title: '全部课程与参考资料',
+    link: '/README.html',
+    note: '整个教材目录，包括维护者文档和原始课程设计存档。',
+    state: '',
+  },
+]);
 
 async function copyCommand() {
   try {
@@ -58,41 +142,63 @@ async function copyCommand() {
 
 <template>
   <div class="fe-home">
-    <section class="fe-desk" aria-labelledby="home-title">
-      <div class="fe-desk-record">
+    <div class="fe-masthead">
+      <div>
         <h1 id="home-title">IssueFlow 91 天前端课程</h1>
-        <a class="fe-continue" :class="{ 'has-record': state.started }" :href="withBase(next.link)">
-          <template v-if="state.finished">已完成全部 91 天：回到第 91 天</template>
-          <template v-else-if="state.started">接着做：第 {{ next.day }} 天 · <NbText :text="next.title" /></template>
-          <template v-else>从第 1 天开始：<NbText :text="next.title" /></template>
-        </a>
-        <div
-          class="fe-track"
-          role="progressbar"
-          aria-label="91 天课程进度"
-          aria-valuemin="0"
-          :aria-valuemax="state.total"
-          :aria-valuenow="state.completed"
-          :style="{ '--nb-fraction': String(state.completed / state.total) }"
-        >
-          <span></span>
-        </div>
-        <p v-if="state.started" class="fe-record-line">
-          <span><strong>{{ state.completed }} / {{ state.total }} 天</strong>已完成</span> ·
-          <span>主动学习 {{ hours }} 小时</span><template v-if="state.lastCompleted"> · <span>最近完成：{{ state.lastCompleted }}</span></template>
-        </p>
-        <p v-else class="fe-record-line">本设备还没有学习记录。每天学完后，在<a :href="withBase('/90-days/progress-and-journal.html')">进度与日志</a>里记下分钟、证据和复盘。</p>
         <!-- The old opening page's anchors still land on the matching part of this screen. -->
-        <p id="学习时会用到什么" class="fe-course-note">13 周、91 天，每天至少 120 分钟主动学习，共 182 小时。每天先预测、读概念、追源码、做实验，再独立完成变体并留下证据。</p>
+        <p id="学习时会用到什么" class="fe-masthead-note">13 周、91 天，每天 120 分钟主动学习，共 182 小时。记录只存在这台设备的浏览器里。</p>
+      </div>
+      <dl class="fe-stats" aria-label="学习概况">
+        <div class="nb-stat" data-hue="green">
+          <dd>{{ state.completed }}</dd>
+          <dt>天已完成</dt>
+        </div>
+        <div class="nb-stat" data-hue="cyan">
+          <dd>{{ currentWeek ? `第 ${currentWeek} 周` : '还没开始' }}</dd>
+          <dt>当前周</dt>
+        </div>
+        <div class="nb-stat" data-hue="blue">
+          <dd>{{ state.lastCompleted || '还没有' }}</dd>
+          <dt>上次记录</dt>
+        </div>
+      </dl>
+    </div>
+
+    <section class="fe-desk" aria-labelledby="resume-label">
+      <div class="fe-resume nb-banner" :class="{ 'has-record': state.started }">
+        <div class="fe-resume-text">
+          <p class="nb-banner-eyebrow" id="resume-label">接着做</p>
+          <p class="nb-banner-title">
+            <a class="fe-continue" :class="{ 'has-record': state.started }" :href="withBase(next.link)">
+              <template v-if="state.finished">已完成全部 91 天：回到第 91 天</template>
+              <template v-else>第 {{ next.day }} 天 · <NbText :text="next.title" /></template>
+            </a>
+          </p>
+          <p v-if="state.started" class="nb-banner-note fe-record-line">
+            <span>{{ state.completed }} / {{ state.total }} 天</span> · <span>主动学习 {{ hours }} 小时</span
+            ><template v-if="state.lastCompleted"> · <span>最近完成：{{ state.lastCompleted }}</span></template>
+          </p>
+          <p v-else class="nb-banner-note fe-record-line">这个浏览器里还没有学习记录，从第 1 天开始；学完后在进度与日志里记下分钟、证据和复盘。</p>
+          <div
+            class="fe-track nb-bar nb-bar--on-fill"
+            role="progressbar"
+            aria-label="91 天课程进度"
+            aria-valuemin="0"
+            :aria-valuemax="state.total"
+            :aria-valuenow="state.completed"
+            :style="{ '--nb-fraction': String(fraction) }"
+          >
+            <span></span>
+          </div>
+        </div>
+        <a class="nb-button nb-button--solid fe-resume-go" :href="withBase(next.link)">{{ state.started ? '继续学习' : '开始第 1 天' }}</a>
       </div>
 
       <aside class="fe-run" aria-labelledby="run-title">
         <h2 id="run-title" class="fe-run-label">第 {{ next.day }} 天的验收命令</h2>
         <pre class="fe-command" tabindex="0"><code>{{ command }}</code></pre>
         <button class="fe-text-action" type="button" @click="copyCommand">{{ copied ? '已复制' : '复制命令' }}</button>
-        <p class="fe-run-note">
-          在仓库根目录运行。它跑当天的检查，把结果写入 <code>{{ evidence }}</code>。先按<a :href="withBase(next.link)">当天的页面</a>完成实验和独立变体。
-        </p>
+        <p class="fe-run-note">在仓库根目录运行，结果写入 <code>{{ evidence }}</code>。</p>
       </aside>
     </section>
 
@@ -101,23 +207,35 @@ async function copyCommand() {
         <h2 id="weeks-title">13 周</h2>
         <p>按依赖顺序排列，每周 7 天，最后一天做闭卷周测和复盘。</p>
       </div>
-      <ol class="fe-register" aria-describedby="weeks-title">
+      <ol class="fe-register fe-weeks nb-grid" aria-describedby="weeks-title">
         <li
           v-for="week in weeks"
           :key="week.week"
-          class="fe-row fe-week nb-entry"
+          class="fe-week nb-card"
+          :data-hue="week.phase.hue"
           :data-record="week.done ? 'done' : undefined"
           :aria-current="week.stopped ? 'step' : undefined"
           :style="{ '--nb-fraction': String(week.fraction) }"
         >
-          <span class="fe-row-key">第 {{ week.week }} 周</span>
-          <h3 class="fe-row-title"><a :href="withBase(week.link)"><NbText :text="week.title" /></a></h3>
-          <span v-if="week.stopped" class="nb-stopped">停在这里</span>
-          <p class="fe-row-note"><NbText :text="week.deliverable" /></p>
-          <p class="fe-row-state" :class="{ 'is-done': week.done }">
-            <span>{{ week.completed }} / {{ week.days.length }} 天</span>
-            <span v-if="week.check" class="fe-row-check">周测 {{ week.check.correct }} / {{ week.check.answered }} 题正确</span>
-          </p>
+          <div class="nb-card-head">
+            <div>
+              <p class="nb-card-eyebrow">第 {{ week.week }} 周 · {{ week.phase.word }}</p>
+              <h3><a :href="withBase(week.link)"><NbText :text="week.title" /></a></h3>
+            </div>
+            <div class="nb-ring" role="img" :aria-label="`完成 ${week.percent}`" :style="{ '--nb-fraction': String(week.fraction) }">
+              <span>{{ week.percent }}</span>
+            </div>
+          </div>
+          <div class="nb-card-body">
+            <p v-if="week.stopped" class="nb-stopped">停在这里</p>
+            <p><NbText :text="week.deliverable" /></p>
+            <div class="nb-card-meta">
+              <span class="fe-week-state" :class="{ 'is-done': week.done }">{{ week.completed }} / {{ week.days.length }} 天</span>
+              <span v-if="week.check" class="fe-week-check">周测 {{ week.check.correct }} / {{ week.check.answered }} 题正确</span>
+              <span v-else-if="week.nextDay" class="fe-week-next">下一天：第 {{ week.nextDay.day }} 天</span>
+              <span v-else class="fe-week-next">本周完成</span>
+            </div>
+          </div>
         </li>
       </ol>
     </section>
@@ -127,60 +245,18 @@ async function copyCommand() {
         <h2 id="shelf-title">记录与资料</h2>
         <p>进度和复习只存在这台设备的浏览器里，可以导出 JSON 备份。</p>
       </div>
-      <ul class="fe-register fe-shelf">
-        <li class="fe-row">
-          <span class="fe-row-key">记录</span>
-          <h3 class="fe-row-title"><a :href="withBase('/90-days/progress-and-journal.html')">进度与日志</a></h3>
-          <p class="fe-row-note">每天的主动学习分钟、证据链接和复盘，三项达标才能勾选完成。</p>
-          <p class="fe-row-state">{{ state.started ? `${state.completed} / ${state.total} 天` : '还没有记录' }}</p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">记录</span>
-          <h3 class="fe-row-title"><a :href="withBase('/90-days/review-center.html')">错题与间隔复习</a></h3>
-          <p class="fe-row-note">周测答错的题立即进入队列，答对后按 1、3、7、14、30 天再出现。</p>
-          <p class="fe-row-state">
-            <template v-if="review">{{ review.incorrect }} 题待订正 · {{ review.due }} 题到期</template>
-            <template v-else>还没有周测记录</template>
-          </p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">方法</span>
-          <h3 class="fe-row-title"><a :href="withBase('/90-days/how-to-study.html')">怎样学习每天 2 小时</a></h3>
-          <p class="fe-row-note">120 分钟怎样分配、什么才算验收证据、卡住时的 15 分钟协议。</p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">方法</span>
-          <h3 class="fe-row-title"><a :href="withBase('/90-days/assessments.html')">考核、检查点与毕业标准</a></h3>
-          <p class="fe-row-note">每周 20 分量表、W4 到 W12 的五个阶段检查点和 100 分毕业量表。</p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">专题</span>
-          <h3 class="fe-row-title"><a :href="withBase('/learning/')">知识专题 00–12</a></h3>
-          <p class="fe-row-note">配合日课的知识主线：浏览器、HTML 与 CSS、React、API、测试。</p>
-          <p class="fe-row-state">{{ course.pages.learning }} 章</p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">专题</span>
-          <h3 class="fe-row-title"><a :href="withBase('/typescript/')">TypeScript 专题</a></h3>
-          <p class="fe-row-note">从 C# 到 TypeScript、领域建模、运行时边界和类型错误排查。</p>
-          <p class="fe-row-state">{{ course.pages.typescript }} 篇</p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">专题</span>
-          <h3 class="fe-row-title"><a :href="withBase('/backend/')">后端对照</a></h3>
-          <p class="fe-row-note">Minimal API、EF Core、认证与上传，以及两套后端的 Contract 对照。</p>
-          <p class="fe-row-state">{{ course.pages.backend }} 篇</p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">参考</span>
-          <h3 class="fe-row-title"><a :href="withBase('/reference/source-traces.html')">源码追踪与参考资料</a></h3>
-          <p class="fe-row-note">源码追踪路线、产品需求、术语表、官方资料和练习模板。</p>
-          <p class="fe-row-state">{{ course.pages.reference }} 篇</p>
-        </li>
-        <li class="fe-row">
-          <span class="fe-row-key">参考</span>
-          <h3 class="fe-row-title"><a :href="withBase('/README.html')">全部课程与参考资料</a></h3>
-          <p class="fe-row-note">整个教材目录，包括维护者文档和原始课程设计存档。</p>
+      <ul class="fe-shelf nb-grid">
+        <li v-for="item in shelf" :key="item.link" class="fe-shelf-card nb-card" :data-hue="item.hue">
+          <div class="nb-card-head">
+            <div>
+              <p class="nb-card-eyebrow">{{ item.kind }}</p>
+              <h3><a :href="withBase(item.link)">{{ item.title }}</a></h3>
+            </div>
+          </div>
+          <div class="nb-card-body">
+            <p>{{ item.note }}</p>
+            <div v-if="item.state" class="nb-card-meta"><span>{{ item.state }}</span></div>
+          </div>
         </li>
       </ul>
     </section>
@@ -190,7 +266,7 @@ async function copyCommand() {
         <h2 id="三条学习路径">三条学习路径</h2>
         <p>按已有经验选第一站，之后都回到 91 天课程。</p>
       </div>
-      <ul class="fe-register fe-shelf">
+      <ul class="fe-paths">
         <li class="fe-row">
           <span class="fe-row-key">没有前端经验</span>
           <h3 class="fe-row-title"><a :href="withBase('/90-days/')">从 91 天课程开始</a></h3>

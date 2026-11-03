@@ -62,9 +62,15 @@ test('没有学习记录时首页从第 1 天开始，不画停止标记', async
   await hydrated(page);
 
   const continueLink = page.locator('.fe-continue');
-  await expect(continueLink).toHaveText(/从第 1 天开始/);
+  await expect(continueLink).toHaveText(/^第 1 天 · /);
   await expect(continueLink).toHaveAttribute('href', /week-01-foundations\.html#day-01$/);
+  await expect(page.locator('.fe-resume .nb-banner-eyebrow')).toHaveText('接着做');
+  await expect(page.locator('.fe-record-line')).toContainText('还没有学习记录');
+  await expect(page.locator('.fe-resume-go')).toHaveText('开始第 1 天');
+  await expect(page.locator('.fe-stats .nb-stat').first()).toContainText('0');
   await expect(page.locator('.fe-week')).toHaveCount(13);
+  await expect(page.locator('.fe-week .nb-ring')).toHaveCount(13);
+  await expect(page.locator('.fe-week .nb-ring[aria-label="完成 0%"]')).toHaveCount(13);
   await expect(page.locator('.fe-week[aria-current]')).toHaveCount(0);
   await expect(page.locator('.fe-week[data-record="done"]')).toHaveCount(0);
   await expect(page.locator('main .nb-stopped')).toHaveCount(0);
@@ -85,7 +91,10 @@ test('首页按本机记录接着做下一天，并保持记录原样', async ({
   await hydrated(page);
 
   const continueLink = page.locator('.fe-continue');
-  await expect(continueLink).toHaveText(/接着做：第 9 天/);
+  await expect(continueLink).toHaveText(/^第 9 天 · /);
+  await expect(page.locator('.fe-resume .nb-banner-eyebrow')).toHaveText('接着做');
+  await expect(page.locator('.fe-resume-go')).toHaveText('继续学习');
+  await expect(page.locator('.fe-stats .nb-stat').nth(1)).toContainText('第 2 周');
   await expect(continueLink).toHaveAttribute('href', /week-02-html-accessibility\.html#day-09$/);
   await expect(page.locator('.fe-record-line')).toContainText('8 / 91 天');
   await expect(page.locator('.fe-week').first()).toHaveAttribute('data-record', 'done');
@@ -93,9 +102,23 @@ test('首页按本机记录接着做下一天，并保持记录原样', async ({
   await expect(stopped).toHaveCount(1);
   await expect(stopped).toContainText('第 2 周');
   await expect(stopped.locator('.nb-stopped')).toHaveText('停在这里');
+  await expect(stopped.locator('.nb-ring')).toHaveAttribute('aria-label', '完成 14%');
+  await expect(page.locator('.fe-week').first().locator('.nb-ring')).toHaveAttribute('aria-label', '完成 100%');
   await expect(page.locator('main .nb-stopped')).toHaveCount(1);
   await expect(page.getByRole('heading', { name: '第 9 天的验收命令' })).toBeVisible();
   expect(await page.evaluate((key) => localStorage.getItem(key), progressKey)).toBe(stored);
+
+  // A week page opens with its band: the phase's hue, the week and the days done from the same record.
+  await page.goto('90-days/week-02-html-accessibility.html');
+  await hydrated(page);
+  const band = page.locator('.fe-band');
+  await expect(band).toHaveAttribute('data-hue', 'green');
+  await expect(band.locator('.fe-band-eyebrow')).toHaveText('第 2 周 · Web 基础');
+  await expect(band.getByRole('progressbar', { name: '第 2 周进度' })).toHaveAttribute('aria-valuenow', '1');
+  await expect(band).toContainText('1 / 7 天');
+  await page.goto('90-days/how-to-study.html');
+  await hydrated(page);
+  await expect(page.locator('.fe-band')).toHaveCount(0);
 });
 
 test('白天和晚上写入 site-theme，并让 VitePress 的 dark 类同步', async ({ page }) => {

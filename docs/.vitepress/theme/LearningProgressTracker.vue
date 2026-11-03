@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { withBase } from 'vitepress';
 import { data as course } from './course.data.mjs';
-import { courseState } from './course-record.mjs';
+import { announceRecord, courseState } from './course-record.mjs';
 import NbText from './NbText';
 import {
   DAY_COUNT,
@@ -69,6 +69,7 @@ function persist(value) {
   if (!hydrated.value) return;
   try {
     localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ ...value, exportedAt: new Date().toISOString() }));
+    announceRecord();
   } catch {
     say('浏览器无法保存进度；当前改动只保留在本页内存中，请立即导出备份。', true);
   }
@@ -209,6 +210,7 @@ function resetProgress() {
   progress.value = createProgress();
   try {
     localStorage.removeItem(PROGRESS_STORAGE_KEY);
+    announceRecord();
   } catch {
     // Memory state has still been reset.
   }

@@ -67,6 +67,12 @@ const registerAt = app.indexOf('class="fe-register');
 if (continueAt === -1 || registerAt === -1 || continueAt > registerAt) {
   problems.push('index.html: the continue link must come first, before the 13-week register');
 }
+const bannerAt = app.indexOf('class="fe-resume nb-banner');
+if (bannerAt === -1 || bannerAt > registerAt) problems.push('index.html: the banner must come before the 13-week register');
+const rings = app.match(/class="nb-ring"[^>]*aria-label="完成 (\d+)%"/g) ?? [];
+if (rings.length !== 13 || rings.some((ring) => !ring.endsWith('aria-label="完成 0%"'))) {
+  problems.push('index.html: the server render must show 13 week rings, each at 0%');
+}
 
 if (problems.length > 0) {
   console.error(`Notebook check failed with ${problems.length} problem(s):`);
