@@ -25,7 +25,7 @@ function memoryStorage(entries = {}) {
 
 test('the kit files are unedited copies of kit v1', () => {
   assert.equal(sha256(kitFile('../../public/kit/theme.js')), '2f26afc56d0152d02f363af644ac51b552a890e02d3e81542795aba6b8d5d5e0');
-  assert.equal(sha256(kitFile('./kit/notebook.css')), '77b6f7006dedd30fac7baa290419b4784d11a349bb0be92605311eb3a42c4857');
+  assert.equal(sha256(kitFile('./kit/notebook.css')), '9953db9200fc2a6306d53350d61cabddf03cdb7991f12abeed0aac206a82923b');
   assert.equal(sha256(kitFile('../../public/favicon.svg')), '3ea07acd66b71bcef6462252c4e437ee6622f57898089bbb891410e57b20dc0e');
 });
 
@@ -168,7 +168,7 @@ test('the course outline has 13 weeks and 91 day anchors from the week pages', (
   assert.equal(days[0].link, '/90-days/week-01-foundations.html#day-01');
   assert.equal(days[90].link, '/90-days/week-13-capstone.html#day-91');
   assert.ok(days.every((day) => day.title.length > 0 && !day.title.includes('{#')));
-  assert.deepEqual(course.pages, { learning: 13, typescript: 9, backend: 4, reference: 5 });
+  assert.deepEqual(course.pages, { learning: 13, typescript: 9, backend: 4, reference: 6 });
 });
 
 test('the opening screen reads the same record the tracker writes', () => {

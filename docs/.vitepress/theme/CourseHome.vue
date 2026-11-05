@@ -116,7 +116,7 @@ const shelf = computed(() => [
     hue: 'purple',
     title: '源码追踪与参考资料',
     link: '/reference/source-traces.html',
-    note: '源码追踪路线、产品需求、术语表、官方资料和练习模板。',
+    note: '源码追踪路线、产品需求、术语表、官方资料、练习模板和站内源码。',
     state: `${course.pages.reference} 篇`,
   },
   {

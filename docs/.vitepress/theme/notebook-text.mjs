@@ -85,3 +85,24 @@ export function notebookMarkdown(md) {
   md.renderer.rules.text = (tokens, index, options, env, self) =>
     haltHtml(renderText ? renderText(tokens, index, options, env, self) : md.utils.escapeHtml(tokens[index].content));
 }
+
+/**
+ * markdown-it plugin: a GitHub blob or tree link whose target the site bundles becomes a link into the
+ * site's source page, so no page sends the reader to GitHub for a file it carries. `rewrite(href)` returns
+ * the new href or null; `env.sourceLinks` counts the rewrites for the build log and tests.
+ */
+export function sourceLinks(md, rewrite) {
+  md.core.ruler.push('notebook_source_links', (state) => {
+    for (const block of state.tokens) {
+      if (block.type !== 'inline' || !block.children) continue;
+      for (const token of block.children) {
+        if (token.type !== 'link_open') continue;
+        const href = token.attrGet('href');
+        const replacement = href ? rewrite(href) : null;
+        if (!replacement) continue;
+        token.attrSet('href', replacement);
+        if (state.env) state.env.sourceLinks = (state.env.sourceLinks ?? 0) + 1;
+      }
+    }
+  });
+}
