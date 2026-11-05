@@ -9,6 +9,8 @@ import "./custom.css";
 import NotebookLayout from "./NotebookLayout.vue";
 import LearningProgressTracker from "./LearningProgressTracker.vue";
 import ReviewCenter from "./ReviewCenter.vue";
+import SourceBrowser from "./SourceBrowser.vue";
+import SourcePanel from "./SourcePanel.vue";
 import WeeklyKnowledgeCheck from "./WeeklyKnowledgeCheck.vue";
 
 export default {
@@ -21,6 +23,8 @@ export default {
   enhanceApp({ app }) {
     app.component("LearningProgressTracker", LearningProgressTracker);
     app.component("ReviewCenter", ReviewCenter);
+    app.component("SourceBrowser", SourceBrowser);
+    app.component("SourcePanel", SourcePanel);
     app.component("WeeklyKnowledgeCheck", WeeklyKnowledgeCheck);
   },
 } satisfies Theme;

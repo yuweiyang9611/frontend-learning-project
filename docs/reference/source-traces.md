@@ -24,6 +24,8 @@
 5. [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)
 6. [AppLayout.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/layouts/AppLayout.tsx)
 
+<SourcePanel :files="[{ path: 'frontend/app/layout.tsx', label: 'app/layout.tsx' }, { path: 'frontend/app/page.tsx', label: 'app/page.tsx' }, { path: 'frontend/app/[...path]/page.tsx', label: 'app/[...path]/page.tsx' }, { path: 'frontend/src/app/IssueFlowApp.tsx', label: 'IssueFlowApp.tsx' }, { path: 'frontend/src/app/AppProviders.tsx', label: 'AppProviders.tsx' }, { path: 'frontend/src/layouts/AppLayout.tsx', label: 'AppLayout.tsx' }]" />
+
 观察点：
 
 - 服务端/框架入口与客户端 Router 的分界；
@@ -60,6 +62,8 @@ LoginPage form
 - [AuthEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Authentication/AuthEndpoints.cs)
 - [ApplicationUser.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Models/ApplicationUser.cs)
 
+<SourcePanel :files="[{ path: 'frontend/src/screens/LoginPage.tsx', label: 'LoginPage.tsx' }, { path: 'frontend/src/app/AppProviders.tsx', label: 'AppProviders.tsx' }, { path: 'frontend/src/api/issueflowApi.ts', label: 'issueflowApi.ts' }, { path: 'frontend/app/api/auth/login/route.ts', label: 'login route' }, { path: 'frontend/src/server/auth.ts', label: 'server auth' }, { path: 'backend/IssueFlow.Api/Features/Authentication/AuthEndpoints.cs', label: 'AuthEndpoints.cs' }, { path: 'backend/IssueFlow.Api/Models/ApplicationUser.cs', label: 'ApplicationUser.cs' }]" />
+
 检查：错误 status、Set-Cookie、credentials include、localStorage profile、返回目标。
 
 ## 3. Issue 列表
@@ -95,6 +99,8 @@ IssuesPage
 - [IssueContracts.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueContracts.cs)
 - [IssueMapping.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueMapping.cs)
 
+<SourcePanel :files="[{ path: 'frontend/src/screens/IssuesPage.tsx', label: 'IssuesPage.tsx' }, { path: 'frontend/src/features/issues/types.ts', label: 'types.ts' }, { path: 'frontend/src/features/issues/components.tsx', label: 'components.tsx' }, { path: 'frontend/src/api/issueflowApi.ts', label: 'issueflowApi.ts' }, { path: 'frontend/app/api/issues/route.ts', label: 'issues route' }, { path: 'frontend/src/server/issueflow-db.ts', label: 'issueflow-db.ts' }, { path: 'backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs', label: 'IssueEndpoints.cs' }, { path: 'backend/IssueFlow.Api/Features/Issues/IssueContracts.cs', label: 'IssueContracts.cs' }, { path: 'backend/IssueFlow.Api/Features/Issues/IssueMapping.cs', label: 'IssueMapping.cs' }]" />
+
 检查：URL 默认值、debounce、query key、page vs infinite shape、稳定排序、搜索范围差异。
 
 ## 4. 新建/编辑 Issue
@@ -122,6 +128,8 @@ IssueFormPage
 
 - [IssueValidation.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueValidation.cs)
 - [IssueEndpoints.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs)
+
+<SourcePanel :files="[{ path: 'frontend/src/screens/IssueFormPage.tsx', label: 'IssueFormPage.tsx' }, { path: 'frontend/src/features/issues/IssueForm.tsx', label: 'IssueForm.tsx' }, { path: 'frontend/src/features/issues/types.ts', label: 'types.ts' }, { path: 'backend/IssueFlow.Api/Features/Issues/IssueValidation.cs', label: 'IssueValidation.cs' }, { path: 'backend/IssueFlow.Api/Features/Issues/IssueEndpoints.cs', label: 'IssueEndpoints.cs' }]" />
 
 检查：
 
@@ -152,6 +160,8 @@ status select
 - [BoardPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/BoardPage.tsx)
 - [IssueDetailPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/IssueDetailPage.tsx)
 
+<SourcePanel :files="[{ path: 'frontend/src/screens/IssuesPage.tsx', label: 'IssuesPage.tsx' }, { path: 'frontend/src/screens/BoardPage.tsx', label: 'BoardPage.tsx' }, { path: 'frontend/src/screens/IssueDetailPage.tsx', label: 'IssueDetailPage.tsx' }]" />
+
 检查：普通/Infinite/Board/Detail 各缓存是否一致；并发 mutation 是否会被旧快照覆盖。
 
 ## 6. Board 拖放
@@ -172,6 +182,8 @@ dragStart(issue)
 
 - [BoardPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/BoardPage.tsx)
 - [components.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/issues/components.tsx)
+
+<SourcePanel :files="[{ path: 'frontend/src/screens/BoardPage.tsx', label: 'BoardPage.tsx' }, { path: 'frontend/src/features/issues/components.tsx', label: 'components.tsx' }]" />
 
 ## 7. Issue 详情、评论和附件
 
@@ -196,6 +208,8 @@ dragStart(issue)
 - [AttachmentFilePolicy.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Features/Attachments/AttachmentFilePolicy.cs)
 - [AttachmentStorage.cs](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/backend/IssueFlow.Api/Infrastructure/AttachmentStorage.cs)
 
+<SourcePanel :files="[{ path: 'frontend/src/screens/IssueDetailPage.tsx', label: 'IssueDetailPage.tsx' }, { path: 'frontend/src/api/issueflowApi.ts', label: 'issueflowApi.ts' }, { path: 'backend/IssueFlow.Api/Features/Comments/CommentEndpoints.cs', label: 'CommentEndpoints.cs' }, { path: 'backend/IssueFlow.Api/Features/Attachments/AttachmentEndpoints.cs', label: 'AttachmentEndpoints.cs' }, { path: 'backend/IssueFlow.Api/Features/Attachments/AttachmentFilePolicy.cs', label: 'AttachmentFilePolicy.cs' }, { path: 'backend/IssueFlow.Api/Infrastructure/AttachmentStorage.cs', label: 'AttachmentStorage.cs' }]" />
+
 检查：enabled guard、独立错误状态、FormData、5 MB、伪造文件、下载 URL、删除清理。
 
 ## 8. Modal 与 Toast
@@ -216,6 +230,8 @@ delete trigger
 - [ui.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/components/ui.tsx)
 - [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)
 
+<SourcePanel :files="[{ path: 'frontend/src/components/ui.tsx', label: 'ui.tsx' }, { path: 'frontend/src/app/AppProviders.tsx', label: 'AppProviders.tsx' }]" />
+
 检查：dialog naming、焦点循环、关闭方式、pending、防背景误操作、toast 文本。
 
 ## 9. 主题
@@ -234,6 +250,8 @@ stored theme/system
 - [AppProviders.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/app/AppProviders.tsx)
 - [globals.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/globals.css)
 - [product.css](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/app/product.css)
+
+<SourcePanel :files="[{ path: 'frontend/src/app/AppProviders.tsx', label: 'AppProviders.tsx' }, { path: 'frontend/app/globals.css', label: 'globals.css' }, { path: 'frontend/app/product.css', label: 'product.css' }]" />
 
 检查：初始闪烁、系统变化监听 cleanup、三种选项、两个主题对比度。
 
@@ -255,6 +273,8 @@ URL lesson id
 - [examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/examples.ts)
 - [compile-time-examples.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/features/typescript-lab/compile-time-examples.ts)
 - [TypeScriptLabPage.tsx](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/screens/TypeScriptLabPage.tsx)
+
+<SourcePanel :files="[{ path: 'frontend/src/features/typescript-lab/catalog.ts', label: 'catalog.ts' }, { path: 'frontend/src/features/typescript-lab/examples.ts', label: 'examples.ts' }, { path: 'frontend/src/features/typescript-lab/compile-time-examples.ts', label: 'compile-time-examples.ts' }, { path: 'frontend/src/screens/TypeScriptLabPage.tsx', label: 'TypeScriptLabPage.tsx' }]" />
 
 检查：输入从 string/JSON 到 unknown、decoder、Runner 无副作用、URL/进度分离。
 

@@ -1,11 +1,17 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitepress';
 import { notebookCodeTheme } from './theme/code-theme.mjs';
-import { notebookMarkdown } from './theme/notebook-text.mjs';
+import { notebookMarkdown, sourceLinks } from './theme/notebook-text.mjs';
+import { SOURCE_PAGE, bundleLookup, collectSourceFiles, rewriteRepositoryLink } from './theme/source-bundle.mjs';
 import { headBridge } from './theme/theme-sync.mjs';
 
 const base = '/frontend-learning-project/';
 const repository = 'https://github.com/yuweiyang9611/frontend-learning-project';
 const siteUrl = 'https://yuweiyang9611.github.io/frontend-learning-project/';
+// Source read in place: the files scripts/bundle-doc-source.mjs copies into docs/public/source. A GitHub
+// link to one of them is rewritten to the source page while the markdown renders.
+const bundle = bundleLookup(collectSourceFiles(fileURLToPath(new URL('../..', import.meta.url))).map((file) => file.path));
+const sourceLink = (href: string) => rewriteRepositoryLink(href, { repository, ...bundle });
 
 function canonicalUrl(relativePath: string): string {
   const markdownPath = relativePath.replace(/\.md$/, '');
@@ -38,6 +44,8 @@ export default defineConfig({
   ignoreDeadLinks: 'localhostLinks',
   sitemap: {
     hostname: siteUrl,
+    // The source page is one page for many files, chosen by its query string, so it stays out of the map.
+    transformItems: (items) => items.filter((item) => !item.url.endsWith('reference/source.html')),
   },
   srcExclude: ['archive/original-curriculum/0*.md'],
   rewrites: {
@@ -53,6 +61,7 @@ export default defineConfig({
     headers: { level: [2] },
     config(md) {
       notebookMarkdown(md);
+      sourceLinks(md, sourceLink);
       // Tables scroll in their own box at a readable width rather than squeezing on a phone.
       md.renderer.rules.table_open = () => '<div class="fe-table" tabindex="0"><table>\n';
       md.renderer.rules.table_close = () => '</table></div>\n';
@@ -394,6 +403,8 @@ export default defineConfig({
       text: '最后更新',
     },
     socialLinks: [{ icon: 'github', link: repository }],
+    // Read by SourcePanel.vue and SourceBrowser.vue: where the bundle is served and where GitHub keeps the file.
+    source: { repository, blobBase: `${repository}/blob/main/`, page: SOURCE_PAGE },
     footer: {
       message: '以真实 IssueFlow 源码为教材，边运行、边观察、边验证。',
     },

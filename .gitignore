@@ -39,3 +39,4 @@ learning-work/*
 learning-evidence/*
 !learning-evidence/README.md
 frontend/.lighthouse/
+docs/public/source/
