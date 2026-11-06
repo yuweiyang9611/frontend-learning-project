@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitepress';
 import { notebookCodeTheme } from './theme/code-theme.mjs';
 import { notebookMarkdown, sourceLinks } from './theme/notebook-text.mjs';
+import { runnableFences } from './theme/run-code.mjs';
 import { SOURCE_PAGE, bundleLookup, collectSourceFiles, rewriteRepositoryLink } from './theme/source-bundle.mjs';
 import { headBridge } from './theme/theme-sync.mjs';
 
@@ -62,6 +63,7 @@ export default defineConfig({
     config(md) {
       notebookMarkdown(md);
       sourceLinks(md, sourceLink);
+      runnableFences(md);
       // Tables scroll in their own box at a readable width rather than squeezing on a phone.
       md.renderer.rules.table_open = () => '<div class="fe-table" tabindex="0"><table>\n';
       md.renderer.rules.table_close = () => '</table></div>\n';

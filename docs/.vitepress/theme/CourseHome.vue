@@ -2,19 +2,20 @@
 // The opening screen as a dashboard: the masthead with the owner's own figures, one dark banner for the
 // day to continue beside the command that checks it, then the 13 weeks as cards whose heads carry the
 // phase's hue and a progress ring, then the record and reference pages as cards without rings.
-import { computed, onMounted, ref, shallowRef } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
 import { withBase } from 'vitepress';
 import { data as course } from './course.data.mjs';
-import { RECORD_HUE, courseState, readRecords, reviewState, weekCheck, weekPhase } from './course-record.mjs';
+import { RECORD_EVENT, RECORD_HUE, continueLesson, courseState, createVisits, readRecords, reviewState, weekCheck, weekPhase } from './course-record.mjs';
 import NbText from './NbText';
 
 type Records = ReturnType<typeof readRecords>;
 
-// The server has no record, so the first render offers day 1; the stored record applies once mounted.
-const records = shallowRef<Records>({ progress: null, review: null });
+// The server has no record, so the first render offers week 1's first step; the stored records apply
+// once mounted and again when a page writes one.
+const records = shallowRef<Records>({ progress: null, review: null, visits: createVisits() });
 const copied = ref(false);
 
-onMounted(() => {
+function refresh() {
   let storage: Storage | null = null;
   try {
     storage = window.localStorage;
@@ -22,6 +23,17 @@ onMounted(() => {
     storage = null;
   }
   records.value = readRecords(storage);
+}
+
+onMounted(() => {
+  refresh();
+  window.addEventListener(RECORD_EVENT, refresh);
+  window.addEventListener('storage', refresh);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener(RECORD_EVENT, refresh);
+  window.removeEventListener('storage', refresh);
 });
 
 const state = computed(() => courseState(course.weeks, records.value.progress));
@@ -31,8 +43,22 @@ const command = computed(() => `npm run learn:day -- ${next.value.day}`);
 const evidence = computed(() => `learning-evidence/day-${String(next.value.day).padStart(2, '0')}/report.json`);
 const hours = computed(() => (state.value.minutes / 60).toFixed(1));
 const fraction = computed(() => state.value.completed / state.value.total);
-// The week the owner is in: the week of the next day once there is a record, none before it.
-const currentWeek = computed(() => (state.value.started ? next.value.week : null));
+// 接着做: the earliest lesson whose loop band has a step marked 停在这里, read by the same rule as the
+// band on the page. Without any record it is week 1's first step, and nothing is marked as stopped.
+const loop = computed(() => continueLesson(course, records.value));
+const hasRecord = computed(
+  () => state.value.started || Object.keys(records.value.visits?.pages ?? {}).length > 0 || Object.keys(records.value.review?.records ?? {}).length > 0,
+);
+const continueHref = computed(() => {
+  if (!loop.value) return withBase(next.value.link);
+  const { lesson, step } = loop.value;
+  return withBase(step.href.startsWith('#') ? `${lesson.link}${step.href === '#main' ? '' : step.href}` : step.href);
+});
+const continueTitle = computed(() =>
+  loop.value ? (loop.value.lesson.week ? `第 ${loop.value.lesson.week} 周 · ${loop.value.lesson.title}` : loop.value.lesson.title) : '',
+);
+// The week the owner is in: the week of the lesson to continue once there is a record, none before it.
+const currentWeek = computed(() => (hasRecord.value ? (loop.value?.lesson.week ?? next.value.week) : null));
 
 const weeks = computed(() =>
   course.weeks.map((week, index) => {
@@ -47,7 +73,7 @@ const weeks = computed(() =>
       fraction: weekFraction,
       percent: `${Math.round(weekFraction * 100)}%`,
       done: counts.completed === counts.total,
-      stopped: state.value.stoppedWeek === week.week,
+      stopped: hasRecord.value && loop.value?.lesson.week === week.week,
       nextDay: week.days.find((day) => !done.has(day.day)) ?? null,
       check,
     };
@@ -165,20 +191,21 @@ async function copyCommand() {
     </div>
 
     <section class="fe-desk" aria-labelledby="resume-label">
-      <div class="fe-resume nb-banner" :class="{ 'has-record': state.started }">
+      <div class="fe-resume nb-banner" :class="{ 'has-record': hasRecord }">
         <div class="fe-resume-text">
           <p class="nb-banner-eyebrow" id="resume-label">接着做</p>
           <p class="nb-banner-title">
-            <a class="fe-continue" :class="{ 'has-record': state.started }" :href="withBase(next.link)">
-              <template v-if="state.finished">已完成全部 91 天：回到第 91 天</template>
-              <template v-else>第 {{ next.day }} 天 · <NbText :text="next.title" /></template>
+            <a class="fe-continue" :class="{ 'has-record': hasRecord }" :href="continueHref" :data-step="loop?.step.step">
+              <template v-if="loop"><NbText :text="continueTitle" /> · {{ loop.step.label }}</template>
+              <template v-else>每一课的五步都做完了：回到第 91 天</template>
             </a>
           </p>
           <p v-if="state.started" class="nb-banner-note fe-record-line">
             <span>{{ state.completed }} / {{ state.total }} 天</span> · <span>主动学习 {{ hours }} 小时</span
-            ><template v-if="state.lastCompleted"> · <span>最近完成：{{ state.lastCompleted }}</span></template>
+            ><template v-if="state.lastCompleted"> · <span>最近完成：{{ state.lastCompleted }}</span></template
+            ><template v-if="!state.finished"> · <a class="fe-next-day" :href="withBase(next.link)">下一天：第 {{ next.day }} 天</a></template>
           </p>
-          <p v-else class="nb-banner-note fe-record-line">这个浏览器里还没有学习记录，从第 1 天开始；学完后在进度与日志里记下分钟、证据和复盘。</p>
+          <p v-else class="nb-banner-note fe-record-line">这个浏览器里还没有学习记录，从第 1 周的第 1 天开始；学完后在进度与日志里记下分钟、证据和复盘。</p>
           <div
             class="fe-track nb-bar nb-bar--on-fill"
             role="progressbar"
@@ -191,7 +218,7 @@ async function copyCommand() {
             <span></span>
           </div>
         </div>
-        <a class="nb-button nb-button--solid fe-resume-go" :href="withBase(next.link)">{{ state.started ? '继续学习' : '开始第 1 天' }}</a>
+        <a class="nb-button nb-button--solid fe-resume-go" :href="continueHref">{{ hasRecord ? '继续学习' : '开始第 1 周' }}</a>
       </div>
 
       <aside class="fe-run" aria-labelledby="run-title">

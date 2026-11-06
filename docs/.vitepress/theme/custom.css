@@ -569,6 +569,10 @@
 .fe-band-eyebrow { font-size: .875rem; font-weight: 600; font-variant-numeric: tabular-nums; word-break: keep-all; }
 .fe-band-progress { display: flex; flex: 0 1 22rem; flex-wrap: wrap; align-items: center; gap: .375rem .75rem; min-width: 0; font-size: .875rem; font-variant-numeric: tabular-nums; }
 .fe-band-progress .nb-bar { flex: 1 1 100%; }
+/* The loop band: the five steps under the week band (on the fill) or alone on the other lesson pages. */
+.fe-band .fe-steps { flex: 1 1 100%; margin-top: .25rem; }
+.fe-band-wrap > .fe-steps { padding: .25rem 0 0; }
+.fe-steps li { margin: 0; }
 
 @media (max-width: 56rem) {
   .fe-band-wrap { margin: 1rem 0 0; }
@@ -815,6 +819,10 @@
 /* Source read in place: the kit's code panel on a page, and the source page's rows. The kit styles the
    panel's colours; the site only places it. The code scrolls inside the panel, never the page. */
 .fe-prose .nb-code { margin: 1rem 0 1.5rem; }
+/* Run in the browser: a fence as the kit panel. The sandbox iframe is appended to it, hidden. */
+.fe-code { scroll-margin-top: 4rem; }
+.fe-code iframe { display: none; }
+.fe-code .nb-code-output pre { margin-top: .25rem; }
 .fe-prose .nb-code-tabs { padding-left: 0; list-style: none; }
 .fe-prose .nb-code-actions .nb-code-status { margin: 0; }
 .fe-prose .nb-code-noscript { margin: 0; padding: .5rem .75rem; border-top: 1px solid var(--nb-rule); font-size: .875rem; }

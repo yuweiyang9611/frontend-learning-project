@@ -79,6 +79,32 @@ search: false
 - 新增文件后从最近索引链接，避免孤儿页；
 - 不为每个重复概念复制同一段，链接唯一说明。
 
+## 5a. 可运行的代码块与五步带子
+
+学习站会把课程页里的 ```ts / ```js 代码块变成可以在浏览器里运行的面板（`.nb-code`，带 运行、改一改再跑、复制），
+用 esbuild-wasm 转译后在 `sandbox="allow-scripts"` 的 iframe 里执行，5 秒超时，输出最多 64 KB。
+规则在 `docs/.vitepress/theme/run-code.mjs`，构建时逐块判定，页面和带子读同一个判定：
+
+- 可运行：纯 TypeScript 或 JavaScript，没有 `import` / `export` / `require`，不碰 DOM、存储和网络
+  （`document`、`window`、`localStorage`、`fetch`），不是 TSX，不用 React，没有 `@ts-expect-error`
+  （只转译不检查类型，负例无法在浏览器里报错），而且构建时在 Node 里空跑一次没有抛错、转译后不是只剩类型声明；
+- 其余代码块保持原来的渲染；
+- 信息串可以强制：````ts run```` 一定变成面板（跳过空跑），````ts no-run```` 一定不变。
+  写负例、片段或依赖上下文变量的代码时用 `no-run`，想让读者改着玩的完整小程序用 `run`。
+
+每一课（13 个周页、learning、typescript、backend 的章节页）顶部有一行五步带子（套件的 `.nb-steps`）：
+读、看代码、跑、自测、记一笔。状态只从记录来，带子本身不能点勾：
+
+- 读：打开过这一页（周页也算有任何一天的记录）；
+- 看代码：点过面板的标签、改一改再跑或复制，或者跑过；没有面板的课画成虚线；
+- 跑：在这一页跑成功过一次；
+- 自测：这一周的闭卷测验每一题都答对过一次（周页以外是虚线）；
+- 记一笔：这一周有一条不少于 20 字的当天复盘（周页以外是虚线）。
+
+读、看代码、跑写在第三个本机记录 `issueflow:frontend-learning-project:visits:v1`
+（`{ app, schemaVersion: 1, pages: { "typescript/01-…": { readAt, codeAt, ranAt } } }`，每个字段只写第一次）；
+进度和复习记录的键和字段不变，首页的“接着做”读最早一个有“停在这里”的课。
+
 ## 6. 代码路径核对
 
 文档合并前：

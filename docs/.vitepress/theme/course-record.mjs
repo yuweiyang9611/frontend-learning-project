@@ -2,7 +2,79 @@
 import { DAY_COUNT, PROGRESS_STORAGE_KEY, decodeProgress, normalizeProgress } from './progress-state.mjs';
 import { REVIEW_STORAGE_KEY, decodeReviewState, reviewSummary } from './review-state.mjs';
 
-/** Reads both records the way the tracker and the review centre do. Missing or unreadable means none. */
+/**
+ * The third record, added for the loop band: which lesson pages the reader opened, whose code panel
+ * they opened and where a browser run finished. One entry per lesson page, keyed by its path without
+ * `.md` (`90-days/week-05-typescript-foundations`), each field an ISO time set once, on the first
+ * occasion. The progress and review records keep their keys and shapes; the home site reads those.
+ */
+export const VISITS_APP = 'issueflow-learning-visits';
+export const VISITS_VERSION = 1;
+export const VISITS_STORAGE_KEY = 'issueflow:frontend-learning-project:visits:v1';
+export const VISIT_FIELDS = ['readAt', 'codeAt', 'ranAt'];
+const MAX_VISIT_PAGES = 400;
+const lessonKeyPattern = /^[\w.-]+(?:\/[\w.-]+)*$/;
+
+export function createVisits() {
+  return { app: VISITS_APP, schemaVersion: VISITS_VERSION, pages: {} };
+}
+
+/** The record key of a page: its relative path without the extension. */
+export function lessonKey(relativePath) {
+  return String(relativePath ?? '')
+    .replace(/^\/+/, '')
+    .replace(/\.(?:md|html)$/, '');
+}
+
+export function decodeVisits(input) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return createVisits();
+  if (input.app !== VISITS_APP || input.schemaVersion !== VISITS_VERSION) return createVisits();
+  if (!input.pages || typeof input.pages !== 'object' || Array.isArray(input.pages)) return createVisits();
+  const pages = {};
+  for (const [key, candidate] of Object.entries(input.pages).slice(0, MAX_VISIT_PAGES)) {
+    if (!lessonKeyPattern.test(key) || key.length > 200) continue;
+    if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) continue;
+    const entry = {};
+    for (const field of VISIT_FIELDS) {
+      const value = candidate[field];
+      if (typeof value === 'string' && value.length <= 40 && !Number.isNaN(Date.parse(value))) entry[field] = value;
+    }
+    if (Object.keys(entry).length) pages[key] = entry;
+  }
+  return { app: VISITS_APP, schemaVersion: VISITS_VERSION, pages };
+}
+
+export function readVisits(storage) {
+  try {
+    const raw = storage?.getItem(VISITS_STORAGE_KEY);
+    return raw ? decodeVisits(JSON.parse(raw)) : createVisits();
+  } catch {
+    return createVisits();
+  }
+}
+
+/**
+ * Sets one visit field for a page when it is not set yet, and says whether it wrote. `field` is one
+ * of VISIT_FIELDS. A reader without storage gets false and nothing else happens.
+ */
+export function markVisit(storage, relativePath, field, now = new Date().toISOString()) {
+  if (!VISIT_FIELDS.includes(field)) return false;
+  const key = lessonKey(relativePath);
+  if (!lessonKeyPattern.test(key)) return false;
+  const visits = readVisits(storage);
+  const entry = visits.pages[key] ?? {};
+  if (entry[field]) return false;
+  visits.pages[key] = { ...entry, [field]: now };
+  try {
+    storage.setItem(VISITS_STORAGE_KEY, JSON.stringify(visits));
+  } catch {
+    return false;
+  }
+  announceRecord();
+  return true;
+}
+
+/** Reads the records the way the tracker and the review centre do. Missing or unreadable means none. */
 export function readRecords(storage) {
   let progress = null;
   let review = null;
@@ -21,7 +93,7 @@ export function readRecords(storage) {
   } catch {
     review = null;
   }
-  return { progress, review };
+  return { progress, review, visits: readVisits(storage) };
 }
 
 function hasWork(day) {
@@ -155,4 +227,91 @@ export function pageBand(relativePath, weeks, records, now = Date.now()) {
     };
   }
   return null;
+}
+
+/**
+ * The loop band: the five steps of a lesson page, read from the records. `lesson` is one entry of the
+ * course outline (course.data.mjs `lessons`), `course` the outline, `records` what readRecords gives.
+ *
+ * - read: the page was opened (visits.readAt); a week page also counts when a day of the week has work.
+ * - code: a runnable panel on the page was opened (visits.codeAt or a run); `none` without a panel.
+ * - run: a browser run finished without error on the page (visits.ranAt); `none` without a panel.
+ * - quiz: every question of the week's check has been answered correctly at least once; `none` off
+ *   the week pages.
+ * - note: a day note of at least 20 characters in that week; `none` off the week pages.
+ *
+ * Each step is `done` or not; the first step that is not done and not `none` is `now`, the rest are
+ * `pending`. With `null` records (the server render, a reader without script) nothing is done and no
+ * step is `now`: every step the lesson has is pending, so the first client render matches the HTML.
+ */
+export const STEPS = [
+  { step: 'read', label: '读' },
+  { step: 'code', label: '看代码' },
+  { step: 'run', label: '跑' },
+  { step: 'quiz', label: '自测' },
+  { step: 'note', label: '记一笔' },
+];
+export const NOTE_LENGTH = 20;
+export const PROGRESS_PAGE = '/90-days/progress-and-journal.html';
+
+export function questionPassed(record) {
+  return Boolean(record && (record.lastCorrect || record.stage > 0));
+}
+
+export function lessonSteps(lesson, course, records) {
+  const visit = records?.visits?.pages?.[lesson.path] ?? {};
+  const week = lesson.week ? course.weeks.find((entry) => entry.week === lesson.week) : null;
+  const days = week ? (records?.progress?.days ?? []).filter((day) => week.days.some((entry) => entry.day === day.day)) : [];
+  const hasPanel = lesson.runnable > 0;
+  const quizRecords = lesson.quiz ? lesson.quiz.map((id) => records?.review?.records?.[id]) : [];
+  const passed = quizRecords.filter(questionPassed).length;
+  const notes = days.filter((day) => day.note.trim().length >= NOTE_LENGTH).length;
+  const facts = {
+    read: { has: true, done: Boolean(visit.readAt) || (records ? days.some(hasWork) : false), href: '#main' },
+    code: { has: hasPanel, done: Boolean(visit.codeAt || visit.ranAt), href: '#fe-code-1' },
+    run: { has: hasPanel, done: Boolean(visit.ranAt), href: '#fe-code-1' },
+    quiz: {
+      has: Boolean(lesson.quiz),
+      done: Boolean(lesson.quiz) && passed === lesson.quiz.length,
+      href: `#weekly-check-${lesson.week}`,
+      count: lesson.quiz ? `${passed} / ${lesson.quiz.length}` : '',
+    },
+    note: { has: Boolean(week), done: notes > 0, href: PROGRESS_PAGE, count: week ? `${notes} / ${week.days.length}` : '' },
+  };
+  let nowFound = records === null;
+  return STEPS.map(({ step, label }) => {
+    const fact = facts[step];
+    let state = 'none';
+    if (fact.has) {
+      if (fact.done) state = 'done';
+      else if (!nowFound) {
+        state = 'now';
+        nowFound = true;
+      } else state = 'pending';
+    }
+    return { step, label, state, href: fact.has ? fact.href : '', count: fact.has ? (fact.count ?? '') : '' };
+  });
+}
+
+/** The step marked 停在这里, or null when every step of the lesson is done. */
+export function stepNow(steps) {
+  return steps.find((entry) => entry.state === 'now') ?? null;
+}
+
+/**
+ * The index's 接着做: the earliest lesson in course order whose band has a `now` step, with that
+ * step, or null when every lesson is done.
+ */
+export function continueLesson(course, records) {
+  for (const lesson of course.lessons) {
+    const step = stepNow(lessonSteps(lesson, course, records));
+    if (step) return { lesson, step };
+  }
+  return null;
+}
+
+/** The lesson of a page, or null for a page without a band. */
+export function lessonFor(course, relativePath) {
+  const key = lessonKey(relativePath);
+  return course.lessons.find((lesson) => lesson.path === key) ?? null;
 }

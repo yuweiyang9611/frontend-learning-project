@@ -96,7 +96,7 @@ VitePress 的内容根是 `docs`。因此：
 
 对应配置必须保持：
 
-```ts
+```ts no-run
 base: "/frontend-learning-project/";
 ```
 
