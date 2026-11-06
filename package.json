@@ -7,8 +7,9 @@
     "node": ">=22"
   },
   "scripts": {
-    "docs:dev": "node scripts/bundle-doc-source.mjs && vitepress dev docs --host 127.0.0.1",
-    "docs:build": "npm run docs:check-curriculum && npm run docs:check-policy && node scripts/bundle-doc-source.mjs && vitepress build docs && node scripts/check-doc-site-links.mjs && node scripts/check-doc-notebook.mjs",
+    "docs:dev": "node scripts/bundle-doc-source.mjs && node scripts/copy-doc-runtime.mjs && vitepress dev docs --host 127.0.0.1",
+    "docs:build": "npm run docs:check-curriculum && npm run docs:check-policy && node scripts/bundle-doc-source.mjs && node scripts/copy-doc-runtime.mjs && vitepress build docs && node scripts/check-doc-site-links.mjs && node scripts/check-doc-notebook.mjs",
+    "docs:runtime": "node scripts/copy-doc-runtime.mjs",
     "docs:check-curriculum": "node scripts/check-curriculum.mjs && node scripts/check-assessment-order.mjs && node scripts/check-daily-acceptance.mjs && node scripts/check-ts-exercises.mjs && node scripts/check-contract-corpus.mjs && node scripts/check-review-bank.mjs && npm run learn:test:scaffolds && npm run learn:check:scaffolds",
     "docs:check-links": "node scripts/check-doc-site-links.mjs",
     "docs:check-policy": "node scripts/check-doc-search-boundaries.mjs && node scripts/check-doc-assets.mjs",
@@ -33,6 +34,8 @@
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.64.1",
+    "esbuild": "0.25.12",
+    "esbuild-wasm": "0.25.12",
     "vitepress": "1.6.4"
   },
   "overrides": {

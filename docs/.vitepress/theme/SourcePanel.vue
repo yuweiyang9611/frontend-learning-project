@@ -4,6 +4,7 @@
 // so the server render and the first client render match. A port of the C# course's source-panel.js.
 import { computed, onMounted, ref, watch } from 'vue';
 import { useData, withBase } from 'vitepress';
+import { markVisit } from './course-record.mjs';
 import { highlight, languageFor, lineHtml } from './code-colors.mjs';
 import { SOURCE_ASSET_PATH, encodeSourcePath, fileName } from './source-links.mjs';
 
@@ -24,7 +25,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{ loaded: [path: string, lines: number] }>();
 
-const { theme } = useData();
+const { theme, page } = useData();
 const blobBase = computed<string>(() => theme.value.source?.blobBase ?? '');
 
 const list = computed(() =>
@@ -76,6 +77,16 @@ async function select(path: string) {
   }
 }
 
+/** A click on a tab: the panel was opened by hand, which the loop band's 看代码 step reads. */
+function open(path: string) {
+  try {
+    markVisit(window.localStorage, page.value.relativePath, 'codeAt');
+  } catch {
+    // Without storage the band simply stays where it is.
+  }
+  return select(path);
+}
+
 async function copy() {
   if (!current.value) return;
   try {
@@ -117,7 +128,7 @@ defineExpose({ select, scrollToLine, load, current });
         :aria-selected="file.path === current ? 'true' : 'false'"
         :data-path="file.path"
         :title="file.path"
-        @click="select(file.path)"
+        @click="open(file.path)"
       >
         {{ file.label }}
       </button>

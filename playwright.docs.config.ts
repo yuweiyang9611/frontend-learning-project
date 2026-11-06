@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const previewPort = 4175;
+// 4175 unless another site already holds it on this machine (DOCS_PREVIEW_PORT=4185 npm run docs:test:e2e).
+const previewPort = Number(process.env.DOCS_PREVIEW_PORT ?? 4175);
 const siteUrl = `http://127.0.0.1:${previewPort}/frontend-learning-project/`;
 
 export default defineConfig({
