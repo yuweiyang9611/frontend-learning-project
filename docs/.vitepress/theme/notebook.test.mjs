@@ -216,11 +216,12 @@ test('the opening screen reads the same record the tracker writes', () => {
   assert.equal(empty.stoppedWeek, null);
   assert.equal(empty.completed, 0);
 
+  // Local noon on both days, so 6 天前 is six calendar days in any time zone.
   const progress = createProgress();
   for (const day of progress.days.slice(0, 9)) {
     Object.assign(day, {
       completed: true,
-      completedAt: '2026-10-20T00:00:00.000Z',
+      completedAt: new Date(2026, 9, 20, 12).toISOString(),
       minutes: 120,
       note: '这一天的复盘至少有二十个字，并说明了证据和下一步。',
       evidence: [{ label: 'x', url: '/learning-evidence/report.json' }],
@@ -228,7 +229,7 @@ test('the opening screen reads the same record the tracker writes', () => {
   }
   const storage = memoryStorage({ [PROGRESS_STORAGE_KEY]: JSON.stringify(progress) });
   const { progress: stored } = readRecords(storage);
-  const state = courseState(weeks, stored, Date.parse('2026-10-26T00:00:00.000Z'));
+  const state = courseState(weeks, stored, new Date(2026, 9, 26, 12).getTime());
   assert.equal(state.started, true);
   assert.equal(state.completed, 9);
   assert.equal(state.next.day, 10);
@@ -243,8 +244,17 @@ test('the opening screen reads the same record the tracker writes', () => {
   assert.equal(revoked.next.day, 1);
 
   assert.equal(courseState(weeks, readRecords(memoryStorage({ [PROGRESS_STORAGE_KEY]: '{bad' })).progress).started, false);
-  assert.equal(sinceText(Date.parse('2026-10-26T00:00:00.000Z'), Date.parse('2026-10-26T12:00:00.000Z')), '今天');
-  assert.equal(sinceText(Date.parse('2026-10-25T00:00:00.000Z'), Date.parse('2026-10-26T12:00:00.000Z')), '昨天');
+});
+
+test('relative times count calendar days in the local time zone, as the project index does', () => {
+  // Built from local dates and times, so each case means the same in any time zone.
+  const at = (day, hour, minute = 0, second = 0) => new Date(2026, 10, day, hour, minute, second).getTime();
+  assert.equal(sinceText(at(8, 0, 5), at(8, 23, 55)), '今天', 'early this morning, late tonight');
+  assert.equal(sinceText(at(7, 23), at(8, 8)), '昨天', 'nine hours ago, but on the day before');
+  assert.equal(sinceText(at(7, 23, 59, 30), at(8, 0, 0, 30)), '昨天', 'a minute ago, across midnight');
+  assert.equal(sinceText(at(7, 0, 0), at(8, 23, 59)), '昨天', 'almost two days, one midnight');
+  assert.equal(sinceText(at(5, 23, 59), at(8, 8)), '3 天前', 'three midnights in 56 hours');
+  assert.equal(sinceText(at(9, 10), at(8, 8)), '今天', 'a time in the future reads as today');
 });
 
 test('weekly check state counts only that week and only answered questions', () => {
