@@ -132,11 +132,20 @@ export function courseState(weeks, progress, now = Date.now()) {
   };
 }
 
-/** Same wording as the project index, so the two pages agree. */
+/**
+ * Same wording as the project index, so the two pages agree: calendar days in this browser's time zone, not 24-hour
+ * spans, so work finished at 23:00 last night is 昨天 at 08:00.
+ */
 export function sinceText(time, now = Date.now()) {
-  const days = Math.floor((now - time) / 86400000);
+  const days = dayNumber(now) - dayNumber(time);
   if (days <= 0) return '今天';
   return days === 1 ? '昨天' : `${days} 天前`;
+}
+
+/** A time's calendar day in the local time zone as a whole number; Date.UTC over the local date ignores clock changes. */
+function dayNumber(time) {
+  const date = new Date(time);
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000;
 }
 
 /** Weekly check state for one week from the review record: answered and currently correct. */
