@@ -1,6 +1,6 @@
 # IssueFlow
 
-IssueFlow 是一个面向前端学习的完整 Issue Tracker。项目使用 React 19 + TypeScript 构建产品界面，包含 Router、TanStack Query、表单、乐观更新、响应式与可访问性交互，并提供 D1/R2 同源 API 和 .NET 10 + SQLite API 两种真实数据实现。
+IssueFlow 是一个面向前端学习的完整 Issue Tracker。项目使用 React 19 + TypeScript 构建产品界面，包含 Router、TanStack Query、表单、乐观更新、响应式与可访问性交互，并提供 D1/R2 同源 API 和 .NET 11 + SQLite API 两种真实数据实现。
 
 ![IssueFlow — Move work forward](frontend/public/og.png)
 
@@ -33,7 +33,7 @@ GitHub：<https://github.com/yuweiyang9611/frontend-learning-project>
 - TypeScript 强化：4 周日课、9 篇专题、12 个浏览器 Lab、27 道可执行练习、逐题类型验收与排错手册；
 - React 入门工作区：Day 50–56 逐日完成 Props、State、DOM parser、异步四态、Effect 和普通异步保存；
 - D1/R2、Drizzle migration、同源 Route Handlers；
-- .NET 10 Minimal API、EF Core SQLite、Identity Cookie、OpenAPI、Problem Details；
+- .NET 11 Minimal API、EF Core SQLite、Identity Cookie、OpenAPI、Problem Details；
 - Vitest、Testing Library、Playwright、.NET 集成测试和 GitHub Actions。
 
 ## 环境
