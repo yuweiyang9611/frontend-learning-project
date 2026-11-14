@@ -1,6 +1,6 @@
 # 后端对照专题
 
-IssueFlow 是前端学习项目，但理解 HTTP Contract 需要看见服务器端真实约束。本专题以 `backend/IssueFlow.Api` 的 .NET 10 API 作为 canonical 行为主线，再与同源 D1/R2 实现对照。
+IssueFlow 是前端学习项目，但理解 HTTP Contract 需要看见服务器端真实约束。本专题以 `backend/IssueFlow.Api` 的 .NET 11 API 作为 canonical 行为主线，再与同源 D1/R2 实现对照。
 
 学习顺序：
 

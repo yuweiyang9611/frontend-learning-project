@@ -14,7 +14,7 @@ React UI
       ├─ NEXT_PUBLIC_API_BASE_URL 为空
       │    └─ frontend/app/api → D1 / R2（同源）
       └─ NEXT_PUBLIC_API_BASE_URL=http://localhost:5170
-           └─ .NET 10 Minimal API → EF Core / SQLite / 文件系统
+           └─ .NET 11 Minimal API → EF Core / SQLite / 文件系统
 ```
 
 选择逻辑位于 [issueflowApi.ts](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/src/api/issueflowApi.ts)，环境变量示例位于 [frontend/.env.example](https://github.com/yuweiyang9611/frontend-learning-project/blob/main/frontend/.env.example)。

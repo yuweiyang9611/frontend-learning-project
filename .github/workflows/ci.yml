@@ -72,7 +72,7 @@ jobs:
           node-version: 24
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 11.0.x
       - run: dotnet restore IssueFlow.slnx
       - run: dotnet build IssueFlow.slnx --configuration Release --no-restore
       - run: dotnet test IssueFlow.slnx --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory backend/TestResults
@@ -129,7 +129,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 11.0.x
       - run: npm ci
       - run: npm run test:contract:dual
       - name: Upload normalized parity report
