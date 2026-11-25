@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
-    "@cloudflare/vite-plugin": "1.69.1",
-    "@cloudflare/workers-types": "5.20261112.1",
+    "@cloudflare/vite-plugin": "1.70.1",
+    "@cloudflare/workers-types": "5.20261119.1",
     "@openai/sites-vite-plugin": "^0.1.0 || ^0.2.0",
     "@playwright/test": "^1.65.0",
     "@tailwindcss/postcss": "4.3.3",
@@ -73,10 +73,10 @@
     "react-server-dom-webpack": "19.3.1",
     "tailwindcss": "4.3.5",
     "typescript": "5.9.3",
-    "vinext": "1.4.5",
+    "vinext": "1.4.6",
     "vite": "8.3.8",
     "vitest": "^5.0.5",
-    "wrangler": "4.161.0"
+    "wrangler": "4.165.0"
   },
   "type": "module",
   "overrides": {
